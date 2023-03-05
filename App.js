@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Settings } from './components/basics/Settings';
+import { Navigation } from './components/NavigationContainer';
 
 function HomeScreen() {
   return (
@@ -29,47 +27,13 @@ function ContactScreen() {
   );
 }
 
-const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer independent='true'>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'preguntas') {
-              iconName = focused
-                ? 'help-circle'
-                : 'ios-help-circle-outline';
-            } else if (route.name === 'ajustes') {
-              iconName = focused 
-                ? 'settings' 
-                : 'ios-settings-outline';
-            } else if (route.name === 'contacto') {
-              iconName = focused 
-                ? 'call' 
-                : 'ios-call-outline';
-            }
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'white',
-          tabBarInactiveTintColor: 'gray',
-          tabBarActiveBackgroundColor: 'darkviolet'
-        })}
-      >
-        <Tab.Screen name="preguntas" component={Settings} options={{ title: '¿Alguna duda?', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet', },
-  headerTitleStyle: { color: 'white', fontWeight: 'bold'}}} />
-        <Tab.Screen name="ajustes" component={Settings} options={{ title: 'Configuración', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
-  headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-        <Tab.Screen name="contacto" component={Settings} options={{ title: 'Contáctanos', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet'},
-  headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+    <>
+      <Navigation/>
+    </>
+  )
 }
 
 const styles = StyleSheet.create({

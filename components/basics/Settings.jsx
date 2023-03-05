@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export function Settings() {
     return (
       <View style={styles.container}>
-        <Text>avemaria!</Text>
+        <Text>Menú de navegación</Text>
       </View>
     );
 }
