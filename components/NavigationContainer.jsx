@@ -46,16 +46,25 @@ export function Navigation() {
             },
             tabBarActiveTintColor: 'white',
             tabBarInactiveTintColor: 'gray',
-            tabBarActiveBackgroundColor: 'darkviolet'
+            tabBarActiveBackgroundColor: 'darkviolet',
+            tabBarStyle: { 
+                height: 120,
+                labelSize: 60
+            },
+            tabBarLabelStyle: {
+                fontSize: 20,
+                height: 50
+              },
+            
           })}
         >
           <Tab.Screen name="support" component={Support} options={{ title: 'Soporte', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet', },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}} />
-          <Tab.Screen name="talker" component={Talker} options={{ title: 'Comunicador', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
+          <Tab.Screen name="talker" component={Talker} options={{ title: 'Hablar', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
               <Tab.Screen name="main" component={Main} options={{ title: 'Gajom', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-            <Tab.Screen name="games" component={Games} options={{ title: 'Juegos', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
+            <Tab.Screen name="games" component={Games} options={{ title: 'Jugar', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
           <Tab.Screen name="user" component={User} options={{ title: 'Perfil', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet'},
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
