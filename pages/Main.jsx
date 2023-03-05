@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export function Settings() {
+export function Main() {
     return (
       <View style={styles.container}>
-        <Text>Menú de navegación</Text>
+        <Text>Página principal</Text>
       </View>
     );
 }

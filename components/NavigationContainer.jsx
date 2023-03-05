@@ -3,7 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Settings } from './basics/Settings';
+import { Support } from '../pages/Support';
+import { Talker } from '../pages/Talker';
+import { Main } from '../pages/Main';
+import { Games } from '../pages/Games';
+import { User } from '../pages/User';
 
 
 const Tab = createBottomTabNavigator();
@@ -45,26 +49,17 @@ export function Navigation() {
             tabBarActiveBackgroundColor: 'darkviolet'
           })}
         >
-          <Tab.Screen name="support" component={Settings} options={{ title: 'Soporte', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet', },
+          <Tab.Screen name="support" component={Support} options={{ title: 'Soporte', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet', },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}} />
-          <Tab.Screen name="talker" component={Settings} options={{ title: 'Comunicador', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
+          <Tab.Screen name="talker" component={Talker} options={{ title: 'Comunicador', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-              <Tab.Screen name="main" component={Settings} options={{ title: 'Gajom', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
+              <Tab.Screen name="main" component={Main} options={{ title: 'Gajom', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-            <Tab.Screen name="games" component={Settings} options={{ title: 'Juegos', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
+            <Tab.Screen name="games" component={Games} options={{ title: 'Juegos', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet' },
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-          <Tab.Screen name="user" component={Settings} options={{ title: 'Perfil', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet'},
+          <Tab.Screen name="user" component={User} options={{ title: 'Perfil', headerTitle: 'Gajom', headerStyle: { backgroundColor: 'darkviolet'},
         headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
         </Tab.Navigator>
         </NavigationContainer>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: 'lightgreen',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
