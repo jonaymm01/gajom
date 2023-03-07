@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Image, Button, Alert, TouchableOpacity } from 'react-native';
+import { GamesStackNavigator, MainStackNavigator, TalkerStackNavigator } from "../components/StackNavigator";
 
-export function Main() {
-  const [count, setCount] = useState(0);
-  const onPressSupport = () => alert('olacrak');
-  const onPressUser = () => alert('olacrok');
-  const onPressLogopedazo = () => alert('olacrek');
+
+export function Main({ navigation }) {
+  const onPressSupport = () => navigation.navigate("Support")
+  const onPressUser = () => navigation.navigate("User")
+  const onPressLogopedazo = () => alert('Esto es un Logopedazo');
 
     return (
     <View style={[ styles.container, {flexDirection: 'column', padding: 0}]}>
