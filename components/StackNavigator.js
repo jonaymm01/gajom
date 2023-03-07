@@ -11,9 +11,9 @@ const Stack = createStackNavigator();
 const MainStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Main" component={Main} />
-      <Stack.Screen name="Support" component={Support} />
-      <Stack.Screen name="User" component={User} />
+      <Stack.Screen name="Inicio" component={Main} />
+      <Stack.Screen name="Soporte" component={Support} />
+      <Stack.Screen name="Mi perfil" component={User} />
     </Stack.Navigator>
   );
 }

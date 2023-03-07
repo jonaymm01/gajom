@@ -4,17 +4,22 @@ import { GamesStackNavigator, MainStackNavigator, TalkerStackNavigator } from ".
 
 
 export function Main({ navigation }) {
-  const onPressSupport = () => navigation.navigate("Support")
-  const onPressUser = () => navigation.navigate("User")
+  const onPressSupport = () => navigation.navigate("Soporte")
+  const onPressUser = () => navigation.navigate("Mi perfil")
   const onPressLogopedazo = () => alert('Esto es un Logopedazo');
 
     return (
     <View style={[ styles.container, {flexDirection: 'column', padding: 0}]}>
     <View style={[ styles.container, {flexDirection: 'row', padding: 0}]}>
-      <TouchableOpacity  style={[styles.cuadritofeo, {backgroundColor: '#AC3C60', borderEndWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressSupport} />
-      <TouchableOpacity  style={[styles.cuadritofeo, {backgroundColor: '#AC3C60', borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressUser} />
+      <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60', borderEndWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressSupport}>
+      <View style={styles.button_container}>
+        <Image source={require('../assets/favicon.png')} resizeMode='contain' style={{flex:.2 }} />
+        <Text style={styles.button_text}>Necesito ayuda</Text>
+      </View>
+      </TouchableOpacity>
+      <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60', borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressUser} />
     </View>
-    <TouchableOpacity  style={[styles.cuadritofeo, {backgroundColor: '#AC3C60', borderTopWidth: 2.5}]} onPress={onPressLogopedazo}/>
+    <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60', borderTopWidth: 2.5}]} onPress={onPressLogopedazo}/>
     </View>
     );
 }
@@ -24,7 +29,7 @@ const styles = StyleSheet.create({
       flex: 1,
       padding: 5,
     },
-    cuadritofeo: {
+    button: {
       flex: 1, 
       borderWidth: 5,
       borderColor: 'white'
@@ -41,12 +46,12 @@ const styles = StyleSheet.create({
       color: '#fff',
       fontSize: 40,
     },
-    /*buttons_container: {
+    button_container: {
       flex: 1, 
       alignItems: 'center', 
       justifyContent: 'center',
     },
-    button: {
+    button_small: {
       height: 80,
       width: 300,
       alignItems: 'center',
@@ -60,5 +65,5 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 20,
       lineHeight: 80
-    },*/
+    },
 });
