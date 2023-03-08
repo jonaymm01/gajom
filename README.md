@@ -2,4 +2,4 @@
 
 ### Desarrollado por **Jonay Méndez Márquez**
 
-Documento explicativo
+Se está utilizando React Native para el desarrollo frontend de la aplicación
