@@ -6,7 +6,7 @@ import { GamesStackNavigator, MainStackNavigator, TalkerStackNavigator } from ".
 export function Main({ navigation }) {
   const onPressSupport = () => navigation.navigate("Soporte")
   const onPressUser = () => navigation.navigate("Mi perfil")
-  const logopedazo_content = "La afonía es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!"
+  const logopedazo_content = `La afonia es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!`
   const logopedazo_url = 'https://es.wikipedia.org/wiki/Disfon%C3%ADa';
   const onPressLogopedazo = () => Linking.openURL(logopedazo_url);
 
