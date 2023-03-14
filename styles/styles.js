@@ -4,12 +4,26 @@ export const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 5,
+      backgroundColor: '#fff'
+    },
+    text_container: {
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 15
+    },
+    title: {
+        fontSize: 22,
+        fontWeight: 'bold',
+    },
+    text: {
+        fontSize: 16,
+        textAlign: 'justify',
+        padding: 14
     },
     button: {
       flex: 1, 
       borderWidth: 5,
       borderColor: 'white'
-
     },
     logopedazo_container: {
       flex: 1, 

@@ -1,6 +1,5 @@
 import React, {useState, useCallback} from 'react';
 import { StyleSheet, Text, View, Image, Button, Alert, TouchableOpacity, Linking} from 'react-native';
-import { GamesStackNavigator, MainStackNavigator, TalkerStackNavigator } from "../components/StackNavigator";
 import { styles } from "../styles/styles"
 
 export function Main({ navigation }) {

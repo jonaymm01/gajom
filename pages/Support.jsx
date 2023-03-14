@@ -3,12 +3,10 @@ import React, {useState, useCallback} from 'react';
 import { StyleSheet, Text, View, Image, Button, Alert, TouchableOpacity, Linking} from 'react-native';
 import { styles } from '../styles/styles';
 
-export function Support() {
-  const onPressFQA = () => navigation.navigate("Soporte")
-  const onPressContact = () => navigation.navigate("Mi perfil")
-  const logopedazo_content = `La afonia es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!`
-  const logopedazo_url = 'https://es.wikipedia.org/wiki/Disfon%C3%ADa';
-  const onPressLogopedazo = () => Linking.openURL(logopedazo_url);
+export function Support( {navigation} ) {
+  const onPressFQA = () => navigation.navigate("FQA")
+  const onPressContact = () => navigation.navigate("Contact")
+
     return (
     <View style={[ styles.container, {flexDirection: 'column', padding: 0}]}>
         <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60'}]} onPress={onPressFQA}>
