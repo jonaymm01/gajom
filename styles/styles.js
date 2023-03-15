@@ -15,10 +15,21 @@ export const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
     },
+    title_white: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color: '#fff'
+    },
     text: {
         fontSize: 16,
         textAlign: 'justify',
         padding: 14
+    },
+    text_white: {
+      fontSize: 16,
+      textAlign: 'justify',
+      padding: 14,
+      color: '#fff'
     },
     button: {
       flex: 1, 

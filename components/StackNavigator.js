@@ -16,7 +16,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Inicio" component={Main} />
       <Stack.Screen name="Soporte" component={Support} />
         <Stack.Screen name="FQA" component={FQA} options={{ title: 'Preguntas Frecuentes' }} />
-        <Stack.Screen name="Contact" component={Contact} />
+        <Stack.Screen name="Contact" component={Contact} options={{ title: 'Contactos' }} />
       <Stack.Screen name="Mi perfil" component={User} />
     </Stack.Navigator>
   );
