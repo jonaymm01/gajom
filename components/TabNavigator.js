@@ -1,11 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { StackNavigator, NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Talker } from '../pages/Talker';
-import { Main } from '../pages/Main';
-import { Games } from '../pages/Games';
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
