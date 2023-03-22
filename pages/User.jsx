@@ -7,23 +7,30 @@ import { getUser } from '../_helpers/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
+
+
 export function User() {
+    const [activeUser, loadActive] = useState(0)
 
-    const [user, loadUser] = useState(0)
-    
     useEffect(() => {
-        AsyncStorage.getItem('active')
-        .then(loadUser)
-        .catch(e => {})//handle error
-    
-    }, [])
+        const fetchData = async () => {
+            await AsyncStorage.getItem('active')
+            .then(loadActive)
+            .catch(e => {})
+          }
+        fetchData()
+        .catch(console.error);
+    })
 
-    let userName = JSON.parse(user).email
+    const user = JSON.parse(activeUser)
+
+    const loadUser = async (value) => {
+        const user = await AsyncStorage.getItem(value)}
 
     return (
     <View style={styles.container}>
         <View style={styles.text_container}>
-            <Text style={styles.title}>{userName}</Text>
+            <Text style={styles.title}>{user.name}</Text>
         </View>
     </View>
     );

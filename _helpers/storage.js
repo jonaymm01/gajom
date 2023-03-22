@@ -12,7 +12,7 @@ export const setUser = async (value) => {
 
 export const getUser = async (value) => {
   try {
-   JSON.parse(await AsyncStorage.getItem(value));
+    await AsyncStorage.getItem(value)
   } catch (error) {
    console.log(error); 
   };
@@ -20,7 +20,9 @@ export const getUser = async (value) => {
 
 export const setActive = async (value) => {
   try {
-    await AsyncStorage.setItem('active', JSON.stringify(value));
+    const user = await AsyncStorage.getItem(value)
+    console.log(user)
+    await AsyncStorage.setItem('active', user);
   } catch (error) {
     console.log(error);
   }

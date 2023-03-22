@@ -11,18 +11,14 @@ import { useForm, Controller } from 'react-hook-form';
 import { getUser, setActive } from '../_helpers/storage';
 
 export function Login({navigation}) {
-  const onPressLogin = () => navigation.navigate("Login")
+
   const onPressSignup = () => navigation.navigate("Signup")
 
   const { handleSubmit, control, formState: { errors } } = useForm();
 
   const onSubmit = async (value) => {
-    if (getUser(value.email) !== null) {
-      const user = await getUser(value.email)
-      .then(setActive({email: value.email}))
-      .then(navigation.navigate("User"))
-    } else
-      alert('El usuario no existe')
+    await setActive(value.email)
+    .then(navigation.navigate("User"))
   };
 
   return (

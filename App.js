@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import BottomTabNavigator from "./components/TabNavigator";
 
 
  const App = () => {
-  const [input, setInput] = useState('');
   return (
     <NavigationContainer>
       <BottomTabNavigator />
