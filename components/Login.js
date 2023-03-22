@@ -38,7 +38,7 @@ export function Login({navigation}) {
       </View>
 
       <View style={[form_styles.input_container]}>
-        <Text style={[styles.title, {lineHeight: 100}]}>Inicio de sesión</Text>
+        <Text style={[styles.title, {lineHeight: 80, marginTop: -110}]}>Inicio de sesión</Text>
         <Controller
           name="email"
           defaultValue=""

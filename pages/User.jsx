@@ -6,9 +6,6 @@ import { styles } from '../styles/styles';
 import { getUser } from '../_helpers/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
-
-
 export function User() {
     const [activeUser, loadActive] = useState(0)
 
@@ -23,9 +20,6 @@ export function User() {
     })
 
     const user = JSON.parse(activeUser)
-
-    const loadUser = async (value) => {
-        const user = await AsyncStorage.getItem(value)}
 
     return (
     <View style={styles.container}>

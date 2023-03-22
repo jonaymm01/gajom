@@ -20,7 +20,7 @@ export function Main({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60', borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressUser}>
           <View style={styles.button_container}>
-            <Text style={styles.button_text}>Editar perfil</Text>
+            <Text style={styles.button_text}>Perfil</Text>
             <Image source={require('../assets/UserImage.png')} resizeMode='contain' style={{flex:1, marginBottom: 60, width: 100}} />
           </View>
         </TouchableOpacity>

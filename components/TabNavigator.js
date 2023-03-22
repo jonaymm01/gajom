@@ -1,14 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { GamesStackNavigator, MainStackNavigator, TalkerStackNavigator } from "./StackNavigator";
 
+const { width, height } = Dimensions.get("window")
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
+    <View style={{
+      width,
+      height,
+    }}>
     <Tab.Navigator
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
@@ -59,6 +64,7 @@ const BottomTabNavigator = () => {
         <Tab.Screen name="games" component={GamesStackNavigator} options={{ title: 'Jugar', headerTitle: 'Gajom', headerStyle: styles.header,
   headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
   </Tab.Navigator>
+  </View>
   );
 };
 

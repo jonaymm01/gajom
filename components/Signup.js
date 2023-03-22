@@ -36,7 +36,7 @@ export function SignUp({navigation}) {
     </View>
 
     <View style={form_styles.input_container}>
-      <Text style={[styles.title, {lineHeight: 160}]}>Crea tu cuenta</Text>
+      <Text style={[styles.title, {lineHeight: 80, marginTop: -50}]}>Crea tu cuenta</Text>
       <Controller
         name="name"
         defaultValue=""
