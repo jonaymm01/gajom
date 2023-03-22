@@ -1,40 +1,27 @@
-import { AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export const saveData = async () => {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEY, age)
-      alert('Data successfully saved')
-    } catch (e) {
-      alert('Failed to save the data to the storage')
-    }
+
+export const setUser = async (value) => {
+  const email = value.email;
+  try {
+    await AsyncStorage.setItem(email, JSON.stringify(value));
+  } catch (error) {
+    console.log(error);
   }
-  
-export const readData = async () => {
-    try {
-      const value = await AsyncStorage.getItem(STORAGE_KEY);
-  
-      if (value !== null) {
-        setInput(value);
-      }
-    } catch (e) {
-      alert('Failed to fetch the input from storage');
-    }
-  };
-
-export const clearStorage = async () => {
-    try {
-      await AsyncStorage.clear();
-      alert('Storage successfully cleared!');
-    } catch (e) {
-      alert('Failed to clear the async storage.');
-    }
 };
 
-export const onChangeText = value => setInput(value);
+export const getUser = async (value) => {
+  try {
+   JSON.parse(await AsyncStorage.getItem(value));
+  } catch (error) {
+   console.log(error); 
+  };
+}
 
-export const onSubmitEditing = () => {
-  if (!input) return;
-
-  saveData(input);
-  setInput('');
+export const setActive = async (value) => {
+  try {
+    await AsyncStorage.setItem('active', JSON.stringify(value));
+  } catch (error) {
+    console.log(error);
+  }
 };

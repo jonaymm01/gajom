@@ -4,7 +4,7 @@ import { styles } from "../styles/styles"
 
 export function Main({ navigation }) {
   const onPressSupport = () => navigation.navigate("Soporte")
-  const onPressUser = () => navigation.navigate("Mi perfil")
+  const onPressUser = () => navigation.navigate("Login")
   const logopedazo_content = `La afonia es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!`
   const logopedazo_url = 'https://es.wikipedia.org/wiki/Disfon%C3%ADa';
   const onPressLogopedazo = () => Linking.openURL(logopedazo_url);
