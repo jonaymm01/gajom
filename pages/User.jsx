@@ -25,6 +25,7 @@ export function User() {
     <View style={styles.container}>
         <View style={styles.text_container}>
             <Text style={styles.title}>{user.name}</Text>
+            <Text style={styles.title}>{user.email}</Text>
         </View>
     </View>
     );

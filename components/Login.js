@@ -17,8 +17,9 @@ export function Login({navigation}) {
   const { handleSubmit, control, formState: { errors } } = useForm();
 
   const onSubmit = async (value) => {
-    await setActive(value.email)
-    .then(navigation.navigate("User"))
+    const pass = await setActive(value)
+    navigation.navigate("User")
+    //pass ? console.log(pass) : console.log('Contraseña incorrecta')
   };
 
   return (
