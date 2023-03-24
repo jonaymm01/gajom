@@ -72,6 +72,7 @@ export function SignUp({navigation}) {
               onChangeText={(text) => onChange(text)}
               value={value}
               placeholder="Correo electrónico"
+              autoCapitalize="none"
             />
         )}
       />

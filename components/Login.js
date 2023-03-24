@@ -17,10 +17,10 @@ export function Login({navigation}) {
   const { handleSubmit, control, formState: { errors } } = useForm();
 
   const onSubmit = async (value) => {
-    const pass = await setActive(value)
-    navigation.navigate("User")
-    //pass ? console.log(pass) : console.log('Contraseña incorrecta')
-  };
+    await setActive(value).then((pass) => {
+      pass ? navigation.navigate("User") : console.log('Usuario o contraseña incorrecto')
+    })
+  }
 
   return (
     <View style={{flex:1}}>
@@ -58,6 +58,7 @@ export function Login({navigation}) {
                 onChangeText={(text) => onChange(text)}
                 value={value}
                 placeholder="Correo electrónico"
+                autoCapitalize="none"
               />
           )}
         />

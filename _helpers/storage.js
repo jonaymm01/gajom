@@ -19,14 +19,22 @@ export const getUser = async (value) => {
 }
 
 export const setActive = async (value) => {
+  let pass, ActiveUser
   try {
     await AsyncStorage.getItem(value.email).then((user) => {
-      if((value.password.localeCompare(JSON.parse(user).password) == 0)) {
-        AsyncStorage.setItem('active', user);
-        console.log(value.email, 'ha iniciado sesión')
-        return true
-      } else return false
+      if (value.password.localeCompare(JSON.parse(user).password) == 0) {
+        pass = true;
+        ActiveUser = user;
+      } else {
+        pass = false;
+      }
     })
+    if (pass) {
+    await AsyncStorage.setItem('active', ActiveUser).then(() => {
+      console.log(value.email, 'ha iniciado sesión')       
+    })
+    }
+    return pass
   } catch (error) {
     console.log(error);
   }
