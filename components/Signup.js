@@ -16,7 +16,10 @@ export function SignUp({navigation}) {
   const { handleSubmit, control, formState: { errors } } = useForm();
 
   const onSubmit = async (value) => {
-    await setUser(value);
+    const user = await AsyncStorage.getItem(value.email)
+    if (user)
+      console.log('Ya existe un usuario con ese correo electrónico')
+    else await setUser(value);
   };
 
   return (
