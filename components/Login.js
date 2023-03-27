@@ -11,6 +11,7 @@ import { getUser, setActive } from '../_helpers/storage';
 
 export function Login({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
+  
   const onPressSignup = () => navigation.navigate("Signup")
 
   const { handleSubmit, control, formState: { errors } } = useForm();

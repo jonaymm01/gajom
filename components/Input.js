@@ -23,10 +23,10 @@ const styles = {
     t.h11,
     t.border,
     t.selfStretch,
-    t.p2,
+    t.p6,
     t.borderGray500,
     t.rounded,
-    t.textBase,
+    t.textXl,
     t.textGray700
   ],
   errorText: [t.mT1, t.textRed500]
