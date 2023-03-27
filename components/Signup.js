@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Switch, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from 'react-native';
 import { styles } from '../styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getUser, setUser, setActiveUser } from '../_helpers/storage';
 
-import { t, color } from 'react-native-tailwindcss';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
 import { useForm, Controller } from 'react-hook-form';
 
 export function SignUp({navigation}) {
+  const [modalVisible, setModalVisible] = useState(false);
   const onPressLogin = () => navigation.navigate("Login")
 
   const { handleSubmit, control, formState: { errors } } = useForm();
@@ -18,13 +18,34 @@ export function SignUp({navigation}) {
   const onSubmit = async (value) => {
     const user = await AsyncStorage.getItem(value.email)
     if (user)
-      console.log('Ya existe un usuario con ese correo electrónico')
+     setModalVisible(true)
     else await setUser(value);
   };
 
   return (
-    <View style={{flex:1}}>
+    <ScrollView style= {{backgroundColor: '#fff'}}>
 
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={modal_styles.centeredView}>
+          <View style={modal_styles.modalView}>
+            <Text style={modal_styles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
+            <Pressable
+              style={[modal_styles.button, modal_styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={modal_styles.textStyle}>Ok!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+    <View style={{flex:1}}>
     <View style={[ styles.container, {flexDirection: 'row'}]}>
     <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60'}]} onPress={onPressLogin}>
       <View style={styles.button_container}>
@@ -39,7 +60,7 @@ export function SignUp({navigation}) {
     </View>
 
     <View style={form_styles.input_container}>
-      <Text style={[styles.title, {lineHeight: 80, marginTop: -50}]}>Crea tu cuenta</Text>
+      <Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Crea tu cuenta</Text>
       <Controller
         name="name"
         defaultValue=""
@@ -104,6 +125,7 @@ export function SignUp({navigation}) {
       <Button onPress={handleSubmit(onSubmit)} label="Registrarse" />
     </View>
     </View>
+    </ScrollView>
   );
 }
 export const form_styles = StyleSheet.create({
@@ -115,3 +137,50 @@ export const form_styles = StyleSheet.create({
     padding: 20
   },
 })
+
+const modal_styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 10,
+    width: 200,
+    height: 80,
+    elevation: 10,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight: 80,
+    fontSize: 50
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 20
+  },
+});

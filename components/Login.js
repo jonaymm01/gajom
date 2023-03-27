@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { StyleSheet, Switch, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Switch, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from '../styles/styles';
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 import Input from '../components/Input';
@@ -23,6 +22,7 @@ export function Login({navigation}) {
   }
 
   return (
+    <ScrollView style= {{backgroundColor: '#fff'}}>
     <View style={{flex:1}}>
 
       <View style={[ styles.container, {flexDirection: 'row'}]}>
@@ -39,7 +39,7 @@ export function Login({navigation}) {
       </View>
 
       <View style={[form_styles.input_container]}>
-        <Text style={[styles.title, {lineHeight: 80, marginTop: -110}]}>Inicio de sesión</Text>
+        <Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Inicio de sesión</Text>
         <Controller
           name="email"
           defaultValue=""
@@ -86,8 +86,8 @@ export function Login({navigation}) {
         />
         <Button onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
       </View>
-
     </View>
+    </ScrollView>
   );
 }
 
