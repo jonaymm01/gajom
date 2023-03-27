@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable } from 'react-native';
+import { StyleSheet, Switch, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image } from 'react-native';
 import { styles } from '../styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getUser, setUser, setActiveUser } from '../_helpers/storage';
@@ -35,11 +35,12 @@ export function SignUp({navigation}) {
         }}>
         <View style={modal_styles.centeredView}>
           <View style={modal_styles.modalView}>
+            <Image source={require('../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
             <Text style={modal_styles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
             <Pressable
               style={[modal_styles.button, modal_styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={modal_styles.textStyle}>Ok!</Text>
+              <Text style={modal_styles.textStyle}>¡Entendido!</Text>
             </Pressable>
           </View>
         </View>
@@ -147,6 +148,8 @@ const modal_styles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: 'white',
+    borderColor: '#ed1c24',
+    borderWidth: 10,
     borderRadius: 10,
     padding: 30,
     alignItems: 'center',
@@ -157,7 +160,7 @@ const modal_styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 10,
   },
   button: {
     borderRadius: 10,
@@ -166,21 +169,23 @@ const modal_styles = StyleSheet.create({
     elevation: 10,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: '#763CAD',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#ed1c24',
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 50
+    fontSize: 30,
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 40,
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 24,
+    marginTop: 20,
+    fontWeight: 'bold'
   },
 });
