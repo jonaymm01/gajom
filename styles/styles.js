@@ -80,4 +80,11 @@ export const styles = StyleSheet.create({
       fontSize: 20,
       lineHeight: 120,
     },
+    basic_font: {
+      fontSize: 20
+    },
+    basic_font_bold: {
+      fontSize: 20,
+      fontWeight: 'bold'
+    },
 });
