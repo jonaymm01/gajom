@@ -1,20 +1,26 @@
-import React, { useState, useEffect, useTransition } from 'react';
-import { StyleSheet, Text, View, Image, Modal, Pressable } from 'react-native';
+import React, { useState, useEffect, useTransition, useRef } from 'react';
+import { StyleSheet, Text, View, Image, Modal, Pressable, ScrollView, RefreshControl } from 'react-native';
 import { EditProfile } from '../components/EditProfile'
 import { styles } from '../styles/styles';
-import { getUser } from '../_helpers/storage';
+import { getUser, setActive } from '../_helpers/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { useForm, Controller } from 'react-hook-form';
 
 
-export function User() {
+
+export function User({navigation}) {
     const [activeUser, loadActive] = useState(0)
     const [modalName, setModalName] = useState(false);
     const [modalEmail, setModalEmail] = useState(false);
     const [modalPassword, setModalPassword] = useState(false);
+    const [shouldRefresh, setRefresh] = useState(false);
     const { handleSubmit, control, formState: { errors } } = useForm();
+    
+    function refreshData() {
+      setRefresh(!shouldRefresh);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,16 +30,11 @@ export function User() {
           }
         fetchData()
         .catch(console.error);
-    })
+    }, [shouldRefresh])
 
     const user = JSON.parse(activeUser)
 
-    const onSubmit = async (value) => {
-        console.log('a')
-    };
-
     const openChange = async (flag) => {
-        console.log(flag)
         switch (flag) {
             case 'name': 
                 setModalName(true)
@@ -48,12 +49,26 @@ export function User() {
      }
 
      const changeName = async (value) => {
-        console.log('Se ha cambiado el nombre de usuario por: ', value.name)
-        const user = await AsyncStorage.mergeItem(activeUser.email, JSON.stringify({name: value.name}))
+      let active = JSON.parse(activeUser)
+      console.log('Se ha cambiado el nombre de', active.email, ' por: ', value.name)
+      await AsyncStorage.mergeItem(active.email, JSON.stringify({name: value.name}))
+      const modified = await AsyncStorage.getItem(active.email)
+      await setActive(JSON.parse(modified));
+      console.log(modified)
+      refreshData();
       };
 
+    const changePassword = async (value) => {
+      let active = JSON.parse(activeUser)
+      await AsyncStorage.mergeItem(active.email, JSON.stringify({password: value.password}))
+      const modified = await AsyncStorage.getItem(active.email)
+      await setActive(JSON.parse(modified));
+      console.log('Se ha cambiado la contraseña de', active.password, ' por: ', value.password)
+      console.log(modified)
+      refreshData();
+      };
     return (
-    <>
+    <ScrollView style={{backgroundColor: '#fff'}}>
 
     <Modal
         animationType="slide"
@@ -65,7 +80,7 @@ export function User() {
         }}>
         <View style={modal_styles.centeredView}>
           <View style={modal_styles.modalView}>
-            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40}]}>Escribe el nuevo nombre</Text>
+            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: '#763CAD'}]}>Indica un nuevo nombre</Text>
             <Controller
                 name="name"
                 defaultValue=""
@@ -85,28 +100,12 @@ export function User() {
             />
             <Pressable
               style={[modal_styles.button, modal_styles.buttonClose, {marginTop: 50}]}
-              onPress={() => {handleSubmit(changeName); setModalName(!modalName)}}>
-              <Text style={modal_styles.textStyle}>¡Entendido!</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalEmail}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalEmail(!modalEmail);
-        }}>
-        <View style={modal_styles.centeredView}>
-          <View style={modal_styles.modalView}>
-            <Text style={modal_styles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
-            <Pressable
-              style={[modal_styles.button, modal_styles.buttonClose]}
-              onPress={() => setModalEmail(!modalEmail)}>
-              <Text style={modal_styles.textStyle}>¡Entendido!</Text>
+              onPress={() => {
+                handleSubmit(changeName)();
+                setModalName(!modalName);
+                }}
+              >
+              <Text style={modal_styles.textStyle}>Aplicar</Text>
             </Pressable>
           </View>
         </View>
@@ -122,37 +121,67 @@ export function User() {
         }}>
         <View style={modal_styles.centeredView}>
           <View style={modal_styles.modalView}>
-            <Text style={modal_styles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
+            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: '#763CAD'}]}>Indica una nueva contraseña</Text>
+            <Controller
+                name="password"
+                defaultValue=""
+                control={control}
+                rules={{
+                required: { value: true, message: 'Escribe tu contraseña' }
+                }}      
+                render={({ field: { onChange, value } }) => (
+                    <Input
+                    error={errors.password}
+                    errorText={errors?.password?.message}
+                    onChangeText={(text) => onChange(text)}
+                    value={value}
+                    placeholder="Contraseña"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    textContentType="newPassword"
+                    secureTextEntry
+                    enablesReturnKeyAutomatically
+                    />
+                )}
+            />
             <Pressable
-              style={[modal_styles.button, modal_styles.buttonClose]}
-              onPress={() => setModalPassword(!modalPassword)}>
-              <Text style={modal_styles.textStyle}>¡Entendido!</Text>
+              style={[modal_styles.button, modal_styles.buttonClose, {marginTop: 50}]}
+              onPress={() => {
+                handleSubmit(changePassword)();
+                setModalPassword(!modalPassword);
+                }}
+              >
+              <Text style={modal_styles.textStyle}>Aplicar</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
 
     <View style={[styles.container, {alignItems:'center'}]}>
-        <View style = {{alignItems: 'flex-start', marginTop: 40}}>
+        <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
         <View style={{flexDirection: 'row'}}>
-            <Image source={require('../assets/user_icon.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 20}} />
+            <Image source={require('../assets/email_icon.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 10}} />
+            <Text style={styles.basic_font_bold}>{user.email}</Text>
+        </View> 
+        <View style={{flexDirection: 'row', marginTop: 40}}>
+            <Image source={require('../assets/user_icon.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 5}} />
             <Text style={styles.basic_font_bold}>{user.name}</Text>
         </View>
-        <Button onPress={() => openChange('name')} label="Cambiar" />
-        <View style={{flexDirection: 'row', marginTop: 30}}>
-            <Image source={require('../assets/email_icon.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 20}} />
-            <Text style={styles.basic_font_bold}>{user.email}</Text>
-        </View>
-        <Button onPress={() => openChange('email')} label="Cambiar" />
-        <View style={{flexDirection: 'row', marginTop: 30}}>
-            <Image source={require('../assets/lock.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 20}} />
+          <Button color='purple' onPress={() => openChange('name')} label="Cambiar" />
+       <View style={{flexDirection: 'row', marginTop: 30}}>
+            <Image source={require('../assets/lock.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 5}} />
             <Text style={styles.basic_font_bold}>{'Contraseña'}</Text>
         </View>
-        <Button onPress={() => openChange('password')} label="Cambiar" />
-        {/* <EditProfile name={user.name} email={user.email}></EditProfile> */}
+          <Button color='purple' onPress={() => openChange('password')} label="Cambiar" />      
+        <View style={{marginTop: 20}}>
+          <Button color='red' onPress={() => navigation.navigate("Login")} label="Cerrar sesión" />
+        </View>
+        <View style={{marginTop: 10}}>
+          <Button color='gray' onPress={() => navigation.navigate("Login")} label="Eliminar perfil" />
+        </View>
         </View>
     </View>
-    </>
+    </ScrollView>
     );
 }
 

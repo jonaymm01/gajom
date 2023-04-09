@@ -123,7 +123,7 @@ export function SignUp({navigation}) {
             />
         )}
       />
-      <Button onPress={handleSubmit(onSubmit)} label="Registrarse" />
+      <Button color="purple" onPress={handleSubmit(onSubmit)} label="Registrarse" />
     </View>
     </View>
     </ScrollView>

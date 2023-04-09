@@ -31,7 +31,6 @@ export const setActive = async (value) => {
     })
     if (pass) {
     await AsyncStorage.setItem('active', ActiveUser).then(() => {
-      console.log(value.email, 'ha iniciado sesión')       
     })
     }
     return pass

@@ -18,8 +18,10 @@ export function Login({navigation}) {
 
   const onSubmit = async (value) => {
      await setActive(value).then((pass) => {
-      if (pass)
+      if (pass) {
+        console.log(value.email, 'ha iniciado sesión')       
         navigation.navigate("User")
+      }
       else {
         setModalVisible(true)
       }
@@ -108,7 +110,7 @@ export function Login({navigation}) {
               />
           )}
         />
-        <Button onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
+        <Button color="purple" onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
       </View>
     </View>
     </ScrollView>

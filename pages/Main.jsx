@@ -1,10 +1,21 @@
 import React, {useState, useCallback} from 'react';
 import { StyleSheet, Text, View, Image, Button, Alert, TouchableOpacity, Linking } from 'react-native';
 import { styles } from "../styles/styles"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function Main({ navigation }) {
   const onPressSupport = () => navigation.navigate("Soporte")
-  const onPressUser = () => navigation.navigate("Login")
+  const onPressUser = async () => { 
+    try {
+    const user = await AsyncStorage.getItem('active')
+    if (user == null)
+      navigation.navigate("Login")
+    else 
+      navigation.navigate("User")
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const logopedazo_content = `La afonia es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!`
   const logopedazo_url = 'https://es.wikipedia.org/wiki/Disfon%C3%ADa';
   const onPressLogopedazo = () => Linking.openURL(logopedazo_url);
