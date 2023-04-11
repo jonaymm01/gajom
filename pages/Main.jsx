@@ -8,7 +8,7 @@ export function Main({ navigation }) {
   const onPressUser = async () => { 
     try {
     const user = await AsyncStorage.getItem('active')
-    if (user == null)
+    if (user == "{}")
       navigation.navigate("Login")
     else 
       navigation.navigate("User")

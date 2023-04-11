@@ -8,6 +8,7 @@ import Button from '../components/Button';
 
 import { useForm, Controller } from 'react-hook-form';
 import { getUser, setActive } from '../_helpers/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Login({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,6 +27,9 @@ export function Login({navigation}) {
         setModalVisible(true)
       }
     })
+    const keys = await AsyncStorage.getAllKeys();
+    const result = await AsyncStorage.multiGet(keys);
+    console.log(result)
   }
 
   return (

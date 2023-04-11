@@ -30,7 +30,7 @@ export function User({navigation}) {
           }
         fetchData()
         .catch(console.error);
-    }, [shouldRefresh])
+    }, [shouldRefresh, activeUser])
 
     const user = JSON.parse(activeUser)
 
@@ -67,6 +67,15 @@ export function User({navigation}) {
       console.log(modified)
       refreshData();
       };
+
+    const deleteUser = async (value) => {
+      let active = JSON.parse(activeUser)
+      await AsyncStorage.removeItem(active.email)
+      await setActive(null);
+      console.log('Se ha eliminado el usuario ', active.email)
+      navigation.navigate("Login")
+    };
+
     return (
     <ScrollView style={{backgroundColor: '#fff'}}>
 
@@ -177,7 +186,7 @@ export function User({navigation}) {
           <Button color='red' onPress={() => navigation.navigate("Login")} label="Cerrar sesión" />
         </View>
         <View style={{marginTop: 10}}>
-          <Button color='gray' onPress={() => navigation.navigate("Login")} label="Eliminar perfil" />
+          <Button color='gray' onPress={() => deleteUser()} label="Eliminar perfil" />
         </View>
         </View>
     </View>

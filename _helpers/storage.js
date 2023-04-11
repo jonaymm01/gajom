@@ -19,6 +19,7 @@ export const getUser = async (value) => {
 }
 
 export const setActive = async (value) => {
+  if (value !== null) {
   let pass, ActiveUser
   try {
     await AsyncStorage.getItem(value.email).then((user) => {
@@ -37,4 +38,6 @@ export const setActive = async (value) => {
   } catch (error) {
     console.log(error);
   }
+} else 
+  await AsyncStorage.setItem('active', "{}")
 };
