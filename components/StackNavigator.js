@@ -14,7 +14,9 @@ const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator   screenOptions={{
+      headerShown: false
+    }}>
       <Stack.Screen name="Inicio" component={Main} />
       <Stack.Screen name="Soporte" component={Support} />
         <Stack.Screen name="FQA" component={FQA} options={{ title: 'Preguntas Frecuentes' }} />
@@ -28,7 +30,9 @@ const MainStackNavigator = () => {
 
 const GamesStackNavigator = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
         <Stack.Screen name="Games" component={Games} />
         </Stack.Navigator>
     );
@@ -36,7 +40,9 @@ const GamesStackNavigator = () => {
 
 const TalkerStackNavigator = () => {
     return (
-        <Stack.Navigator>
+      <Stack.Navigator   screenOptions={{
+        headerShown: false
+      }}>
         <Stack.Screen name="Talker" component={Talker} />
         </Stack.Navigator>
     );

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Switch, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image } from 'react-native';
-import { styles } from '../styles/styles';
+import { styles, palette } from '../styles/styles';
 
 
 import Input from '../components/Input';
@@ -61,7 +61,7 @@ export function Login({navigation}) {
           <Text style={styles.button_text}>INICIAR SESIÓN</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60'}]} onPress={onPressSignup}>
+      <TouchableOpacity  style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressSignup}>
         <View style={styles.button_container}>
           <Text style={styles.button_text}>REGISTRARSE</Text>
         </View>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useTransition, useRef } from 'react';
 import { StyleSheet, Text, View, Image, Modal, Pressable, ScrollView, RefreshControl, Alert } from 'react-native';
 import { EditProfile } from '../components/EditProfile'
-import { styles } from '../styles/styles';
+import { styles, palette } from '../styles/styles';
 import { getUser, setActive } from '../_helpers/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Button from '../components/Button';
@@ -98,7 +98,7 @@ export function User({navigation}) {
         }}>
         <View style={modal_styles.centeredView}>
           <View style={modal_styles.modalView}>
-            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: '#763CAD'}]}>Indica un nuevo nombre</Text>
+            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo nombre</Text>
             <Controller
                 name="name"
                 defaultValue=""
@@ -139,7 +139,7 @@ export function User({navigation}) {
         }}>
         <View style={modal_styles.centeredView}>
           <View style={modal_styles.modalView}>
-            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: '#763CAD'}]}>Indica una nueva contraseña</Text>
+            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica una nueva contraseña</Text>
             <Controller
                 name="password"
                 defaultValue=""
@@ -231,11 +231,11 @@ export function User({navigation}) {
 
     <View style={[styles.container, {alignItems:'center'}]}>
         <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
-        <View style = {{borderColor: '#763CAD', borderWidth: 2, alignItems: 'center', padding: 50}}>
+        <View style = {{borderColor: palette.violet, borderWidth: 2, alignItems: 'center', padding: 50}}>
         <View>
-            <Text style={[styles.basic_font, {color: '#763CAD', marginBottom: 30, fontSize: 25}]}>Hola, {user.name}</Text>
+            <Text style={[styles.basic_font, {color: palette.violet, marginBottom: 30, fontSize: 25}]}>Hola, {user.name}</Text>
         </View> 
-        <View style={{marginBottom: 30, backgroundColor: '#763CAD', padding: 20}}>
+        <View style={{marginBottom: 30, backgroundColor: palette.violet, padding: 20}}>
             <Text style={[styles.basic_font_bold, {color: '#fff'}]}>Sesión iniciada:</Text>
             <Text style={[styles.basic_font, {color: '#fff'}]}>{user.email}</Text>
         </View> 

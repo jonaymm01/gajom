@@ -8,9 +8,9 @@ export default function Button({ label, ...props }) {
   switch (props.color) {
     case 'purple':
       return (
-        <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, styles.purple]}>
-          <Text style={styles.button_text}>{label}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, styles.purple,]}>
+            <Text style={styles.button_text}>{label}</Text>
+          </TouchableOpacity>
       );
       break;
     case 'red':
@@ -19,7 +19,7 @@ export default function Button({ label, ...props }) {
             <Text style={styles.button_text}>{label}</Text>
           </TouchableOpacity>
         );
-        break;
+      break;
     case 'gray':
         return (
           <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, styles.gray]}>

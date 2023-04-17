@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { palette, styles } from '../styles/styles';
 
 import { GamesStackNavigator, MainStackNavigator, TalkerStackNavigator } from "./StackNavigator";
 
@@ -57,21 +58,30 @@ const BottomTabNavigator = () => {
       
     })}
   >
-        <Tab.Screen name="talker" component={TalkerStackNavigator} options={{ title: 'Hablar', headerTitle: 'Gajom', headerStyle: styles.header,
+        <Tab.Screen name="talker" component={TalkerStackNavigator} options={{ title: 'Hablar', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
   headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-        <Tab.Screen name="main" component={MainStackNavigator} options={{ title: 'Gajom', headerTitle: 'Gajom', headerStyle: styles.header,
+        <Tab.Screen name="main" component={MainStackNavigator} options={{ title: 'Inicio', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
   headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
-        <Tab.Screen name="games" component={GamesStackNavigator} options={{ title: 'Jugar', headerTitle: 'Gajom', headerStyle: styles.header,
+        <Tab.Screen name="games" component={GamesStackNavigator} options={{ title: 'Jugar', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
   headerTitleStyle: { color: 'white', fontWeight: 'bold'}}}/>
   </Tab.Navigator>
   </View>
   );
 };
 
-const styles = StyleSheet.create({
-    header: {
-      backgroundColor: '#763CAD'
-    }
+const tab_style = StyleSheet.create({
+  tab: {
+    headerTitle: 'Gajom', 
+    headerStyle: 
+      { 
+        backgroundColor: palette.violet 
+      },
+    headerTitleStyle: 
+      { 
+        color: 'white', 
+        fontWeight: 'bold'
+      },
+  }
 })
 
 export default BottomTabNavigator;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image } from 'react-native';
-import { styles } from '../styles/styles';
+import { styles, palette } from '../styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getUser, setUser, setActiveUser } from '../_helpers/storage';
 
@@ -48,7 +48,7 @@ export function SignUp({navigation}) {
 
     <View style={{flex:1}}>
     <View style={[ styles.container, {flexDirection: 'row'}]}>
-    <TouchableOpacity  style={[styles.button, {backgroundColor: '#AC3C60'}]} onPress={onPressLogin}>
+    <TouchableOpacity  style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressLogin}>
       <View style={styles.button_container}>
         <Text style={styles.button_text}>INICIAR SESIÓN</Text>
       </View>
@@ -169,7 +169,7 @@ const modal_styles = StyleSheet.create({
     elevation: 10,
   },
   buttonOpen: {
-    backgroundColor: '#763CAD',
+    backgroundColor: palette.violet,
   },
   buttonClose: {
     backgroundColor: '#ed1c24',

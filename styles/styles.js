@@ -1,5 +1,11 @@
 import { StyleSheet } from 'react-native';
 
+export const palette = {
+  violet: '#763CAD',
+  red: '#AC3C60',
+  gray: '#b8b8b8'
+}
+
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
