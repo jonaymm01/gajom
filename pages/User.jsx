@@ -16,6 +16,7 @@ export function User({navigation}) {
     const [activeUser, loadActive] = useState(0)
     const [modalName, setModalName] = useState(false);
     const [modalPassword, setModalPassword] = useState(false);
+    const [modalDelete, setModalDelete] = useState(false);
     const [shouldRefresh, setRefresh] = useState(false);
     const { handleSubmit, control, formState: { errors }, getValues } = useForm();
     
@@ -61,10 +62,10 @@ export function User({navigation}) {
 
     const changePassword = async (value) => {
       let active = JSON.parse(activeUser)
-      await AsyncStorage.mergeItem(active.email, JSON.stringify({password: value.password}))
+      await AsyncStorage.mergeItem(active.email, JSON.stringify({password: value.password2}))
       const modified = await AsyncStorage.getItem(active.email)
       await setActive(JSON.parse(modified));
-      console.log('Se ha cambiado la contraseña de', active.password, ' por: ', value.password)
+      console.log('Se ha cambiado la contraseña de', active.password, ' por: ', value.password2)
       console.log(modified)
       refreshData();
       };
@@ -144,7 +145,8 @@ export function User({navigation}) {
                 defaultValue=""
                 control={control}
                 rules={{
-                required: { value: true, message: 'Escribe tu contraseña' }
+                required: { value: true, message: 'Escribe tu contraseña' },
+                validate: () => 0 == 1 //getValues("password") === getValues("password2")
                 }}      
                 render={({ field: { onChange, value } }) => (
                     <Input
@@ -167,7 +169,7 @@ export function User({navigation}) {
                 control={control}
                 rules={{
                 required: { value: true, message: 'Escribe tu contraseña' },
-                validate: () => getValues("password") === getValues("password2")
+                validate: () => 0 == 1 //getValues("password") === getValues("password2")
                 }}   
                 render={({ field: { onChange, value } }) => (
                     <Input
@@ -192,6 +194,36 @@ export function User({navigation}) {
                 }}
               >
               <Text style={modal_styles.textStyle}>Aplicar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalDelete}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalDelete(!modalDelete);
+        }}>
+        <View style={modal_styles.centeredView}>
+          <View style={modal_styles.modalView}>
+            <Image source={require('../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+            <Text style={modal_styles.modalText}>Esto eliminará el usuario. ¿Desea continuar?</Text>
+            <Pressable
+              style={[modal_styles.button, modal_styles.buttonWarning]}
+              onPress={() => {
+                handleSubmit(deleteUser)();
+                setModalDelete(!modalDelete);
+                }}
+              >
+              <Text style={modal_styles.textStyle}>Sí, eliminar</Text>
+            </Pressable>
+            <Pressable
+              style={[modal_styles.button, modal_styles.buttonClose, {marginTop:20}]}
+              onPress={() => setModalDelete(!modalDelete)}>
+              <Text style={modal_styles.textStyle}>Cancelar</Text>
             </Pressable>
           </View>
         </View>
@@ -222,7 +254,7 @@ export function User({navigation}) {
           <Button color='red' onPress={() => logOut()} label="Cerrar sesión" />
         </View>
         <View style={{marginTop: 10}}>
-          <Button color='gray' onPress={() => deleteUser()} label="Eliminar perfil" />
+          <Button color='gray' onPress={() => setModalDelete(!modalDelete)} label="Eliminar perfil" />
         </View>
         </View>
     </View>
@@ -265,6 +297,9 @@ const modal_styles = StyleSheet.create({
     },
     buttonClose: {
       backgroundColor: '#763CAD',
+    },
+    buttonWarning: {
+      backgroundColor: '#ed1c24',
     },
     textStyle: {
       color: 'white',
