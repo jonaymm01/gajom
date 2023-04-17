@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useTransition, useRef } from 'react';
-import { StyleSheet, Text, View, Image, Modal, Pressable, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, Image, Modal, Pressable, ScrollView, RefreshControl, Alert } from 'react-native';
 import { EditProfile } from '../components/EditProfile'
 import { styles } from '../styles/styles';
 import { getUser, setActive } from '../_helpers/storage';
@@ -7,16 +7,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { useForm, Controller } from 'react-hook-form';
+import Separator from '../components/Separator';
+import LineSeparator from '../components/LineSeparator';
 
 
 
 export function User({navigation}) {
     const [activeUser, loadActive] = useState(0)
     const [modalName, setModalName] = useState(false);
-    const [modalEmail, setModalEmail] = useState(false);
     const [modalPassword, setModalPassword] = useState(false);
     const [shouldRefresh, setRefresh] = useState(false);
-    const { handleSubmit, control, formState: { errors } } = useForm();
+    const { handleSubmit, control, formState: { errors }, getValues } = useForm();
     
     function refreshData() {
       setRefresh(!shouldRefresh);
@@ -30,7 +31,7 @@ export function User({navigation}) {
           }
         fetchData()
         .catch(console.error);
-    }, [shouldRefresh, activeUser])
+    }, [activeUser, shouldRefresh])
 
     const user = JSON.parse(activeUser)
 
@@ -73,6 +74,13 @@ export function User({navigation}) {
       await AsyncStorage.removeItem(active.email)
       await setActive(null);
       console.log('Se ha eliminado el usuario ', active.email)
+      navigation.navigate("Login")
+    };
+
+    const logOut = async (value) => {
+      let active = JSON.parse(activeUser)
+      await setActive(null);
+      console.log('El usuario ', active.email, ' ha cerrado sesión')
       navigation.navigate("Login")
     };
 
@@ -153,6 +161,29 @@ export function User({navigation}) {
                     />
                 )}
             />
+            <Controller
+                name="password2"
+                defaultValue=""
+                control={control}
+                rules={{
+                required: { value: true, message: 'Escribe tu contraseña' },
+                validate: () => getValues("password") === getValues("password2")
+                }}   
+                render={({ field: { onChange, value } }) => (
+                    <Input
+                    error={errors.password2}
+                    errorText={errors?.password2?.message}
+                    onChangeText={(text) => onChange(text)}
+                    value={value}
+                    placeholder="Repite la contraseña"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    textContentType="newPassword"
+                    secureTextEntry
+                    enablesReturnKeyAutomatically
+                    />
+                )}
+            />
             <Pressable
               style={[modal_styles.button, modal_styles.buttonClose, {marginTop: 50}]}
               onPress={() => {
@@ -168,22 +199,27 @@ export function User({navigation}) {
 
     <View style={[styles.container, {alignItems:'center'}]}>
         <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
-        <View style={{flexDirection: 'row'}}>
-            <Image source={require('../assets/email_icon.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 10}} />
-            <Text style={styles.basic_font_bold}>{user.email}</Text>
+        <View style = {{borderColor: '#763CAD', borderWidth: 2, alignItems: 'center', padding: 50}}>
+        <View>
+            <Text style={[styles.basic_font, {color: '#763CAD', marginBottom: 30, fontSize: 25}]}>Hola, {user.name}</Text>
         </View> 
-        <View style={{flexDirection: 'row', marginTop: 40}}>
-            <Image source={require('../assets/user_icon.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 5}} />
-            <Text style={styles.basic_font_bold}>{user.name}</Text>
+        <View style={{marginBottom: 30, backgroundColor: '#763CAD', padding: 20}}>
+            <Text style={[styles.basic_font_bold, {color: '#fff'}]}>Sesión iniciada:</Text>
+            <Text style={[styles.basic_font, {color: '#fff'}]}>{user.email}</Text>
+        </View> 
         </View>
-          <Button color='purple' onPress={() => openChange('name')} label="Cambiar" />
-       <View style={{flexDirection: 'row', marginTop: 30}}>
-            <Image source={require('../assets/lock.png')} resizeMode='contain' style={{flex:1, maxHeight:30, maxWidth: 30, marginRight: 5}} />
-            <Text style={styles.basic_font_bold}>{'Contraseña'}</Text>
-        </View>
-          <Button color='purple' onPress={() => openChange('password')} label="Cambiar" />      
-        <View style={{marginTop: 20}}>
-          <Button color='red' onPress={() => navigation.navigate("Login")} label="Cerrar sesión" />
+        <Separator text='Editar perfil'/>
+        <View style={{flexDirection: 'row'}}>
+          <Image source={require('../assets/user_icon.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
+          <Button color='purple' onPress={() => openChange('name')} label="Cambiar nombre" />
+        </View >
+        <View style={{flexDirection: 'row', marginTop: 20}}>
+          <Image source={require('../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
+          <Button color='purple' onPress={() => openChange('password')} label="Cambiar contraseña"/>
+        </View >        
+        <LineSeparator/>  
+        <View>
+          <Button color='red' onPress={() => logOut()} label="Cerrar sesión" />
         </View>
         <View style={{marginTop: 10}}>
           <Button color='gray' onPress={() => deleteUser()} label="Eliminar perfil" />

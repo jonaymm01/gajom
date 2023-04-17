@@ -37,7 +37,8 @@ export const styles = StyleSheet.create({
     width: 300,
     alignItems: 'center',
     borderRadius: 40,
-    marginTop: 10  
+    marginTop: 10,
+    elevation: 10, 
   },
   button_text: {
     color: '#fff',
