@@ -1,19 +1,19 @@
 import React, {useState, useCallback} from 'react';
 import { StyleSheet, Text, View, Image, Button, Alert, TouchableOpacity, Linking, ScrollView} from 'react-native';
-import { styles } from '../../styles/styles';
+import { styles, palette } from '../../styles/styles';
 
 
 export function Contact() {
     return (
       <View style={[styles.container, {flexDirection: 'column', justifyContent: 'center'}]}>
-          <View style={[styles_contact.box, {backgroundColor: '#763CAD'}]}>
+          <View style={[styles_contact.box, {backgroundColor: palette.violet}]}>
               <Text style={[styles.title_white, {flex:1, lineHeight: 100}]}>GAJOM</Text>
               <View style={{flex:1, alignItems: 'center'}}>
                 <Text style={styles_contact.text}>Teléfono → 638 00 00 00</Text>
                 <Text style={styles_contact.text}>Email → gajom.app@email.com</Text>
               </View>
           </View>
-          <View style={[styles_contact.box, {backgroundColor: '#AD3C61'}]}>
+          <View style={[styles_contact.box, {backgroundColor: palette.red}]}>
             <Text style={[styles.title_white, {flex:1, lineHeight: 100}]}>LOGOPEDA</Text>
             <View style={{flex:1, alignItems: 'center'}}>
               <Text style={styles_contact.text}>Teléfono → 648 00 00 00 00</Text>

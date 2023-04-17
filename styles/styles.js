@@ -1,5 +1,11 @@
 import { StyleSheet } from 'react-native';
 
+export const palette = {
+  violet: '#763CAD',
+  red: '#AC3C60',
+  gray: '#b8b8b8'
+}
+
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -79,5 +85,12 @@ export const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 20,
       lineHeight: 120,
+    },
+    basic_font: {
+      fontSize: 20
+    },
+    basic_font_bold: {
+      fontSize: 20,
+      fontWeight: 'bold'
     },
 });
