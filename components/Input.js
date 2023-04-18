@@ -1,8 +1,13 @@
 
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
-import { t } from 'react-native-tailwindcss';
+import {View, Text, TextInput} from 'react-native';
+import {t} from 'react-native-tailwindcss';
 
+/**
+ * Componente: Input de texto.
+ * @param {*} props
+ * @return {JSX.Element}
+ */
 export default function Input(props) {
   return (
     <View style={styles.wrapper}>
@@ -27,7 +32,7 @@ const styles = {
     t.borderGray500,
     t.rounded,
     t.textXl,
-    t.textGray700
+    t.textGray700,
   ],
-  errorText: [t.mT1, t.textRed500]
+  errorText: [t.mT1, t.textRed500],
 };

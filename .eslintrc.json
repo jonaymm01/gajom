@@ -11,6 +11,8 @@
         "sourceType": "module"
     },
     "rules": {
+        "max-len":"off",
+        "no-unused-vars": "off"
     },
     "parser": "@babel/eslint-parser"
 }
