@@ -1,78 +1,89 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image} from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useForm, Controller} from 'react-hook-form';
 
-import {setActive} from '../_helpers/storage';
+import {setUser} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
 import {styles, palette} from '../styles/styles';
 
 /**
- * Componente: Inicio de sesión
+ * Componente: Registro
  * @param {*} navigation
  * @return {JSX.Element}
  */
-export function Login({navigation}) {
+export function SignUp({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
-
-  const onPressSignup = () => navigation.navigate('Signup');
+  const onPressLogin = () => navigation.navigate('Login');
 
   const {handleSubmit, control, formState: {errors}} = useForm();
 
   const onSubmit = async (value) => {
-    await setActive(value).then((pass) => {
-      if (pass) {
-        console.log(value.email, 'ha iniciado sesión');
-        navigation.navigate('User');
-      } else {
-        setModalVisible(true);
-      }
-    });
-    const keys = await AsyncStorage.getAllKeys();
-    const result = await AsyncStorage.multiGet(keys);
-    console.log(result);
+    const user = await AsyncStorage.getItem(value.email);
+    if (user) {
+      {setModalVisible(true);};
+    } else await setUser(value);
   };
 
   return (
     <ScrollView style= {{backgroundColor: '#fff'}}>
-      <View style={{flex: 1}}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={modalStyles.centeredView}>
-            <View style={modalStyles.modalView}>
-              <Image source={require('../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-              <Text style={modalStyles.modalText}>Usuario o contraseña incorrectos</Text>
-              <Pressable
-                style={[modalStyles.button, modalStyles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
 
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={modalStyles.centeredView}>
+          <View style={modalStyles.modalView}>
+            <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+            <Text style={modalStyles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
+            <Pressable
+              style={[modalStyles.button, modalStyles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={modalStyles.textStyle}>¡Entendido!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <View style={{flex: 1}}>
         <View style={[styles.container, {flexDirection: 'row'}]}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: 'lightgrey'}]} disabled={true}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressLogin}>
             <View style={styles.button_container}>
               <Text style={styles.button_text}>INICIAR SESIÓN</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressSignup}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: 'lightgrey'}]} disabled={true}>
             <View style={styles.button_container}>
               <Text style={styles.button_text}>REGISTRARSE</Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        <View style={[formStyles.input_container]}>
-          <Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Inicio de sesión</Text>
+        <View style={formStyles.input_container}>
+          <Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Crea tu cuenta</Text>
+          <Controller
+            name="name"
+            defaultValue=""
+            control={control}
+            rules={{
+              required: {value: true, message: 'Escribe tu nombre'},
+            }}
+            render={({field: {onChange, value}}) => (
+              <Input
+                error={errors.name}
+                errorText={errors?.name?.message}
+                onChangeText={(text) => onChange(text)}
+                value={value}
+                placeholder="Nombre"
+              />
+            )}
+          />
           <Controller
             name="email"
             defaultValue=""
@@ -117,14 +128,12 @@ export function Login({navigation}) {
               />
             )}
           />
-          <Button color="purple" onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
+          <Button color="purple" onPress={handleSubmit(onSubmit)} label="Registrarse" />
         </View>
       </View>
     </ScrollView>
   );
 }
-
-
 export const formStyles = StyleSheet.create({
   input_container: {
     flex: 3,
@@ -165,7 +174,7 @@ const modalStyles = StyleSheet.create({
     elevation: 10,
   },
   buttonOpen: {
-    backgroundColor: '#763CAD',
+    backgroundColor: palette.violet,
   },
   buttonClose: {
     backgroundColor: '#ed1c24',

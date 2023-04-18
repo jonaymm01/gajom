@@ -1,4 +1,32 @@
-import React, {useState} from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Signup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Signup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
@@ -28,9 +56,9 @@ export function SignUp({navigation}) {
   };
 
   return (
-    <ScrollView style= {{backgroundColor: '#fff'}}>
+    &lt;ScrollView style= {{backgroundColor: '#fff'}}>
 
-      <Modal
+      &lt;Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -38,36 +66,36 @@ export function SignUp({navigation}) {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <View style={modalStyles.centeredView}>
-          <View style={modalStyles.modalView}>
-            <Image source={require('../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-            <Text style={modalStyles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
-            <Pressable
+        &lt;View style={modalStyles.centeredView}>
+          &lt;View style={modalStyles.modalView}>
+            &lt;Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+            &lt;Text style={modalStyles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.&lt;/Text>
+            &lt;Pressable
               style={[modalStyles.button, modalStyles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+              &lt;Text style={modalStyles.textStyle}>¡Entendido!&lt;/Text>
+            &lt;/Pressable>
+          &lt;/View>
+        &lt;/View>
+      &lt;/Modal>
 
-      <View style={{flex: 1}}>
-        <View style={[styles.container, {flexDirection: 'row'}]}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressLogin}>
-            <View style={styles.button_container}>
-              <Text style={styles.button_text}>INICIAR SESIÓN</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, {backgroundColor: 'lightgrey'}]} disabled={true}>
-            <View style={styles.button_container}>
-              <Text style={styles.button_text}>REGISTRARSE</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+      &lt;View style={{flex: 1}}>
+        &lt;View style={[styles.container, {flexDirection: 'row'}]}>
+          &lt;TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressLogin}>
+            &lt;View style={styles.button_container}>
+              &lt;Text style={styles.button_text}>INICIAR SESIÓN&lt;/Text>
+            &lt;/View>
+          &lt;/TouchableOpacity>
+          &lt;TouchableOpacity style={[styles.button, {backgroundColor: 'lightgrey'}]} disabled={true}>
+            &lt;View style={styles.button_container}>
+              &lt;Text style={styles.button_text}>REGISTRARSE&lt;/Text>
+            &lt;/View>
+          &lt;/TouchableOpacity>
+        &lt;/View>
 
-        <View style={formStyles.input_container}>
-          <Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Crea tu cuenta</Text>
-          <Controller
+        &lt;View style={formStyles.input_container}>
+          &lt;Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Crea tu cuenta&lt;/Text>
+          &lt;Controller
             name="name"
             defaultValue=""
             control={control}
@@ -75,7 +103,7 @@ export function SignUp({navigation}) {
               required: {value: true, message: 'Escribe tu nombre'},
             }}
             render={({field: {onChange, value}}) => (
-              <Input
+              &lt;Input
                 error={errors.name}
                 errorText={errors?.name?.message}
                 onChangeText={(text) => onChange(text)}
@@ -84,7 +112,7 @@ export function SignUp({navigation}) {
               />
             )}
           />
-          <Controller
+          &lt;Controller
             name="email"
             defaultValue=""
             control={control}
@@ -96,7 +124,7 @@ export function SignUp({navigation}) {
               },
             }}
             render={({field: {onChange, value}}) => (
-              <Input
+              &lt;Input
                 error={errors.email}
                 errorText={errors?.email?.message}
                 onChangeText={(text) => onChange(text)}
@@ -106,7 +134,7 @@ export function SignUp({navigation}) {
               />
             )}
           />
-          <Controller
+          &lt;Controller
             name="password"
             defaultValue=""
             control={control}
@@ -114,7 +142,7 @@ export function SignUp({navigation}) {
               required: {value: true, message: 'Escribe una contraseña'},
             }}
             render={({field: {onChange, value}}) => (
-              <Input
+              &lt;Input
                 error={errors.password}
                 errorText={errors?.password?.message}
                 onChangeText={(text) => onChange(text)}
@@ -128,10 +156,10 @@ export function SignUp({navigation}) {
               />
             )}
           />
-          <Button color="purple" onPress={handleSubmit(onSubmit)} label="Registrarse" />
-        </View>
-      </View>
-    </ScrollView>
+          &lt;Button color="purple" onPress={handleSubmit(onSubmit)} label="Registrarse" />
+        &lt;/View>
+      &lt;/View>
+    &lt;/ScrollView>
   );
 }
 export const formStyles = StyleSheet.create({
@@ -194,3 +222,26 @@ const modalStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#FQA">FQA</a></li><li><a href="global.html#Games">Games</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#Main">Main</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#Support">Support</a></li><li><a href="global.html#Talker">Talker</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#setActive">setActive</a></li><li><a href="global.html#setUser">setUser</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 18 2023 11:04:38 GMT+0100 (Western European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

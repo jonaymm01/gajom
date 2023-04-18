@@ -239,7 +239,7 @@ export function User({navigation}) {
         }}>
         <View style={modalStyles.centeredView}>
           <View style={modalStyles.modalView}>
-            <Image source={require('../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+            <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
             <Text style={modalStyles.modalText}>Esto eliminará el usuario. ¿Desea continuar?</Text>
             <Pressable
               style={[modalStyles.button, modalStyles.buttonWarning]}
@@ -272,11 +272,11 @@ export function User({navigation}) {
           </View>
           <Separator text='Editar perfil'/>
           <View style={{flexDirection: 'row'}}>
-            <Image source={require('../assets/user_icon.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
+            <Image source={require('../../assets/user_icon.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
             <Button color='purple' onPress={() => openChange('name')} label="Cambiar nombre" />
           </View >
           <View style={{flexDirection: 'row', marginTop: 20}}>
-            <Image source={require('../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
+            <Image source={require('../../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
             <Button color='purple' onPress={() => openChange('password')} label="Cambiar contraseña"/>
           </View >
           <LineSeparator/>

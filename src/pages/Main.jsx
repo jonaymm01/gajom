@@ -33,19 +33,19 @@ export function Main({navigation}) {
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderEndWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressSupport}>
           <View style={styles.button_container}>
             <Text style={styles.button_text}>Centro de Ayuda</Text>
-            <Image source={require('../assets/SupportImage.png')} resizeMode='contain' style={{flex: 1, marginBottom: 60}} />
+            <Image source={require('../../assets/SupportImage.png')} resizeMode='contain' style={{flex: 1, marginBottom: 60}} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressUser}>
           <View style={styles.button_container}>
             <Text style={styles.button_text}>Perfil</Text>
-            <Image source={require('../assets/UserImage.png')} resizeMode='contain' style={{flex: 1, marginBottom: 60, width: 100}} />
+            <Image source={require('../../assets/UserImage.png')} resizeMode='contain' style={{flex: 1, marginBottom: 60, width: 100}} />
           </View>
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderTopWidth: 2.5}]} onPress={onPressLogopedazo}>
         <View style={styles.button_container}>
-          <Image source={require('../assets/logo/logo_gajom.png')} resizeMode='contain' style={{flex: 1, marginTop: -70, borderColor: 'blue'}} />
+          <Image source={require('../../assets/logo/logo_gajom.png')} resizeMode='contain' style={{flex: 1, marginTop: -70, borderColor: 'blue'}} />
           <Text style={styles.logopedazo_title}>LOGOPEDAZO DEL DÍA</Text>
           <Text style={styles.logopedazo_text}>{logopedazoContent}</Text>
         </View>
