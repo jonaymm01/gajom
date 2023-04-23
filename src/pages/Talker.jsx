@@ -8,7 +8,7 @@ import {styles, palette} from '../styles/styles';
  */
 export function Talker({navigation}) {
   const onPressPictos = () => navigation.navigate('Pictos');
-  const onPressTabs = () => navigation.navigate('Tabs');
+  const onPressTaps = () => navigation.navigate('Taps');
   const onPressQuestions = () => navigation.navigate('Questions');
 
   return (
@@ -20,9 +20,9 @@ export function Talker({navigation}) {
             <Text style={talkerStyles.button_text}>PICTOGRAMAS</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressTabs}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressTaps}>
           <View style={styles.button_container}>
-            <Text style={talkerStyles.button_text}>TABS</Text>
+            <Text style={talkerStyles.button_text}>TAPS</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressQuestions}>

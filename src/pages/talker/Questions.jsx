@@ -2,7 +2,7 @@ import {Text, View} from 'react-native';
 import {styles} from '../../styles/styles';
 
 /**
- * Método para renderizar página de Pictogramas.
+ * Método para renderizar página de Preguntas.
  * @return {JSX.Element}
  */
 export function Questions() {

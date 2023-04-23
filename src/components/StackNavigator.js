@@ -12,7 +12,7 @@ import {Login} from './Login';
 import {SignUp} from './Signup';
 import {Pictos} from '../pages/talker/Pictos';
 import {Questions} from '../pages/talker/Questions';
-import {Tabs} from '../pages/talker/Tabs';
+import {Taps} from '../pages/talker/Taps';
 
 const Stack = createStackNavigator();
 
@@ -49,7 +49,7 @@ const TalkerStackNavigator = () => {
     }}>
       <Stack.Screen name="Talker" component={Talker} />
       <Stack.Screen name="Pictos" component={Pictos} />
-      <Stack.Screen name="Tabs" component={Tabs} />
+      <Stack.Screen name="Taps" component={Taps} />
       <Stack.Screen name="Questions" component={Questions} />
     </Stack.Navigator>
   );

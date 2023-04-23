@@ -1,20 +1,15 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {ReactNode} from 'react';
 import Button from './Button';
-import {styles} from '../styles/styles';
 
 /**
- * Método para renderizar lista de TABs del usuario
+ * Método para renderizar lista de botones
  * @return {JSX.Element}
  */
-export default function ButtonList() {
-  const list = [{title: '¿Qué tal?'}, {title: '¿Qué hacemos?'}, {title: 'Si/No'}];
-  const buttonlist = list.map((value) => <Button color='purple' onPress={() => openChange('name')} label={value.title}/>);
+export default function ButtonList({...props}) {
+  const buttonlist = props.list.map((value) => <Button color={props.color} onPress={() => {}} label={value.text}/>);
   return (
     <>
       {buttonlist}
     </>
   );
 }
-
-// <Button color='purple' onPress={() => openChange('name')} label={value} />

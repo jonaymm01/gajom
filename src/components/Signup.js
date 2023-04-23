@@ -128,7 +128,7 @@ export function SignUp({navigation}) {
               />
             )}
           />
-          <Button color="purple" onPress={handleSubmit(onSubmit)} label="Registrarse" />
+          <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
         </View>
       </View>
     </ScrollView>

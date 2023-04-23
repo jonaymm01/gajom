@@ -9,29 +9,11 @@ import {TouchableOpacity, Text} from 'react-native';
  * @return {JSX.Element}
  */
 export default function Button({label, ...props}) {
-  switch (props.color) {
-    case 'purple':
-      return (
-        <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, styles.purple]}>
-          <Text style={styles.button_text}>{label}</Text>
-        </TouchableOpacity>
-      );
-      break;
-    case 'red':
-      return (
-        <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, styles.red]}>
-          <Text style={styles.button_text}>{label}</Text>
-        </TouchableOpacity>
-      );
-      break;
-    case 'gray':
-      return (
-        <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, styles.gray]}>
-          <Text style={styles.button_text}>{label}</Text>
-        </TouchableOpacity>
-      );
-      break;
-  }
+  return (
+    <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
+      <Text style={styles.button_text}>{label}</Text>
+    </TouchableOpacity>
+  );
 }
 
 export const styles = StyleSheet.create({

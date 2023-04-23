@@ -117,7 +117,7 @@ export function Login({navigation}) {
               />
             )}
           />
-          <Button color="purple" onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
+          <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
         </View>
       </View>
     </ScrollView>
