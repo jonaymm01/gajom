@@ -51,11 +51,15 @@ export function Taps() {
         data: [
           {
             key: 1,
-            text: '¿Cómo estás?',
+            text: '¿Qué hacemos?',
           },
           {
             key: 2,
             text: 'Familia',
+          },
+          {
+            key: 3,
+            text: 'Quiniela',
           },
         ],
       },
