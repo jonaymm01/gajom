@@ -11,6 +11,7 @@ import {setActive} from '../../_helpers/storage';
 import TapList from '../../components/TapList';
 import {data} from '../../content/DefaultTaps.json';
 import LineSeparator from '../../components/LineSeparator';
+import Separator from '../../components/Separator';
 
 /**
  * Método para renderizar página de Taps.
@@ -50,15 +51,11 @@ export function Taps() {
         data: [
           {
             key: 1,
-            text: 'a',
+            text: '¿Cómo estás?',
           },
           {
             key: 2,
-            text: 'b',
-          },
-          {
-            key: 2,
-            text: 'ola',
+            text: 'Familia',
           },
         ],
       },
@@ -69,17 +66,33 @@ export function Taps() {
     refreshData();
   };
 
-  return (
-    <ScrollView style={{backgroundColor: '#fff'}}>
-      <View style={styles.blank_background}>
-        <Text style={[styles.title, {marginTop: 50}]} >Taps de {user.name}</Text>
-        <Button color={palette.gray} onPress={() => createTap()} label={'+'}/>
-        <View style={{marginTop: 50}}>
-          <TapList>{JSON.stringify(user.taps)}</TapList>
-          <LineSeparator></LineSeparator>
-          <TapList>{JSON.stringify(defaultTaps)}</TapList>
+  if (activeUser !== '{}') {
+    return (
+      <ScrollView style={{backgroundColor: '#fff'}}>
+        <View style={styles.blank_background}>
+          <Separator>Taps de {user.name}</Separator>
+          <Button color={palette.gray} onPress={() => createTap()} label={'+'}/>
+          <ScrollView style={{marginTop: 50}}>
+            <TapList>{JSON.stringify(user.taps)}</TapList>
+            <Separator>Taps de Gajom</Separator>
+            <TapList>{JSON.stringify(defaultTaps)}</TapList>
+          </ScrollView>
         </View>
-      </View>
-    </ScrollView>
-  );
+      </ScrollView>
+    );
+  } else {
+    return (
+      <ScrollView style={{backgroundColor: '#fff'}}>
+        <View style={styles.blank_background}>
+          <Separator>Taps del usuario</Separator>
+          <Text style={[styles.text, {textAlign: 'center'}]}>¡Inicia sesión para crear tus propios TAPs!</Text>
+          <ScrollView style={{marginTop: 50}}>
+            <TapList>{JSON.stringify(user.taps)}</TapList>
+            <Separator>Taps de Gajom</Separator>
+            <TapList>{JSON.stringify(defaultTaps)}</TapList>
+          </ScrollView>
+        </View>
+      </ScrollView>
+    );
+  }
 }
