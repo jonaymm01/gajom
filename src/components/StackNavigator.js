@@ -12,7 +12,8 @@ import {Login} from './Login';
 import {SignUp} from './Signup';
 import {Pictos} from '../pages/talker/Pictos';
 import {Questions} from '../pages/talker/Questions';
-import {Taps} from '../pages/talker/Taps';
+import {TapMenu} from '../pages/talker/TapMenu';
+import {Tap} from '../pages/talker/Tap';
 
 const Stack = createStackNavigator();
 
@@ -49,7 +50,8 @@ const TalkerStackNavigator = () => {
     }}>
       <Stack.Screen name="Talker" component={Talker} />
       <Stack.Screen name="Pictos" component={Pictos} />
-      <Stack.Screen name="Taps" component={Taps} />
+      <Stack.Screen name="TapMenu" component={TapMenu} />
+      <Stack.Screen name="Tap" component={Tap} />
       <Stack.Screen name="Questions" component={Questions} />
     </Stack.Navigator>
   );

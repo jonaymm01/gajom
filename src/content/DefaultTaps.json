@@ -2,11 +2,43 @@
   "data": [
     {
       "key": 0,
-      "text": "¿Cómo estás?"
+      "text": "¿Cómo estás?",
+      "options": [
+        {
+          "text": "Feliz",
+          "color": "#763CAD"
+        },
+        {
+          "text": "Triste",
+          "color": "#AC3C60"
+        },
+        {
+          "text": "Enfadado",
+          "color": "#b8b8b8"
+        },
+      ]
     },
     {
       "key": 0,
-      "text": "Necesidades"
+      "text": "Necesidades",
+      "options": [
+        {
+          "text": "Comer",
+          "color": "#763CAD"
+        },
+        {
+          "text": "Beber",
+          "color": "#AC3C60"
+        },
+        {
+          "text": "Baño",
+          "color": "#b8b8b8"
+        },
+        {
+          "text": "Silencio",
+          "color": "green"
+        }
+      ]
     },
     {
       "key": 0,

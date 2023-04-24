@@ -8,7 +8,7 @@ import {styles, palette} from '../styles/styles';
  */
 export function Talker({navigation}) {
   const onPressPictos = () => navigation.navigate('Pictos');
-  const onPressTaps = () => navigation.navigate('Taps');
+  const onPressTaps = () => navigation.navigate('TapMenu');
   const onPressQuestions = () => navigation.navigate('Questions');
 
   return (

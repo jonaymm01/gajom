@@ -12,7 +12,7 @@ export default function TapList({...props}) {
     const taps = JSON.parse(props.children);
     const list = taps.data;
     return (
-      <ButtonList list={list.reverse()} color={palette.violet}/>
+      <ButtonList navigation={props.navigation} list={list.reverse()} color={palette.violet}/>
     );
   }
 }

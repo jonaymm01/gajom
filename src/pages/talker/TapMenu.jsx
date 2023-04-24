@@ -17,7 +17,7 @@ import Separator from '../../components/Separator';
  * Método para renderizar página de Taps.
  * @return {JSX.Element}
  */
-export function Taps() {
+export function TapMenu({navigation}) {
   const [activeUser, loadActive] = useState(0);
   const [shouldRefresh, setRefresh] = useState(false);
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
@@ -77,9 +77,9 @@ export function Taps() {
           <Separator>Taps de {user.name}</Separator>
           <Button color={palette.gray} onPress={() => createTap()} label={'+'}/>
           <ScrollView style={{marginTop: 50}}>
-            <TapList>{JSON.stringify(user.taps)}</TapList>
+            <TapList navigation={navigation}>{JSON.stringify(user.taps)}</TapList>
             <Separator>Taps de Gajom</Separator>
-            <TapList>{JSON.stringify(defaultTaps)}</TapList>
+            <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
           </ScrollView>
         </View>
       </ScrollView>
@@ -91,9 +91,8 @@ export function Taps() {
           <Separator>Taps del usuario</Separator>
           <Text style={[styles.text, {textAlign: 'center'}]}>¡Inicia sesión para crear tus propios TAPs!</Text>
           <ScrollView style={{marginTop: 50}}>
-            <TapList>{JSON.stringify(user.taps)}</TapList>
             <Separator>Taps de Gajom</Separator>
-            <TapList>{JSON.stringify(defaultTaps)}</TapList>
+            <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
           </ScrollView>
         </View>
       </ScrollView>
