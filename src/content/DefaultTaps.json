@@ -6,15 +6,15 @@
       "options": [
         {
           "text": "Feliz",
-          "color": "#763CAD"
+          "color": "green"
         },
         {
           "text": "Triste",
-          "color": "#AC3C60"
+          "color": "blue"
         },
         {
           "text": "Enfadado",
-          "color": "#b8b8b8"
+          "color": "red"
         },
       ]
     },
@@ -24,25 +24,21 @@
       "options": [
         {
           "text": "Comer",
-          "color": "#763CAD"
+          "color": "green"
         },
         {
           "text": "Beber",
-          "color": "#AC3C60"
+          "color": "blue"
         },
         {
           "text": "Baño",
-          "color": "#b8b8b8"
+          "color": "black"
         },
         {
           "text": "Silencio",
-          "color": "green"
+          "color": "orange"
         }
       ]
-    },
-    {
-      "key": 0,
-      "text": "Default text"
     }
   ]
 }
