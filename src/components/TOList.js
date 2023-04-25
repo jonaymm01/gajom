@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import {styles, palette} from '../styles/styles';
 import * as Speech from 'expo-speech';

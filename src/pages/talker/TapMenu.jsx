@@ -60,13 +60,27 @@ export function TapMenu({navigation}) {
           {
             key: 3,
             text: 'Quiniela',
+            options: [
+              {
+                text: '0',
+                color: 'blue',
+              },
+              {
+                text: 'X',
+                color: 'gray',
+              },
+              {
+                text: '1',
+                color: 'red',
+              },
+            ],
           },
         ],
       },
     });
     const modified = await AsyncStorage.getItem(user.email);
     setActive(JSON.parse(modified));
-    console.log(modified);
+    console.log(JSON.parse(modified).taps.data[2]);
     refreshData();
   };
 
