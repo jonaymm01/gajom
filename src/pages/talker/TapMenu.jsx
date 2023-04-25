@@ -82,6 +82,7 @@ export function TapMenu({navigation}) {
     setActive(JSON.parse(modified));
     console.log(JSON.parse(modified).taps.data[2]);
     refreshData();
+    navigation.navigate('TapMaker');
   };
 
   if (activeUser !== '{}') {
