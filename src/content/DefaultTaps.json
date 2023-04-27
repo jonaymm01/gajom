@@ -17,8 +17,8 @@
           "color": "red"
         },
         {
-          "text": "Regulín",
-          "color": "gray"
+          "text": "Regular",
+          "color": "black"
         }
       ]
     },
@@ -36,11 +36,7 @@
         },
         {
           "text": "Baño",
-          "color": "black"
-        },
-        {
-          "text": "Silencio",
-          "color": "orange"
+          "color": "red"
         }
       ]
     }

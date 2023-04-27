@@ -20,6 +20,28 @@ export const setTap = async (email, taps) => {
   });
 };
 
+export const getTaps = async (email) => {
+  await AsyncStorage.getItem(email).then((user) => {
+    const taps = JSON.parse(user).taps.data;
+    console.log(taps);
+    return taps;
+  });
+};
+
+export const addTap = async (email, name, options) => {
+  await AsyncStorage.getItem(email).then((user) => {
+    const taps = JSON.parse(user).taps.data;
+    taps.push(
+        {
+          'key': 0,
+          'text': name,
+          'options': options,
+        },
+    );
+  });
+};
+
+
 /**
  * Método para eliminar un tap del usuario
  * @param {*} value

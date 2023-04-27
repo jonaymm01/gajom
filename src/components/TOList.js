@@ -19,7 +19,7 @@ export default function TOList({...props}) {
   const taplist = props.list.map((tap) =>
     <TouchableOpacity style={[styles.button, {backgroundColor: tap.color}]} onPress={()=>speak(tap.text)}>
       <View style={styles.button_container}>
-        <Text style={talkerStyles.button_text}>{tap.text}</Text>
+        <Text style={talkerStyles.button_text}> {tap.text} </Text>
       </View>
     </TouchableOpacity>,
   );
@@ -46,6 +46,13 @@ const talkerStyles = StyleSheet.create({
   button_text: {
     color: '#fff',
     fontWeight: 'bold',
+    paddingLeft: 30,
+    paddingRight: 30,
     fontSize: 40,
+    textShadowColor: 'black',
+    textShadowOffset: {width: 5, height: 5},
+    textShadowRadius: 10,
+    marginTop: 10,
+    paddingBottom: 20,
   },
 });
