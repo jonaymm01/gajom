@@ -1,0 +1,44 @@
+{ 
+  "data": [
+    {
+      "key": 0,
+      "text": "¿Cómo estás?",
+      "options": [
+        {
+          "text": "Feliz",
+          "color": "green"
+        },
+        {
+          "text": "Triste",
+          "color": "blue"
+        },
+        {
+          "text": "Enfadado",
+          "color": "red"
+        },
+        {
+          "text": "Regular",
+          "color": "black"
+        }
+      ]
+    },
+    {
+      "key": 0,
+      "text": "Necesidades",
+      "options": [
+        {
+          "text": "Comer",
+          "color": "green"
+        },
+        {
+          "text": "Beber",
+          "color": "blue"
+        },
+        {
+          "text": "Baño",
+          "color": "red"
+        }
+      ]
+    }
+  ]
+}

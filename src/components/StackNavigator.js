@@ -10,6 +10,11 @@ import {Contact} from '../pages/support/Contact';
 import {FQA} from '../pages/support/FQA';
 import {Login} from './Login';
 import {SignUp} from './Signup';
+import {Pictos} from '../pages/talker/Pictos';
+import {Questions} from '../pages/talker/Questions';
+import {TapMenu} from '../pages/talker/TapMenu';
+import {Tap} from '../pages/talker/Tap';
+import {TapMaker} from '../pages/talker/TapMaker';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +50,11 @@ const TalkerStackNavigator = () => {
       headerShown: false,
     }}>
       <Stack.Screen name="Talker" component={Talker} />
+      <Stack.Screen name="Pictos" component={Pictos} />
+      <Stack.Screen name="TapMenu" component={TapMenu} />
+      <Stack.Screen name="Tap" component={Tap} />
+      <Stack.Screen name="TapMaker" component={TapMaker} />
+      <Stack.Screen name="Questions" component={Questions} />
     </Stack.Navigator>
   );
 };

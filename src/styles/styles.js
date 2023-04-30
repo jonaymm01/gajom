@@ -33,9 +33,9 @@ export const styles = StyleSheet.create({
     color: '#fff',
   },
   text: {
-    fontSize: 16,
-    textAlign: 'justify',
-    padding: 14,
+    fontSize: 20,
+    marginLeft: 10,
+    marginRight: 10,
   },
   text_white: {
     fontSize: 16,

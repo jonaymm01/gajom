@@ -273,18 +273,18 @@ export function User({navigation}) {
           <Separator text='Editar perfil'/>
           <View style={{flexDirection: 'row'}}>
             <Image source={require('../../assets/user_icon.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
-            <Button color='purple' onPress={() => openChange('name')} label="Cambiar nombre" />
+            <Button color={palette.violet} onPress={() => openChange('name')} label="Cambiar nombre" />
           </View >
           <View style={{flexDirection: 'row', marginTop: 20}}>
             <Image source={require('../../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
-            <Button color='purple' onPress={() => openChange('password')} label="Cambiar contraseña"/>
+            <Button color={palette.violet} onPress={() => openChange('password')} label="Cambiar contraseña"/>
           </View >
           <LineSeparator/>
           <View>
-            <Button color='red' onPress={() => logOut()} label="Cerrar sesión" />
+            <Button color={palette.red} onPress={() => logOut()} label="Cerrar sesión" />
           </View>
           <View style={{marginTop: 10}}>
-            <Button color='gray' onPress={() => setModalDelete(!modalDelete)} label="Eliminar perfil" />
+            <Button color={palette.gray} onPress={() => setModalDelete(!modalDelete)} label="Eliminar perfil" />
           </View>
         </View>
       </View>

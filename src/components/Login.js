@@ -117,7 +117,7 @@ export function Login({navigation}) {
               />
             )}
           />
-          <Button color="purple" onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
+          <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
         </View>
       </View>
     </ScrollView>
@@ -145,9 +145,11 @@ const modalStyles = StyleSheet.create({
   modalView: {
     backgroundColor: 'white',
     borderColor: '#ed1c24',
-    borderWidth: 10,
+    borderWidth: 4,
     borderRadius: 10,
-    padding: 30,
+    height: 400,
+    padding: 50,
+    width: 350,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
