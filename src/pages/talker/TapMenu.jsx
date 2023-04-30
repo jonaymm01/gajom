@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, RefreshControl} from 'react-native';
 import {palette, styles} from '../../styles/styles';
 import Button from '../../components/Button';
 import ButtonList from '../../components/ButtonList';
@@ -19,8 +19,19 @@ import Separator from '../../components/Separator';
  */
 export function TapMenu({navigation}) {
   const [activeUser, loadActive] = useState(0);
+  const [userTaps, setUserTaps] = useState('');
   const [shouldRefresh, setRefresh] = useState(false);
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      refreshData();
+    }, 500);
+  }, []);
 
   /**
    * Método para forzar la actualización de variables.
@@ -40,59 +51,23 @@ export function TapMenu({navigation}) {
     };
     fetchData()
         .catch(console.error);
-  }, [activeUser, shouldRefresh]);
+  }, [activeUser, shouldRefresh, refreshing]);
 
   const user = JSON.parse(activeUser);
   const defaultTaps = require('../../content/DefaultTaps.json');
 
-  const createTap = async () => {
-    const userChange = await setTap(user.email, {
-      taps: {
-        data: [
-          {
-            key: 1,
-            text: '¿Qué hacemos?',
-          },
-          {
-            key: 2,
-            text: 'Familia',
-          },
-          {
-            key: 3,
-            text: 'Quiniela',
-            options: [
-              {
-                text: '0',
-                color: 'blue',
-              },
-              {
-                text: 'X',
-                color: 'gray',
-              },
-              {
-                text: '1',
-                color: 'red',
-              },
-            ],
-          },
-        ],
-      },
-    });
-    const modified = await AsyncStorage.getItem(user.email);
-    setActive(JSON.parse(modified));
-    console.log(JSON.parse(modified).taps.data[2]);
-    refreshData();
-    navigation.navigate('TapMaker');
-  };
-
   if (activeUser !== '{}') {
     return (
-      <ScrollView style={{backgroundColor: '#fff'}}>
+      <ScrollView style={{backgroundColor: '#fff'}}
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.blank_background}>
           <Separator>Taps de {user.name}</Separator>
-          <Button color={palette.gray} onPress={() => createTap()} label={'+'}/>
+          <Button color={palette.gray} onPress={() => navigation.navigate('TapMaker')} label={'+'}/>
           <ScrollView style={{marginTop: 50}}>
-            <TapList navigation={navigation}>{JSON.stringify(user.taps)}</TapList>
+            <TapList navigation={navigation} removable={true}>{JSON.stringify(user.taps)}</TapList>
             <Separator>Taps de Gajom</Separator>
             <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
           </ScrollView>
@@ -114,3 +89,4 @@ export function TapMenu({navigation}) {
     );
   }
 }
+

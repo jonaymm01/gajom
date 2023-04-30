@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
 import {styles, palette} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
@@ -16,6 +16,8 @@ import {setActive} from '../../_helpers/storage';
 export function TapMaker({route, navigation}) {
   const [activeUser, loadActive] = useState(0);
   const [shouldRefresh, setRefresh] = useState(false);
+  const [modalName, setModalName] = useState(false);
+
 
   /**
    * Método para forzar la actualización de variables.
@@ -55,13 +57,14 @@ export function TapMaker({route, navigation}) {
   const [arrow, setArrow] = useState(['→', '', '', '']);
 
   const [colorsOff, setColorOff] = useState(['']);
+  const [defOpts, setDefOpts] = useState(['']);
 
   const colorButtons = () => {
     const colors = [
       'red', 'blue', 'green', 'yellow',
     ];
     const colorsOn = colors.filter((x) => !colorsOff.includes(x));
-    const output = colorsOn.map((color) => <TouchableOpacity style={[styles.button, {backgroundColor: color}]} onPress={() => setColor(color)}/>);
+    const output = colorsOn.map((color, index) => <TouchableOpacity key={index} style={[styles.button, {backgroundColor: color}]} onPress={() => setColor(color)}/>);
     return output;
   };
 
@@ -92,6 +95,27 @@ export function TapMaker({route, navigation}) {
   useEffect(() => {
     setColorOff([opt1Color, opt2Color, opt3Color, opt4Color]);
   }, [opt1Color, opt2Color, opt3Color, opt4Color]);
+
+  useEffect(() => {
+    setDefOpts([
+      {
+        'text': opt1Text,
+        'color': opt1Color,
+      },
+      {
+        'text': opt2Text,
+        'color': opt2Color,
+      },
+      {
+        'text': opt3Text,
+        'color': opt3Color,
+      },
+      {
+        'text': opt4Text,
+        'color': opt4Color,
+      },
+    ]);
+  }, [opt1Color, opt2Color, opt3Color, opt4Color, opt1Text, opt2Text, opt3Text, opt4Text]);
 
   const tapOptions = [
     <Text style={[tapPreview.option, {backgroundColor: opt1Color}]}> {opt1Text} </Text>,
@@ -151,17 +175,68 @@ export function TapMaker({route, navigation}) {
 
   /**
    * Guarda el TAP creado
+   * @param {JSON} value
    */
-  const saveTap = async () => {
-    addTap(user.email, 'New', {});
+  const saveTap = async (value) => {
+    for (let i = 0; i < 4; i++) {
+    }
+    const defOptsFiltered = defOpts.filter((opt) => (opt.text.length > 0 || opt.color.length > 0));
+    await addTap(user.email, value.name, defOptsFiltered);
     const modified = await AsyncStorage.getItem(user.email);
     setActive(JSON.parse(modified));
-    refreshData();
-    navigation.navigate('TapMaker');
+    navigation.navigate('TapMenu');
   };
 
   return (
     <View style={styles.blank_background}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalName}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalName(!modalName);
+        }}>
+        <View style={modalStyles.centeredView}>
+          <View style={modalStyles.modalView}>
+            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Nombre del TAP</Text>
+            <Controller
+              name="name"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: {value: true, message: 'Escribe tu nombre'},
+              }}
+              render={({field: {onChange, value}}) => (
+                <Input
+                  error={errors.name}
+                  errorText={errors?.name?.message}
+                  onChangeText={(text) => onChange(text)}
+                  value={value}
+                  placeholder='Nombre'
+                />
+              )}
+            />
+            <Pressable
+              style={[modalStyles.button, modalStyles.buttonSave, {marginTop: 50}]}
+              onPress={() => {
+                handleSubmit(saveTap)();
+                setModalName(!modalName);
+              }}
+            >
+              <Text style={modalStyles.textStyle}>Guardar TAP</Text>
+            </Pressable>
+            <Pressable
+              style={[modalStyles.button, modalStyles.buttonClose, {marginTop: 10}]}
+              onPress={() => {
+                setModalName(!modalName);
+              }}
+            >
+              <Text style={modalStyles.textStyle}>Cancelar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
         <Pressable
           style={tapMaker.backButton}
@@ -241,7 +316,7 @@ export function TapMaker({route, navigation}) {
             <Text style={[styles.button_text, {lineHeight: 70}]}>DESCARTAR</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => saveTap()}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => setModalName(!modalName)}>
           <View style={styles.button_container}>
             <Text style={[styles.button_text, {lineHeight: 70}]}>CONFIRMAR</Text>
           </View>
@@ -296,5 +371,57 @@ const tapMaker = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     lineHeight: 30,
+  },
+});
+
+const modalStyles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    backgroundColor: 'white',
+    borderColor: '#763CAD',
+    borderWidth: 10,
+    borderRadius: 10,
+    padding: 40,
+    height: 500,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 10,
+  },
+  button: {
+    borderRadius: 10,
+    width: 200,
+    height: 80,
+    elevation: 10,
+  },
+  buttonSave: {
+    backgroundColor: palette.violet,
+  },
+  buttonClose: {
+    backgroundColor: palette.gray,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight: 80,
+    fontSize: 30,
+  },
+  modalText: {
+    marginBottom: 40,
+    textAlign: 'center',
+    fontSize: 24,
+    marginTop: 20,
+    fontWeight: 'bold',
   },
 });

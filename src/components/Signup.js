@@ -15,7 +15,8 @@ import {styles, palette} from '../styles/styles';
  * @return {JSX.Element}
  */
 export function SignUp({navigation}) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalWarning, setModalWarning] = useState(false);
+  const [modalSigned, setModalSigned] = useState(false);
   const onPressLogin = () => navigation.navigate('Login');
 
   const {handleSubmit, control, formState: {errors}} = useForm();
@@ -23,8 +24,11 @@ export function SignUp({navigation}) {
   const onSubmit = async (value) => {
     const user = await AsyncStorage.getItem(value.email);
     if (user) {
-      {setModalVisible(true);};
-    } else await setUser(value);
+      setModalWarning(true);
+    } else {
+      await setUser(value);
+      setModalSigned(true);
+    };
   };
 
   return (
@@ -33,20 +37,50 @@ export function SignUp({navigation}) {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={modalWarning}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
+          setModalWarning(!modalWarning);
         }}>
         <View style={modalStyles.centeredView}>
-          <View style={modalStyles.modalView}>
+          <View style={[modalStyles.modalView, modalStyles.borderWarning]}>
             <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
             <Text style={modalStyles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
             <Pressable
-              style={[modalStyles.button, modalStyles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              style={[modalStyles.button, modalStyles.redBackground]}
+              onPress={() => setModalWarning(!modalWarning)}>
               <Text style={modalStyles.textStyle}>¡Entendido!</Text>
             </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalSigned}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalSigned(!modalSigned);
+        }}>
+        <View style={modalStyles.centeredView}>
+          <View style={[modalStyles.modalView, modalStyles.borderSigned]}>
+            <Text style={modalStyles.modalText}>¡Bienvenido!</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={[modalStyles.button, modalStyles.grayBackground]}
+                onPress={() => setModalSigned(!modalSigned)}>
+                <Text style={modalStyles.textStyle}>Cerrar</Text>
+              </Pressable>
+              <Pressable
+                style={[modalStyles.button, modalStyles.violetBackground]}
+                onPress={() => {
+                  navigation.navigate('Login');
+                  setModalSigned(!modalSigned);
+                }}>
+                <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>
@@ -153,10 +187,10 @@ const modalStyles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: 'white',
-    borderColor: '#ed1c24',
-    borderWidth: 10,
+    borderWidth: 4,
     borderRadius: 10,
-    padding: 30,
+    padding: 20,
+    width: 350,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -167,24 +201,37 @@ const modalStyles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 10,
   },
+  borderWarning: {
+    borderColor: '#ed1c24',
+  },
+  borderSigned: {
+    borderColor: palette.violet,
+  },
   button: {
     borderRadius: 10,
-    width: 200,
+    width: 150,
     height: 80,
     elevation: 10,
+    margin: 5,
   },
   buttonOpen: {
     backgroundColor: palette.violet,
   },
-  buttonClose: {
+  redBackground: {
     backgroundColor: '#ed1c24',
+  },
+  violetBackground: {
+    backgroundColor: palette.violet,
+  },
+  grayBackground: {
+    backgroundColor: palette.gray,
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 30,
+    fontSize: 20,
   },
   modalText: {
     marginBottom: 40,

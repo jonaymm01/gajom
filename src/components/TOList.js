@@ -16,8 +16,8 @@ export default function TOList({...props}) {
     Speech.speak(text);
   };
 
-  const taplist = props.list.map((tap) =>
-    <TouchableOpacity style={[styles.button, {backgroundColor: tap.color}]} onPress={()=>speak(tap.text)}>
+  const taplist = props.list.map((tap, index) =>
+    <TouchableOpacity key={index} style={[styles.button, {backgroundColor: tap.color}]} onPress={()=>speak(tap.text)}>
       <View style={styles.button_container}>
         <Text style={talkerStyles.button_text}> {tap.text} </Text>
       </View>

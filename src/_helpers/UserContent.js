@@ -29,29 +29,47 @@ export const getTaps = async (email) => {
 };
 
 export const addTap = async (email, name, options) => {
+  let taps = [];
   await AsyncStorage.getItem(email).then((user) => {
-    const taps = JSON.parse(user).taps.data;
-    taps.push(
-        {
-          'key': 0,
-          'text': name,
-          'options': options,
-        },
-    );
+    taps = JSON.parse(user).taps.data;
+    const newTap = {
+      'key': 0,
+      'text': name,
+      'options': options,
+    };
+    taps.push(newTap);
   });
+  const newData = {
+    taps: {
+      data: taps,
+    },
+  };
+  await AsyncStorage.mergeItem(email, JSON.stringify(newData));
 };
 
 
-/**
- * Método para eliminar un tap del usuario
- * @param {*} value
- */
-export const delTap = async (value) => {
-  const email = value.email;
-  try {
-    await AsyncStorage.setItem(email, JSON.stringify(value));
-    console.log('Se ha registrado el usuario', value.name);
-  } catch (error) {
-    console.log(error);
-  }
+export const delTap = async (email, name, options) => {
+  let taps = [];
+  await AsyncStorage.getItem(email).then((user) => {
+    taps = JSON.parse(user).taps.data;
+    const deletedTap = {
+      'key': 0,
+      'name': name,
+      'options': options,
+    };
+    console.log('Eliminado TAP: ', deletedTap.name);
+    for (let i = 0; i < taps.length; i++) {
+      const obj = taps[i];
+      if ((obj.name !== name) && (obj.options !== options)) {
+        taps.splice(i, 1);
+      }
+    }
+  });
+  const newData = {
+    taps: {
+      data: taps,
+    },
+  };
+  await AsyncStorage.mergeItem(email, JSON.stringify(newData));
+  const user = await AsyncStorage.getItem(email);
 };
