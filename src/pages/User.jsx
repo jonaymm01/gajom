@@ -88,6 +88,12 @@ export function User({navigation}) {
     const modified = await AsyncStorage.getItem(active.email);
     await setActive(JSON.parse(modified));
     console.log('Se ha cambiado la contraseña de', active.password, ' por: ', value.password2);
+    Alert.alert('¡Hecho!', 'Se ha cambiado correctamente la contraseña.', [
+      {text: 'OK'},
+    ],
+    {
+      cancelable: true,
+    });
     console.log(modified);
     refreshData();
   };
@@ -101,6 +107,7 @@ export function User({navigation}) {
     await AsyncStorage.removeItem(active.email);
     await setActive(null);
     console.log('Se ha eliminado el usuario ', active.email);
+    refreshData();
     navigation.navigate('Login');
   };
 
@@ -112,6 +119,7 @@ export function User({navigation}) {
     const active = JSON.parse(activeUser);
     await setActive(null);
     console.log('El usuario ', active.email, ' ha cerrado sesión');
+    refreshData();
     navigation.navigate('Login');
   };
 

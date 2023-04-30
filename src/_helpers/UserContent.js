@@ -31,7 +31,11 @@ export const getTaps = async (email) => {
 export const addTap = async (email, name, options) => {
   let taps = [];
   await AsyncStorage.getItem(email).then((user) => {
-    taps = JSON.parse(user).taps.data;
+    console.log(user);
+    console.log(typeof(JSON.parse(user).taps));
+    if (typeof(JSON.parse(user).taps) !== 'undefined') {
+      taps = JSON.parse(user).taps.data;
+    }
     const newTap = {
       'key': 0,
       'text': name,
