@@ -45,10 +45,10 @@ export function TapMaker({route, navigation}) {
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
   const [opt, setOpt] = useState(1);
-  const [opt1Text, setText1] = useState('');
-  const [opt2Text, setText2] = useState('');
-  const [opt3Text, setText3] = useState('');
-  const [opt4Text, setText4] = useState('');
+  const [opt1Text, setText1] = useState('Opción 1');
+  const [opt2Text, setText2] = useState('Opción 2');
+  const [opt3Text, setText3] = useState('Opción 3');
+  const [opt4Text, setText4] = useState('Opción 4');
 
   const [opt1Color, setColor1] = useState('blue');
   const [opt2Color, setColor2] = useState('yellow');
@@ -62,6 +62,16 @@ export function TapMaker({route, navigation}) {
   const [defOpts, setDefOpts] = useState(['']);
 
   const [tapName, setTapName] = useState('');
+
+  const [showText, setShowText] = useState(true);
+
+  useEffect(() => {
+    // Change the state every second or the time given by User.
+    const interval = setInterval(() => {
+      setShowText((showText) => !showText);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   const colorButtons = () => {
     const colors = [
@@ -133,17 +143,17 @@ export function TapMaker({route, navigation}) {
   ];
 
   const arrows = [
-    <Text style={[tapPreview.arrow]}> {arrow[0]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow[1]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow[2]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow[3]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[0]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[1]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[2]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[3]} </Text>,
   ];
 
   const arrows2 = [
-    <Text style={[tapPreview.arrow]}> {arrow2[0]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow2[1]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow2[2]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow2[3]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[0]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[1]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[2]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[3]} </Text>,
   ];
 
   /**
@@ -289,7 +299,7 @@ export function TapMaker({route, navigation}) {
             >
               <Text style={tapMaker.loadText}> ← </Text>
             </Pressable>
-            <Text style={[styles.title, {margin: 10}]}>Editando Opción {opt}</Text>
+            <Text style={[styles.title, {margin: 10}]}>Opción {opt}</Text>
             <Pressable
               style={tapMaker.nextButton}
               onPress={() => {
@@ -371,12 +381,14 @@ const tapPreview = StyleSheet.create({
     borderColor: '#000',
     borderWidth: 2,
     borderStyle: 'dashed',
+    width: 120,
+    textAlign: 'center',
   },
   arrow: {
     color: '#000',
     backgroundColor: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 30,
     padding: 5,
   },
 });
