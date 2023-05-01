@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform} from 'react-native';
 import {styles, palette} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import {setTap, getTaps, addTap} from '../../_helpers/UserContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setActive} from '../../_helpers/storage';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 
 /**
@@ -41,23 +42,36 @@ export function TapMaker({route, navigation}) {
 
   const user = JSON.parse(activeUser);
 
-  const {handleSubmit, control, formState: {errors}, getValues} = useForm();
+  const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
   const [opt, setOpt] = useState(1);
-  const [opt1Text, setText1] = useState('');
-  const [opt2Text, setText2] = useState('');
-  const [opt3Text, setText3] = useState('');
-  const [opt4Text, setText4] = useState('');
+  const [opt1Text, setText1] = useState('Opción 1');
+  const [opt2Text, setText2] = useState('Opción 2');
+  const [opt3Text, setText3] = useState('Opción 3');
+  const [opt4Text, setText4] = useState('Opción 4');
 
-  const [opt1Color, setColor1] = useState('');
-  const [opt2Color, setColor2] = useState('');
-  const [opt3Color, setColor3] = useState('');
-  const [opt4Color, setColor4] = useState('');
+  const [opt1Color, setColor1] = useState('blue');
+  const [opt2Color, setColor2] = useState('yellow');
+  const [opt3Color, setColor3] = useState('red');
+  const [opt4Color, setColor4] = useState('green');
 
   const [arrow, setArrow] = useState(['→', '', '', '']);
+  const [arrow2, setArrow2] = useState(['←', '', '', '']);
 
   const [colorsOff, setColorOff] = useState(['']);
   const [defOpts, setDefOpts] = useState(['']);
+
+  const [tapName, setTapName] = useState('');
+
+  const [showText, setShowText] = useState(true);
+
+  useEffect(() => {
+    // Change the state every second or the time given by User.
+    const interval = setInterval(() => {
+      setShowText((showText) => !showText);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   const colorButtons = () => {
     const colors = [
@@ -75,15 +89,19 @@ export function TapMaker({route, navigation}) {
     switch (opt) {
       case 1:
         setArrow(['→', '', '', '']);
+        setArrow2(['←', '', '', '']);
         break;
       case 2:
         setArrow(['', '→', '', '']);
+        setArrow2(['', '←', '', '']);
         break;
       case 3:
         setArrow(['', '', '→', '']);
+        setArrow2(['', '', '←', '']);
         break;
       case 4:
         setArrow(['', '', '', '→']);
+        setArrow2(['', '', '', '←']);
         break;
     }
   };
@@ -125,10 +143,17 @@ export function TapMaker({route, navigation}) {
   ];
 
   const arrows = [
-    <Text style={[tapPreview.arrow]}> {arrow[0]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow[1]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow[2]} </Text>,
-    <Text style={[tapPreview.arrow]}> {arrow[3]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[0]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[1]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[2]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[3]} </Text>,
+  ];
+
+  const arrows2 = [
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[0]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[1]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[2]} </Text>,
+    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[3]} </Text>,
   ];
 
   /**
@@ -177,152 +202,170 @@ export function TapMaker({route, navigation}) {
    * Guarda el TAP creado
    * @param {JSON} value
    */
-  const saveTap = async (value) => {
-    for (let i = 0; i < 4; i++) {
-    }
+  const saveTap = async () => {
     const defOptsFiltered = defOpts.filter((opt) => (opt.text.length > 0 || opt.color.length > 0));
-    await addTap(user.email, value.name, defOptsFiltered);
+    await addTap(user.email, tapName, defOptsFiltered);
     const modified = await AsyncStorage.getItem(user.email);
     setActive(JSON.parse(modified));
     navigation.navigate('TapMenu');
   };
 
   return (
-    <View style={styles.blank_background}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalName}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalName(!modalName);
-        }}>
-        <View style={modalStyles.centeredView}>
-          <View style={modalStyles.modalView}>
-            <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Nombre del TAP</Text>
-            <Controller
-              name="name"
-              defaultValue=""
-              control={control}
-              rules={{
-                required: {value: true, message: 'Escribe tu nombre'},
-              }}
-              render={({field: {onChange, value}}) => (
-                <Input
-                  error={errors.name}
-                  errorText={errors?.name?.message}
-                  onChangeText={(text) => onChange(text)}
-                  value={value}
-                  placeholder='Nombre'
-                />
-              )}
-            />
-            <Pressable
-              style={[modalStyles.button, modalStyles.buttonSave, {marginTop: 50}]}
-              onPress={() => {
-                handleSubmit(saveTap)();
-                setModalName(!modalName);
-              }}
-            >
-              <Text style={modalStyles.textStyle}>Guardar TAP</Text>
-            </Pressable>
-            <Pressable
-              style={[modalStyles.button, modalStyles.buttonClose, {marginTop: 10}]}
-              onPress={() => {
-                setModalName(!modalName);
-              }}
-            >
-              <Text style={modalStyles.textStyle}>Cancelar</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-      <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-        <Pressable
-          style={tapMaker.backButton}
-          onPress={() => {
-            if (opt > 1) {
-              setOpt(opt-1);
-            }
-          }}
-        >
-          <Text style={tapMaker.loadText}> ← </Text>
-        </Pressable>
-        <View style={{alignItems: 'center', marginTop: 20}}>
-          <Controller
-            name="opt1"
-            defaultValue=""
-            control={control}
-            rules={{
-              required: {value: true, message: 'Escribe una opción'},
-            }}
-            render={({field: {onChange, value}}) => (
-              <Input
-                error={errors.name}
-                errorText={errors?.name?.message}
-                onChangeText={(text) => {
-                  setText(text);
-                  onChange(text);
-                }}
-                value={value}
-                placeholder={'Escribe una palabra'}
-              />
-            )}
-          />
-        </View>
-        <Pressable
-          style={tapMaker.nextButton}
-          onPress={() => {
-            if (opt < 4) {
-              setOpt(opt+1);
-            }
-          }}
-        >
-          <Text style={tapMaker.loadText}> → </Text>
-        </Pressable>
-      </View>
-
-      <View style={[styles.container, {flexDirection: 'row', flex: 1}]}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.blank_background}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <>
-          {colorButtons()}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalName}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setModalName(!modalName);
+            }}>
+            <View style={modalStyles.centeredView}>
+              <View style={modalStyles.modalView}>
+                <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Nombre del TAP</Text>
+                <Controller
+                  name="name"
+                  defaultValue=""
+                  control={control}
+                  rules={{
+                    required: {value: true, message: 'Escribe tu nombre'},
+                  }}
+                  render={({field: {onChange, value}}) => (
+                    <Input
+                      error={errors.name}
+                      errorText={errors?.name?.message}
+                      onChangeText={(text) => {
+                        setTapName(text);
+                        onChange(text);
+                      }
+                      }
+                      value={value}
+                      placeholder='Nombre'
+                    />
+                  )}
+                />
+                <Pressable
+                  style={[modalStyles.button, modalStyles.buttonSave, {marginTop: 50}]}
+                  onPress={() => {
+                    saveTap();
+                    setModalName(!modalName);
+                  }}
+                >
+                  <Text style={modalStyles.textStyle}>Guardar TAP</Text>
+                </Pressable>
+                <Pressable
+                  style={[modalStyles.button, modalStyles.buttonClose, {marginTop: 10}]}
+                  onPress={() => {
+                    setModalName(!modalName);
+                  }}
+                >
+                  <Text style={modalStyles.textStyle}>Cancelar</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+
+          <View style={{flexDirection: 'row', flex: 6, alignItems: 'center'}}>
+            <View style={{alignContent: 'center', justifyContent: 'center'}}>
+              <>
+                {arrows}
+              </>
+            </View>
+            <View style={{alignContent: 'center', justifyContent: 'center'}}>
+              <>
+                {tapOptions}
+              </>
+            </View>
+            <View style={{alignContent: 'center', justifyContent: 'center'}}>
+              <>
+                {arrows2}
+              </>
+            </View>
+          </View>
+
+          <View style={{flexDirection: 'row'}}>
+            <Pressable
+              style={tapMaker.backButton}
+              onPress={() => {
+                if (opt > 1) {
+                  setOpt(opt-1);
+                  resetField('opt');
+                }
+              }}
+            >
+              <Text style={tapMaker.loadText}> ← </Text>
+            </Pressable>
+            <Text style={[styles.title, {margin: 10}]}>Opción {opt}</Text>
+            <Pressable
+              style={tapMaker.nextButton}
+              onPress={() => {
+                if (opt < 4) {
+                  setOpt(opt+1);
+                }
+                resetField('opt');
+              }}
+            >
+              <Text style={tapMaker.loadText}> → </Text>
+            </Pressable>
+          </View>
+
+          <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{alignItems: 'center', marginTop: 20}}>
+              <Controller
+                name="opt"
+                defaultValue=""
+                control={control}
+                rules={{
+                  required: {value: true, message: 'Escribe una opción'},
+                }}
+                render={({field: {onChange, value}}) => (
+                  <Input
+                    error={errors.name}
+                    errorText={errors?.name?.message}
+                    onChangeText={(text) => {
+                      setText(text);
+                      onChange(text);
+                    }}
+                    value={value}
+                    placeholder={`Escribe aquí la ${opt}ª palabra`}
+                  />
+                )}
+              />
+            </View>
+          </View>
+
+          <View style={[styles.container, {flexDirection: 'row', flex: 1}]}>
+            <>
+              {colorButtons()}
+            </>
+          </View>
+          <View style={[styles.container, {flexDirection: 'row', flex: 1}]}>
+            <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => setColor('white')}>
+              <View style={styles.button_container}>
+                <Text style={{alignSelf: 'center', backgroundColor: palette.gray, color: '#fff', fontWeight: 'bold'}}> Extraer color </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
+            <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
+              <View style={styles.button_container}>
+                <Text style={[styles.button_text, {lineHeight: 70}]}>DESCARTAR</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => setModalName(!modalName)}>
+              <View style={styles.button_container}>
+                <Text style={[styles.button_text, {lineHeight: 70}]}>TERMINAR</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </>
-      </View>
-
-      <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => setColor('white')}>
-          <View style={styles.button_container}>
-            <Text style={tapPreview.option}> Borrar color </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{flexDirection: 'row', flex: 6}}>
-        <View style={{alignContent: 'center', justifyContent: 'center'}}>
-          <>
-            {arrows}
-          </>
-        </View>
-        <View style={{alignContent: 'center', justifyContent: 'center'}}>
-          <>
-            {tapOptions}
-          </>
-        </View>
-      </View>
-
-
-      <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
-          <View style={styles.button_container}>
-            <Text style={[styles.button_text, {lineHeight: 70}]}>DESCARTAR</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => setModalName(!modalName)}>
-          <View style={styles.button_container}>
-            <Text style={[styles.button_text, {lineHeight: 70}]}>CONFIRMAR</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -335,12 +378,17 @@ const tapPreview = StyleSheet.create({
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 5,
     padding: 10,
+    borderColor: '#000',
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    width: 120,
+    textAlign: 'center',
   },
   arrow: {
     color: '#000',
     backgroundColor: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 30,
     padding: 5,
   },
 });
@@ -354,7 +402,7 @@ const tapMaker = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    marginLeft: 10,
+    marginLeft: 20,
   },
   backButton: {
     backgroundColor: palette.violet,
@@ -364,7 +412,7 @@ const tapMaker = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    marginRight: 10,
+    marginRight: 20,
   },
   loadText: {
     color: '#fff',

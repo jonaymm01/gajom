@@ -56,7 +56,7 @@ export function TapMenu({navigation}) {
   const user = JSON.parse(activeUser);
   const defaultTaps = require('../../content/DefaultTaps.json');
 
-  if (activeUser !== '{}') {
+  if ((activeUser !== '{}')) {
     return (
       <ScrollView style={{backgroundColor: '#fff'}}
         contentContainerStyle={styles.scrollView}
