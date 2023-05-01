@@ -4,6 +4,15 @@ import React, {useState} from 'react';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
 import {styles, palette} from '../styles/styles';
 import {DefaultPictos} from '../content/DefaultPictos';
+import * as Speech from 'expo-speech';
+
+/**
+   * Método para reproducir el texto de un Pictograma
+   * @param {string} text
+   */
+const speak = (text) => {
+  Speech.speak(text);
+};
 
 /**
  * Componente: Botón.
@@ -11,12 +20,10 @@ import {DefaultPictos} from '../content/DefaultPictos';
  * @return {JSX.Element}
  */
 export default function Pictogram({...props}) {
-  const img = DefaultPictos.data.categories[0].content[0].img;
-  const text = DefaultPictos.data.categories[0].content[0].text;
   return (
-    <TouchableOpacity style={[pictoStyles.base]}>
-      <Text style={pictoStyles.text}>{text}</Text>
-      <Image source={img} resizeMode='contain' style={pictoStyles.img} />
+    <TouchableOpacity style={[pictoStyles.base]} onPress={() => speak(props.text)}>
+      <Text style={pictoStyles.text}>{props.text}</Text>
+      <Image source={props.img} resizeMode='contain' style={pictoStyles.img} />
     </TouchableOpacity>
   );
 }

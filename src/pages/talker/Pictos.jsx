@@ -1,6 +1,7 @@
-import {Text, View} from 'react-native';
+import {Text, View, ScrollView} from 'react-native';
 import {styles} from '../../styles/styles';
-import Pictogram from '../../components/Pictogram';
+import PictoList from '../../components/PictoList';
+import {DefaultPictos} from '../../content/DefaultPictos';
 
 
 /**
@@ -8,12 +9,12 @@ import Pictogram from '../../components/Pictogram';
  * @return {JSX.Element}
  */
 export function Pictos() {
-  const text='Comer';
-  const img='../../assets/pictos/comer.png';
-
   return (
-    <View style={styles.blank_background}>
-      <Pictogram text={text} img={img}/>
-    </View>
+    <ScrollView>
+      <View style={styles.blank_background}>
+        <PictoList list={DefaultPictos.data.categories[0].content}/>
+      </View>
+    </ScrollView>
+
   );
 }

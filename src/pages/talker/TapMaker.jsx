@@ -136,24 +136,24 @@ export function TapMaker({route, navigation}) {
   }, [opt1Color, opt2Color, opt3Color, opt4Color, opt1Text, opt2Text, opt3Text, opt4Text]);
 
   const tapOptions = [
-    <Text style={[tapPreview.option, {backgroundColor: opt1Color}]}> {opt1Text} </Text>,
-    <Text style={[tapPreview.option, {backgroundColor: opt2Color}]}> {opt2Text} </Text>,
-    <Text style={[tapPreview.option, {backgroundColor: opt3Color}]}> {opt3Text} </Text>,
-    <Text style={[tapPreview.option, {backgroundColor: opt4Color}]}> {opt4Text} </Text>,
+    <Text key={1} style={[tapPreview.option, {backgroundColor: opt1Color}]}> {opt1Text} </Text>,
+    <Text key={2} style={[tapPreview.option, {backgroundColor: opt2Color}]}> {opt2Text} </Text>,
+    <Text key={3} style={[tapPreview.option, {backgroundColor: opt3Color}]}> {opt3Text} </Text>,
+    <Text key={4} style={[tapPreview.option, {backgroundColor: opt4Color}]}> {opt4Text} </Text>,
   ];
 
   const arrows = [
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[0]} </Text>,
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[1]} </Text>,
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[2]} </Text>,
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[3]} </Text>,
+    <Text key={1} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[0]} </Text>,
+    <Text key={2} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[1]} </Text>,
+    <Text key={3} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[2]} </Text>,
+    <Text key={4} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow[3]} </Text>,
   ];
 
   const arrows2 = [
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[0]} </Text>,
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[1]} </Text>,
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[2]} </Text>,
-    <Text style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[3]} </Text>,
+    <Text key={1} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[0]} </Text>,
+    <Text key={2} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[1]} </Text>,
+    <Text key={3} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[2]} </Text>,
+    <Text key={4} style={[tapPreview.arrow, {display: showText ? 'none' : 'flex'}]}> {arrow2[3]} </Text>,
   ];
 
   /**
