@@ -7,19 +7,19 @@ export const DefaultPictos = {
           'content': [
             {
               'text': 'Comer',
-              'img': require('../../assets/pictos/comer.png'),
+              'img': require('../../assets/pictos/necesidades/comer.png'),
             },
             {
               'text': 'Beber',
-              'img': require('../../assets/pictos/comer.png'),
+              'img': require('../../assets/pictos/necesidades/beber.png'),
             },
             {
-              'text': 'Beber',
-              'img': require('../../assets/pictos/comer.png'),
+              'text': 'Ducha',
+              'img': require('../../assets/pictos/necesidades/ducha.png'),
             },
             {
-              'text': 'Beber',
-              'img': require('../../assets/pictos/comer.png'),
+              'text': 'Orinar',
+              'img': require('../../assets/pictos/necesidades/orinar.png'),
             },
           ],
         },
@@ -28,19 +28,19 @@ export const DefaultPictos = {
           'content': [
             {
               'text': 'Casa',
-              'img': require('../../assets/pictos/comer.png'),
+              'img': require('../../assets/pictos/lugares/casa.png'),
             },
             {
               'text': 'Hospital',
-              'img': require('../../assets/pictos/comer.png'),
+              'img': require('../../assets/pictos/lugares/hospital.png'),
             },
             {
-              'text': 'Parque',
-              'img': require('../../assets/pictos/comer.png'),
+              'text': 'Calle',
+              'img': require('../../assets/pictos/lugares/calle.png'),
             },
             {
               'text': 'Iglesia',
-              'img': require('../../assets/pictos/comer.png'),
+              'img': require('../../assets/pictos/lugares/iglesia.png'),
             },
           ],
         },

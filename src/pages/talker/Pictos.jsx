@@ -20,8 +20,6 @@ export function Pictos() {
   };
 
   useEffect(() => {
-    console.log(catList);
-    console.log('category:', category);
     const selectedCat = catList.find((cat) => cat.name === category);
     setContent(selectedCat.content);
   }, [category]);
@@ -32,17 +30,16 @@ export function Pictos() {
 
   return (
     <>
-      <View>
+      <View style={{backgroundColor: '#fff'}}>
         <Picker
           style={pickerStyles.picker}
-          mode='dropdown'
-          dropdownIconColor={palette.violet}
+          dropdownIconColor={'#fff'}
           selectedValue={category}
           onValueChange={(itemValue, itemIndex) =>
             setCategory(itemValue)
           }>
-          <Picker.Item label={'Necesidades'} value={'Necesidades'} />
-          <Picker.Item label={'Lugares'} value={'Lugares'} />
+          <Picker.Item style={pickerStyles.pickerOption} label={'❯ Necesidades'} value={'Necesidades'} />
+          <Picker.Item style={pickerStyles.pickerOption} label={'❯ Lugares'} value={'Lugares'} />
         </Picker>
       </View>
       <ScrollView>
@@ -62,10 +59,15 @@ const pickerStyles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   picker: {
-    backgroundColor: '#fff',
+    backgroundColor: palette.violet,
+    height: 100,
+    margin: 10,
+    color: '#fff',
+    elevation: 10,
+    fontSize: 20,
   },
   pickerOption: {
-    fontSize: 40,
-    alignSelf: 'center',
+    fontSize: 25,
+    color: palette.violet,
   },
 });
