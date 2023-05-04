@@ -85,6 +85,7 @@ export function Questions() {
   const finalQuestion = startWord + ' ' + end;
   result =
       <View style={{marginBottom: 60, marginTop: 60, alignItems: 'center'}}>
+        <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? 'Pulsa para escuchar el resultado' : ''}</Text>
         <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
           speak(finalQuestion);
         }}>
@@ -92,7 +93,6 @@ export function Questions() {
             <Text style={questionStyles.buttonText}> {finalQuestion} </Text>
           </View>
         </TouchableOpacity>
-        <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? '(Pulsa para escuchar el resultado)' : ''}</Text>
       </View>;
 
   return (
@@ -105,6 +105,7 @@ export function Questions() {
           <>
             {backButton}
           </>
+          <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center'}]}>{isStart ? 'Construye tu pregunta' : ''}</Text>
         </View>
         <ScrollView style={{flex: 3}}>
           {buttons}
