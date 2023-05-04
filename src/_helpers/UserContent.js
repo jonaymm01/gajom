@@ -61,10 +61,9 @@ export const delTap = async (email, name, options) => {
       'name': name,
       'options': options,
     };
-    console.log('Eliminado TAP: ', deletedTap.name);
     for (let i = 0; i < taps.length; i++) {
       const obj = taps[i];
-      if ((obj.name !== name) && (obj.options !== options)) {
+      if ((obj.text === name)) {
         taps.splice(i, 1);
       }
     }
