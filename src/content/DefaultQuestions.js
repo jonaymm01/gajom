@@ -15,6 +15,7 @@ export const DefaultQuestions = {
           'día es hoy?',
           'haremos hoy?',
           'está pasando?',
+          'hora es?',
         ],
       },
       {
@@ -22,6 +23,21 @@ export const DefaultQuestions = {
         ends: [
           'me puedo ir?',
           'vuelves?',
+          'puedo comer?',
+        ],
+      },
+      {
+        start: '¿Dónde',
+        ends: [
+          'estoy?',
+          'vamos?',
+        ],
+      },
+      {
+        start: '¿Quién',
+        ends: [
+          'vino?',
+          'eres?',
         ],
       },
     ],

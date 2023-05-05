@@ -33,8 +33,8 @@ export function Questions() {
 
   if (isStart) {
     const questions = DefaultQuestions.data.questions;
-    buttons = questions.map((question)=>
-      <TouchableOpacity style={[questionStyles.button]} onPress={() => {
+    buttons = questions.map((question, index)=>
+      <TouchableOpacity key={index} style={[questionStyles.button]} onPress={() => {
         markStart(false);
         setStartWord(question.start);
       }
@@ -47,8 +47,8 @@ export function Questions() {
   } else {
     const start = startWord;
     const questions = DefaultQuestions.data.questions.find((question) => question.start === start);
-    buttons = questions.ends.map((question)=>
-      <TouchableOpacity style={[questionStyles.button]} onPress={() => {
+    buttons = questions.ends.sort().map((question, index)=>
+      <TouchableOpacity key={index} style={[questionStyles.button]} onPress={() => {
         markStart(false);
         setEnd(question);
         markEnd(true);
@@ -82,9 +82,10 @@ export function Questions() {
       </View>;
   }
 
-  const finalQuestion = startWord + ' ' + end;
-  result =
-      <View style={{marginBottom: 60, marginTop: 60, alignItems: 'center'}}>
+  if (!isStart) {
+    const finalQuestion = startWord + ' ' + end;
+    result =
+      <View style={{marginBottom: 60, marginTop: 30, alignItems: 'center'}}>
         <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? 'Pulsa para escuchar el resultado' : ''}</Text>
         <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
           speak(finalQuestion);
@@ -94,12 +95,13 @@ export function Questions() {
           </View>
         </TouchableOpacity>
       </View>;
+  }
 
   return (
     <View style={styles.blank_background}>
-      <>
+      <View style={isStart ? {flex: 0} : {flex: 1}}>
         {result}
-      </>
+      </View>
       <View style={{flex: 2}}>
         <View style={{flexDirection: 'row', width: 300}}>
           <>
