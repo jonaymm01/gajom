@@ -32,11 +32,12 @@ export const getUser = async (value) => {
  * @return {boolean}
  */
 export const setActive = async (value) => {
-  if (value !== null) {
+  if ((value !== null) && (value !== '{}')) {
+    const userValue = JSON.parse(value);
     let pass; let ActiveUser;
     try {
-      await AsyncStorage.getItem(value.email).then((user) => {
-        if (value.password.localeCompare(JSON.parse(user).password) == 0) {
+      await AsyncStorage.getItem(userValue.email).then((user) => {
+        if (userValue.password.localeCompare(JSON.parse(user).password) == 0) {
           pass = true;
           ActiveUser = user;
         } else {
@@ -47,7 +48,7 @@ export const setActive = async (value) => {
         await AsyncStorage.setItem('active', ActiveUser).then(() => {
         });
       }
-      return pass;
+      return {pass: pass, user: ActiveUser};
     } catch (error) {
       console.log(error);
     }

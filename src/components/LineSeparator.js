@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import {palette} from '../styles/styles';
 
 /**
  * Componente: Separador en forma de línea horizontal
@@ -9,7 +10,7 @@ import {View} from 'react-native';
 export default function LineSeparator({label, ...props}) {
   return (
     <View style={{flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 50, marginBottom: 50}}>
-      <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      <View style={{flex: 1, height: 1, backgroundColor: palette.violet}} />
     </View>
   );
 }

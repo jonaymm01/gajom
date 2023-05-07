@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform} from 'react-native';
 import {styles, palette} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
@@ -6,40 +6,17 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import {setTap, getTaps, addTap} from '../../_helpers/UserContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {setActive} from '../../_helpers/storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
+import {UserContext} from '../../../global';
 
 /**
  * Método para renderizar página de Pictogramas.
  * @return {JSX.Element}
  */
 export function TapMaker({route, navigation}) {
-  const [activeUser, loadActive] = useState(0);
-  const [shouldRefresh, setRefresh] = useState(false);
+  const [activeUser, setUser] = useContext(UserContext);
   const [modalName, setModalName] = useState(false);
-
-
-  /**
-   * Método para forzar la actualización de variables.
-   */
-  function refreshData() {
-    setRefresh(!shouldRefresh);
-  }
-
-  /**
-   * Hook para recuperar la información del usuario activo.
-   */
-  useEffect(() => {
-    const fetchData = async () => {
-      await AsyncStorage.getItem('active')
-          .then(loadActive)
-          .catch((e) => {});
-    };
-    fetchData()
-        .catch(console.error);
-  }, [activeUser, shouldRefresh]);
-
   const user = JSON.parse(activeUser);
 
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
@@ -206,7 +183,7 @@ export function TapMaker({route, navigation}) {
     const defOptsFiltered = defOpts.filter((opt) => (opt.text.length > 0 || opt.color.length > 0));
     await addTap(user.email, tapName, defOptsFiltered);
     const modified = await AsyncStorage.getItem(user.email);
-    setActive(JSON.parse(modified));
+    setUser(modified);
     navigation.navigate('TapMenu');
   };
 

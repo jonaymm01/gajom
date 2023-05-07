@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserContext} from '../../global';
 
 import {setActive} from '../_helpers/storage';
 import Input from '../components/Input';
@@ -15,6 +16,8 @@ import {styles, palette} from '../styles/styles';
  * @return {JSX.Element}
  */
 export function Login({navigation}) {
+  const [activeUser, setUser] = useContext(UserContext);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const onPressSignup = () => navigation.navigate('Signup');
@@ -22,17 +25,18 @@ export function Login({navigation}) {
   const {handleSubmit, control, formState: {errors}} = useForm();
 
   const onSubmit = async (value) => {
-    await setActive(value).then((pass) => {
-      if (pass) {
+    await setActive(JSON.stringify(value)).then((pass) => {
+      if (pass?.pass) {
+        setUser(pass.user);
         console.log(value.email, 'ha iniciado sesión');
         navigation.navigate('User');
       } else {
         setModalVisible(true);
       }
     });
-    const keys = await AsyncStorage.getAllKeys();
+/*     const keys = await AsyncStorage.getAllKeys();
     const result = await AsyncStorage.multiGet(keys);
-    console.log(result);
+    console.log(result); */
   };
 
   return (

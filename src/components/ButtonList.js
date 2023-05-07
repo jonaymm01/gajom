@@ -1,10 +1,11 @@
-import React, {ReactNode, useState, useEffect} from 'react';
+import React, {ReactNode, useState, useEffect, useContext} from 'react';
 import Button from './Button';
 import {Pressable, View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {palette} from '../styles/styles';
 import {delTap} from '../_helpers/UserContent';
-import {setActive} from '../_helpers/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {UserContext} from '../../global';
 
 
 /**
@@ -12,29 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * @return {JSX.Element}
  */
 export default function ButtonList({...props}) {
-  const [activeUser, loadActive] = useState(0);
-  const [shouldRefresh, setRefresh] = useState(false);
-
-  /**
-   * Método para forzar la actualización de variables.
-   */
-  function refreshData() {
-    setRefresh(!shouldRefresh);
-  }
-
-  /**
-   * Hook para recuperar la información del usuario activo.
-   */
-  useEffect(() => {
-    const fetchData = async () => {
-      await AsyncStorage.getItem('active')
-          .then(loadActive)
-          .catch((e) => {});
-    };
-    fetchData()
-        .catch(console.error);
-  }, [activeUser, shouldRefresh]);
-
+  const [activeUser, setUser] = useContext(UserContext);
   const user = JSON.parse(activeUser);
 
   /**
@@ -59,7 +38,7 @@ export default function ButtonList({...props}) {
     await delTap(email, name, options);
     const modified = await AsyncStorage.getItem(user.email);
     console.log('Nuevo usuario activo (ButtonList):', modified);
-    setActive(JSON.parse(modified));
+    setUser(modified);
   };
 
   let buttonlist = [];

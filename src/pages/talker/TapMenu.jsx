@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Text, View, RefreshControl} from 'react-native';
 import {palette, styles} from '../../styles/styles';
 import Button from '../../components/Button';
@@ -13,61 +13,31 @@ import {data} from '../../content/DefaultTaps.json';
 import LineSeparator from '../../components/LineSeparator';
 import Separator from '../../components/Separator';
 
+import {UserContext} from '../../../global';
+
+
 /**
  * Método para renderizar página de Taps.
  * @return {JSX.Element}
  */
 export function TapMenu({navigation}) {
-  const [activeUser, loadActive] = useState(0);
+  const [user, setUser] = useContext(UserContext);
   const [userTaps, setUserTaps] = useState('');
   const [shouldRefresh, setRefresh] = useState(false);
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
 
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-      refreshData();
-    }, 500);
-  }, []);
-
-  /**
-   * Método para forzar la actualización de variables.
-   */
-  function refreshData() {
-    setRefresh(!shouldRefresh);
-  }
-
-  /**
-   * Hook para recuperar la información del usuario activo.
-   */
-  useEffect(() => {
-    const fetchData = async () => {
-      await AsyncStorage.getItem('active')
-          .then(loadActive)
-          .catch((e) => {});
-    };
-    fetchData()
-        .catch(console.error);
-  }, [activeUser, shouldRefresh, refreshing]);
-
-  const user = JSON.parse(activeUser);
   const defaultTaps = require('../../content/DefaultTaps.json');
 
-  if ((activeUser !== '{}')) {
+  if ((user !== '{}')) {
+    const activeUser = JSON.parse(user);
+
     return (
-      <ScrollView style={{backgroundColor: '#fff'}}
-        contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
+      <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={styles.blank_background}>
-          <Separator>Taps de {user.name}</Separator>
+          <Separator>Taps de {activeUser.name}</Separator>
           <Button color={palette.gray} onPress={() => navigation.navigate('TapMaker')} label={'+'}/>
           <ScrollView style={{marginTop: 50}}>
-            <TapList navigation={navigation} removable={true}>{JSON.stringify(user.taps)}</TapList>
+            <TapList navigation={navigation} removable={true}>{JSON.stringify(activeUser.taps)}</TapList>
             <Separator>Taps de Gajom</Separator>
             <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
           </ScrollView>
