@@ -15,8 +15,6 @@ const BottomTabNavigator = () => {
   const [activeRoute, setRoute] = useState('');
   const [activeUser, setUser] = useContext(UserContext);
   let user = '{}';
-  console.log(typeof(activeUser));
-  console.log('TabNavigator.js: ', activeUser);
   if (activeUser !== '{}') {
     user = JSON.parse(activeUser);
   }

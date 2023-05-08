@@ -13,7 +13,6 @@ const App = () => {
    */
   useEffect(() => {
     const fetchData = async () => {
-      console.log(typeof(user));
       await setActive(user).then((pass) => {
         if (pass?.pass) {
           setUser(pass.user);
