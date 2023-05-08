@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text, View, Image, TouchableOpacity, Linking} from 'react-native';
 import {styles, palette} from '../styles/styles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Método para renderizar la página de Inicio.
@@ -9,19 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * @return {JSX.Element}
  */
 export function Main({navigation}) {
-  const onPressSupport = () => navigation.navigate('Soporte');
-  const onPressUser = async () => {
-    try {
-      const user = await AsyncStorage.getItem('active');
-      if ((user == '{}' || user === null )) {
-        {navigation.navigate('Login');};
-      } else {
-        navigation.navigate('User');
-      };
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const onPressContact = () => navigation.navigate('Contact');
+  const onPressFQA = () => navigation.navigate('FQA');
 
   const logopedazoContent = `La afonia es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!`;
   const logopedazoUrl = 'https://es.wikipedia.org/wiki/Disfon%C3%ADa';
@@ -30,16 +18,16 @@ export function Main({navigation}) {
   return (
     <View style={[styles.container, {flexDirection: 'column', padding: 0}]}>
       <View style={[styles.container, {flexDirection: 'row', padding: 0}]}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderEndWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressSupport}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderEndWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressContact}>
           <View style={styles.button_container}>
-            <Text style={styles.button_text}>Centro de Ayuda</Text>
-            <Image source={require('../../assets/SupportImage.png')} resizeMode='contain' style={{flex: 1, marginBottom: 60}} />
+            <Text style={styles.button_text}>Contacto</Text>
+            <Image source={require('../../assets/contact_icon.png')} resizeMode='contain' style={{flex: 1, marginBottom: 80, width: 100}} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressUser}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressFQA}>
           <View style={styles.button_container}>
-            <Text style={styles.button_text}>Perfil</Text>
-            <Image source={require('../../assets/UserImage.png')} resizeMode='contain' style={{flex: 1, marginBottom: 60, width: 100}} />
+            <Text style={styles.button_text}>Dudas</Text>
+            <Image source={require('../../assets/fqa_icon.png')} resizeMode='contain' style={{flex: 1, marginBottom: 80, width: 100}} />
           </View>
         </TouchableOpacity>
       </View>

@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserContext} from '../../global';
 
 import {setActive} from '../_helpers/storage';
 import Input from '../components/Input';
@@ -15,6 +15,8 @@ import {styles, palette} from '../styles/styles';
  * @return {JSX.Element}
  */
 export function Login({navigation}) {
+  const [activeUser, setUser] = useContext(UserContext);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const onPressSignup = () => navigation.navigate('Signup');
@@ -22,17 +24,18 @@ export function Login({navigation}) {
   const {handleSubmit, control, formState: {errors}} = useForm();
 
   const onSubmit = async (value) => {
-    await setActive(value).then((pass) => {
-      if (pass) {
+    await setActive(JSON.stringify(value)).then((pass) => {
+      if (pass?.pass) {
+        setUser(pass.user);
         console.log(value.email, 'ha iniciado sesión');
         navigation.navigate('User');
       } else {
         setModalVisible(true);
       }
     });
-    const keys = await AsyncStorage.getAllKeys();
+/*     const keys = await AsyncStorage.getAllKeys();
     const result = await AsyncStorage.multiGet(keys);
-    console.log(result);
+    console.log(result); */
   };
 
   return (
@@ -59,20 +62,16 @@ export function Login({navigation}) {
         </Modal>
 
         <View style={[styles.container, {flexDirection: 'row'}]}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: 'lightgrey'}]} disabled={true}>
-            <View style={styles.button_container}>
-              <Text style={styles.button_text}>INICIAR SESIÓN</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressSignup}>
-            <View style={styles.button_container}>
-              <Text style={styles.button_text}>REGISTRARSE</Text>
+          <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
+            <View>
+              <Text style={squareButtonOn.text}>¿No tienes cuenta en Gajom?</Text>
+              <Text style={[squareButtonOn.text, {fontSize: 30}]}>REGÍSTRATE AQUÍ</Text>
             </View>
           </TouchableOpacity>
         </View>
 
         <View style={[formStyles.input_container]}>
-          <Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Inicio de sesión</Text>
+          <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu cuenta en Gajom</Text>
           <Controller
             name="email"
             defaultValue=""
@@ -127,13 +126,50 @@ export function Login({navigation}) {
 
 export const formStyles = StyleSheet.create({
   input_container: {
-    flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
 });
+
+const squareButtonOn = StyleSheet.create({
+  base: {
+    flex: 1,
+    borderColor: '#fff',
+    backgroundColor: palette.red,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  text: {
+    flex: 1,
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 20,
+    alignSelf: 'center',
+  },
+});
+
+const squareButtonOff = StyleSheet.create({
+  base: {
+    flex: 1,
+    borderWidth: 5,
+    borderColor: '#fff',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    flex: 1,
+    color: palette.red,
+    fontWeight: 'bold',
+    fontSize: 20,
+    lineHeight: 120,
+  },
+});
+
 
 const modalStyles = StyleSheet.create({
   centeredView: {
@@ -143,7 +179,7 @@ const modalStyles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     borderColor: '#ed1c24',
     borderWidth: 4,
     borderRadius: 10,
@@ -173,7 +209,7 @@ const modalStyles = StyleSheet.create({
     backgroundColor: '#ed1c24',
   },
   textStyle: {
-    color: 'white',
+    color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,

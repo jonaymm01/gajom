@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 30,
     lineHeight: 120,
   },
   basic_font: {

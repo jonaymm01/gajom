@@ -1,26 +1,35 @@
+import React, {useState, useContext} from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {GamesStackNavigator, MainStackNavigator, TalkerStackNavigator} from './StackNavigator';
+import {MainStackNavigator, TalkerStackNavigator, UserStackNavigator} from './StackNavigator';
 
 import {palette} from '../styles/styles';
+import {UserContext} from '../../global';
 
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const [activeRoute, setRoute] = useState('');
+  const [activeUser, setUser] = useContext(UserContext);
+  let user = '{}';
+  console.log(typeof(activeUser));
+  console.log('TabNavigator.js: ', activeUser);
+  if (activeUser !== '{}') {
+    user = JSON.parse(activeUser);
+  }
+
   return (
     <View style={{
       width,
       height,
     }}>
-      <Tab.Navigator
+      <Tab.Navigator initialRouteName={'main'}
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
-
             if (route.name === 'support') {
               iconName = focused ?
             'help-circle' :
@@ -56,14 +65,13 @@ const BottomTabNavigator = () => {
             fontSize: 20,
             height: 50,
           },
-
         })}
       >
         <Tab.Screen name="talker" component={TalkerStackNavigator} options={{title: 'Hablar', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
           headerTitleStyle: {color: 'white', fontWeight: 'bold'}}}/>
         <Tab.Screen name="main" component={MainStackNavigator} options={{title: 'Inicio', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
           headerTitleStyle: {color: 'white', fontWeight: 'bold'}}}/>
-        <Tab.Screen name="games" component={GamesStackNavigator} options={{title: 'Jugar', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
+        <Tab.Screen name="user" component={UserStackNavigator} options={{title: 'Usuario', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
           headerTitleStyle: {color: 'white', fontWeight: 'bold'}}}/>
       </Tab.Navigator>
     </View>

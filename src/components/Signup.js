@@ -87,20 +87,16 @@ export function SignUp({navigation}) {
 
       <View style={{flex: 1}}>
         <View style={[styles.container, {flexDirection: 'row'}]}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: palette.red}]} onPress={onPressLogin}>
-            <View style={styles.button_container}>
-              <Text style={styles.button_text}>INICIAR SESIÓN</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, {backgroundColor: 'lightgrey'}]} disabled={true}>
-            <View style={styles.button_container}>
-              <Text style={styles.button_text}>REGISTRARSE</Text>
+          <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressLogin}>
+            <View>
+              <Text style={squareButtonOn.text}>¿Ya tienes una cuenta?</Text>
+              <Text style={[squareButtonOn.text, {fontSize: 30}]}>INICIA SESIÓN AQUÍ</Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        <View style={formStyles.input_container}>
-          <Text style={[styles.title, {lineHeight: 80, marginTop: -20}]}>Crea tu cuenta</Text>
+        <View style={[formStyles.input_container, {marginBottom: 100}]}>
+          <Text style={[styles.title, {lineHeight: 100}]}>Formulario de Registro</Text>
           <Controller
             name="name"
             defaultValue=""
@@ -170,11 +166,29 @@ export function SignUp({navigation}) {
 }
 export const formStyles = StyleSheet.create({
   input_container: {
-    flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+});
+
+const squareButtonOn = StyleSheet.create({
+  base: {
+    flex: 1,
+    borderColor: '#fff',
+    backgroundColor: palette.red,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 20,
+  },
+  text: {
+    flex: 1,
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 20,
+    alignSelf: 'center',
   },
 });
 
