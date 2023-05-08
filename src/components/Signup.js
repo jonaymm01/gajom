@@ -16,10 +16,15 @@ import {styles, palette} from '../styles/styles';
  */
 export function SignUp({navigation}) {
   const [modalWarning, setModalWarning] = useState(false);
+  const [hiddenPassword, setHiddenPassword] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
   const onPressLogin = () => navigation.navigate('Login');
 
   const {handleSubmit, control, formState: {errors}} = useForm();
+
+  const showPass = () => {
+    setHiddenPassword(!hiddenPassword);
+  };
 
   const onSubmit = async (value) => {
     const user = await AsyncStorage.getItem(value.email);
@@ -33,7 +38,7 @@ export function SignUp({navigation}) {
 
   return (
     <SafeAreaView>
-      <ScrollView style= {{backgroundColor: '#fff'}}>
+      <ScrollView keyboardShouldPersistTaps="handled" style= {{backgroundColor: '#fff'}}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
           style={styles.blank_background}>
@@ -100,7 +105,7 @@ export function SignUp({navigation}) {
                   </TouchableOpacity>
                 </View>
 
-                <View style={[formStyles.input_container, {marginBottom: 100}]}>
+                <View style={[formStyles.input_container, {marginBottom: 30}]}>
                   <Text style={[styles.title, {lineHeight: 100}]}>Formulario de Registro</Text>
                   <Controller
                     name="name"
@@ -149,21 +154,32 @@ export function SignUp({navigation}) {
                       required: {value: true, message: 'Escribe una contraseña'},
                     }}
                     render={({field: {onChange, value}}) => (
-                      <Input
-                        error={errors.password}
-                        errorText={errors?.password?.message}
-                        onChangeText={(text) => onChange(text)}
-                        value={value}
-                        placeholder="Contraseña"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        textContentType="newPassword"
-                        secureTextEntry
-                        enablesReturnKeyAutomatically
-                      />
+                      <>
+                        <Input
+                          error={errors.password}
+                          errorText={errors?.password?.message}
+                          onChangeText={(text) => onChange(text)}
+                          value={value}
+                          placeholder="Contraseña"
+                          autoCapitalize="none"
+                          autoCorrect={false}
+                          textContentType="newPassword"
+                          secureTextEntry={hiddenPassword ? true : false}
+                          enablesReturnKeyAutomatically
+                        />
+                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.password?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+                          <TouchableOpacity onPress={() => {
+                            showPass();
+                          }} style={SignupStyle.eye}>
+                            <Image source={(hiddenPassword) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                          </TouchableOpacity>
+                        </View>
+                      </>
                     )}
                   />
-                  <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
+                  <View style={{marginTop: 60}}>
+                    <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
+                  </View>
                 </View>
               </View>
             </>
@@ -183,6 +199,16 @@ export const formStyles = StyleSheet.create({
   },
 });
 
+const SignupStyle = StyleSheet.create({
+  deleteButton: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    padding: 20,
+  },
+});
+
+
 const squareButtonOn = StyleSheet.create({
   base: {
     flex: 1,
@@ -200,6 +226,7 @@ const squareButtonOn = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
 
 const modalStyles = StyleSheet.create({
   centeredView: {

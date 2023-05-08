@@ -16,7 +16,7 @@ export default function Input(props) {
         {...props}
       />
       {props.errorText && (
-        <Text style={styles.errorText}>{props.errorText}</Text>
+        <Text style={[styles.errorText]}>{props.errorText}</Text>
       )}
     </View>
   );
