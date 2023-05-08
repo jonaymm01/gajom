@@ -26,7 +26,7 @@ const BottomTabNavigator = () => {
       width,
       height,
     }}>
-      <Tab.Navigator
+      <Tab.Navigator initialRouteName={'main'}
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
