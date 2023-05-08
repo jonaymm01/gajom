@@ -122,10 +122,22 @@ export function TapMaker({route, navigation}) {
   }, [opt1Color, opt2Color, opt3Color, opt4Color, opt1Text, opt2Text, opt3Text, opt4Text]);
 
   const tapOptions = [
-    <TouchableOpacity onPress={() => setOpt(1)}><Text key={1} style={[tapPreview.option, {color: (showOpt && opt == 1) ? null : 'white'}, {backgroundColor: opt1Color, borderWidth: (opt1Color == 'white') ? 2 : 0}]}> {opt1Text} </Text></TouchableOpacity>,
-    <TouchableOpacity onPress={() => setOpt(2)}><Text key={2} style={[tapPreview.option, {color: (showOpt && opt == 2) ? null : 'white'}, {backgroundColor: opt2Color, borderWidth: (opt2Color == 'white') ? 2 : 0}]}> {opt2Text} </Text></TouchableOpacity>,
-    <TouchableOpacity onPress={() => setOpt(3)}><Text key={3} style={[tapPreview.option, {color: (showOpt && opt == 3) ? null : 'white'}, {backgroundColor: opt3Color, borderWidth: (opt3Color == 'white') ? 2 : 0}]}> {opt3Text} </Text></TouchableOpacity>,
-    <TouchableOpacity onPress={() => setOpt(4)}><Text key={4} style={[tapPreview.option, {color: (showOpt && opt == 4) ? null : 'white'}, {backgroundColor: opt4Color, borderWidth: (opt4Color == 'white') ? 2 : 0}]}> {opt4Text} </Text></TouchableOpacity>,
+    <TouchableOpacity onPress={() => {
+      setOpt(1);
+      resetField('opt');
+    }}><Text key={1} style={[tapPreview.option, {color: (showOpt && opt == 1) ? null : 'white'}, {backgroundColor: opt1Color, borderWidth: (opt1Color == 'white') ? 2 : 0}]}> {opt1Text} </Text></TouchableOpacity>,
+    <TouchableOpacity onPress={() => {
+      setOpt(2);
+      resetField('opt');
+    }}><Text key={2} style={[tapPreview.option, {color: (showOpt && opt == 2) ? null : 'white'}, {backgroundColor: opt2Color, borderWidth: (opt2Color == 'white') ? 2 : 0}]}> {opt2Text} </Text></TouchableOpacity>,
+    <TouchableOpacity onPress={() => {
+      setOpt(3);
+      resetField('opt');
+    }}><Text key={3} style={[tapPreview.option, {color: (showOpt && opt == 3) ? null : 'white'}, {backgroundColor: opt3Color, borderWidth: (opt3Color == 'white') ? 2 : 0}]}> {opt3Text} </Text></TouchableOpacity>,
+    <TouchableOpacity onPress={() => {
+      setOpt(4);
+      resetField('opt');
+    }}><Text key={4} style={[tapPreview.option, {color: (showOpt && opt == 4) ? null : 'white'}, {backgroundColor: opt4Color, borderWidth: (opt4Color == 'white') ? 2 : 0}]}> {opt4Text} </Text></TouchableOpacity>,
   ];
 
   const arrows = [
@@ -255,36 +267,38 @@ export function TapMaker({route, navigation}) {
             </View>
           </Modal>
 
-          <View style={{flexDirection: 'row', flex: 6, alignItems: 'center'}}>
-            <View style={{alignContent: 'center', justifyContent: 'center'}}>
-              <>
-                {tapOptions}
-              </>
+          <View style={{marginTop: 20}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{alignContent: 'center', justifyContent: 'center'}}>
+                <>
+                  {tapOptions}
+                </>
+              </View>
             </View>
-          </View>
 
-          <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <View style={{alignItems: 'center', marginTop: 20}}>
-              <Controller
-                name="opt"
-                defaultValue=""
-                control={control}
-                rules={{
-                  required: {value: true, message: 'Escribe una opción'},
-                }}
-                render={({field: {onChange, value}}) => (
-                  <Input
-                    error={errors.name}
-                    errorText={errors?.name?.message}
-                    onChangeText={(text) => {
-                      setText(text);
-                      onChange(text);
-                    }}
-                    value={value}
-                    placeholder={`Escribe aquí la ${opt}ª palabra`}
-                  />
-                )}
-              />
+            <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{alignItems: 'center', marginTop: 20}}>
+                <Controller
+                  name="opt"
+                  defaultValue=""
+                  control={control}
+                  rules={{
+                    required: {value: true, message: 'Escribe una opción'},
+                  }}
+                  render={({field: {onChange, value}}) => (
+                    <Input
+                      error={errors.name}
+                      errorText={errors?.name?.message}
+                      onChangeText={(text) => {
+                        setText(text);
+                        onChange(text);
+                      }}
+                      value={value}
+                      placeholder={`Escribe aquí la ${opt}ª palabra`}
+                    />
+                  )}
+                />
+              </View>
             </View>
           </View>
 

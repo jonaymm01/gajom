@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {StyleSheet, Text, View, Image, Modal, Pressable, ScrollView, Alert} from 'react-native';
+import {StyleSheet, Text, View, Image, Modal, Pressable, ScrollView, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 
@@ -23,10 +23,11 @@ export function User({navigation}) {
     const activeUser = JSON.parse(user);
     const [active, loadActive] = useState(0);
 
+    const [newName, setNewName] = useState('');
     const [modalName, setModalName] = useState(false);
     const [modalPassword, setModalPassword] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
-    const {handleSubmit, control, formState: {errors}, getValues} = useForm();
+    const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
     /**
    * Selector del Modal que se desplegará.
@@ -73,7 +74,26 @@ export function User({navigation}) {
       {
         cancelable: true,
       });
+      setModalPassword(!modalPassword);
       console.log(modified);
+    };
+
+    const invalidPassword = async (value) => {
+      if (getValues().password != getValues().password2) {
+        Alert.alert('¡Ups!', 'Ambas contraseñas deben coincidir.', [
+          {text: 'OK'},
+        ],
+        {
+          cancelable: true,
+        });
+      } else {
+        Alert.alert('¡Ups!', 'Contraseña inválida', [
+          {text: 'OK'},
+        ],
+        {
+          cancelable: true,
+        });
+      }
     };
 
     /**
@@ -97,39 +117,52 @@ export function User({navigation}) {
 
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
-
         <Modal
+          avoidKeyboard = {true}
           animationType="slide"
           transparent={true}
           visible={modalName}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
             setModalName(!modalName);
           }}>
-          <View style={modalStyles.centeredView}>
-            <View style={modalStyles.modalView}>
-              <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo nombre</Text>
-              <Controller
-                name="name"
-                defaultValue=""
-                control={control}
-                rules={{
-                  required: {value: true, message: 'Escribe tu nombre'},
-                }}
-                render={({field: {onChange, value}}) => (
-                  <Input
-                    error={errors.name}
-                    errorText={errors?.name?.message}
-                    onChangeText={(text) => onChange(text)}
-                    value={value}
-                    placeholder={activeUser.name}
-                  />
-                )}
-              />
+          <View style={[modalStyles.centeredView, modalStyles.modalView]}>
+            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>{activeUser.name} ➜ {newName} </Text>
+            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo nombre</Text>
+            <Controller
+              name="name"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: {value: true, message: 'Escribe tu nombre'},
+              }}
+              render={({field: {onChange, value}}) => (
+                <Input
+                  error={errors.name}
+                  errorText={errors?.name?.message}
+                  onChangeText={(text) => {
+                    setNewName(text);
+                    onChange(text);
+                  }}
+                  value={value}
+                  placeholder={activeUser.name}
+                />
+              )}
+            />
+            <View style={{flexDirection: 'row'}}>
               <Pressable
-                style={[modalStyles.button, modalStyles.buttonClose, {marginTop: 50}]}
+                style={[modalStyles.button, modalStyles.grayBackground]}
+                onPress={() => {
+                  resetField('name');
+                  setModalName(!modalName);
+                }}
+              >
+                <Text style={modalStyles.textStyle}>Cancelar</Text>
+              </Pressable>
+              <Pressable
+                style={[modalStyles.button, modalStyles.violetBackground]}
                 onPress={() => {
                   handleSubmit(changeName)();
+                  resetField('name');
                   setModalName(!modalName);
                 }}
               >
@@ -144,63 +177,69 @@ export function User({navigation}) {
           transparent={true}
           visible={modalPassword}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
             setModalPassword(!modalPassword);
           }}>
-          <View style={modalStyles.centeredView}>
-            <View style={modalStyles.modalView}>
-              <Text style={[styles.basic_font, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica una nueva contraseña</Text>
-              <Controller
-                name="password"
-                defaultValue=""
-                control={control}
-                rules={{
-                  required: {value: true, message: 'Escribe tu contraseña'},
-                  validate: () => getValues('password') === getValues('password2'),
-                }}
-                render={({field: {onChange, value}}) => (
-                  <Input
-                    error={errors.password}
-                    errorText={errors?.password?.message}
-                    onChangeText={(text) => onChange(text)}
-                    value={value}
-                    placeholder="Contraseña"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    textContentType="newPassword"
-                    secureTextEntry
-                    enablesReturnKeyAutomatically
-                  />
-                )}
-              />
-              <Controller
-                name="password2"
-                defaultValue=""
-                control={control}
-                rules={{
-                  required: {value: true, message: 'Escribe tu contraseña'},
-                  validate: () => getValues('password') === getValues('password2'),
-                }}
-                render={({field: {onChange, value}}) => (
-                  <Input
-                    error={errors.password2}
-                    errorText={errors?.password2?.message}
-                    onChangeText={(text) => onChange(text)}
-                    value={value}
-                    placeholder="Repite la contraseña"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    textContentType="newPassword"
-                    secureTextEntry
-                    enablesReturnKeyAutomatically
-                  />
-                )}
-              />
+          <View style={[modalStyles.centeredView, modalStyles.modalView]}>
+            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica una nueva contraseña</Text>
+            <Controller
+              name="password"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: {value: true, message: 'Escribe tu contraseña'},
+                validate: () => getValues('password') === getValues('password2'),
+              }}
+              render={({field: {onChange, value}}) => (
+                <Input
+                  error={errors.password}
+                  errorText={errors?.password?.message}
+                  onChangeText={(text) => onChange(text)}
+                  value={value}
+                  placeholder="Contraseña"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="newPassword"
+                  secureTextEntry
+                  enablesReturnKeyAutomatically
+                />
+              )}
+            />
+            <Controller
+              name="password2"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: {value: true, message: 'Escribe tu contraseña'},
+                validate: () => getValues('password') === getValues('password2'),
+              }}
+              render={({field: {onChange, value}}) => (
+                <Input
+                  error={errors.password2}
+                  errorText={errors?.password2?.message}
+                  onChangeText={(text) => onChange(text)}
+                  value={value}
+                  placeholder="Repite la contraseña"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="newPassword"
+                  secureTextEntry
+                  enablesReturnKeyAutomatically
+                />
+              )}
+            />
+            <View style={{flexDirection: 'row'}}>
               <Pressable
-                style={[modalStyles.button, modalStyles.buttonClose, {marginTop: 50}]}
+                style={[modalStyles.button, modalStyles.grayBackground, {marginTop: 50}]}
                 onPress={() => {
-                  handleSubmit(changePassword)();
                   setModalPassword(!modalPassword);
+                }}
+              >
+                <Text style={modalStyles.textStyle}>Cancelar</Text>
+              </Pressable>
+              <Pressable
+                style={[modalStyles.button, modalStyles.violetBackground, {marginTop: 50}]}
+                onPress={() => {
+                  handleSubmit(changePassword, invalidPassword)();
                 }}
               >
                 <Text style={modalStyles.textStyle}>Aplicar</Text>
@@ -221,6 +260,7 @@ export function User({navigation}) {
             <View style={modalStyles.modalView}>
               <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
               <Text style={modalStyles.modalText}>Esto eliminará el usuario. ¿Desea continuar?</Text>
+
               <Pressable
                 style={[modalStyles.button, modalStyles.buttonWarning]}
                 onPress={() => {
@@ -283,8 +323,7 @@ const modalStyles = StyleSheet.create({
   modalView: {
     backgroundColor: 'white',
     borderColor: '#763CAD',
-    borderWidth: 10,
-    borderRadius: 10,
+    borderWidth: 5,
     padding: 40,
     height: 500,
     alignItems: 'center',
@@ -299,25 +338,26 @@ const modalStyles = StyleSheet.create({
   },
   button: {
     borderRadius: 10,
-    width: 200,
+    width: 150,
     height: 80,
     elevation: 10,
+    margin: 15,
   },
-  buttonOpen: {
-    backgroundColor: '#763CAD',
+  violetBackground: {
+    backgroundColor: palette.violet,
   },
-  buttonClose: {
-    backgroundColor: '#763CAD',
+  grayBackground: {
+    backgroundColor: palette.gray,
   },
-  buttonWarning: {
-    backgroundColor: '#ed1c24',
+  redBackground: {
+    backgroundColor: palette.red,
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 30,
+    fontSize: 25,
   },
   modalText: {
     marginBottom: 40,
