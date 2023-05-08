@@ -84,7 +84,6 @@ export function User({navigation}) {
       await AsyncStorage.removeItem(activeUser.email);
       setUser('{}');
       console.log('Se ha eliminado el usuario ', activeUser.email);
-      navigation.navigate('Login');
     };
 
     /**
@@ -94,7 +93,6 @@ export function User({navigation}) {
     const logOut = async (value) => {
       setUser('{}');
       console.log('El usuario ', activeUser.email, ' ha cerrado sesión');
-      navigation.navigate('Login');
     };
 
     return (

@@ -103,11 +103,11 @@ export function Questions() {
         {result}
       </View>
       <View style={{flex: 2}}>
-        <View style={{flexDirection: 'row', width: 300}}>
+        <View style={{flexDirection: 'row', width: 300, marginTop: -20}}>
           <>
             {backButton}
           </>
-          <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center'}]}>{isStart ? 'Construye tu pregunta' : ''}</Text>
+          <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: -30}]}>{isStart ? 'Construye tu pregunta' : ''}</Text>
         </View>
         <ScrollView style={{flex: 3}}>
           {buttons}

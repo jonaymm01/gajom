@@ -41,11 +41,20 @@ export function TapMaker({route, navigation}) {
   const [tapName, setTapName] = useState('');
 
   const [showText, setShowText] = useState(true);
+  const [showOpt, setShowOpt] = useState(true);
 
   useEffect(() => {
     // Change the state every second or the time given by User.
     const interval = setInterval(() => {
       setShowText((showText) => !showText);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // Change the state every second or the time given by User.
+    const interval = setInterval(() => {
+      setShowOpt((showOpt) => !showOpt);
     }, 500);
     return () => clearInterval(interval);
   }, []);
@@ -113,10 +122,10 @@ export function TapMaker({route, navigation}) {
   }, [opt1Color, opt2Color, opt3Color, opt4Color, opt1Text, opt2Text, opt3Text, opt4Text]);
 
   const tapOptions = [
-    <Text key={1} style={[tapPreview.option, {backgroundColor: opt1Color}]}> {opt1Text} </Text>,
-    <Text key={2} style={[tapPreview.option, {backgroundColor: opt2Color}]}> {opt2Text} </Text>,
-    <Text key={3} style={[tapPreview.option, {backgroundColor: opt3Color}]}> {opt3Text} </Text>,
-    <Text key={4} style={[tapPreview.option, {backgroundColor: opt4Color}]}> {opt4Text} </Text>,
+    <TouchableOpacity onPress={() => setOpt(1)}><Text key={1} style={[tapPreview.option, {color: (showOpt && opt == 1) ? null : 'white'}, {backgroundColor: opt1Color, borderWidth: (opt1Color == 'white') ? 2 : 0}]}> {opt1Text} </Text></TouchableOpacity>,
+    <TouchableOpacity onPress={() => setOpt(2)}><Text key={2} style={[tapPreview.option, {color: (showOpt && opt == 2) ? null : 'white'}, {backgroundColor: opt2Color, borderWidth: (opt2Color == 'white') ? 2 : 0}]}> {opt2Text} </Text></TouchableOpacity>,
+    <TouchableOpacity onPress={() => setOpt(3)}><Text key={3} style={[tapPreview.option, {color: (showOpt && opt == 3) ? null : 'white'}, {backgroundColor: opt3Color, borderWidth: (opt3Color == 'white') ? 2 : 0}]}> {opt3Text} </Text></TouchableOpacity>,
+    <TouchableOpacity onPress={() => setOpt(4)}><Text key={4} style={[tapPreview.option, {color: (showOpt && opt == 4) ? null : 'white'}, {backgroundColor: opt4Color, borderWidth: (opt4Color == 'white') ? 2 : 0}]}> {opt4Text} </Text></TouchableOpacity>,
   ];
 
   const arrows = [
@@ -249,45 +258,9 @@ export function TapMaker({route, navigation}) {
           <View style={{flexDirection: 'row', flex: 6, alignItems: 'center'}}>
             <View style={{alignContent: 'center', justifyContent: 'center'}}>
               <>
-                {arrows}
-              </>
-            </View>
-            <View style={{alignContent: 'center', justifyContent: 'center'}}>
-              <>
                 {tapOptions}
               </>
             </View>
-            <View style={{alignContent: 'center', justifyContent: 'center'}}>
-              <>
-                {arrows2}
-              </>
-            </View>
-          </View>
-
-          <View style={{flexDirection: 'row'}}>
-            <Pressable
-              style={tapMaker.backButton}
-              onPress={() => {
-                if (opt > 1) {
-                  setOpt(opt-1);
-                  resetField('opt');
-                }
-              }}
-            >
-              <Text style={tapMaker.loadText}> ← </Text>
-            </Pressable>
-            <Text style={[styles.title, {margin: 10}]}>Opción {opt}</Text>
-            <Pressable
-              style={tapMaker.nextButton}
-              onPress={() => {
-                if (opt < 4) {
-                  setOpt(opt+1);
-                }
-                resetField('opt');
-              }}
-            >
-              <Text style={tapMaker.loadText}> → </Text>
-            </Pressable>
           </View>
 
           <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
@@ -321,9 +294,9 @@ export function TapMaker({route, navigation}) {
             </>
           </View>
           <View style={[styles.container, {flexDirection: 'row', flex: 1}]}>
-            <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => setColor('white')}>
+            <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => setColor('white')}>
               <View style={styles.button_container}>
-                <Text style={{alignSelf: 'center', backgroundColor: palette.gray, color: '#fff', fontWeight: 'bold'}}> Extraer color </Text>
+                <Text style={{alignSelf: 'center', color: '#fff', fontWeight: 'bold'}}> Extraer color </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -331,12 +304,12 @@ export function TapMaker({route, navigation}) {
           <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
             <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
               <View style={styles.button_container}>
-                <Text style={[styles.button_text, {lineHeight: 70}]}>DESCARTAR</Text>
+                <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>DESCARTAR</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => setModalName(!modalName)}>
               <View style={styles.button_container}>
-                <Text style={[styles.button_text, {lineHeight: 70}]}>TERMINAR</Text>
+                <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>TERMINAR</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -348,25 +321,29 @@ export function TapMaker({route, navigation}) {
 
 const tapPreview = StyleSheet.create({
   option: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 15,
-    textShadowColor: 'black',
-    textShadowOffset: {width: 2, height: 2},
-    textShadowRadius: 5,
     padding: 10,
     borderColor: '#000',
-    borderWidth: 2,
     borderStyle: 'dashed',
-    width: 120,
+    width: 280,
+    height: 50,
     textAlign: 'center',
+    margin: 5,
+    fontWeight: 'bold',
+    fontSize: 20,
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 2,
+    alignSelf: 'center',
+  },
+  optionText: {
+    color: '#fff',
+    textShadowColor: 'black',
   },
   arrow: {
     color: '#000',
     backgroundColor: '#fff',
     fontWeight: 'bold',
     fontSize: 30,
-    padding: 5,
+    padding: 6,
   },
 });
 
