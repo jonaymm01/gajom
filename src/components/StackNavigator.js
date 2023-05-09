@@ -75,7 +75,12 @@ const TalkerStackNavigator = () => {
       <Stack.Screen name="Talker" component={Talker} />
       <Stack.Screen name="Pictos" component={Pictos} options={{headerShown: true}} />
       <Stack.Screen name="TapMenu" component={TapMenu} options={{headerShown: true}} />
-      <Stack.Screen name="Tap" component={Tap} options={{title: 'Volver a menú de TAPs', headerShown: true}}/>
+      <Stack.Screen name="Tap" component={Tap} options={{title: 'Volver a menú de TAPs',
+        headerShown: true,
+        headerStyle: headerStyle.headerWhite,
+        headerTintColor: '#000',
+        headerTitleStyle: headerStyle.titleBlack,
+      }}/>
       <Stack.Screen name="TapMaker" component={TapMaker} />
       <Stack.Screen name="Questions" component={Questions} options={{headerShown: true}} />
     </Stack.Navigator>
@@ -93,12 +98,23 @@ const headerStyle = StyleSheet.create({
     borderBottomWidth: 3,
     height: 80,
   },
+  headerWhite: {
+    backgroundColor: '#fff',
+    borderBottomColor: palette.violet,
+    borderBottomWidth: 5,
+    height: 80,
+  },
   title: {
     color: '#fff',
     fontSize: 23,
     textShadowColor: 'black',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 5,
+    marginRight: 10,
+  },
+  titleBlack: {
+    color: '#000',
+    fontSize: 23,
     marginRight: 10,
   },
 });

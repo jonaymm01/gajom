@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image, Alert} from 'react-native';
 import {styles, palette} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
@@ -17,6 +17,8 @@ import {UserContext} from '../../../global';
 export function TapMaker({route, navigation}) {
   const [activeUser, setUser] = useContext(UserContext);
   const [modalName, setModalName] = useState(false);
+  const [modalVoid, setModalVoid] = useState(false);
+
   const user = JSON.parse(activeUser);
 
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
@@ -351,7 +353,7 @@ export function TapMaker({route, navigation}) {
     ];
     const filteredOpts = finalOpts.filter((opt) => ((opt.text != null) && opt.color != null));
     setDefOpts(filteredOpts);
-    setModalName(!modalName);
+    (filteredOpts.length > 0) ? setModalName(!modalName) : setModalVoid(!modalVoid);
   };
 
   const defOptsFiltered = defOpts.map((opt, index) => <Text key={index} style={[tapPreview.optionText, tapPreview.option, {backgroundColor: opt.color},
@@ -379,6 +381,27 @@ export function TapMaker({route, navigation}) {
 
   return (
     <View style={styles.blank_background}>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVoid}
+        onRequestClose={() => {
+          setModalVoid(!modalVoid);
+        }}>
+        <View style={modalStyles.centeredView}>
+          <View style={modalStyles.modalAlert}>
+            <Image source={require('../../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+            <Text style={modalStyles.modalText}>Tu TAP debe tener al menos una opción</Text>
+            <Pressable
+              style={[modalStyles.button, modalStyles.redBackground]}
+              onPress={() => setModalVoid(!modalVoid)}>
+              <Text style={modalStyles.textStyle}>¡Entendido!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -426,8 +449,17 @@ export function TapMaker({route, navigation}) {
             <Pressable
               style={[modalStyles.button, modalStyles.violetBackground]}
               onPress={() => {
-                saveTap();
-                setModalName(!modalName);
+                if (getValues().name.length > 0) {
+                  saveTap();
+                  setModalName(!modalName);
+                } else {
+                  Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
+                    {text: 'OK'},
+                  ],
+                  {
+                    cancelable: true,
+                  });
+                }
               }}
             >
               <Text style={modalStyles.textStyle}>Guardar</Text>
@@ -612,6 +644,22 @@ const modalStyles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 10,
   },
+  modalAlert: {
+    backgroundColor: 'white',
+    borderColor: '#ed1c24',
+    borderWidth: 5,
+    padding: 40,
+    height: 400,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 10,
+  },
   button: {
     borderRadius: 10,
     width: 150,
@@ -626,7 +674,7 @@ const modalStyles = StyleSheet.create({
     backgroundColor: palette.gray,
   },
   redBackground: {
-    backgroundColor: palette.red,
+    backgroundColor: '#ed1c24',
   },
   textStyle: {
     color: 'white',
