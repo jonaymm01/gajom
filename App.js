@@ -13,16 +13,20 @@ const App = () => {
    */
   useEffect(() => {
     const fetchData = async () => {
-      await setActive(user).then((pass) => {
-        if (pass?.pass) {
-          setUser(pass.user);
-        };
-      },
-      );
+      await AsyncStorage.getItem('active')
+          .then((user) => {
+            console.log('el usuario activo es:', user);
+            setActive(user).then((pass) => {
+              if (pass?.pass) {
+                setUser(pass.user);
+              };
+            },
+            );
+          });
     };
     fetchData()
         .catch(console.error);
-  }, [user]);
+  }, []);
 
   return (
     <UserContext.Provider value={[user, setUser]}>

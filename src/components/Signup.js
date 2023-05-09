@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 
@@ -16,10 +16,15 @@ import {styles, palette} from '../styles/styles';
  */
 export function SignUp({navigation}) {
   const [modalWarning, setModalWarning] = useState(false);
+  const [hiddenPassword, setHiddenPassword] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
   const onPressLogin = () => navigation.navigate('Login');
 
   const {handleSubmit, control, formState: {errors}} = useForm();
+
+  const showPass = () => {
+    setHiddenPassword(!hiddenPassword);
+  };
 
   const onSubmit = async (value) => {
     const user = await AsyncStorage.getItem(value.email);
@@ -32,136 +37,156 @@ export function SignUp({navigation}) {
   };
 
   return (
-    <ScrollView style= {{backgroundColor: '#fff'}}>
+    <SafeAreaView>
+      <ScrollView keyboardShouldPersistTaps="handled" style= {{backgroundColor: '#fff'}}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+          style={styles.blank_background}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalWarning}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
+                  setModalWarning(!modalWarning);
+                }}>
+                <View style={modalStyles.centeredView}>
+                  <View style={[modalStyles.modalView, modalStyles.borderWarning]}>
+                    <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+                    <Text style={modalStyles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
+                    <Pressable
+                      style={[modalStyles.button, modalStyles.redBackground]}
+                      onPress={() => setModalWarning(!modalWarning)}>
+                      <Text style={modalStyles.textStyle}>¡Entendido!</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </Modal>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalWarning}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalWarning(!modalWarning);
-        }}>
-        <View style={modalStyles.centeredView}>
-          <View style={[modalStyles.modalView, modalStyles.borderWarning]}>
-            <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-            <Text style={modalStyles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
-            <Pressable
-              style={[modalStyles.button, modalStyles.redBackground]}
-              onPress={() => setModalWarning(!modalWarning)}>
-              <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalSigned}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalSigned(!modalSigned);
-        }}>
-        <View style={modalStyles.centeredView}>
-          <View style={[modalStyles.modalView, modalStyles.borderSigned]}>
-            <Text style={modalStyles.modalText}>¡Bienvenido!</Text>
-            <View style={{flexDirection: 'row'}}>
-              <Pressable
-                style={[modalStyles.button, modalStyles.grayBackground]}
-                onPress={() => setModalSigned(!modalSigned)}>
-                <Text style={modalStyles.textStyle}>Cerrar</Text>
-              </Pressable>
-              <Pressable
-                style={[modalStyles.button, modalStyles.violetBackground]}
-                onPress={() => {
-                  navigation.navigate('Login');
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalSigned}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
                   setModalSigned(!modalSigned);
                 }}>
-                <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
+                <View style={modalStyles.centeredView}>
+                  <View style={[modalStyles.modalView, modalStyles.borderSigned]}>
+                    <Text style={modalStyles.modalText}>¡Bienvenido!</Text>
+                    <View style={{flexDirection: 'row'}}>
+                      <Pressable
+                        style={[modalStyles.button, modalStyles.grayBackground]}
+                        onPress={() => setModalSigned(!modalSigned)}>
+                        <Text style={modalStyles.textStyle}>Cerrar</Text>
+                      </Pressable>
+                      <Pressable
+                        style={[modalStyles.button, modalStyles.violetBackground]}
+                        onPress={() => {
+                          navigation.navigate('Login');
+                          setModalSigned(!modalSigned);
+                        }}>
+                        <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
 
-      <View style={{flex: 1}}>
-        <View style={[styles.container, {flexDirection: 'row'}]}>
-          <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressLogin}>
-            <View>
-              <Text style={squareButtonOn.text}>¿Ya tienes una cuenta?</Text>
-              <Text style={[squareButtonOn.text, {fontSize: 30}]}>INICIA SESIÓN AQUÍ</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+              <View style={{flex: 1}}>
+                <View style={[styles.container, {flexDirection: 'row'}]}>
+                  <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressLogin}>
+                    <View>
+                      <Text style={squareButtonOn.text}>¿Ya tienes una cuenta?</Text>
+                      <Text style={[squareButtonOn.text, {fontSize: 30}]}>INICIA SESIÓN AQUÍ</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
 
-        <View style={[formStyles.input_container, {marginBottom: 100}]}>
-          <Text style={[styles.title, {lineHeight: 100}]}>Formulario de Registro</Text>
-          <Controller
-            name="name"
-            defaultValue=""
-            control={control}
-            rules={{
-              required: {value: true, message: 'Escribe tu nombre'},
-            }}
-            render={({field: {onChange, value}}) => (
-              <Input
-                error={errors.name}
-                errorText={errors?.name?.message}
-                onChangeText={(text) => onChange(text)}
-                value={value}
-                placeholder="Nombre"
-              />
-            )}
-          />
-          <Controller
-            name="email"
-            defaultValue=""
-            control={control}
-            rules={{
-              required: {value: true, message: 'Escribe tu correo electrónico'},
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'invalid email address',
-              },
-            }}
-            render={({field: {onChange, value}}) => (
-              <Input
-                error={errors.email}
-                errorText={errors?.email?.message}
-                onChangeText={(text) => onChange(text)}
-                value={value}
-                placeholder="Correo electrónico"
-                autoCapitalize="none"
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            defaultValue=""
-            control={control}
-            rules={{
-              required: {value: true, message: 'Escribe una contraseña'},
-            }}
-            render={({field: {onChange, value}}) => (
-              <Input
-                error={errors.password}
-                errorText={errors?.password?.message}
-                onChangeText={(text) => onChange(text)}
-                value={value}
-                placeholder="Contraseña"
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType="newPassword"
-                secureTextEntry
-                enablesReturnKeyAutomatically
-              />
-            )}
-          />
-          <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
-        </View>
-      </View>
-    </ScrollView>
+                <View style={[formStyles.input_container, {marginBottom: 30}]}>
+                  <Text style={[styles.title, {lineHeight: 100}]}>Formulario de Registro</Text>
+                  <Controller
+                    name="name"
+                    defaultValue=""
+                    control={control}
+                    rules={{
+                      required: {value: true, message: 'Escribe tu nombre'},
+                    }}
+                    render={({field: {onChange, value}}) => (
+                      <Input
+                        error={errors.name}
+                        errorText={errors?.name?.message}
+                        onChangeText={(text) => onChange(text)}
+                        value={value}
+                        placeholder="Nombre"
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="email"
+                    defaultValue=""
+                    control={control}
+                    rules={{
+                      required: {value: true, message: 'Escribe tu correo electrónico'},
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'invalid email address',
+                      },
+                    }}
+                    render={({field: {onChange, value}}) => (
+                      <Input
+                        error={errors.email}
+                        errorText={errors?.email?.message}
+                        onChangeText={(text) => onChange(text)}
+                        value={value}
+                        placeholder="Correo electrónico"
+                        autoCapitalize="none"
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="password"
+                    defaultValue=""
+                    control={control}
+                    rules={{
+                      required: {value: true, message: 'Escribe una contraseña'},
+                    }}
+                    render={({field: {onChange, value}}) => (
+                      <>
+                        <Input
+                          error={errors.password}
+                          errorText={errors?.password?.message}
+                          onChangeText={(text) => onChange(text)}
+                          value={value}
+                          placeholder="Contraseña"
+                          autoCapitalize="none"
+                          autoCorrect={false}
+                          textContentType="newPassword"
+                          secureTextEntry={hiddenPassword ? true : false}
+                          enablesReturnKeyAutomatically
+                        />
+                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.password?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+                          <TouchableOpacity onPress={() => {
+                            showPass();
+                          }} style={SignupStyle.eye}>
+                            <Image source={(hiddenPassword) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    )}
+                  />
+                  <View style={{marginTop: 60}}>
+                    <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
+                  </View>
+                </View>
+              </View>
+            </>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 export const formStyles = StyleSheet.create({
@@ -173,6 +198,16 @@ export const formStyles = StyleSheet.create({
     paddingRight: 20,
   },
 });
+
+const SignupStyle = StyleSheet.create({
+  deleteButton: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    padding: 20,
+  },
+});
+
 
 const squareButtonOn = StyleSheet.create({
   base: {
@@ -191,6 +226,7 @@ const squareButtonOn = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
 
 const modalStyles = StyleSheet.create({
   centeredView: {

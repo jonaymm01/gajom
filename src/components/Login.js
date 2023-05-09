@@ -1,5 +1,7 @@
 import React, {useState, useContext} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {useForm, Controller} from 'react-hook-form';
 import {UserContext} from '../../global';
 
@@ -15,6 +17,7 @@ import {styles, palette} from '../styles/styles';
  * @return {JSX.Element}
  */
 export function Login({navigation}) {
+  const [hiddenPassword, setHiddenPassword] = useState(true);
   const [activeUser, setUser] = useContext(UserContext);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,6 +25,10 @@ export function Login({navigation}) {
   const onPressSignup = () => navigation.navigate('Signup');
 
   const {handleSubmit, control, formState: {errors}} = useForm();
+
+  const showPass = () => {
+    setHiddenPassword(!hiddenPassword);
+  };
 
   const onSubmit = async (value) => {
     await setActive(JSON.stringify(value)).then((pass) => {
@@ -33,93 +40,114 @@ export function Login({navigation}) {
         setModalVisible(true);
       }
     });
-/*     const keys = await AsyncStorage.getAllKeys();
+    const keys = await AsyncStorage.getAllKeys();
     const result = await AsyncStorage.multiGet(keys);
-    console.log(result); */
+    console.log(result);
   };
 
   return (
-    <ScrollView style= {{backgroundColor: '#fff'}}>
-      <View style={{flex: 1}}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={modalStyles.centeredView}>
-            <View style={modalStyles.modalView}>
-              <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-              <Text style={modalStyles.modalText}>Usuario o contraseña incorrectos</Text>
-              <Pressable
-                style={[modalStyles.button, modalStyles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
+    <SafeAreaView>
+      <ScrollView keyboardShouldPersistTaps="handled" style={{backgroundColor: '#fff'}}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+          style={styles.blank_background}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <>
+              <View style={{flex: 1}}>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <View style={modalStyles.centeredView}>
+                    <View style={modalStyles.modalView}>
+                      <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+                      <Text style={modalStyles.modalText}>Usuario o contraseña incorrectos</Text>
+                      <Pressable
+                        style={[modalStyles.button, modalStyles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}>
+                        <Text style={modalStyles.textStyle}>¡Entendido!</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </Modal>
 
-        <View style={[styles.container, {flexDirection: 'row'}]}>
-          <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
-            <View>
-              <Text style={squareButtonOn.text}>¿No tienes cuenta en Gajom?</Text>
-              <Text style={[squareButtonOn.text, {fontSize: 30}]}>REGÍSTRATE AQUÍ</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+                <View style={[styles.container, {flexDirection: 'row'}]}>
+                  <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
+                    <View>
+                      <Text style={squareButtonOn.text}>¿No tienes cuenta en Gajom?</Text>
+                      <Text style={[squareButtonOn.text, {fontSize: 30}]}>REGÍSTRATE AQUÍ</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
 
-        <View style={[formStyles.input_container]}>
-          <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu cuenta en Gajom</Text>
-          <Controller
-            name="email"
-            defaultValue=""
-            control={control}
-            rules={{
-              required: {value: true, message: 'Escribe tu correo electrónico'},
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'invalid email address',
-              },
-            }}
-            render={({field: {onChange, value}}) => (
-              <Input
-                error={errors.email}
-                errorText={errors?.email?.message}
-                onChangeText={(text) => onChange(text)}
-                value={value}
-                placeholder="Correo electrónico"
-                autoCapitalize="none"
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            defaultValue=""
-            control={control}
-            rules={{
-              required: {value: true, message: 'Escribe una contraseña'},
-            }}
-            render={({field: {onChange, value}}) => (
-              <Input
-                error={errors.password}
-                errorText={errors?.password?.message}
-                onChangeText={(text) => onChange(text)}
-                value={value}
-                placeholder="Contraseña"
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType="newPassword"
-                secureTextEntry
-                enablesReturnKeyAutomatically
-              />
-            )}
-          />
-          <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
-        </View>
-      </View>
-    </ScrollView>
+                <View style={[formStyles.input_container, {marginBottom: 100}]}>
+                  <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu cuenta en Gajom</Text>
+                  <Controller
+                    name="email"
+                    defaultValue=""
+                    control={control}
+                    rules={{
+                      required: {value: true, message: 'Escribe tu correo electrónico'},
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'invalid email address',
+                      },
+                    }}
+                    render={({field: {onChange, value}}) => (
+                      <Input
+                        error={errors.email}
+                        errorText={errors?.email?.message}
+                        onChangeText={(text) => onChange(text)}
+                        value={value}
+                        placeholder="Correo electrónico"
+                        autoCapitalize="none"
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="password"
+                    defaultValue=""
+                    control={control}
+                    rules={{
+                      required: {value: true, message: 'Escribe una contraseña'},
+                    }}
+                    render={({field: {onChange, value}}) => (
+                      <>
+                        <Input
+                          error={errors.password}
+                          errorText={errors?.password?.message}
+                          onChangeText={(text) => onChange(text)}
+                          value={value}
+                          placeholder="Contraseña"
+                          autoCapitalize="none"
+                          autoCorrect={false}
+                          textContentType="newPassword"
+                          secureTextEntry={hiddenPassword ? true : false}
+                          enablesReturnKeyAutomatically
+                        />
+                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.password?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+                          <TouchableOpacity onPress={() => {
+                            showPass();
+                          }} style={LoginStyle.eye}>
+                            <Image source={(hiddenPassword) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    )}
+                  />
+                  <View style={{marginTop: 60}}>
+                    <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
+                  </View>
+                </View>
+              </View>
+            </>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -131,6 +159,15 @@ export const formStyles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingRight: 20,
     paddingLeft: 20,
+  },
+});
+
+const LoginStyle = StyleSheet.create({
+  deleteButton: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    padding: 20,
   },
 });
 
