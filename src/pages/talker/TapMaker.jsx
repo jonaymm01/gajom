@@ -16,7 +16,6 @@ import {UserContext} from '../../../global';
  */
 export function TapMaker({route, navigation}) {
   const [activeUser, setUser] = useContext(UserContext);
-  const [modalName, setModalName] = useState(false);
   const [modalVoid, setModalVoid] = useState(false);
 
   const user = JSON.parse(activeUser);
@@ -48,6 +47,8 @@ export function TapMaker({route, navigation}) {
   const [defOpts, setDefOpts] = useState(['']);
 
   const [tapName, setTapName] = useState('');
+
+  const [confirmed, isConfirmed] = useState(false);
 
   const colorButtons = () => {
     const colors = [
@@ -266,7 +267,12 @@ export function TapMaker({route, navigation}) {
     ];
     const filteredOpts = finalOpts.filter((opt) => ((opt.text != null) && opt.color != null));
     setDefOpts(filteredOpts);
-    (filteredOpts.length > 0) ? setModalName(!modalName) : setModalVoid(!modalVoid);
+    (filteredOpts.length > 0) ? isConfirmed(true) : Alert.alert('¡Aún no está listo!', 'Tu TAP debe tener al menos una opción configurada.', [
+      {text: 'OK'},
+    ],
+    {
+      cancelable: true,
+    }); ;
   };
 
   const defOptsFiltered = defOpts.map((opt, index) => <Text key={index} style={[tapPreview.optionText, tapPreview.option, {backgroundColor: opt.color},
@@ -294,17 +300,17 @@ export function TapMaker({route, navigation}) {
 
   const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: 20, height: 20}} />;
 
-  return (
-    <View style={styles.blank_background}>
+  if (!confirmed) {
+    return (
+      <View style={styles.blank_background}>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVoid}
-        onRequestClose={() => {
-          setModalVoid(!modalVoid);
-        }}>
-        <View style={modalStyles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVoid}
+          onRequestClose={() => {
+            setModalVoid(!modalVoid);
+          }}>
           <View style={modalStyles.modalAlert}>
             <Image source={require('../../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
             <Text style={modalStyles.modalText}>Tu TAP debe tener al menos una opción</Text>
@@ -314,131 +320,120 @@ export function TapMaker({route, navigation}) {
               <Text style={modalStyles.textStyle}>¡Entendido!</Text>
             </Pressable>
           </View>
+        </Modal>
+
+        <View style={{padding: 20, marginBottom: 25}}>
+          <Text style= {{fontSize: 18, fontWeight: 'bold'}}>Pulsa una opción para cambiarla.</Text>
+          <Text style= {{fontSize: 16}}>1. Escribe su contenido.</Text>
+          <Text style= {{fontSize: 16}}>2. Píntala con cualquier color de la paleta.</Text>
+          <Text style= {{fontSize: 16, fontStyle: 'italic'}}>¡Pulsa {pickerIcon} para llevar el color a la paleta!</Text>
         </View>
-      </Modal>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalName}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalName(!modalName);
-        }}>
-
-        <ScrollView style={modalStyles.modalView}>
-          <View style={{marginTop: 60, alignItems: 'center'}}>
-            <Text style={[styles.title, {marginBottom: 20, color: palette.violet}]}>Este es el resultado:</Text>
-            <>
-              {defOptsFiltered}
-            </>
-            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
-            <Controller
-              name="name"
-              defaultValue=""
-              control={control}
-              rules={{
-                required: {value: true, message: 'Escribe tu nombre'},
-              }}
-              render={({field: {onChange, value}}) => (
-                <View style={{width: 300}}>
-                  <Input
-                    error={errors.name}
-                    errorText={errors?.name?.message}
-                    onChangeText={(text) => {
-                      setTapName(text);
-                      onChange(text);
-                    }
-                    }
-                    value={value}
-                    placeholder='Nombre'
-                  />
+        <View style={{flex: 5, margin: 30, marginBottom: 70}}>
+          <>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{alignContent: 'center', justifyContent: 'center'}}>
+                <>
+                  {OptsList}
+                </>
+                <View style={[{flexDirection: 'row', margin: 20, marginBottom: 50}]}>
+                  <View style={[tapMaker.colorTable]}>
+                    <>
+                      {colorButtons()}
+                    </>
+                  </View>
                 </View>
-              )}
-            />
-            <View style={{flexDirection: 'row'}}>
-              <Pressable
-                style={[modalStyles.button, modalStyles.grayBackground]}
-                onPress={() => {
-                  setModalName(!modalName);
-                }}
-              >
-                <Text style={modalStyles.textStyle}>Cancelar</Text>
-              </Pressable>
-              <Pressable
-                style={[modalStyles.button, modalStyles.violetBackground]}
-                onPress={() => {
-                  if (getValues().name.length > 0) {
-                    saveTap();
-                    setModalName(!modalName);
-                  } else {
-                    Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
-                      {text: 'OK'},
-                    ],
-                    {
-                      cancelable: true,
-                    });
-                  }
-                }}
-              >
-                <Text style={modalStyles.textStyle}>Guardar</Text>
-              </Pressable>
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </>
+        </View>
 
-      </Modal>
+        <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
+            <View style={styles.button_container}>
+              <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>❮  DESCARTAR</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => confirmTap()}>
+            <View style={styles.button_container}>
+              <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>TERMINAR  ❯</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      <Text style= {[styles.title, {marginTop: 20}]}>¡Crea tu propio TAP!</Text>
-      <View style={{padding: 20}}>
-        <Text style= {{fontSize: 18, fontWeight: 'bold'}}>Pulsa una opción para cambiarla.</Text>
-        <Text style= {{fontSize: 18}}>1. Escribe su contenido.</Text>
-        <Text style= {{fontSize: 18}}>2. Píntala con cualquier color de la paleta.</Text>
-        <Text style= {{fontSize: 18, fontStyle: 'italic'}}>Pulsa {pickerIcon} para llevar un color a la paleta.</Text>
       </View>
-
-      <View style={{flex: 5}}>
+    );
+  } else {
+    return (
+      <ScrollView keyboardShouldPersistTaps="handled" style={{backgroundColor: 'white'}}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
           style={styles.blank_background}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{alignContent: 'center', justifyContent: 'center'}}>
-                  <>
-                    {OptsList}
-                  </>
+              <View style={{marginTop: 40, alignItems: 'center'}}>
+                <Text style={[styles.title, {marginBottom: 20, color: palette.violet}]}>Este es el resultado:</Text>
+                <>
+                  {defOptsFiltered}
+                </>
+                <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
+                <Controller
+                  name="name"
+                  defaultValue=""
+                  control={control}
+                  rules={{
+                    required: {value: true, message: 'Escribe tu nombre'},
+                  }}
+                  render={({field: {onChange, value}}) => (
+                    <View style={{width: 300}}>
+                      <Input
+                        error={errors.name}
+                        errorText={errors?.name?.message}
+                        onChangeText={(text) => {
+                          setTapName(text);
+                          onChange(text);
+                        }
+                        }
+                        value={value}
+                        placeholder='Nombre'
+                      />
+                    </View>
+                  )}
+                />
+                <View style={{flexDirection: 'row'}}>
+                  <Pressable
+                    style={[modalStyles.button, modalStyles.grayBackground]}
+                    onPress={() => {
+                      isConfirmed(false);
+                    }}
+                  >
+                    <Text style={modalStyles.textStyle}>Cancelar</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[modalStyles.button, modalStyles.violetBackground]}
+                    onPress={() => {
+                      if (getValues().name.length > 0) {
+                        saveTap();
+                      } else {
+                        Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
+                          {text: 'OK'},
+                        ],
+                        {
+                          cancelable: true,
+                        });
+                      }
+                    }}
+                  >
+                    <Text style={modalStyles.textStyle}>Guardar</Text>
+                  </Pressable>
                 </View>
               </View>
-
             </>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
-      </View>
-
-      <View style={[{flexDirection: 'row', flex: 1, marginBottom: 20}]}>
-        <View style={[tapMaker.colorTable]}>
-          <>
-            {colorButtons()}
-          </>
-        </View>
-      </View>
-
-      <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
-          <View style={styles.button_container}>
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>❮  DESCARTAR</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => confirmTap()}>
-          <View style={styles.button_container}>
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>TERMINAR  ❯</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-    </View>
-  );
+      </ScrollView>
+    );
+  }
 }
 
 const tapPreview = StyleSheet.create({
@@ -513,6 +508,7 @@ const tapMaker = StyleSheet.create({
     flexDirection: 'row',
     borderColor: '#000',
     borderWidth: 2,
+    borderStyle: 'dotted',
     width: 300,
     height: 60,
     justifyContent: 'center',
@@ -536,6 +532,7 @@ const modalStyles = StyleSheet.create({
     elevation: 10,
   },
   modalAlert: {
+    marginTop: 100,
     backgroundColor: 'white',
     borderColor: '#ed1c24',
     borderWidth: 5,

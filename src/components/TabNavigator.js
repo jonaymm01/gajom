@@ -26,6 +26,9 @@ const BottomTabNavigator = () => {
     }}>
       <Tab.Navigator initialRouteName={'main'}
         screenOptions={({route}) => ({
+          safeAreaInsets: {
+            bottom: 0,
+          },
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
             if (route.name === 'support') {
