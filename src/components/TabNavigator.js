@@ -52,9 +52,10 @@ const BottomTabNavigator = () => {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
+          tabBarInactiveTintColor: palette.red,
           tabBarActiveTintColor: 'white',
-          tabBarInactiveTintColor: 'gray',
-          tabBarActiveBackgroundColor: '#763CAD',
+          tabBarInactiveBackgroundColor: 'white',
+          tabBarActiveBackgroundColor: palette.red,
           tabBarStyle: {
             height: 120,
             labelSize: 60,
@@ -65,12 +66,12 @@ const BottomTabNavigator = () => {
           },
         })}
       >
-        <Tab.Screen name="talker" component={TalkerStackNavigator} options={{title: 'Hablar', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
-          headerTitleStyle: {color: 'white', fontWeight: 'bold'}}}/>
-        <Tab.Screen name="main" component={MainStackNavigator} options={{title: 'Inicio', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
-          headerTitleStyle: {color: 'white', fontWeight: 'bold'}}}/>
-        <Tab.Screen name="user" component={UserStackNavigator} options={{title: 'Usuario', headerTitle: 'Gajom', headerStyle: {backgroundColor: palette.violet},
-          headerTitleStyle: {color: 'white', fontWeight: 'bold'}}}/>
+        <Tab.Screen name="talker" component={TalkerStackNavigator} options={{title: 'Hablar', headerTitle: (user === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${user.name}`, headerStyle: {backgroundColor: palette.red},
+          headerTitleStyle: {color: 'white', fontWeight: 'bold'}, headerTitleAlign: 'center'}}/>
+        <Tab.Screen name="main" component={MainStackNavigator} options={{title: 'Inicio', headerTitle: (user === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${user.name}`, headerStyle: {backgroundColor: palette.red},
+          headerTitleStyle: {color: 'white', fontWeight: 'bold'}, headerTitleAlign: 'center'}}/>
+        <Tab.Screen name="user" component={UserStackNavigator} options={{title: 'Usuario', headerTitle: (user === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${user.name}`, headerStyle: {backgroundColor: palette.red},
+          headerTitleStyle: {color: 'white', fontWeight: 'bold'}, headerTitleAlign: 'center'}}/>
       </Tab.Navigator>
     </View>
   );

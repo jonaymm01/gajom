@@ -10,23 +10,54 @@ import {Logopedazos} from '../content/Logopedazos';
  * @return {JSX.Element}
  */
 export function Main({navigation}) {
-  const now = new Date();
-  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const day = days[now.getDay()];
+  const dayToSpanish = (day) => {
+    switch (day) {
+      case 1: return 'domingo';
+      case 2: return 'lunes';
+      case 3: return 'martes';
+      case 4: return 'miércoles';
+      case 5: return 'jueves';
+      case 6: return 'viernes';
+      case 7: return 'sábado';
+    }
+  };
+
+  const monthToSpanish = (month) => {
+    switch (month) {
+      case 1: return 'enero';
+      case 2: return 'febrero';
+      case 3: return 'marzo';
+      case 4: return 'abril';
+      case 5: return 'mayo';
+      case 6: return 'junio';
+      case 7: return 'julio';
+      case 8: return 'agosto';
+      case 9: return 'septiembre';
+      case 10: return 'octubre';
+      case 11: return 'noviembre';
+      case 12: return 'diciembre';
+    }
+  };
 
   const fullDate = () => {
     const dateObj = new Date();
-    const month = dateObj.getUTCMonth() + 1; // months from 1-12
-    const day = dateObj.getUTCDate();
+    const monthNumber = dateObj.getUTCMonth() + 1; // months from 1-12
+    const dayNumber = dateObj.getUTCDate();
     const year = dateObj.getUTCFullYear();
+    const dia = dayToSpanish(dateObj.getDay()+1);
+    const mes = monthToSpanish(monthNumber);
+    const upperCaseDia = dia.charAt(0).toUpperCase() + dia.slice(1);
 
-    const newdate = day + '/' + month + '/' + year;
+    const newdate = upperCaseDia + ' ' + dayNumber + ' de ' + mes + ' de ' + year;
     return newdate;
   };
 
   const todayLogo = () => {
     let actualText = '';
     let actualLink = '';
+    const now = new Date();
+    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const day = days[now.getDay()];
 
     switch (day) {
       case 'sunday':
@@ -65,20 +96,6 @@ export function Main({navigation}) {
     return logopedazo;
   };
 
-  const dayToSpanish = (day) => {
-    switch (day) {
-      case 'monday': return 'lunes';
-      case 'tuesday': return 'martes';
-      case 'wednesday': return 'miércoles';
-      case 'thursday': return 'jueves';
-      case 'friday': return 'viernes';
-      case 'saturday': return 'sábado';
-      case 'sunday': return 'domingo';
-    }
-  };
-
-  const dia = dayToSpanish(day);
-
   const onPressContact = () => navigation.navigate('Contact');
   const onPressFQA = () => navigation.navigate('FQA');
 
@@ -88,26 +105,28 @@ export function Main({navigation}) {
 
   return (
     <View style={[styles.container, {flexDirection: 'column', padding: 0}]}>
+      <View style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}>
+      </View>
       <View style={[styles.container, {flexDirection: 'row', padding: 0}]}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderEndWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressContact}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet, borderEndWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressContact}>
           <View style={styles.button_container}>
-            <Text style={styles.button_text}>Contacto</Text>
-            <Image source={require('../../assets/contact_icon.png')} resizeMode='contain' style={{flex: 1, marginBottom: 80, width: 100}} />
+            <Text style={[styles.button_text]}>Contacto</Text>
+            <Image source={require('../../assets/contact_icon.png')} resizeMode='contain' style={{maxWidth: 90, maxHeight: 90, margin: 10}} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressFQA}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet, borderLeftWidth: 2.5, borderBottomWidth: 2.5}]} onPress={onPressFQA}>
           <View style={styles.button_container}>
-            <Text style={styles.button_text}>Dudas</Text>
-            <Image source={require('../../assets/fqa_icon.png')} resizeMode='contain' style={{flex: 1, marginBottom: 80, width: 100}} />
+            <Text style={[styles.button_text]}>Dudas</Text>
+            <Image source={require('../../assets/fqa_icon.png')} resizeMode='contain' style={{maxWidth: 90, maxHeight: 90, margin: 10}} />
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={[styles.button, {backgroundColor: palette.red, borderTopWidth: 2.5}]} onPress={onPressLogopedazo}>
+      <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet, borderTopWidth: 2.5}]} onPress={onPressLogopedazo}>
         <View style={styles.button_container}>
-          <Image source={require('../../assets/logo/logo_gajom.png')} resizeMode='contain' style={{flex: 1, marginTop: -70, borderColor: 'blue'}} />
-          <Text style={{alignSelf: 'flex-start', marginTop: -40, marginLeft: 30, color: '#fff', fontWeight: 'bold', fontSize: 20}}>{dia.charAt(0).toUpperCase() + dia.slice(1)}</Text>
-          <Text style={{alignSelf: 'flex-end', marginTop: -25, marginRight: 30, color: '#fff', fontWeight: 'bold', fontSize: 18}}>{fullDate()}</Text>
-          <Text style={[styles.logopedazo_title, {marginTop: 20}]}>LOGOPEDAZO DEL DÍA</Text>
+          <View style={{flex: 1, marginTop: 30}}>
+            <Text style={[styles.logopedazo_title]}>LOGOPEDAZO DEL DÍA</Text>
+            <Text style={{textAlign: 'left', color: '#fff', fontWeight: 'bold', fontSize: 20}}>{fullDate()}</Text>
+          </View>
           <Text style= {styles.logopedazo_text}>{logopedazoContent}</Text>
         </View>
       </TouchableOpacity>

@@ -56,180 +56,135 @@ export function TapMaker({route, navigation}) {
     const colorsOn = colors.filter((x) => !colorsOff.includes(x));
     let output = [];
     if (colorsOn.length > 0) {
-      output = colorsOn.map((color, index) => <TouchableOpacity key={index} style={[styles.button, {backgroundColor: color}]} onPress={() => setColor(color)}/>);
+      output = colorsOn.map((color, index) => <TouchableOpacity key={index} style={[styles.button, {backgroundColor: color}]} onPress={() => setColor(opt, color)}/>);
     } else {
-      output = <Text style={{alignSelf: 'center', fontStyle: 'italic'}}>¡Extrae los colores y úsalos a tu manera!</Text>;
+      output = <Text style={{alignSelf: 'center', fontStyle: 'italic'}}>Paleta de colores</Text>;
     }
     return output;
   };
 
-  const OptsList = [
+  const getOptColor = (opt) => {
+    switch (opt) {
+      case 1: return opt1Color;
+      case 2: return opt2Color;
+      case 3: return opt3Color;
+      case 4: return opt4Color;
+    }
+  };
 
-    <View key={1} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: 10, backgroundColor: opt1Color}]}
+  const getOptText = (opt) => {
+    switch (opt) {
+      case 1: return opt1Text;
+      case 2: return opt2Text;
+      case 3: return opt3Text;
+      case 4: return opt4Text;
+    }
+  };
+
+  const getOptUsed = (opt) => {
+    switch (opt) {
+      case 1: return opt1Used;
+      case 2: return opt2Used;
+      case 3: return opt3Used;
+      case 4: return opt4Used;
+    }
+  };
+
+  const markOpt = (opt, state) => {
+    switch (opt) {
+      case 1: return markOpt1(state);
+      case 2: return markOpt2(state);
+      case 3: return markOpt3(state);
+      case 4: return markOpt4(state);
+    }
+  };
+
+  const setColor = (opt, color) => {
+    switch (opt) {
+      case 1: return setColor1(color);
+      case 2: return setColor2(color);
+      case 3: return setColor3(color);
+      case 4: return setColor4(color);
+    }
+  };
+
+  const setText = (opt, text) => {
+    switch (opt) {
+      case 1: return setText1(text);
+      case 2: return setText2(text);
+      case 3: return setText3(text);
+      case 4: return setText4(text);
+    }
+  };
+
+  const optionInput = (index) =>
+    <>
+      <View style={{display: (opt == index) ? 'flex' : 'none'}}>
+        <Controller
+          name="opt"
+          defaultValue=''
+          control={control}
+          rules={{
+            required: {value: true, message: 'Escribe una opción'},
+          }}
+          render={({field: {onChange, value}}) => (
+            <Input
+              error={errors.name}
+              errorText={errors?.name?.message}
+              onChangeText={(text) => {
+                setText(opt, text);
+                onChange(text);
+              }}
+              value={value}
+              placeholder={optText}
+              style={{backgroundColor: 'white', justifyContent: 'center', width: 150, alignSelf: 'center', marginBottom: -20, height: 40, fontSize: 15, textAlign: 'center'}}
+            />
+          )}
+        />
+      </View>
+      <View style={{display: (opt == index) ? 'none' : 'flex'}}>
+        <Text style={[
+          tapPreview.optionText,
+          {
+            color: (opt === index) ? 'black' : 'white',
+            fontStyle: !opt1Used ? 'italic' : 'normal',
+            textShadowColor: (opt === index) ? null : 'black',
+            backgroundColor: ((opt === index) ) ? 'white' : null,
+            width: (opt === index) ? 140 : null,
+            borderStyle: (getOptColor(index) === 'white') ? 'dashed' : null,
+            borderWidth: (getOptUsed(index) && (getOptColor(index) === 'white') && (opt == index)) ? 2 : null,
+          },
+        ]}> {getOptText(index)} </Text>
+      </View>
+    </>;
+
+  const OptsList = [];
+  for (let index = 1; index <= 4; index++) {
+    OptsList.push(<View key={index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: 10, backgroundColor: getOptColor(index)}]}
         onPress={() => {
-          setColor1('white');
+          setColor(index, 'white');
         }}>
         <Image source={require('../../../assets/picker_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
-        setOpt(1);
+        setOpt(index);
       }}>
         <View style={[tapPreview.option, {
-          width: !opt1Used ? 200 : 160,
-          backgroundColor: opt1Color,
-          borderWidth: (opt1Used || (opt1Color === 'white')) ? 2 : null,
-          borderStyle: (opt1Used) ? 'solid' : null,
-          borderStyle: (opt1Color === 'white') ? 'dashed' : null,
+          width: !getOptUsed(index) ? 200 : 160,
+          backgroundColor: getOptColor(index),
+          borderWidth: ((getOptColor(index) === 'white')) ? 2 : null,
+          borderStyle: (getOptColor(index) === 'white') ? 'dashed' : null,
         }]}>
-          <Text style={[
-            tapPreview.optionText,
-            {
-              color: (opt === 1) ? 'black' : 'white',
-              fontStyle: !opt1Used ? 'italic' : 'normal',
-              textShadowColor: (opt === 1) ? null : 'black',
-              backgroundColor: ((opt === 1) ) ? 'white' : null,
-              width: (opt === 1) ? 140 : null,
-              borderStyle: (opt1Color === 'white') ? 'dashed' : null,
-              borderWidth: (opt1Used && (opt1Color === 'white') && (opt == 1)) ? 2 : null,
-            },
-          ]}> {opt1Text} </Text>
+          <>
+            {optionInput(index)}
+          </>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginLeft: 10}]}
-        onPress={() => {
-          setText1('Opción 1');
-          markOpt1(false);
-        }}>
-        <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30}]}> ⟳ </Text>
-      </TouchableOpacity>
-      <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30, marginLeft: 10}]}> {(opt1Used && (opt1Color !== 'white')) ? '✓' : ''} </Text>
+      <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30, marginLeft: 10, color: getOptColor(index)}]}> {(getOptUsed(index) && (getOptColor(index) !== 'white')) ? '☑' : '☐'} </Text>
     </View>,
-
-    <View key={2} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: 10, backgroundColor: opt2Color}]}
-        onPress={() => {
-          setColor2('white');
-        }}>
-        <Image source={require('../../../assets/picker_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
-      </TouchableOpacity>
-      <TouchableOpacity key={2} onPress={() => {
-        setOpt(2);
-      }}>
-        <View style={[tapPreview.option, {
-          width: !opt2Used ? 200 : 160,
-          backgroundColor: opt2Color,
-          borderWidth: (opt2Used || (opt2Color === 'white')) ? 2 : null,
-          borderStyle: (opt2Used) ? 'solid' : null,
-          borderStyle: (opt2Color === 'white') ? 'dashed' : null,
-        }]}>
-          <Text style={[
-            tapPreview.optionText,
-            {
-              color: (opt === 2) ? 'black' : 'white',
-              fontStyle: !opt2Used ? 'italic' : 'normal',
-              textShadowColor: (opt === 2) ? null : 'black',
-              backgroundColor: ((opt === 2) ) ? 'white' : null,
-              width: (opt === 2) ? 140 : null,
-              borderStyle: (opt2Color === 'white') ? 'dashed' : null,
-              borderWidth: (opt2Used && (opt2Color === 'white') && (opt == 2)) ? 2 : null,
-            },
-          ]}> {opt2Text} </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginLeft: 10}]}
-        onPress={() => {
-          setText2('Opción 2');
-          markOpt2(false);
-        }}>
-        <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30}]}> ⟳ </Text>
-      </TouchableOpacity>
-      <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30, marginLeft: 10}]}> {(opt2Used && (opt2Color !== 'white')) ? '✓' : ''} </Text>
-    </View>,
-
-    <View key={3} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: 10, backgroundColor: opt3Color}]}
-        onPress={() => {
-          setColor3('white');
-        }}>
-        <Image source={require('../../../assets/picker_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
-      </TouchableOpacity>
-      <TouchableOpacity key={3} onPress={() => {
-        setOpt(3);
-      }}>
-        <View style={[tapPreview.option, {
-          width: !opt3Used ? 200 : 160,
-          backgroundColor: opt3Color,
-          borderWidth: (opt3Used || (opt3Color === 'white')) ? 2 : null,
-          borderStyle: (opt3Used) ? 'solid' : null,
-          borderStyle: (opt3Color === 'white') ? 'dashed' : null,
-        }]}>
-          <Text style={[
-            tapPreview.optionText,
-            {
-              color: (opt === 3) ? 'black' : 'white',
-              fontStyle: !opt3Used ? 'italic' : 'normal',
-              textShadowColor: (opt === 3) ? null : 'black',
-              backgroundColor: ((opt === 3) ) ? 'white' : null,
-              width: (opt === 3) ? 140 : null,
-              borderStyle: (opt3Color === 'white') ? 'dashed' : null,
-              borderWidth: (opt3Used && (opt3Color === 'white') && (opt == 3)) ? 2 : null,
-            },
-          ]}> {opt3Text} </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginLeft: 10}]}
-        onPress={() => {
-          setText3('Opción 3');
-          markOpt3(false);
-        }}>
-        <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30}]}> ⟳ </Text>
-      </TouchableOpacity>
-      <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30, marginLeft: 10}]}> {(opt3Used && (opt3Color !== 'white')) ? '✓' : ''} </Text>
-    </View>,
-
-    <View key={4} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: 10, backgroundColor: opt4Color}]}
-        onPress={() => {
-          setColor4('white');
-        }}>
-        <Image source={require('../../../assets/picker_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
-      </TouchableOpacity>
-      <TouchableOpacity key={4} onPress={() => {
-        setOpt(4);
-      }}>
-        <View style={[tapPreview.option, {
-          width: !opt4Used ? 200 : 160,
-          backgroundColor: opt4Color,
-          borderWidth: (opt4Used || (opt4Color === 'white')) ? 2 : null,
-          borderStyle: (opt4Used) ? 'solid' : null,
-          borderStyle: (opt4Color === 'white') ? 'dashed' : null,
-        }]}>
-          <Text style={[
-            tapPreview.optionText,
-            {
-              color: (opt === 4) ? 'black' : 'white',
-              fontStyle: !opt4Used ? 'italic' : 'normal',
-              textShadowColor: (opt === 4) ? null : 'black',
-              backgroundColor: ((opt === 4) ) ? 'white' : null,
-              width: (opt === 4) ? 140 : null,
-              borderStyle: (opt4Color === 'white') ? 'dashed' : null,
-              borderWidth: (opt4Used && (opt4Color === 'white') && (opt == 4)) ? 2 : null,
-            },
-          ]}> {opt4Text} </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginLeft: 10}]}
-        onPress={() => {
-          setText4('Opción 4');
-          markOpt4(false);
-        }}>
-        <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30}]}> ⟳ </Text>
-      </TouchableOpacity>
-      <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30, marginLeft: 10}]}> {(opt4Used && (opt4Color !== 'white')) ? '✓' : ''} </Text>
-    </View>,
-
-  ];
+    );
+  }
 
   useEffect(() => {
     setColorOff([opt1Color, opt2Color, opt3Color, opt4Color]);
@@ -290,48 +245,6 @@ export function TapMaker({route, navigation}) {
     };
   }, [opt1Color, opt2Color, opt3Color, opt4Color]);
 
-  /**
-   * Cambiar texto en la opción seleccionada
-   * @param {string} text
-   */
-  function setText(text) {
-    switch (opt) {
-      case 1:
-        setText1(text);
-        break;
-      case 2:
-        setText2(text);
-        break;
-      case 3:
-        setText3(text);
-        break;
-      case 4:
-        setText4(text);
-        break;
-    }
-  }
-
-  /**
- * Cambiar texto en la opción seleccionada
- * @param {string} color
- */
-  function setColor(color) {
-    switch (opt) {
-      case 1:
-        setColor1(color);
-        break;
-      case 2:
-        setColor2(color);
-        break;
-      case 3:
-        setColor3(color);
-        break;
-      case 4:
-        setColor4(color);
-        break;
-    }
-  }
-
   const confirmTap = () => {
     const finalOpts = [
       {
@@ -379,6 +292,8 @@ export function TapMaker({route, navigation}) {
     navigation.navigate('TapMenu');
   };
 
+  const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: 20, height: 20}} />;
+
   return (
     <View style={styles.blank_background}>
 
@@ -410,110 +325,84 @@ export function TapMaker({route, navigation}) {
           Alert.alert('Modal has been closed.');
           setModalName(!modalName);
         }}>
-        <View style={[modalStyles.centeredView, modalStyles.modalView]}>
-          <Text style={[styles.title, {marginBottom: 20, color: palette.violet}]}>Este es el resultado:</Text>
-          <>
-            {defOptsFiltered}
-          </>
-          <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
-          <Controller
-            name="name"
-            defaultValue=""
-            control={control}
-            rules={{
-              required: {value: true, message: 'Escribe tu nombre'},
-            }}
-            render={({field: {onChange, value}}) => (
-              <Input
-                error={errors.name}
-                errorText={errors?.name?.message}
-                onChangeText={(text) => {
-                  setTapName(text);
-                  onChange(text);
-                }
-                }
-                value={value}
-                placeholder='Nombre'
-              />
-            )}
-          />
-          <View style={{flexDirection: 'row'}}>
-            <Pressable
-              style={[modalStyles.button, modalStyles.grayBackground]}
-              onPress={() => {
-                setModalName(!modalName);
+
+        <ScrollView style={modalStyles.modalView}>
+          <View style={{marginTop: 60, alignItems: 'center'}}>
+            <Text style={[styles.title, {marginBottom: 20, color: palette.violet}]}>Este es el resultado:</Text>
+            <>
+              {defOptsFiltered}
+            </>
+            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
+            <Controller
+              name="name"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: {value: true, message: 'Escribe tu nombre'},
               }}
-            >
-              <Text style={modalStyles.textStyle}>Cancelar</Text>
-            </Pressable>
-            <Pressable
-              style={[modalStyles.button, modalStyles.violetBackground]}
-              onPress={() => {
-                if (getValues().name.length > 0) {
-                  saveTap();
+              render={({field: {onChange, value}}) => (
+                <View style={{width: 300}}>
+                  <Input
+                    error={errors.name}
+                    errorText={errors?.name?.message}
+                    onChangeText={(text) => {
+                      setTapName(text);
+                      onChange(text);
+                    }
+                    }
+                    value={value}
+                    placeholder='Nombre'
+                  />
+                </View>
+              )}
+            />
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={[modalStyles.button, modalStyles.grayBackground]}
+                onPress={() => {
                   setModalName(!modalName);
-                } else {
-                  Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
-                    {text: 'OK'},
-                  ],
-                  {
-                    cancelable: true,
-                  });
-                }
-              }}
-            >
-              <Text style={modalStyles.textStyle}>Guardar</Text>
-            </Pressable>
+                }}
+              >
+                <Text style={modalStyles.textStyle}>Cancelar</Text>
+              </Pressable>
+              <Pressable
+                style={[modalStyles.button, modalStyles.violetBackground]}
+                onPress={() => {
+                  if (getValues().name.length > 0) {
+                    saveTap();
+                    setModalName(!modalName);
+                  } else {
+                    Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
+                      {text: 'OK'},
+                    ],
+                    {
+                      cancelable: true,
+                    });
+                  }
+                }}
+              >
+                <Text style={modalStyles.textStyle}>Guardar</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
+        </ScrollView>
+
       </Modal>
 
-      <View style={[styles.container, {flexDirection: 'row', flex: 1}]}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
-          <View style={styles.button_container}>
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>DESCARTAR</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => confirmTap()}>
-          <View style={styles.button_container}>
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>TERMINAR</Text>
-          </View>
-        </TouchableOpacity>
+      <Text style= {[styles.title, {marginTop: 20}]}>¡Crea tu propio TAP!</Text>
+      <View style={{padding: 20}}>
+        <Text style= {{fontSize: 18, fontWeight: 'bold'}}>Pulsa una opción para cambiarla.</Text>
+        <Text style= {{fontSize: 18}}>1. Escribe su contenido.</Text>
+        <Text style= {{fontSize: 18}}>2. Píntala con cualquier color de la paleta.</Text>
+        <Text style= {{fontSize: 18, fontStyle: 'italic'}}>Pulsa {pickerIcon} para llevar un color a la paleta.</Text>
       </View>
 
-      <View style={{flex: 6, marginBottom: 10}}>
+      <View style={{flex: 5}}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.blank_background}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <>
-              <View style={{alignSelf: 'flex-end'}}>
-                <Text style={[styles.basic_font, {fontStyle: 'italic', marginBottom: 5, alignSelf: 'flex-end'}]}>Pulsa una opción y escribe aquí:</Text>
-                <View style={{alignItems: 'center', width: 280}}>
-                  <Controller
-                    name="opt"
-                    defaultValue=''
-                    control={control}
-                    rules={{
-                      required: {value: true, message: 'Escribe una opción'},
-                    }}
-                    render={({field: {onChange, value}}) => (
-                      <Input
-                        error={errors.name}
-                        errorText={errors?.name?.message}
-                        onChangeText={(text) => {
-                          setText(text);
-                          onChange(text);
-                        }}
-                        value={value}
-                        placeholder={optText}
-                      />
-                    )}
-                  />
-                </View>
-              </View>
-
-
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{alignContent: 'center', justifyContent: 'center'}}>
                   <>
@@ -527,16 +416,27 @@ export function TapMaker({route, navigation}) {
         </KeyboardAvoidingView>
       </View>
 
-      <View style={[{flexDirection: 'row', flex: 1, width: 360}]}>
-        <View style={[tapMaker.colorTable, {}]}>
+      <View style={[{flexDirection: 'row', flex: 1, marginBottom: 20}]}>
+        <View style={[tapMaker.colorTable]}>
           <>
             {colorButtons()}
           </>
         </View>
-        <View style={{justifyContent: 'center', marginLeft: 20, marginBottom: 10, backgroundColor: optColor, height: 40, width: 40, alignSelf: 'flex-end', borderWidth: 2}}>
-          <Text style={{alignSelf: 'center', marginTop: -110, fontSize: 40}}> ⥂ </Text>
-        </View>
       </View>
+
+      <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
+          <View style={styles.button_container}>
+            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>❮  DESCARTAR</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => confirmTap()}>
+          <View style={styles.button_container}>
+            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>TERMINAR  ❯</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 }
@@ -616,25 +516,16 @@ const tapMaker = StyleSheet.create({
     width: 300,
     height: 60,
     justifyContent: 'center',
-    marginBottom: 20,
     alignSelf: 'flex-start',
   },
 });
 
 const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
   modalView: {
     backgroundColor: 'white',
     borderColor: '#763CAD',
     borderWidth: 5,
-    padding: 40,
     height: 500,
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

@@ -55,20 +55,17 @@ export const styles = StyleSheet.create({
     width: 30,
   },
   logopedazo_title: {
-    flex: 1,
     color: '#fff',
     fontSize: 30,
     justifyContent: 'center',
     fontWeight: 'bold',
     fontStyle: 'italic',
-    lineHeight: 100,
   },
   logopedazo_text: {
-    flex: 1,
+    flex: 2,
     color: '#fff',
     fontSize: 18,
     textAlign: 'justify',
-    marginTop: -60,
     padding: 20,
   },
   button_container: {
@@ -86,11 +83,9 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
   button_text: {
-    flex: 1,
     color: 'white',
     fontWeight: 'bold',
     fontSize: 30,
-    lineHeight: 120,
   },
   basic_font: {
     fontSize: 20,

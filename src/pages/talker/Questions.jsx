@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, ScrollView, Modal, Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
@@ -9,6 +9,8 @@ import Button from '../../components/Button';
 import {styles, palette} from '../../styles/styles';
 import {DefaultQuestions} from '../../content/DefaultQuestions';
 import * as Speech from 'expo-speech';
+
+import {UserContext} from '../../../global';
 
 /**
    * Método para reproducir el texto de un Pictograma
@@ -24,6 +26,13 @@ const speak = (text) => {
  * @return {JSX.Element}
  */
 export function Questions() {
+  const [activeUser, setUser] = useContext(UserContext);
+  let user = '{}';
+  if (activeUser !== '{}') {
+    user = JSON.parse(activeUser);
+  }
+
+
   const [modalAdd, setModalAdd] = useState(false);
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
   const [newQuest, setNewQuest] = useState('');
@@ -86,11 +95,11 @@ export function Questions() {
       </TouchableOpacity>;
 
     addButton =
-          <TouchableOpacity style={[questionStyles.backButton, {width: 230}]} onPress={() => {
+          <TouchableOpacity style={[questionStyles.addButton]} onPress={() => {
             setModalAdd(!modalAdd);
           }}>
             <View>
-              <Text style={[questionStyles.smallButtonText, {lineHeight: 40, fontSize: 20}]}> Crear pregunta </Text>
+              <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(user === '{}') ? 'Inicia sesión para crear tus propias preguntas' : '+'}</Text>
             </View>
           </TouchableOpacity>;
   }
@@ -186,15 +195,17 @@ export function Questions() {
         </View>
       </Modal>
 
-      <View style={isStart ? {flex: 0} : {flex: 1}}>
-        {result}
+      <View style={isStart ? {flex: 0} : {flex: 1, flexDirection: 'row', alignItems: 'center', height: 80}}>
+        <>
+          {backButton}
+        </>
+        <>
+          {result}
+        </>
       </View>
       <View style={{flex: 2}}>
-        <View style={{flexDirection: 'row', width: 300, marginTop: -20}}>
-          <>
-            {backButton}
-          </>
-          <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: -30}]}>{isStart ? 'Construye tu pregunta' : ''}</Text>
+        <View style={{width: 300, marginTop: -50}}>
+          <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20}]}>{isStart ? 'Construye tu pregunta' : ''}</Text>
           <>
             {addButton}
           </>
@@ -227,11 +238,18 @@ export const questionStyles = StyleSheet.create({
     width: 300,
     justifyContent: 'center',
   },
-  defButton: {
-    backgroundColor: palette.red,
+  addButton: {
+    backgroundColor: palette.gray,
     margin: 5,
     height: 80,
     width: 300,
+    justifyContent: 'center',
+  },
+  defButton: {
+    backgroundColor: palette.red,
+    margin: 5,
+    width: 250,
+    height: 80,
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -244,11 +262,9 @@ export const questionStyles = StyleSheet.create({
   },
   backButton: {
     backgroundColor: palette.gray,
-    margin: 5,
     height: 60,
     width: 60,
     justifyContent: 'center',
-    alignSelf: 'flex-start',
   },
   text: {
     fontSize: 30,
