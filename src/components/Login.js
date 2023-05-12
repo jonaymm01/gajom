@@ -10,6 +10,8 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 
 import {styles, palette} from '../styles/styles';
+import { useNavigation } from '@react-navigation/native';
+import { RotateInUpLeft } from 'react-native-reanimated';
 
 /**
  * Componente: Inicio de sesión
@@ -44,6 +46,8 @@ export function Login({navigation}) {
     const result = await AsyncStorage.multiGet(keys);
     console.log(result);
   };
+
+  (navigation.getState().routes !== undefined) ? console.log(navigation.getState().routes[0].params) : null;
 
   return (
     <SafeAreaView>
@@ -87,7 +91,7 @@ export function Login({navigation}) {
                   <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu cuenta en Gajom</Text>
                   <Controller
                     name="email"
-                    defaultValue=""
+                    defaultValue={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.email : ''}
                     control={control}
                     rules={{
                       required: {value: true, message: 'Escribe tu correo electrónico'},
@@ -102,14 +106,14 @@ export function Login({navigation}) {
                         errorText={errors?.email?.message}
                         onChangeText={(text) => onChange(text)}
                         value={value}
-                        placeholder="Correo electrónico"
+                        placeholder={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.email : 'Correo electrónico'}
                         autoCapitalize="none"
                       />
                     )}
                   />
                   <Controller
                     name="password"
-                    defaultValue=""
+                    defaultValue={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.password : ''}
                     control={control}
                     rules={{
                       required: {value: true, message: 'Escribe una contraseña'},
@@ -121,7 +125,7 @@ export function Login({navigation}) {
                           errorText={errors?.password?.message}
                           onChangeText={(text) => onChange(text)}
                           value={value}
-                          placeholder="Contraseña"
+                          placeholder={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.password : 'Contraseña'}
                           autoCapitalize="none"
                           autoCorrect={false}
                           textContentType="newPassword"

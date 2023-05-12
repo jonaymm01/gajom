@@ -65,7 +65,8 @@ const UserStackNavigator = () => {
 
 const TalkerStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{
+    <Stack.Navigator 
+    screenOptions={{
       headerShown: false,
       headerTintColor: '#fff',
       headerStyle: headerStyle.header,

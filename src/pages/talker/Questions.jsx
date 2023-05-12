@@ -58,7 +58,7 @@ export function Questions() {
   let addButton = '';
 
   if (isStart) {
-    const questions = DefaultQuestions.data.questions;
+    const questions = DefaultQuestions.questions.data;
     buttons = questions.map((question, index)=>
       <TouchableOpacity key={index} style={[questionStyles.button]} onPress={() => {
         markStart(false);
@@ -72,11 +72,9 @@ export function Questions() {
     );
   } else {
     const start = startWord;
-    const questions = DefaultQuestions.data.questions.find((question) => question.start === start);
-    console.log('user in here: ',user)
-    if (user !== '{}') {
+    const questions = DefaultQuestions.questions.data.find((question) => question.start === start);
+    if ((user !== '{}') && (typeof(user.questions) !== 'undefined')) {
       const userQuestions = user.questions.data.find((question) => question.start === start);
-      console.log('userQuestions', userQuestions);
       if (userQuestions !== undefined) {
         userButtons = userQuestions.ends.map((question, index)=>
           <View key={'user: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>

@@ -18,24 +18,42 @@
         },
         {
           "text": "Regular",
-          "color": "black"
+          "color": "yellow"
         }
       ]
     },
     {
       "key": 0,
-      "text": "Necesidades",
+      "text": "Sí / No",
       "options": [
         {
-          "text": "Comer",
+          "text": "Sí",
           "color": "green"
         },
         {
-          "text": "Beber",
+          "text": "No",
+          "color": "red"
+        }
+      ]
+    },
+    {
+      "key": 0,
+      "text": "Direcciones",
+      "options": [
+        {
+          "text": "Arriba",
+          "color": "green"
+        },
+        {
+          "text": "Abajo",
+          "color": "yellow"
+        },
+        {
+          "text": "Derecha",
           "color": "blue"
         },
         {
-          "text": "Baño",
+          "text": "Izquierda",
           "color": "red"
         }
       ]
