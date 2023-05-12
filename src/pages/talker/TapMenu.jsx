@@ -33,14 +33,16 @@ export function TapMenu({navigation}) {
 
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
-        <View style={styles.blank_background}>
-          <Separator>Taps de {activeUser.name}</Separator>
-          <Button color={palette.gray} onPress={() => navigation.navigate('TapMaker')} label={'+'}/>
-          <ScrollView style={{marginTop: 50}}>
-            <TapList navigation={navigation} removable={true}>{JSON.stringify(activeUser.taps)}</TapList>
-            <Separator>Taps de Gajom</Separator>
-            <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
-          </ScrollView>
+        <View style={{backgroundColor: '#fff'}}>
+          <View style={styles.blank_background}>
+            <Separator>Tus TAPs</Separator>
+            <Button color={palette.gray} onPress={() => navigation.navigate('TapMaker')} label={'+'}/>
+          </View>
+        </View>
+        <View style={{marginTop: 50, backgroundColor: '#fff'}}>
+          <TapList navigation={navigation} removable={true}>{JSON.stringify(activeUser.taps)}</TapList>
+          <Separator>Sugerencias</Separator>
+          <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
         </View>
       </ScrollView>
     );
@@ -50,10 +52,10 @@ export function TapMenu({navigation}) {
         <View style={styles.blank_background}>
           <Separator>Taps del usuario</Separator>
           <Text style={[styles.text, {textAlign: 'center'}]}>¡Inicia sesión para crear tus propios TAPs!</Text>
-          <ScrollView style={{marginTop: 50}}>
-            <Separator>Taps de Gajom</Separator>
-            <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
-          </ScrollView>
+        </View>
+        <View style={{marginTop: 50}}>
+          <Separator>Taps de Gajom</Separator>
+          <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
         </View>
       </ScrollView>
     );

@@ -20,7 +20,7 @@ export function SignUp({navigation}) {
   const [modalSigned, setModalSigned] = useState(false);
   const onPressLogin = () => navigation.navigate('Login');
 
-  const {handleSubmit, control, formState: {errors}} = useForm();
+  const {handleSubmit, control, formState: {errors}, getValues} = useForm();
 
   const showPass = () => {
     setHiddenPassword(!hiddenPassword);
@@ -85,7 +85,7 @@ export function SignUp({navigation}) {
                       <Pressable
                         style={[modalStyles.button, modalStyles.violetBackground]}
                         onPress={() => {
-                          navigation.navigate('Login');
+                          navigation.navigate('Login', {email: getValues().email, password: getValues().password});
                           setModalSigned(!modalSigned);
                         }}>
                         <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>

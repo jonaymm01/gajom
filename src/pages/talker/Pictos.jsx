@@ -43,7 +43,6 @@ export function Pictos() {
       ? catContent.filter((picto) => picto.text.toLowerCase().startsWith(text.toLowerCase()))
       : catContent;
     setFiltered(filtered);
-    console.log(filtered);
   }, [text]);
 
 

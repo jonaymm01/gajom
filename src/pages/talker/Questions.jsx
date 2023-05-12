@@ -73,10 +73,8 @@ export function Questions() {
   } else {
     const start = startWord;
     const questions = DefaultQuestions.questions.data.find((question) => question.start === start);
-    console.log('user in here: ',user)
     if ((user !== '{}') && (typeof(user.questions) !== 'undefined')) {
       const userQuestions = user.questions.data.find((question) => question.start === start);
-      console.log('userQuestions', userQuestions);
       if (userQuestions !== undefined) {
         userButtons = userQuestions.ends.map((question, index)=>
           <View key={'user: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
