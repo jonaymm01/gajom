@@ -40,6 +40,11 @@ export const DefaultQuestions = {
           'eres?',
         ],
       },
+      {
+        start: '¿',
+        ends: [
+        ],
+      },
     ],
   },
 };

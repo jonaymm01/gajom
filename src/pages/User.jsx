@@ -262,7 +262,7 @@ export function User({navigation}) {
               <Text style={modalStyles.modalText}>Esto eliminará el usuario. ¿Desea continuar?</Text>
 
               <Pressable
-                style={[modalStyles.button, modalStyles.buttonWarning]}
+                style={[modalStyles.button, modalStyles.redBackground]}
                 onPress={() => {
                   handleSubmit(deleteUser)();
                   setModalDelete(!modalDelete);
@@ -271,7 +271,7 @@ export function User({navigation}) {
                 <Text style={modalStyles.textStyle}>Sí, eliminar</Text>
               </Pressable>
               <Pressable
-                style={[modalStyles.button, modalStyles.buttonClose, {marginTop: 20}]}
+                style={[modalStyles.button, modalStyles.grayBackground, {marginTop: 20}]}
                 onPress={() => setModalDelete(!modalDelete)}>
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
               </Pressable>
@@ -350,7 +350,7 @@ const modalStyles = StyleSheet.create({
     backgroundColor: palette.gray,
   },
   redBackground: {
-    backgroundColor: palette.red,
+    backgroundColor: '#ed1c24',
   },
   textStyle: {
     color: 'white',
