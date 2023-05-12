@@ -1,6 +1,6 @@
 export const DefaultQuestions = {
-  data: {
-    questions: [
+  questions: {
+    data: [
       {
         start: '¿Cómo',
         ends: [

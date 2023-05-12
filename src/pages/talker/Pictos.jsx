@@ -4,13 +4,16 @@ import {palette, styles} from '../../styles/styles';
 import PictoList from '../../components/PictoList';
 import {DefaultPictos} from '../../content/DefaultPictos';
 import {Picker} from '@react-native-picker/picker';
+import { SearchBar } from '../../components/SearchBar';
 /**
  * Método para renderizar página de Pictogramas.
  * @return {JSX.Element}
  */
 export function Pictos() {
+  const [text, onChangeText] = useState('');
   const [category, setCategory] = useState(DefaultPictos.data.categories[0].name);
   const [catContent, setContent] = useState(DefaultPictos.data.categories[0].content);
+  const [filteredContent, setFiltered] = useState([]);
   const catNames = DefaultPictos.data.categories.map((cat) => cat.name);
   const catList = DefaultPictos.data.categories;
 
@@ -20,9 +23,26 @@ export function Pictos() {
   };
 
   useEffect(() => {
-    const selectedCat = catList.find((cat) => cat.name === category);
-    setContent(selectedCat.content);
+    if (category !== 'Todos') {
+      const selectedCat = catList.find((cat) => cat.name === category);
+      setContent(selectedCat.content);
+    } else {
+      const selectedCat = [];
+      const filteredList = catList.map((cat) => selectedCat.concat(cat.content));
+      console.log(filteredList.flat());
+      setContent(filteredList.flat());
+    }
   }, [category]);
+
+  useEffect(() => {
+    const filtered =
+    text !== ''
+      ? catContent.filter((picto) => picto.text.toLowerCase().startsWith(text.toLowerCase()))
+      : catContent;
+    setFiltered(filtered);
+    console.log(filtered);
+  }, [text]);
+
 
   const pickerItems = catList.map((name, index) =>
     <Picker.Item key={index} label={name} value={name} />
@@ -38,13 +58,17 @@ export function Pictos() {
           onValueChange={(itemValue, itemIndex) =>
             setCategory(itemValue)
           }>
+          <Picker.Item style={pickerStyles.pickerOption} label={'❯ Todos'} value={'Todos'} />
           <Picker.Item style={pickerStyles.pickerOption} label={'❯ Necesidades'} value={'Necesidades'} />
           <Picker.Item style={pickerStyles.pickerOption} label={'❯ Lugares'} value={'Lugares'} />
         </Picker>
+        <View style={{alignSelf: 'center', margin: 20}}>
+         <SearchBar placeholder={"Busca un pictograma"} width={260} autoCapitalize={'none'} autoCorrect={false} text={text} textChanger={onChangeText}/>
+        </View>
       </View>
-      <ScrollView>
+      <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={pickerStyles.container}>
-          <PictoList list={catContent}/>
+          <PictoList list={(filteredContent === []) ? catContent : filteredContent}/>
         </View>
       </ScrollView>
     </>
@@ -53,7 +77,6 @@ export function Pictos() {
 
 const pickerStyles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
