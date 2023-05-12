@@ -128,7 +128,7 @@ export function Questions() {
 
     addButton =
           <TouchableOpacity style={[questionStyles.addButton]} onPress={() => {
-            toCreate(true);
+            (user === '{}') ? null :  toCreate(true);
           }}>
             <View>
               <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(user === '{}') ? 'Inicia sesión para crear tus propias preguntas' : '+'}</Text>
