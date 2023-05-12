@@ -9,13 +9,17 @@ import { SearchBar } from '../../components/SearchBar';
  * Método para renderizar página de Pictogramas.
  * @return {JSX.Element}
  */
-export function Pictos() {
+export function Pictos() {  
   const [text, onChangeText] = useState('');
-  const [category, setCategory] = useState(DefaultPictos.data.categories[0].name);
-  const [catContent, setContent] = useState(DefaultPictos.data.categories[0].content);
-  const [filteredContent, setFiltered] = useState([]);
-  const catNames = DefaultPictos.data.categories.map((cat) => cat.name);
+  const [category, setCategory] = useState('Todos');
+
+  const selectedCat = [];
   const catList = DefaultPictos.data.categories;
+
+  const [catContent, setContent] = useState(catList.map((cat) => selectedCat.concat(cat.content)).flat());
+  const [filteredContent, setFiltered] = useState([]);
+
+  const catNames = DefaultPictos.data.categories.map((cat) => cat.name);
 
   const onValueChanged = (value, previousValue) => {
     this.setState({selectedItem: numberValue});
@@ -29,7 +33,6 @@ export function Pictos() {
     } else {
       const selectedCat = [];
       const filteredList = catList.map((cat) => selectedCat.concat(cat.content));
-      console.log(filteredList.flat());
       setContent(filteredList.flat());
     }
   }, [category]);
