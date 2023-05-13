@@ -158,3 +158,15 @@ export const searchQuestion = async (email, start, end) => {
   });
   return response;
 };
+
+export const searchTap = async (email, name) => {
+  let found = false;
+  await AsyncStorage.getItem(email).then((user) => {
+    if (typeof(JSON.parse(user).taps) !== 'undefined') {
+      const taps = JSON.parse(user).taps.data;
+      found = taps.some((tap) => tap.text === name);
+      console.log('found: ', found);
+    }
+  });
+  return found;
+};

@@ -6,7 +6,7 @@
       "options": [
         {
           "text": "Feliz",
-          "color": "green"
+          "color": "yellow"
         },
         {
           "text": "Triste",
@@ -15,10 +15,6 @@
         {
           "text": "Enfadado",
           "color": "red"
-        },
-        {
-          "text": "Regular",
-          "color": "yellow"
         }
       ]
     },

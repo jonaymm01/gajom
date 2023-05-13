@@ -142,7 +142,7 @@ export function Questions() {
   }
 
   if (!isStart) {
-    const finalQuestion = startWord + ' ' + end;
+    const finalQuestion = startWord + ((startWord !== '¿') ? ' ' : '') + end;
     result =
       <View style={{marginBottom: 60, marginTop: 30, alignItems: 'center'}}>
         <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? 'Pulsa para escuchar el resultado' : ''}</Text>
@@ -150,7 +150,7 @@ export function Questions() {
           speak(finalQuestion);
         }}>
           <View>
-            <Text style={questionStyles.buttonText}> {finalQuestion} </Text>
+            <Text style={questionStyles.buttonText}>{finalQuestion}</Text>
           </View>
         </TouchableOpacity>
       </View>;

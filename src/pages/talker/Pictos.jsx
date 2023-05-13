@@ -11,7 +11,7 @@ import { SearchBar } from '../../components/SearchBar';
  */
 export function Pictos() {  
   const [text, onChangeText] = useState('');
-  const [category, setCategory] = useState('Todos');
+  const [category, setCategory] = useState('all');
 
   const selectedCat = [];
   const catList = DefaultPictos.data.categories;
@@ -30,8 +30,7 @@ export function Pictos() {
   };
 
   useEffect(() => {
-    console.log(category);
-    if (category !== 'Todos') {
+    if (category !== 'all') {
       const selectedCat = catList.find((cat) => cat.name === category);
       setContent(selectedCat.content);
     } else {
@@ -61,9 +60,11 @@ export function Pictos() {
           dropdownIconColor={'#fff'}
           selectedValue={category}
           onValueChange={(itemValue) => setCategory(itemValue)}>
-          <Picker.Item style={pickerStyles.pickerOption} label={'❯ Todos'} value={'Todos'} />
-          <Picker.Item style={pickerStyles.pickerOption} label={'❯ Necesidades'} value={'Necesidades'} />
-          <Picker.Item style={pickerStyles.pickerOption} label={'❯ Lugares'} value={'Lugares'} />
+          <Picker.Item style={pickerStyles.pickerOption} label={'✦ Todos'} value={'all'} />
+          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Acciones'} value={'acciones'} />
+          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Entorno'} value={'entorno'} />
+          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Sensaciones'} value={'sensaciones'} />
+          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Ánimo'} value={'animo'} />
         </Picker>
         <View style={{alignSelf: 'center', margin: 20}}>
          <SearchBar placeholder={"Busca un pictograma"} width={260} autoCapitalize={'none'} autoCorrect={false} text={text} textChanger={onChangeText}/>

@@ -4,7 +4,7 @@ import {styles, palette} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import {setTap, getTaps, addTap} from '../../_helpers/UserContent';
+import {setTap, getTaps, addTap, searchTap} from '../../_helpers/UserContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
@@ -300,6 +300,11 @@ export function TapMaker({route, navigation}) {
 
   const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: 20, height: 20}} />;
 
+  const alreadyExist = async () => {
+    const response = await searchTap(user.email, getValues().name);
+    return response;
+  }
+
   if (!confirmed) {
     return (
       <View style={styles.blank_background}>
@@ -413,7 +418,20 @@ export function TapMaker({route, navigation}) {
                     style={[modalStyles.button, modalStyles.violetBackground]}
                     onPress={() => {
                       if (getValues().name.length > 0) {
-                        saveTap();
+                        alreadyExist().then((isDuplicate) => 
+                        {
+                          console.log('isDuplicate: ', isDuplicate);
+                          if(!isDuplicate) {
+                            saveTap();
+                          } else {
+                            Alert.alert('¡Ups!', 'Ya tienes un TAP con este nombre.', [
+                              {text: 'OK'},
+                            ],
+                            {
+                              cancelable: true,
+                            });
+                          }
+                        });
                       } else {
                         Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
                           {text: 'OK'},
