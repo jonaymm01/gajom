@@ -15,9 +15,12 @@ export function Pictos() {
 
   const selectedCat = [];
   const catList = DefaultPictos.data.categories;
+  const allPictos = catList.map((cat) => selectedCat.concat(cat.content)).flat();
 
-  const [catContent, setContent] = useState(catList.map((cat) => selectedCat.concat(cat.content)).flat());
+  const [catContent, setContent] = useState(allPictos);
   const [filteredContent, setFiltered] = useState([]);
+  const [filtered, isFiltered] = useState(false);
+
 
   const catNames = DefaultPictos.data.categories.map((cat) => cat.name);
 
@@ -27,6 +30,7 @@ export function Pictos() {
   };
 
   useEffect(() => {
+    console.log(category);
     if (category !== 'Todos') {
       const selectedCat = catList.find((cat) => cat.name === category);
       setContent(selectedCat.content);
@@ -38,17 +42,16 @@ export function Pictos() {
   }, [category]);
 
   useEffect(() => {
-    const filtered =
-    text !== ''
-      ? catContent.filter((picto) => picto.text.toLowerCase().startsWith(text.toLowerCase()))
-      : catContent;
-    setFiltered(filtered);
+    let filtered = []
+    if (text !== '') {
+      filtered = catContent.filter((picto) => picto.text.toLowerCase().startsWith(text.toLowerCase()));
+      isFiltered(true);
+      setFiltered(filtered);
+    } else {
+      isFiltered(false);
+    }
   }, [text]);
-
-
-  const pickerItems = catList.map((name, index) =>
-    <Picker.Item key={index} label={name} value={name} />
-  );
+  
 
   return (
     <>
@@ -57,9 +60,7 @@ export function Pictos() {
           style={pickerStyles.picker}
           dropdownIconColor={'#fff'}
           selectedValue={category}
-          onValueChange={(itemValue, itemIndex) =>
-            setCategory(itemValue)
-          }>
+          onValueChange={(itemValue) => setCategory(itemValue)}>
           <Picker.Item style={pickerStyles.pickerOption} label={'❯ Todos'} value={'Todos'} />
           <Picker.Item style={pickerStyles.pickerOption} label={'❯ Necesidades'} value={'Necesidades'} />
           <Picker.Item style={pickerStyles.pickerOption} label={'❯ Lugares'} value={'Lugares'} />
@@ -70,7 +71,7 @@ export function Pictos() {
       </View>
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={pickerStyles.container}>
-          <PictoList list={(filteredContent === []) ? catContent : filteredContent}/>
+          <PictoList list={(filtered) ? filteredContent : catContent}/>
         </View>
       </ScrollView>
     </>

@@ -166,7 +166,6 @@ export function Questions() {
     const addedEnd = getValues().add;
     const question = startWord + ' ' + addedEnd + '?';
     const newEnd = addedEnd + '?';
-    console.log(addedEnd);
       addQuestion(user.email, startWord, newEnd).then(() => {
         setEnd(newEnd);
         markEnd(true);
@@ -182,7 +181,6 @@ export function Questions() {
     const modified = await AsyncStorage.getItem(user.email);
     setUser(modified);
     console.log('Se ha eliminado la pregunta: ', start + ' ' + end);
-    console.log(modified);
   };
 
   if (!create) {
@@ -209,7 +207,7 @@ export function Questions() {
         </View>
         <View style={{flex: 2}}>
           <View style={{width: 300, marginTop: -50}}>
-            <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20}]}>{isStart ? 'Construye tu pregunta' : ''}</Text>
+            <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20}]}>{isStart ? 'Empieza tu pregunta:' : ''}</Text>
             <>
               {addButton}
             </>
