@@ -24,7 +24,7 @@ export function Talker({navigation}) {
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressTaps}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> TAPS </Text>
-            <Text style={talkerStyles.button_text_small}> HABLA PULSANDO </Text>
+            <Text style={talkerStyles.button_text_small}> ESCOGE ENTRE OPCIONES </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressQuestions}>

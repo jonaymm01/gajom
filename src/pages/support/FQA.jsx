@@ -1,38 +1,62 @@
 import React from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import {Text, View, ScrollView, StyleSheet} from 'react-native';
 
-import {styles} from '../../styles/styles';
+import {palette} from '../../styles/styles';
+import {fqaContent} from '../../content/fqaContent';
 
 /**
  * Método para renderizar página de Preguntas Frecuentes.
  * @return {JSX.Element}
  */
 export function FQA() {
+
+  const content = fqaContent.map((question, index) => 
+  <View key={index} style={styles.box}>
+    <Text style={styles.question}>{question.question}</Text>
+    <Text style={styles.answer}>{question.answer}</Text>
+  </View>,
+  );
+
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: '#fff'}}>
       <View style={styles.container}>
-        <View style={styles.text_container}>
-          <Text style={styles.title}>¿Qué es GAJOM?</Text>
-          <Text style={styles.text}>Gajom es una herramienta orientada a permitir la comunicación instantánea sin el uso de la voz.</Text>
-        </View>
-        <View style={styles.text_container}>
-          <Text style={styles.title}>¿A quién va dirigida?</Text>
-          <Text style={styles.text}>A cualquier persona que, de un momento al otro, haya perdido la capacidad de hablar o escuchar.
-            Ejemplos de esto pueden ser pacientes hospitalizados o ancianos con defectos en el habla. </Text>
-        </View>
-        <View style={styles.text_container}>
-          <Text style={styles.title}>¿Qué es la Logopedia?</Text>
-          <Text style={styles.text}>La Logopedia es la rama del conocimiento que investiga los trastornos de la comunicación humana.</Text>
-        </View>
-        <View style={styles.text_container}>
-          <Text style={styles.title}>¿Gajom sustituye a un logopeda?</Text>
-          <Text style={styles.text}>No, y tampoco es su propósito. Gajom es una solución rápida para situaciones concretas. Si cree que puede necesitar un logopeda, no dude en acudir a uno.</Text>
-        </View>
-        <View style={styles.text_container}>
-          <Text style={styles.title}>¿Qué son los Juegos?</Text>
-          <Text style={styles.text}>Los Juegos de Gajom consisten en pequeños retos que cualquier persona puede completar para practicar, de manera divertida, sus destrezas comunicativas</Text>
-        </View>
+        {content}
       </View>
     </ScrollView>
   );
 }
+
+export const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    marginTop: 40,
+  },
+  box: {
+    backgroundColor: '#fff',
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 40,
+    padding: 20,
+    borderColor: '#000',
+    borderWidth: 2,
+    elevation: 10,
+  },
+  question: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    marginTop: -40,
+    backgroundColor: palette.violet,
+    borderColor: '#000',
+    borderWidth: 2,
+    padding: 10,
+    color: '#fff',
+    alignSelf: 'flex-end',
+
+  },
+  answer: {
+    fontSize: 18,
+    textAlign: 'left',
+    color: palette.violet,
+  }
+});

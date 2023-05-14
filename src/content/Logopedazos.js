@@ -1,6 +1,6 @@
 export const Logopedazos = {
   monday: {
-    text: 'Contenido del lunes',
+    text: 'La afonía es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!',
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   tuesday: {
@@ -24,7 +24,7 @@ export const Logopedazos = {
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   sunday: {
-    text: 'Contenido del domingo',
+    text: 'La afonía es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!',
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
 };
