@@ -48,7 +48,7 @@ export function Main({navigation}) {
     const mes = monthToSpanish(monthNumber);
     const upperCaseDia = dia.charAt(0).toUpperCase() + dia.slice(1);
 
-    const newdate = upperCaseDia + ' ' + dayNumber + ' de ' + mes + ' de ' + year;
+    const newdate = upperCaseDia + ', ' + dayNumber + ' de ' + mes + ' de ' + year;
     return newdate;
   };
 
