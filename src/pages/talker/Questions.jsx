@@ -145,7 +145,7 @@ export function Questions() {
     const finalQuestion = startWord + ((startWord !== '¿') ? ' ' : '') + end;
     result =
       <View style={{marginBottom: 60, marginTop: 30, alignItems: 'center'}}>
-        <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? 'Pulsa para escuchar el resultado' : ''}</Text>
+        <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? '🕪  Pulsa para escuchar' : ''}</Text>
         <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
           speak(finalQuestion);
         }}>

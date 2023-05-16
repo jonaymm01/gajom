@@ -36,6 +36,7 @@ export function Login({navigation}) {
     await setActive(JSON.stringify(value)).then((pass) => {
       if (pass?.pass) {
         setUser(pass.user);
+        setActive(pass.user);
         console.log(value.email, 'ha iniciado sesión');
         navigation.navigate('User');
       } else {

@@ -10,6 +10,7 @@ import LineSeparator from '../components/LineSeparator';
 
 import {styles, palette} from '../styles/styles';
 import {UserContext} from '../../global';
+import {setUser, setActive} from '../_helpers/storage';
 
 /**
  * Renderiza la página de perfil de usuario.
@@ -112,6 +113,7 @@ export function User({navigation}) {
    */
     const logOut = async (value) => {
       setUser('{}');
+      setActive('{}');
       console.log('El usuario ', activeUser.email, ' ha cerrado sesión');
     };
 

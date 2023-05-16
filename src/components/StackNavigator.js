@@ -17,6 +17,7 @@ import {TapMaker} from '../pages/talker/TapMaker';
 
 import {UserContext} from '../../global';
 import {palette} from '../styles/styles';
+import { ScreenStackHeaderLeftView } from 'react-native-screens';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,7 @@ const MainStackNavigator = ({route}) => {
       headerStyle: headerStyle.header,
       headerTitleStyle: headerStyle.title,
       title: 'Volver a Inicio',
-    }}>
+    }} initialRouteName='Inicio'>
       <Stack.Screen name="Inicio" component={Main} />
       <Stack.Screen name="FQA" component={FQA} options={{headerShown: true}} />
       <Stack.Screen name="Contact" component={Contact} options={{headerShown: true}} />
@@ -38,29 +39,25 @@ const MainStackNavigator = ({route}) => {
 
 const UserStackNavigator = () => {
   const [activeUser, setUser] = useContext(UserContext);
-  if (activeUser == '{}') {
-    return (
-      <Stack.Navigator screenOptions={{
-        headerShown: false,
-        headerTintColor: '#fff',
-        headerStyle: headerStyle.header,
-        headerTitleStyle: headerStyle.title,
-      }}>
-        <Stack.Screen name="Login" component={Login} options={{title: 'Inicio de sesión'}} />
-        <Stack.Screen name="Signup" component={SignUp} options={{title: 'Registro'}} />
-      </Stack.Navigator>
-    );
-  } else {
-    return (
-      <Stack.Navigator screenOptions={{
-        headerShown: false,
-        headerTintColor: '#fff',
-      }}>
-        <Stack.Screen name="User" component={User} options={{title: 'Perfil'}} />
-
-      </Stack.Navigator>
-    );
-  };
+  return (
+    <Stack.Navigator screenOptions={{
+      headerShown: false,
+      headerTintColor: '#fff',
+      headerStyle: headerStyle.header,
+      headerTitleStyle: headerStyle.title,
+    }}>
+      { (activeUser == '{}') ? (
+          <Stack.Group>
+            <Stack.Screen name="Login" component={Login} options={{title: 'Inicio de sesión'}} />
+            <Stack.Screen name="Signup" component={SignUp} options={{title: 'Registro'}} />
+          </Stack.Group>
+      ) : ( 
+        <Stack.Group> 
+          <Stack.Screen name="User" component={User} options={{title: 'Perfil'}} />
+        </Stack.Group>
+      )}
+    </Stack.Navigator>
+  );
 };
 
 const TalkerStackNavigator = () => {

@@ -14,6 +14,6 @@ export const fqaContent =
         },
         {
             'question': '¿Sustituye a un logopeda?',
-            'answer': 'No, y tampoco es su propósito. Gajom es una solución rápida para situaciones concretas. Si cree que puede necesitar un logopeda, no dude en acudir a uno.',
+            'answer': `No, y tampoco es su propósito.\n\nGajom es una solución rápida para situaciones concretas.\n\nSi cree que puede necesitar un logopeda, no dude en acudir a uno.`,
         }
     ]
