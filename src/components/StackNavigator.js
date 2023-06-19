@@ -98,7 +98,7 @@ const headerStyle = StyleSheet.create({
   },
   headerWhite: {
     backgroundColor: '#fff',
-    borderBottomColor: palette.violet,
+    borderBottomColor: '#fff',
     borderBottomWidth: 5,
     height: 60,
   },

@@ -4,27 +4,27 @@ export const Logopedazos = {
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   tuesday: {
-    text: 'La afonía es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!',
+    text: `La afonía es perder por completo la voz.\nLa disfonía, pérdida parcial.\n¿Voz de camionero post-fiesta?\n\nNo estás afónico... ¡estás disfónico!`,
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   wednesday: {
-    text: 'La afonía es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!',
+    text: `La afonía es perder por completo la voz.\nLa disfonía, pérdida parcial.\n¿Voz de camionero post-fiesta?\n\nNo estás afónico... ¡estás disfónico!`,
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   thursday: {
-    text: 'Contenido del jueves',
+    text: `La afonía es perder por completo la voz.\nLa disfonía, pérdida parcial.\n¿Voz de camionero post-fiesta?\n\nNo estás afónico... ¡estás disfónico!`,
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   friday: {
-    text: 'Contenido del viernes',
+    text: `La afonía es perder por completo la voz.\nLa disfonía, pérdida parcial.\n¿Voz de camionero post-fiesta?\n\nNo estás afónico... ¡estás disfónico!`,
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   saturday: {
-    text: 'Contenido del sábado',
+    text: `La afonía es perder por completo la voz.\nLa disfonía, pérdida parcial.\n¿Voz de camionero post-fiesta?\n\nNo estás afónico... ¡estás disfónico!`,
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
   sunday: {
-    text: 'La afonía es perder por completo la voz. La disfonía, pérdida parcial. ¿Voz de camionero post-fiesta? No estás afónico... ¡estás disfónico!',
+    text: `La afonía es perder por completo la voz.\nLa disfonía, pérdida parcial.\n¿Voz de camionero post-fiesta?\n\nNo estás afónico... ¡estás disfónico!`,
     link: 'https://es.wikipedia.org/wiki/Disfon%C3%ADa',
   },
 };

@@ -10,16 +10,16 @@ import { SearchBar } from '../../components/SearchBar';
  * @return {JSX.Element}
  */
 export function Pictos() {  
-  const [text, onChangeText] = useState('');
-  const [category, setCategory] = useState('all');
+  const [text, onChangeText] = useState(''); // Texto insertado en la barra de búsqueda
+  const [category, setCategory] = useState('all'); // Nombre de la categoría seleccionada
 
   const selectedCat = [];
   const catList = DefaultPictos.data.categories;
   const allPictos = catList.map((cat) => selectedCat.concat(cat.content)).flat();
-
-  const [catContent, setContent] = useState(allPictos);
-  const [filteredContent, setFiltered] = useState([]);
-  const [filtered, isFiltered] = useState(false);
+  const [catContent, setContent] = useState(allPictos); // Contenido de la categoría seleccionada
+  
+  const [filteredContent, setFiltered] = useState([]); // Contenido se la categoría filtrado por búsqueda
+  const [filtered, isFiltered] = useState(false); // Valor booleano que indica si se está filtrando o no
 
 
   const catNames = DefaultPictos.data.categories.map((cat) => cat.name);

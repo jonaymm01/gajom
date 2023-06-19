@@ -142,7 +142,7 @@ export function Questions() {
   }
 
   if (!isStart) {
-    const finalQuestion = startWord + ((startWord !== '¿') ? ' ' : '') + end;
+    const finalQuestion = startWord + ((startWord !== '¿') ? ' ' : '') + ((end.length > 0) ? end : '...');
     result =
       <View style={{marginBottom: 60, marginTop: 30, alignItems: 'center'}}>
         <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? '🕪  Pulsa para escuchar' : ''}</Text>
