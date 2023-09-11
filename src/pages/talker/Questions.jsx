@@ -10,7 +10,7 @@ import {styles, palette} from '../../styles/styles';
 import {DefaultQuestions} from '../../content/DefaultQuestions';
 import * as Speech from 'expo-speech';
 
-import {UserContext} from '../../../global';
+import {ProfileContext} from '../../../global';
 import {addQuestion, deleteQuestion, searchQuestion} from '../../_helpers/ProfileContent';
 
 /**
@@ -27,10 +27,10 @@ const speak = (text) => {
  * @return {JSX.Element}
  */
 export function Questions() {
-  const [activeUser, setUser] = useContext(UserContext);
-  let user = '{}';
-  if (activeUser !== '{}') {
-    user = JSON.parse(activeUser);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
+  let profile = '{}';
+  if (activeProfile !== '{}') {
+    profile = JSON.parse(activeProfile);
   }
 
 
@@ -45,7 +45,7 @@ export function Questions() {
 
   const [create, toCreate] = useState(false);
 
-  let userButtons = [];
+  let profileButtons = [];
   let defaultButtons = [];
   let buttons = [];
 
@@ -73,11 +73,11 @@ export function Questions() {
   } else {
     const start = startWord;
     const questions = DefaultQuestions.questions.data.find((question) => question.start === start);
-    if ((user !== '{}') && (typeof(user.questions) !== 'undefined')) {
-      const userQuestions = user.questions.data.find((question) => question.start === start);
-      if (userQuestions !== undefined) {
-        userButtons = userQuestions.ends.map((question, index)=>
-          <View key={'user: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+    if ((profile !== '{}') && (typeof(profile.questions) !== 'undefined')) {
+      const profileQuestions = profile.questions.data.find((question) => question.start === start);
+      if (profileQuestions !== undefined) {
+        profileButtons = profileQuestions.ends.map((question, index)=>
+          <View key={'profile: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity style={[questionStyles.button]} onPress={() => {
               markStart(false);
               setEnd(question);
@@ -107,7 +107,7 @@ export function Questions() {
         </View>
       </TouchableOpacity>,
     );
-    buttons = userButtons.reverse().concat(defaultButtons);
+    buttons = profileButtons.reverse().concat(defaultButtons);
     startText =
       <View>
         <Text style={questionStyles.text}> {startWord} </Text>
@@ -126,10 +126,10 @@ export function Questions() {
 
     addButton =
           <TouchableOpacity style={[questionStyles.addButton]} onPress={() => {
-            (user === '{}') ? null :  toCreate(true);
+            (profile === '{}') ? null :  toCreate(true);
           }}>
             <View>
-              <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(user === '{}') ? 'Inicia sesión para crear tus propias preguntas' : '+'}</Text>
+              <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para crear tus propias preguntas' : '+'}</Text>
             </View>
           </TouchableOpacity>;
   }
@@ -158,7 +158,7 @@ export function Questions() {
 
   const alreadyExist = async () => {
     const newEnd = getValues().add + '?';
-    const response = await searchQuestion(user.email, startWord, newEnd);
+    const response = await searchQuestion(profile.name, startWord, newEnd);
     return response;
   }
 
@@ -166,10 +166,10 @@ export function Questions() {
     const addedEnd = getValues().add;
     const question = startWord + ' ' + addedEnd + '?';
     const newEnd = addedEnd + '?';
-      addQuestion(user.email, startWord, newEnd).then(() => {
+      addQuestion(profile.name, startWord, newEnd).then(() => {
         setEnd(newEnd);
         markEnd(true);
-        AsyncStorage.getItem(user.email).then((modified) => setUser(modified));
+        AsyncStorage.getItem(profile.name).then((modified) => setProfile(modified));
       });
       toCreate(false);
   setNewQuest('');
@@ -177,9 +177,9 @@ export function Questions() {
   };
 
   const deleteQuest = async (start, end) => {
-    await deleteQuestion(user.email, start, end);
-    const modified = await AsyncStorage.getItem(user.email);
-    setUser(modified);
+    await deleteQuestion(profile.name, start, end);
+    const modified = await AsyncStorage.getItem(profile.name);
+    setProfile(modified);
     console.log('Se ha eliminado la pregunta: ', start + ' ' + end);
   };
 
