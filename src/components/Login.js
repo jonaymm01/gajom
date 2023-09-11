@@ -3,9 +3,9 @@ import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pres
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useForm, Controller} from 'react-hook-form';
-import {UserContext} from '../../global';
+import {ProfileContext} from '../../global';
 
-import {setActive} from '../_helpers/storage';
+import {setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -19,8 +19,8 @@ import { RotateInUpLeft } from 'react-native-reanimated';
  * @return {JSX.Element}
  */
 export function Login({navigation}) {
-  const [hiddenPassword, setHiddenPassword] = useState(true);
-  const [activeUser, setUser] = useContext(UserContext);
+  const [hiddenPin, setHiddenPin] = useState(true);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -29,16 +29,16 @@ export function Login({navigation}) {
   const {handleSubmit, control, formState: {errors}} = useForm();
 
   const showPass = () => {
-    setHiddenPassword(!hiddenPassword);
+    setHiddenPin(!hiddenPin);
   };
 
   const onSubmit = async (value) => {
-    await setActive(JSON.stringify(value)).then((pass) => {
+    await setActiveProfile(JSON.stringify(value)).then((pass) => {
       if (pass?.pass) {
-        setUser(pass.user);
-        setActive(pass.user);
-        console.log(value.email, 'ha iniciado sesión');
-        navigation.navigate('User');
+        setProfile(pass.profile);
+        setActiveProfile(pass.profile);
+        console.log(value.name, 'ha abierto la sesión');
+        navigation.navigate('Profile');
       } else {
         setModalVisible(true);
       }
@@ -69,7 +69,7 @@ export function Login({navigation}) {
                   <View style={modalStyles.centeredView}>
                     <View style={modalStyles.modalView}>
                       <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-                      <Text style={modalStyles.modalText}>Usuario o contraseña incorrectos</Text>
+                      <Text style={modalStyles.modalText}>Nombre o pin incorrecto</Text>
                       <Pressable
                         style={[modalStyles.button, modalStyles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}>
@@ -82,62 +82,57 @@ export function Login({navigation}) {
                 <View style={[styles.container, {flexDirection: 'row'}]}>
                   <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
                     <View>
-                      <Text style={squareButtonOn.text}>¿No tienes cuenta en Gajom?</Text>
-                      <Text style={[squareButtonOn.text, {fontSize: 30}]}>REGÍSTRATE AQUÍ</Text>
+                      <Text style={[squareButtonOn.text, {fontSize: 30}]}>AÑADIR PERFIL</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
 
                 <View style={[formStyles.input_container, {marginBottom: 100}]}>
-                  <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu cuenta en Gajom</Text>
+                  <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu perfil</Text>
                   <Controller
-                    name="email"
-                    defaultValue={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.email : ''}
+                    name="name"
+                    defaultValue={""}
                     control={control}
                     rules={{
-                      required: {value: true, message: 'Escribe tu correo electrónico'},
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'invalid email address',
-                      },
+                      required: {value: true, message: 'Escribe tu nombre de perfil'}
                     }}
                     render={({field: {onChange, value}}) => (
                       <Input
-                        error={errors.email}
-                        errorText={errors?.email?.message}
+                        error={errors.name}
+                        errorText={errors?.name?.message}
                         onChangeText={(text) => onChange(text)}
                         value={value}
-                        placeholder={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.email : 'Correo electrónico'}
+                        placeholder={'Nombre de perfil'}
                         autoCapitalize="none"
                       />
                     )}
                   />
                   <Controller
-                    name="password"
-                    defaultValue={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.password : ''}
+                    name="pin"
+                    defaultValue={''}
                     control={control}
                     rules={{
-                      required: {value: true, message: 'Escribe una contraseña'},
+                      required: {value: true, message: 'Escribe tu pin'},
                     }}
                     render={({field: {onChange, value}}) => (
                       <>
                         <Input
-                          error={errors.password}
-                          errorText={errors?.password?.message}
+                          error={errors.pin}
+                          errorText={errors?.pin?.message}
                           onChangeText={(text) => onChange(text)}
                           value={value}
-                          placeholder={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.password : 'Contraseña'}
+                          placeholder={'Pin'}
                           autoCapitalize="none"
                           autoCorrect={false}
                           textContentType="newPassword"
-                          secureTextEntry={hiddenPassword ? true : false}
+                          secureTextEntry={hiddenPin ? true : false}
                           enablesReturnKeyAutomatically
                         />
-                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.password?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
                           <TouchableOpacity onPress={() => {
                             showPass();
                           }} style={LoginStyle.eye}>
-                            <Image source={(hiddenPassword) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                            <Image source={(hiddenPin) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
                           </TouchableOpacity>
                         </View>
                       </>

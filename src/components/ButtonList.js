@@ -2,10 +2,10 @@ import React, {ReactNode, useState, useEffect, useContext} from 'react';
 import Button from './Button';
 import {Pressable, View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {palette} from '../styles/styles';
-import {delTap} from '../_helpers/UserContent';
+import {delTap} from '../_helpers/ProfileContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {UserContext} from '../../global';
+import {ProfileContext} from '../../global';
 
 
 /**
@@ -13,8 +13,8 @@ import {UserContext} from '../../global';
  * @return {JSX.Element}
  */
 export default function ButtonList({...props}) {
-  const [activeUser, setUser] = useContext(UserContext);
-  const user = JSON.parse(activeUser);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
+  const profile = JSON.parse(activeProfile);
 
   /**
    * Método para redirigir un TAP en formato JSON al creador de Taps
@@ -36,9 +36,9 @@ export default function ButtonList({...props}) {
    */
   const deleteTap = async (email, name, options) => {
     await delTap(email, name, options);
-    const modified = await AsyncStorage.getItem(user.email);
+    const modified = await AsyncStorage.getItem(profile.email);
     console.log('Nuevo usuario activo (ButtonList):', modified);
-    setUser(modified);
+    setProfile(modified);
   };
 
   let buttonlist = [];
@@ -49,8 +49,8 @@ export default function ButtonList({...props}) {
           goTap(tap);
         }} label={tap.text}/>
         <TouchableOpacity onPress={() => {
-          deleteTap(user.email, tap.text, tap.options);
-          console.log(user.email);
+          deleteTap(profile.name, tap.text, tap.options);
+          console.log(profile.name);
         }} style={ButtonListStyle.deleteButton}>
           <Image source={require('../../assets/trash_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
         </TouchableOpacity>

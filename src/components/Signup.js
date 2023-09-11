@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pres
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 
-import {setUser} from '../_helpers/storage';
+import {setProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -16,22 +16,22 @@ import {styles, palette} from '../styles/styles';
  */
 export function SignUp({navigation}) {
   const [modalWarning, setModalWarning] = useState(false);
-  const [hiddenPassword, setHiddenPassword] = useState(true);
+  const [hiddenPin, setHiddenPin] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
   const onPressLogin = () => navigation.navigate('Login');
 
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
 
   const showPass = () => {
-    setHiddenPassword(!hiddenPassword);
+    setHiddenPin(!hiddenPin);
   };
 
   const onSubmit = async (value) => {
-    const user = await AsyncStorage.getItem(value.email);
-    if (user) {
+    const profile = await AsyncStorage.getItem(value.name);
+    if (profile) {
       setModalWarning(true);
     } else {
-      await setUser(value);
+      await setProfile(value);
       setModalSigned(true);
     };
   };
@@ -55,7 +55,7 @@ export function SignUp({navigation}) {
                 <View style={modalStyles.centeredView}>
                   <View style={[modalStyles.modalView, modalStyles.borderWarning]}>
                     <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-                    <Text style={modalStyles.modalText}>Ya existe una cuenta asociada a ese correo electrónico.</Text>
+                    <Text style={modalStyles.modalText}>Ya existe un perfil con este nombre.</Text>
                     <Pressable
                       style={[modalStyles.button, modalStyles.redBackground]}
                       onPress={() => setModalWarning(!modalWarning)}>
@@ -85,7 +85,7 @@ export function SignUp({navigation}) {
                       <Pressable
                         style={[modalStyles.button, modalStyles.violetBackground]}
                         onPress={() => {
-                          navigation.navigate('Login', {email: getValues().email, password: getValues().password});
+                          navigation.navigate('Login', {name: getValues().name, pin: getValues().pin});
                           setModalSigned(!modalSigned);
                         }}>
                         <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
@@ -125,53 +125,35 @@ export function SignUp({navigation}) {
                     )}
                   />
                   <Controller
-                    name="email"
+                    name="pin"
                     defaultValue=""
                     control={control}
                     rules={{
-                      required: {value: true, message: 'Escribe tu correo electrónico'},
+                      required: {value: true, message: 'Escribe un pin de 4 cifras'},
                       pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'invalid email address',
+                        value: /^\d{4}$/,
+                        message: 'invalid pin',
                       },
-                    }}
-                    render={({field: {onChange, value}}) => (
-                      <Input
-                        error={errors.email}
-                        errorText={errors?.email?.message}
-                        onChangeText={(text) => onChange(text)}
-                        value={value}
-                        placeholder="Correo electrónico"
-                        autoCapitalize="none"
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="password"
-                    defaultValue=""
-                    control={control}
-                    rules={{
-                      required: {value: true, message: 'Escribe una contraseña'},
                     }}
                     render={({field: {onChange, value}}) => (
                       <>
                         <Input
-                          error={errors.password}
-                          errorText={errors?.password?.message}
+                          error={errors.pin}
+                          errorText={errors?.pin?.message}
                           onChangeText={(text) => onChange(text)}
                           value={value}
-                          placeholder="Contraseña"
+                          placeholder="Pin"
                           autoCapitalize="none"
                           autoCorrect={false}
                           textContentType="newPassword"
-                          secureTextEntry={hiddenPassword ? true : false}
+                          secureTextEntry={hiddenPin ? true : false}
                           enablesReturnKeyAutomatically
                         />
-                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.password?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
                           <TouchableOpacity onPress={() => {
                             showPass();
                           }} style={SignupStyle.eye}>
-                            <Image source={(hiddenPassword) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                            <Image source={(hiddenPin) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
                           </TouchableOpacity>
                         </View>
                       </>

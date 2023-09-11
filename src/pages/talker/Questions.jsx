@@ -11,7 +11,7 @@ import {DefaultQuestions} from '../../content/DefaultQuestions';
 import * as Speech from 'expo-speech';
 
 import {UserContext} from '../../../global';
-import {addQuestion, deleteQuestion, searchQuestion} from '../../_helpers/UserContent';
+import {addQuestion, deleteQuestion, searchQuestion} from '../../_helpers/ProfileContent';
 
 /**
    * Método para reproducir el texto de un Pictograma

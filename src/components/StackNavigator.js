@@ -4,7 +4,7 @@ import {StyleSheet} from 'react-native';
 
 import {Main} from '../pages/Main';
 import {Talker} from '../pages/Talker';
-import {User} from '../pages/User';
+import {Profile} from '../pages/Profile';
 import {Contact} from '../pages/support/Contact';
 import {FQA} from '../pages/support/FQA';
 import {Login} from './Login';
@@ -15,7 +15,7 @@ import {TapMenu} from '../pages/talker/TapMenu';
 import {Tap} from '../pages/talker/Tap';
 import {TapMaker} from '../pages/talker/TapMaker';
 
-import {UserContext} from '../../global';
+import {ProfileContext} from '../../global';
 import {palette} from '../styles/styles';
 import { ScreenStackHeaderLeftView } from 'react-native-screens';
 
@@ -37,8 +37,8 @@ const MainStackNavigator = ({route}) => {
   );
 };
 
-const UserStackNavigator = () => {
-  const [activeUser, setUser] = useContext(UserContext);
+const ProfileStackNavigator = () => {
+  const [activeProfile, setProfile] = useContext(ProfileContext);
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false,
@@ -46,14 +46,14 @@ const UserStackNavigator = () => {
       headerStyle: headerStyle.header,
       headerTitleStyle: headerStyle.title,
     }}>
-      { (activeUser == '{}') ? (
+      { (activeProfile == '{}') ? (
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} options={{title: 'Inicio de sesión'}} />
             <Stack.Screen name="Signup" component={SignUp} options={{title: 'Registro'}} />
           </Stack.Group>
       ) : ( 
         <Stack.Group> 
-          <Stack.Screen name="User" component={User} options={{title: 'Perfil'}} />
+          <Stack.Screen name="Profile" component={Profile} options={{title: 'Perfil'}} />
         </Stack.Group>
       )}
     </Stack.Navigator>
@@ -86,7 +86,7 @@ const TalkerStackNavigator = () => {
 };
 
 
-export {MainStackNavigator, UserStackNavigator, TalkerStackNavigator};
+export {MainStackNavigator, ProfileStackNavigator, TalkerStackNavigator};
 
 
 const headerStyle = StyleSheet.create({

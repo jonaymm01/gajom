@@ -3,20 +3,20 @@ import {StyleSheet, View, Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {MainStackNavigator, TalkerStackNavigator, UserStackNavigator} from './StackNavigator';
+import {MainStackNavigator, TalkerStackNavigator, ProfileStackNavigator} from './StackNavigator';
 
 import {palette} from '../styles/styles';
-import {UserContext} from '../../global';
+import {ProfileContext} from '../../global';
 
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   const [activeRoute, setRoute] = useState('');
-  const [activeUser, setUser] = useContext(UserContext);
-  let user = '{}';
-  if (activeUser !== '{}') {
-    user = JSON.parse(activeUser);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
+  let profile = '{}';
+  if (activeProfile !== '{}') {
+    profile = JSON.parse(activeProfile);
   }
 
   return (
@@ -47,7 +47,7 @@ const BottomTabNavigator = () => {
               iconName = focused ?
             'ios-game-controller' :
             'ios-game-controller-outline';
-            } else if (route.name === 'user') {
+            } else if (route.name === 'profile') {
               iconName = focused ?
             'ios-person' :
             'ios-person-outline';
@@ -69,11 +69,11 @@ const BottomTabNavigator = () => {
           },
         })}
       >
-        <Tab.Screen name="talker" component={TalkerStackNavigator} options={{title: 'Hablar', headerTitle: (user === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${user.name}`, headerStyle: {backgroundColor: palette.red},
+        <Tab.Screen name="talker" component={TalkerStackNavigator} options={{title: 'Hablar', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
           headerTitleStyle: {color: 'white', fontWeight: 'bold'}, headerTitleAlign: 'center'}}/>
-        <Tab.Screen name="main" component={MainStackNavigator} options={{title: 'Inicio', headerTitle: (user === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${user.name}`, headerStyle: {backgroundColor: palette.red},
+        <Tab.Screen name="main" component={MainStackNavigator} options={{title: 'Inicio', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
           headerTitleStyle: {color: 'white', fontWeight: 'bold'}, headerTitleAlign: 'center'}}/>
-        <Tab.Screen name="user" component={UserStackNavigator} options={{title: 'Usuario', headerTitle: (user === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${user.name}`, headerStyle: {backgroundColor: palette.red},
+        <Tab.Screen name="profile" component={ProfileStackNavigator} options={{title: 'Usuario', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
           headerTitleStyle: {color: 'white', fontWeight: 'bold'}, headerTitleAlign: 'center'}}/>
       </Tab.Navigator>
     </View>

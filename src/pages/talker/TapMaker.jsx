@@ -4,7 +4,7 @@ import {styles, palette} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import {setTap, getTaps, addTap, searchTap} from '../../_helpers/UserContent';
+import {setTap, getTaps, addTap, searchTap} from '../../_helpers/ProfileContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 

@@ -2,7 +2,7 @@ import React, {ReactNode, useState, useEffect} from 'react';
 import Button from './Button';
 import {Pressable, View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {palette} from '../styles/styles';
-import {delTap} from '../_helpers/UserContent';
+import {delTap} from '../_helpers/ProfileContent';
 import {setActive} from '../_helpers/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Pictogram from './Pictogram';
@@ -13,7 +13,7 @@ import Pictogram from './Pictogram';
  * @return {JSX.Element}
  */
 export default function PictoList({...props}) {
-  const [activeUser, loadActive] = useState(0);
+  const [activeProfile, loadActive] = useState(0);
   const [shouldRefresh, setRefresh] = useState(false);
 
   /**
@@ -34,9 +34,9 @@ export default function PictoList({...props}) {
     };
     fetchData()
         .catch(console.error);
-  }, [activeUser, shouldRefresh]);
+  }, [activeProfile, shouldRefresh]);
 
-  const user = JSON.parse(activeUser);
+  const profile = JSON.parse(activeProfile);
 
   let pictolist = [];
 

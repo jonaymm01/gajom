@@ -6,7 +6,7 @@ import ButtonList from '../../components/ButtonList';
 import {ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
-import {setTap} from '../../_helpers/UserContent';
+import {setTap} from '../../_helpers/ProfileContent';
 import {setActive} from '../../_helpers/storage';
 import TapList from '../../components/TapList';
 import {data} from '../../content/DefaultTaps.json';
