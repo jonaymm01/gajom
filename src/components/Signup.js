@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
+
+import {ProfileListContext} from '../../global';
 
 import {setProfile} from '../_helpers/storage';
 import Input from '../components/Input';
@@ -18,6 +20,8 @@ export function SignUp({navigation}) {
   const [modalWarning, setModalWarning] = useState(false);
   const [hiddenPin, setHiddenPin] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
+  const [profileList, setProfileList] = useContext(ProfileListContext);
+
   const onPressLogin = () => navigation.navigate('Login');
 
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
@@ -31,7 +35,10 @@ export function SignUp({navigation}) {
     if (profile) {
       setModalWarning(true);
     } else {
-      await setProfile(value);
+      await setProfile(value)
+      const keys = await AsyncStorage.getAllKeys();
+      const resultKeys = keys.filter((key) => key != 'active'); 
+      setProfileList(resultKeys);
       setModalSigned(true);
     };
   };

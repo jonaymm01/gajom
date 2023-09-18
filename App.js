@@ -3,9 +3,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import BottomTabNavigator from './src/components/TabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ProfileContext} from './global';
+import {ProfileListContext} from './global';
 import {setActiveProfile} from './src/_helpers/storage';
 
 const App = () => {
+  const [profileList, setProfileList] = useState([]);
   const [profile, setProfile] = useState('{}');
 
   /**
@@ -13,6 +15,9 @@ const App = () => {
    */
   useEffect(() => {
     const fetchData = async () => {
+      const keys = await AsyncStorage.getAllKeys();
+      const resultKeys = keys.filter((key) => key != 'active'); 
+      setProfileList(resultKeys);
       await AsyncStorage.getItem('active')
           .then((profile) => {
             console.log('el perfil activo es:', profile);
@@ -29,11 +34,14 @@ const App = () => {
   }, []);
 
   return (
+    <ProfileListContext.Provider value={[profileList, setProfileList]}>
     <ProfileContext.Provider value={[profile, setProfile]}>
       <NavigationContainer>
         <BottomTabNavigator />
       </NavigationContainer>
     </ProfileContext.Provider>
+    </ProfileListContext.Provider>
+
   );
 };
 export default App;

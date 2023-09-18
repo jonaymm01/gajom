@@ -1,9 +1,11 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useForm, Controller} from 'react-hook-form';
 import {ProfileContext} from '../../global';
+
+import { ProfileSelector } from './ProfileSelector';
 
 import {setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
@@ -22,18 +24,42 @@ export function Login({navigation}) {
   const [hiddenPin, setHiddenPin] = useState(true);
   const [activeProfile, setProfile] = useContext(ProfileContext);
 
+  const [selected, setSelected] = useState('');
+
+  const [modalPin, setModalPin] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const onPressSignup = () => navigation.navigate('Signup');
 
-  const {handleSubmit, control, formState: {errors}} = useForm();
+  const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
   const showPass = () => {
     setHiddenPin(!hiddenPin);
   };
 
-  const onSubmit = async (value) => {
-    await setActiveProfile(JSON.stringify(value)).then((pass) => {
+  useEffect(() => {
+    if(selected != '') {
+      setModalPin(!modalPin);
+      const submit = async () => {
+        await setActiveProfile(JSON.stringify(value)).then((pass) => {
+          if (pass?.pass) {
+            setActiveProfile(pass.profile);
+            console.log(value.name, 'ha abierto la sesión');
+            navigation.navigate('Profile');
+          } else {
+            setModalVisible(true);
+          }
+        });
+      }
+    }
+  }, [selected]);
+
+  const Access = async (value) => {
+    const petition = {
+      name: selected,
+      pin: value.pin,
+    }; 
+    await setActiveProfile(JSON.stringify(petition)).then((pass) => {
       if (pass?.pass) {
         setProfile(pass.profile);
         setActiveProfile(pass.profile);
@@ -48,106 +74,71 @@ export function Login({navigation}) {
     console.log(result);
   };
 
-  (navigation.getState().routes !== undefined) ? console.log(navigation.getState().routes[0].params) : null;
-
   return (
-    <SafeAreaView>
-      <ScrollView keyboardShouldPersistTaps="handled" style={{backgroundColor: '#fff'}}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-          style={styles.blank_background}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <>
-              <View style={{flex: 1}}>
-                <Modal
-                  animationType="slide"
-                  transparent={true}
-                  visible={modalVisible}
-                  onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                  }}>
-                  <View style={modalStyles.centeredView}>
-                    <View style={modalStyles.modalView}>
-                      <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-                      <Text style={modalStyles.modalText}>Nombre o pin incorrecto</Text>
-                      <Pressable
-                        style={[modalStyles.button, modalStyles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-                      </Pressable>
-                    </View>
-                  </View>
-                </Modal>
-
-                <View style={[styles.container, {flexDirection: 'row'}]}>
-                  <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
-                    <View>
-                      <Text style={[squareButtonOn.text, {fontSize: 30}]}>AÑADIR PERFIL</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={[formStyles.input_container, {marginBottom: 100}]}>
-                  <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu perfil</Text>
-                  <Controller
-                    name="name"
-                    defaultValue={""}
-                    control={control}
-                    rules={{
-                      required: {value: true, message: 'Escribe tu nombre de perfil'}
+    <>
+      <View style={{flex: 1, padding: 50}}>
+          <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
+            <View>
+              <Text style={[squareButtonOn.text, {fontSize: 30}]}>AÑADIR PERFIL</Text>
+            </View>
+          </TouchableOpacity>
+      </View>
+      <Modal
+              avoidKeyboard = {true}
+              animationType="slide"
+              transparent={true}
+              visible={modalPin}
+              onRequestClose={() => {
+                setModalPin(!modalPin);
+              }}>
+              <View style={[modalStyles.centeredView, modalStyles.modalView]}>
+                <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>{selected}</Text>
+                <Controller
+                  name="pin"
+                  defaultValue=""
+                  control={control}
+                  rules={{
+                    required: {value: true, message: 'Inserta tu PIN'},
+                  }}
+                  render={({field: {onChange, value}}) => (
+                    <Input
+                      error={errors.pin}
+                      errorText={errors?.pin?.message}
+                      value={value}
+                      onChangeText={(text) => {
+                        onChange(text);
+                      }}
+                      placeholder={activeProfile.name}
+                    />
+                  )}
+                />
+                <View style={{flexDirection: 'row'}}>
+                  <Pressable
+                    style={[modalStyles.button, modalStyles.grayBackground]}
+                    onPress={() => {
+                      resetField('pin');
+                      setModalPin(!modalPin);
                     }}
-                    render={({field: {onChange, value}}) => (
-                      <Input
-                        error={errors.name}
-                        errorText={errors?.name?.message}
-                        onChangeText={(text) => onChange(text)}
-                        value={value}
-                        placeholder={'Nombre de perfil'}
-                        autoCapitalize="none"
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="pin"
-                    defaultValue={''}
-                    control={control}
-                    rules={{
-                      required: {value: true, message: 'Escribe tu pin'},
+                  >
+                    <Text style={modalStyles.textStyle}>Cancelar</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[modalStyles.button, modalStyles.violetBackground]}
+                    onPress={() => {
+                      handleSubmit(Access)();
+                      resetField('pin');
+                      setModalPin(!modalPin);
                     }}
-                    render={({field: {onChange, value}}) => (
-                      <>
-                        <Input
-                          error={errors.pin}
-                          errorText={errors?.pin?.message}
-                          onChangeText={(text) => onChange(text)}
-                          value={value}
-                          placeholder={'Pin'}
-                          autoCapitalize="none"
-                          autoCorrect={false}
-                          textContentType="newPassword"
-                          secureTextEntry={hiddenPin ? true : false}
-                          enablesReturnKeyAutomatically
-                        />
-                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
-                          <TouchableOpacity onPress={() => {
-                            showPass();
-                          }} style={LoginStyle.eye}>
-                            <Image source={(hiddenPin) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
-                          </TouchableOpacity>
-                        </View>
-                      </>
-                    )}
-                  />
-                  <View style={{marginTop: 60}}>
-                    <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
-                  </View>
+                  >
+                    <Text style={modalStyles.textStyle}>Iniciar sesión</Text>
+                  </Pressable>
                 </View>
               </View>
-            </>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </SafeAreaView>
+          </Modal>
+        <View style={{flex: 5}}>
+          <ProfileSelector selector={setSelected}/>
+        </View>
+    </>
   );
 }
 
@@ -216,13 +207,11 @@ const modalStyles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    backgroundColor: '#fff',
-    borderColor: '#ed1c24',
-    borderWidth: 4,
-    borderRadius: 10,
-    height: 400,
-    padding: 50,
-    width: 350,
+    backgroundColor: 'white',
+    borderColor: '#763CAD',
+    borderWidth: 5,
+    padding: 40,
+    height: 500,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -235,22 +224,26 @@ const modalStyles = StyleSheet.create({
   },
   button: {
     borderRadius: 10,
-    width: 200,
+    width: 150,
     height: 80,
     elevation: 10,
+    margin: 15,
   },
-  buttonOpen: {
-    backgroundColor: '#763CAD',
+  violetBackground: {
+    backgroundColor: palette.violet,
   },
-  buttonClose: {
+  grayBackground: {
+    backgroundColor: palette.gray,
+  },
+  redBackground: {
     backgroundColor: '#ed1c24',
   },
   textStyle: {
-    color: '#fff',
+    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 30,
+    fontSize: 25,
   },
   modalText: {
     marginBottom: 40,
@@ -260,3 +253,4 @@ const modalStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+

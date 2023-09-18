@@ -10,6 +10,8 @@ import LineSeparator from '../components/LineSeparator';
 
 import {styles, palette} from '../styles/styles';
 import {ProfileContext} from '../../global';
+import {ProfileListContext} from '../../global';
+
 import {setProfile, setActiveProfile} from '../_helpers/storage';
 
 /**
@@ -19,6 +21,8 @@ import {setProfile, setActiveProfile} from '../_helpers/storage';
  */
 export function Profile({navigation}) {
   const [profile, setProfile] = useContext(ProfileContext);
+  const [profileList, setProfileList] = useContext(ProfileListContext);
+
 
   if ((profile !== '{}') || (typeof(profile) != 'undefined')) {
     const activeProfile = JSON.parse(profile);
@@ -101,6 +105,9 @@ export function Profile({navigation}) {
     const deleteProfile = async (value) => {
       await AsyncStorage.removeItem(activeProfile.name);
       setProfile('{}');
+      const keys = await AsyncStorage.getAllKeys();
+      const resultKeys = keys.filter((key) => key != 'active'); 
+      setProfileList(resultKeys);
       console.log('Se ha eliminado el perfil ', activeProfile.name);
     };
 

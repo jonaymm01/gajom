@@ -7,11 +7,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "wsl-start": "REACT_NATIVE_PACKAGER_HOSTNAME=192.168.1.72 npx expo start --port 19000",
+    "wsl-start": "REACT_NATIVE_PACKAGER_HOSTNAME=192.168.1.153 npx expo start --tunnel --port 19000",
     "docs": "jsdoc -c ./.jsdoc.conf.json"
   },
   "dependencies": {
-    "@expo/webpack-config": "^0.17.0",
+    "@expo/webpack-config": "^19.0.0",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "2.4.10",
@@ -27,7 +27,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.5",
-    "react-native": "0.72.3",
+    "react-native": "0.72.4",
     "react-native-asset": "^2.1.0",
     "react-native-awesome-alerts": "^2.0.0",
     "react-native-form-component": "^2.6.8",
