@@ -45,7 +45,6 @@ export function Login({navigation}) {
           if (pass?.pass) {
             setActiveProfile(pass.profile);
             console.log(value.name, 'ha abierto la sesión');
-            navigation.navigate('Profile');
           } else {
             setModalVisible(true);
           }
@@ -64,7 +63,6 @@ export function Login({navigation}) {
         setProfile(pass.profile);
         setActiveProfile(pass.profile);
         console.log(value.name, 'ha abierto la sesión');
-        navigation.navigate('Profile');
       } else {
         setModalVisible(true);
       }
@@ -75,7 +73,7 @@ export function Login({navigation}) {
   };
 
   return (
-    <>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, padding: 50}}>
           <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
             <View>
@@ -138,7 +136,7 @@ export function Login({navigation}) {
         <View style={{flex: 5}}>
           <ProfileSelector selector={setSelected}/>
         </View>
-    </>
+    </SafeAreaView>
   );
 }
 

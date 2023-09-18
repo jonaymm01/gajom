@@ -5,7 +5,7 @@ import {useForm, Controller} from 'react-hook-form';
 
 import {ProfileListContext} from '../../global';
 
-import {setProfile} from '../_helpers/storage';
+import {setProfile, setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -21,6 +21,7 @@ export function SignUp({navigation}) {
   const [hiddenPin, setHiddenPin] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
   const [profileList, setProfileList] = useContext(ProfileListContext);
+  const [newProfile, setNewProfile] = useState('');
 
   const onPressLogin = () => navigation.navigate('Login');
 
@@ -31,6 +32,7 @@ export function SignUp({navigation}) {
   };
 
   const onSubmit = async (value) => {
+    setNewProfile({name: value.name, pin: value.pin});
     const profile = await AsyncStorage.getItem(value.name);
     if (profile) {
       setModalWarning(true);
@@ -43,8 +45,16 @@ export function SignUp({navigation}) {
     };
   };
 
+  const onLogin = async () => {
+    console.log('AAAAA', newProfile);
+    console.log(typeof(newProfile));
+    setProfile(newProfile);
+    setActiveProfile(JSON.stringify(newProfile));
+    console.log(newProfile.name, 'ha abierto la sesión');
+  } 
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView keyboardShouldPersistTaps="handled" style= {{backgroundColor: '#fff'}}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
@@ -82,7 +92,7 @@ export function SignUp({navigation}) {
                 }}>
                 <View style={modalStyles.centeredView}>
                   <View style={[modalStyles.modalView, modalStyles.borderSigned]}>
-                    <Text style={modalStyles.modalText}>¡Bienvenido!</Text>
+                    <Text style={modalStyles.modalText}>¡Bienvenido, {newProfile.name}!</Text>
                     <View style={{flexDirection: 'row'}}>
                       <Pressable
                         style={[modalStyles.button, modalStyles.grayBackground]}
@@ -92,7 +102,7 @@ export function SignUp({navigation}) {
                       <Pressable
                         style={[modalStyles.button, modalStyles.violetBackground]}
                         onPress={() => {
-                          navigation.navigate('Login', {name: getValues().name, pin: getValues().pin});
+                          onLogin();
                           setModalSigned(!modalSigned);
                         }}>
                         <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
@@ -103,17 +113,16 @@ export function SignUp({navigation}) {
               </Modal>
 
               <View style={{flex: 1}}>
-                <View style={[styles.container, {flexDirection: 'row'}]}>
-                  <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressLogin}>
+                <View style={[styles.container, {flexDirection: 'row', alignSelf: 'center'}]}>
+                  <TouchableOpacity style={[backButton.base]} onPress={onPressLogin}>
                     <View>
-                      <Text style={squareButtonOn.text}>¿Ya tienes una cuenta?</Text>
-                      <Text style={[squareButtonOn.text, {fontSize: 30}]}>INICIA SESIÓN AQUÍ</Text>
+                      <Text style={[backButton.text]}>⤺</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
 
                 <View style={[formStyles.input_container, {marginBottom: 30}]}>
-                  <Text style={[styles.title, {lineHeight: 100}]}>Formulario de Registro</Text>
+                  <Text style={[styles.title, {lineHeight: 100}]}>Creación de perfil</Text>
                   <Controller
                     name="name"
                     defaultValue=""
@@ -198,20 +207,19 @@ const SignupStyle = StyleSheet.create({
 });
 
 
-const squareButtonOn = StyleSheet.create({
+const backButton = StyleSheet.create({
   base: {
-    flex: 1,
-    borderColor: '#fff',
-    backgroundColor: palette.red,
+    backgroundColor: palette.gray,
+    alignSelf: 'center',
+    width: 80,
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    paddingBottom: 10,
+    marginTop: 20,
   },
   text: {
-    flex: 1,
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 40,
     alignSelf: 'center',
   },
 });
