@@ -18,7 +18,7 @@ export const setUser = async (value) => {
  * Método para cargar un nuevo usuario en la base de datos
  * @param {*} value
  */
-export const setProfile = async (value) => {
+export const createProfile = async (value) => {
   const name = value.name;
   try {
     await AsyncStorage.setItem(name, JSON.stringify(value));
@@ -51,6 +51,41 @@ export const getProfile = async (value) => {
     console.log(error);
   };
 };
+
+/**
+ * Método para recuperar la lista de perfiles
+ * @param {*} value
+ */
+export const getAllProfiles = async (value) => {
+  try {
+    const keys = await AsyncStorage.getAllKeys();
+    const result = await AsyncStorage.multiGet(keys);
+    const resultKeys = result.filter((profile) => profile[0] != 'active');
+    const names = resultKeys.map((profile) => JSON.parse(profile[1]).name);
+    return names;
+  } catch (error) {
+    console.log(error);
+  };
+};
+
+
+/**
+ * Método para renombrar un perfil
+ * @param {*} value
+ */
+export const renameProfile = async (oldName, newName) => {
+  try {
+    const profile = await AsyncStorage.getItem(oldName);
+    let profileJSON = JSON.parse(profile);
+    profileJSON.name = newName;
+    console.log('El usuario renombrado:', profileJSON); 
+    await AsyncStorage.removeItem(oldName);
+    await AsyncStorage.setItem(newName, JSON.stringify(profileJSON));
+  } catch (error) {
+    console.log(error);
+  };
+};
+
 
 /**
  * Método para definir un usuario como el usuario activo (Sesión iniciada)

@@ -4,7 +4,7 @@ import BottomTabNavigator from './src/components/TabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ProfileContext} from './global';
 import {ProfileListContext} from './global';
-import {setActiveProfile} from './src/_helpers/storage';
+import {getAllProfiles, setActiveProfile} from './src/_helpers/storage';
 
 const App = () => {
   const [profileList, setProfileList] = useState([]);
@@ -15,9 +15,9 @@ const App = () => {
    */
   useEffect(() => {
     const fetchData = async () => {
-      const keys = await AsyncStorage.getAllKeys();
-      const resultKeys = keys.filter((key) => key != 'active'); 
-      setProfileList(resultKeys);
+      const names = await getAllProfiles();
+      setProfileList(names);
+      console.log("Usuarios disponibles: ", names);
       await AsyncStorage.getItem('active')
           .then((profile) => {
             console.log('el perfil activo es:', profile);

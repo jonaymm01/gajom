@@ -8,14 +8,14 @@ import {setTap, getTaps, addTap, searchTap} from '../../_helpers/ProfileContent'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import {UserContext} from '../../../global';
+import {ProfileContext} from '../../../global';
 
 /**
  * Método para renderizar página de Pictogramas.
  * @return {JSX.Element}
  */
 export function TapMaker({route, navigation}) {
-  const [activeUser, setUser] = useContext(UserContext);
+  const [activeUser, setUser] = useContext(ProfileContext);
   const [modalVoid, setModalVoid] = useState(false);
 
   const user = JSON.parse(activeUser);
@@ -420,7 +420,6 @@ export function TapMaker({route, navigation}) {
                       if (getValues().name.length > 0) {
                         alreadyExist().then((isDuplicate) => 
                         {
-                          console.log('isDuplicate: ', isDuplicate);
                           if(!isDuplicate) {
                             saveTap();
                           } else {

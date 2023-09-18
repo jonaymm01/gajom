@@ -62,14 +62,13 @@ export function Login({navigation}) {
       if (pass?.pass) {
         setProfile(pass.profile);
         setActiveProfile(pass.profile);
-        console.log(value.name, 'ha abierto la sesión');
+        console.log(selected, 'ha abierto la sesión');
       } else {
-        setModalVisible(true);
+        setModalVisible(!modalVisible);
       }
     });
     const keys = await AsyncStorage.getAllKeys();
     const result = await AsyncStorage.multiGet(keys);
-    console.log(result);
   };
 
   return (
@@ -90,45 +89,65 @@ export function Login({navigation}) {
                 setModalPin(!modalPin);
               }}>
               <View style={[modalStyles.centeredView, modalStyles.modalView]}>
-                <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>{selected}</Text>
+                <Text style={[accessForm.text, {marginTop: 40}]}>Iniciando sesión:</Text>
+                <Text style={[accessForm.profile_name, {marginBottom: 10, marginTop: 10}]}>{selected}</Text>
+                <Text style={[accessForm.text, {marginBottom: 20,}]}>Introduce aquí tu PIN</Text>
                 <Controller
-                  name="pin"
-                  defaultValue=""
-                  control={control}
-                  rules={{
-                    required: {value: true, message: 'Inserta tu PIN'},
-                  }}
-                  render={({field: {onChange, value}}) => (
-                    <Input
-                      error={errors.pin}
-                      errorText={errors?.pin?.message}
-                      value={value}
-                      onChangeText={(text) => {
-                        onChange(text);
-                      }}
-                      placeholder={activeProfile.name}
-                    />
-                  )}
-                />
-                <View style={{flexDirection: 'row'}}>
+                    name="pin"
+                    defaultValue=""
+                    control={control}
+                    rules={{
+                      required: {value: true, message: 'Escribe un pin de 4 cifras'},
+                      pattern: {
+                        value: /^\d{4}$/,
+                        message: 'invalid pin',
+                      },
+                    }}
+                    render={({field: {onChange, value}}) => (
+                      <>
+                        <Input
+                          error={errors.pin}
+                          errorText={errors?.pin?.message}
+                          onChangeText={(text) => onChange(text)}
+                          value={value}
+                          placeholder="Pin"
+                          autoCapitalize="none"
+                          autoCorrect={false}
+                          textContentType="newPassword"
+                          secureTextEntry={hiddenPin ? true : false}
+                          enablesReturnKeyAutomatically
+                        />
+                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+                          <TouchableOpacity onPress={() => {
+                            showPass();
+                          }} >
+                            <Image source={(hiddenPin) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    )}
+                  />
+                <View style={{flexDirection: 'row', marginTop: 40}}>
                   <Pressable
                     style={[modalStyles.button, modalStyles.grayBackground]}
                     onPress={() => {
                       resetField('pin');
+                      setSelected('');
                       setModalPin(!modalPin);
                     }}
                   >
-                    <Text style={modalStyles.textStyle}>Cancelar</Text>
+                  <Text style={modalStyles.textStyle}>Cancelar</Text>
                   </Pressable>
                   <Pressable
                     style={[modalStyles.button, modalStyles.violetBackground]}
                     onPress={() => {
                       handleSubmit(Access)();
                       resetField('pin');
+                      setSelected('');
                       setModalPin(!modalPin);
                     }}
                   >
-                    <Text style={modalStyles.textStyle}>Iniciar sesión</Text>
+                    <Text style={modalStyles.textStyle}>Acceder</Text>
                   </Pressable>
                 </View>
               </View>
@@ -151,13 +170,17 @@ export const formStyles = StyleSheet.create({
   },
 });
 
-const LoginStyle = StyleSheet.create({
-  deleteButton: {
-    alignContent: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    padding: 20,
+const accessForm = StyleSheet.create({
+  profile_name: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: palette.violet,
   },
+  text: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: palette.violet,
+  }
 });
 
 const squareButtonOn = StyleSheet.create({
@@ -222,7 +245,7 @@ const modalStyles = StyleSheet.create({
   },
   button: {
     borderRadius: 10,
-    width: 150,
+    width: 130,
     height: 80,
     elevation: 10,
     margin: 15,

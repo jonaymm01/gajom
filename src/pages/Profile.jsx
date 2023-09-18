@@ -12,7 +12,7 @@ import {styles, palette} from '../styles/styles';
 import {ProfileContext} from '../../global';
 import {ProfileListContext} from '../../global';
 
-import {setProfile, setActiveProfile} from '../_helpers/storage';
+import {setActiveProfile, renameProfile, getAllProfiles} from '../_helpers/storage';
 
 /**
  * Renderiza la página de perfil de usuario.
@@ -41,6 +41,7 @@ export function Profile({navigation}) {
     const openChange = async (flag) => {
       switch (flag) {
         case 'name':
+          setNewName('');
           setModalName(true);
           break;
         case 'pin':
@@ -54,11 +55,16 @@ export function Profile({navigation}) {
    * @param {*} value
    */
     const changeName = async (value) => {
-      console.log('Se ha cambiado el nombre de', activeProfile.name, ' por: ', value.name);
-      await AsyncStorage.mergeItem(activeProfile.name, JSON.stringify({name: value.name}));
-      const modified = await AsyncStorage.getItem(activeProfile.name);
-      setProfile(modified);
-      console.log(modified);
+      const newName = value.name;
+      await renameProfile(activeProfile.name, newName);
+      const modified = await AsyncStorage.getItem(newName);
+      const newProfile = JSON.parse(modified);
+      setActiveProfile(modified).then((pass) => {
+        if (pass?.pass) {
+          setProfile(pass.profile);
+          getAllProfiles().then((profiles) => setProfileList(profiles));
+        };
+      });
     };
 
     /**
@@ -77,7 +83,6 @@ export function Profile({navigation}) {
         cancelable: true,
       });
       setModalPin(!modalPin);
-      console.log(modified);
     };
 
     const invalidPin= async (value) => {
@@ -132,7 +137,10 @@ export function Profile({navigation}) {
             setModalName(!modalName);
           }}>
           <View style={[modalStyles.centeredView, modalStyles.modalView]}>
-            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>{activeProfile.name} ➜ {newName} </Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
+              <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}> ➜ {newName} </Text>
+            </View>
             <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo nombre</Text>
             <Controller
               name="name"
@@ -288,12 +296,9 @@ export function Profile({navigation}) {
         <View style={[styles.container, {alignItems: 'center'}]}>
           <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
             <View style = {{borderColor: palette.violet, borderWidth: 2, alignItems: 'center', padding: 50}}>
-              <View>
-                <Text style={[styles.basic_font, {color: palette.violet, marginBottom: 30, fontSize: 25}]}>Hola, {activeProfile.name}</Text>
-              </View>
-              <View style={{marginBottom: 30, backgroundColor: palette.violet, padding: 20}}>
+              <View style={{backgroundColor: palette.violet, padding: 20}}>
                 <Text style={[styles.basic_font_bold, {color: '#fff'}]}>Sesión iniciada:</Text>
-                <Text style={[styles.basic_font, {color: '#fff'}]}>{activeProfile.name}</Text>
+                <Text style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 30}]}>{activeProfile.name}</Text>
               </View>
             </View>
             <Separator> Editar perfil </Separator>

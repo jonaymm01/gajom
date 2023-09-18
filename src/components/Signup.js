@@ -3,9 +3,9 @@ import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pres
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 
-import {ProfileListContext} from '../../global';
+import {ProfileListContext, ProfileContext} from '../../global';
 
-import {setProfile, setActiveProfile} from '../_helpers/storage';
+import {createProfile, setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -20,7 +20,10 @@ export function SignUp({navigation}) {
   const [modalWarning, setModalWarning] = useState(false);
   const [hiddenPin, setHiddenPin] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
+
   const [profileList, setProfileList] = useContext(ProfileListContext);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
+
   const [newProfile, setNewProfile] = useState('');
 
   const onPressLogin = () => navigation.navigate('Login');
@@ -37,7 +40,7 @@ export function SignUp({navigation}) {
     if (profile) {
       setModalWarning(true);
     } else {
-      await setProfile(value)
+      await createProfile(value)
       const keys = await AsyncStorage.getAllKeys();
       const resultKeys = keys.filter((key) => key != 'active'); 
       setProfileList(resultKeys);
@@ -46,9 +49,7 @@ export function SignUp({navigation}) {
   };
 
   const onLogin = async () => {
-    console.log('AAAAA', newProfile);
-    console.log(typeof(newProfile));
-    setProfile(newProfile);
+    setProfile(JSON.stringify(newProfile));
     setActiveProfile(JSON.stringify(newProfile));
     console.log(newProfile.name, 'ha abierto la sesión');
   } 
