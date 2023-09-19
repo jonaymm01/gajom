@@ -121,7 +121,7 @@ export function Login({navigation}) {
                           <TouchableOpacity onPress={() => {
                             showPass();
                           }} >
-                            <Image source={(hiddenPin) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                            <Image source={(hiddenPin) ? require('../../assets/eye_hidden_icon.png') : require('../../assets/eye_show_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
                           </TouchableOpacity>
                         </View>
                       </>

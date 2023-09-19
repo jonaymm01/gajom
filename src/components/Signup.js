@@ -169,8 +169,8 @@ export function SignUp({navigation}) {
                         <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
                           <TouchableOpacity onPress={() => {
                             showPass();
-                          }} style={SignupStyle.eye}>
-                            <Image source={(hiddenPin) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                          }}>
+                            <Image source={(hiddenPin) ? require('../../assets/eye_hidden_icon.png') : require('../../assets/eye_show_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
                           </TouchableOpacity>
                         </View>
                       </>
