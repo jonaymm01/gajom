@@ -38,24 +38,29 @@ export function ProfileSelector({...props}) {
     }
    }, []);
 
+
   buttonlist = profileList.map((profile, index) =>
-      <View key={index} style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <Button color={palette.violet} onPress={() => {
-          props.selector(profile);
-        }} label={profile}/>
-      </View>,
-    );
+    <View key={index} style={{justifyContent: 'center'}}>
+    <TouchableOpacity style={selectorStyles.profileButton} onPress={() => props.selector(profile)}>
+      <View style={styles.button_container}>
+        <Text style={[styles.button_text]}>{profile}</Text>
+      </View> 
+    </TouchableOpacity>
+  </View>,
+  );
 
   return (
+    <View style={{alignItems: 'center'}}>
       <ScrollView>
-          <>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
             {buttonlist}
-          </>
+          </View>
       </ScrollView>
+    </View>
   );
 }
 
-const formStyles = StyleSheet.create({
+const selectorStyles = StyleSheet.create({
   input_container: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -63,4 +68,10 @@ const formStyles = StyleSheet.create({
     paddingRight: 20,
     paddingLeft: 20,
   },
+  profileButton: {
+    backgroundColor: palette.violet,
+    margin: 10,
+    height: 140,
+    width: 140,
+  }
 });

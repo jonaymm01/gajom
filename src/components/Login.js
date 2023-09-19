@@ -76,7 +76,7 @@ export function Login({navigation}) {
       <View style={{flex: 1, padding: 50}}>
           <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
             <View>
-              <Text style={[squareButtonOn.text, {fontSize: 30}]}>AÑADIR PERFIL</Text>
+              <Text style={[squareButtonOn.text, {fontSize: 30}]}>CREAR PERFIL</Text>
             </View>
           </TouchableOpacity>
       </View>
@@ -152,9 +152,11 @@ export function Login({navigation}) {
                 </View>
               </View>
           </Modal>
+        
         <View style={{flex: 5}}>
           <ProfileSelector selector={setSelected}/>
         </View>
+    
     </SafeAreaView>
   );
 }
@@ -186,11 +188,12 @@ const accessForm = StyleSheet.create({
 const squareButtonOn = StyleSheet.create({
   base: {
     flex: 1,
-    borderColor: '#fff',
     backgroundColor: palette.red,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    elevation: 10,
+
   },
   text: {
     flex: 1,

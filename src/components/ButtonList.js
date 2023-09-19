@@ -30,14 +30,13 @@ export default function ButtonList({...props}) {
 
   /**
    * Método para borrar un TAP
-   * @param {string} email
+   * @param {string} profile
    * @param {string} name
    * @param {JSON} options
    */
-  const deleteTap = async (email, name, options) => {
-    await delTap(email, name, options);
-    const modified = await AsyncStorage.getItem(profile.email);
-    console.log('Nuevo usuario activo (ButtonList):', modified);
+  const deleteTap = async (profile, name, options) => {
+    await delTap(profile, name, options);
+    const modified = await AsyncStorage.getItem(profile);
     setProfile(modified);
   };
 
@@ -50,7 +49,6 @@ export default function ButtonList({...props}) {
         }} label={tap.text}/>
         <TouchableOpacity onPress={() => {
           deleteTap(profile.name, tap.text, tap.options);
-          console.log(profile.name);
         }} style={ButtonListStyle.deleteButton}>
           <Image source={require('../../assets/trash_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
         </TouchableOpacity>

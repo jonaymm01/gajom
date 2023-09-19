@@ -15,10 +15,10 @@ import {ProfileContext} from '../../../global';
  * @return {JSX.Element}
  */
 export function TapMaker({route, navigation}) {
-  const [activeUser, setUser] = useContext(ProfileContext);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
   const [modalVoid, setModalVoid] = useState(false);
 
-  const user = JSON.parse(activeUser);
+  const profile = JSON.parse(activeProfile);
 
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
@@ -292,16 +292,16 @@ export function TapMaker({route, navigation}) {
       return option;
     });
 
-    await addTap(user.email, tapName, defTap);
-    const modified = await AsyncStorage.getItem(user.email);
-    setUser(modified);
+    await addTap(profile.name, tapName, defTap);
+    const modified = await AsyncStorage.getItem(profile.name);
+    setProfile(modified);
     navigation.navigate('TapMenu');
   };
 
   const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: 20, height: 20}} />;
 
   const alreadyExist = async () => {
-    const response = await searchTap(user.email, getValues().name);
+    const response = await searchTap(profile.name, getValues().name);
     return response;
   }
 
