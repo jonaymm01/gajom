@@ -7,7 +7,7 @@ import {ProfileContext} from '../../global';
 
 import { ProfileSelector } from './ProfileSelector';
 
-import {setActiveProfile} from '../_helpers/storage';
+import {hasPin, setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -37,39 +37,49 @@ export function Login({navigation}) {
     setHiddenPin(!hiddenPin);
   };
 
-  useEffect(() => {
-    if(selected != '') {
-      setModalPin(!modalPin);
-      const submit = async () => {
-        await setActiveProfile(JSON.stringify(value)).then((pass) => {
-          if (pass?.pass) {
-            setActiveProfile(pass.profile);
-            console.log(value.name, 'ha abierto la sesión');
-          } else {
-            setModalVisible(true);
-          }
-        });
-      }
-    }
-  }, [selected]);
-
   const Access = async (value) => {
     const petition = {
       name: selected,
       pin: value.pin,
     }; 
+    console.log(petition);
     await setActiveProfile(JSON.stringify(petition)).then((pass) => {
       if (pass?.pass) {
         setProfile(pass.profile);
-        setActiveProfile(pass.profile);
         console.log(selected, 'ha abierto la sesión');
+        setSelected('');
       } else {
         setModalVisible(!modalVisible);
+        setSelected('');
       }
     });
-    const keys = await AsyncStorage.getAllKeys();
-    const result = await AsyncStorage.multiGet(keys);
   };
+
+
+  useEffect(() => {
+    const lock = async () => hasPin(selected).then((lock) => {
+      if(selected != '') {
+        if (lock == true) {
+          setModalPin(!modalPin);
+        } else {
+          const login = async () => {
+            await setActiveProfile(JSON.stringify({name: selected, pin: '0'})).then((pass) => {
+              if (pass?.pass) {
+                setProfile(pass.profile);
+                console.log(selected, 'ha abierto la sesión');
+              } else {
+                setModalVisible(true);
+              }
+            });
+          }
+          login();
+          setSelected('');
+        }
+      }
+    });
+    lock();
+  }, [selected]);
+
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>

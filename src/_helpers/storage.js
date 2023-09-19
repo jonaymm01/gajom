@@ -53,6 +53,20 @@ export const getProfile = async (value) => {
 };
 
 /**
+ * Método para saber si un usuario tiene PIN o no
+ * @param {*} value
+ */
+export const hasPin = async (value) => {
+  try {
+    const profile = await AsyncStorage.getItem(value);
+    return (JSON.parse(profile).pin != '0') ? true : false
+  } catch (error) {
+    console.log(error);
+  };
+};
+
+
+/**
  * Método para recuperar la lista de perfiles
  * @param {*} value
  */
@@ -136,6 +150,7 @@ export const setActiveProfile = async (value) => {
           pass = false;
         }
       });
+
       if (pass) {
         await AsyncStorage.setItem('active', ActiveProfile).then(() => {
         });

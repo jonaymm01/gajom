@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView, Switch} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 
@@ -21,6 +21,9 @@ export function SignUp({navigation}) {
   const [hiddenPin, setHiddenPin] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
 
+  const [pinEnabled, setPinEnabled] = useState(false);
+  const toggleSwitch = () => setPinEnabled(!pinEnabled);
+
   const [profileList, setProfileList] = useContext(ProfileListContext);
   const [activeProfile, setProfile] = useContext(ProfileContext);
 
@@ -40,19 +43,63 @@ export function SignUp({navigation}) {
     if (profile) {
       setModalWarning(true);
     } else {
-      await createProfile(value)
-      const keys = await AsyncStorage.getAllKeys();
-      const resultKeys = keys.filter((key) => key != 'active'); 
-      setProfileList(resultKeys);
-      setModalSigned(true);
+      if (pinEnabled) {
+        await createProfile(value)
+        const keys = await AsyncStorage.getAllKeys();
+        const resultKeys = keys.filter((key) => key != 'active'); 
+        setProfileList(resultKeys);
+        setModalSigned(true);
+      } else {
+        await createProfile({name: value.name, pin: '0'})
+        const keys = await AsyncStorage.getAllKeys();
+        const resultKeys = keys.filter((key) => key != 'active'); 
+        setProfileList(resultKeys);
+        setModalSigned(true);
+      }
     };
   };
 
   const onLogin = async () => {
     setProfile(JSON.stringify(newProfile));
-    setActiveProfile(JSON.stringify(newProfile));
     console.log(newProfile.name, 'ha abierto la sesión');
   } 
+
+const pinInput = 
+  <Controller
+  name="pin"
+  defaultValue=""
+  control={control}
+  rules={{
+    required: {value: true, message: 'Escribe un pin de 4 cifras'},
+    pattern: {
+      value: /^\d{4}$/,
+      message: 'invalid pin',
+    },
+  }}
+  render={({field: {onChange, value}}) => (
+    <>
+      <Input
+        error={errors.pin}
+        errorText={errors?.pin?.message}
+        onChangeText={(text) => onChange(text)}
+        value={value}
+        placeholder="PIN"
+        autoCapitalize="none"
+        autoCorrect={false}
+        textContentType="newPassword"
+        secureTextEntry={hiddenPin ? true : false}
+        enablesReturnKeyAutomatically
+      />
+      <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+        <TouchableOpacity onPress={() => {
+          showPass();
+        }}>
+          <Image source={(hiddenPin) ? require('../../assets/eye_hidden_icon.png') : require('../../assets/eye_show_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+        </TouchableOpacity>
+      </View>
+    </>
+  )}
+  />
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -93,7 +140,8 @@ export function SignUp({navigation}) {
                 }}>
                 <View style={modalStyles.centeredView}>
                   <View style={[modalStyles.modalView, modalStyles.borderSigned]}>
-                    <Text style={modalStyles.modalText}>¡Bienvenido, {newProfile.name}!</Text>
+                    <Text style={modalStyles.title}>Perfil creado:</Text>
+                    <Text style={modalStyles.profile}>{newProfile.name}</Text>
                     <View style={{flexDirection: 'row'}}>
                       <Pressable
                         style={[modalStyles.button, modalStyles.grayBackground]}
@@ -114,16 +162,17 @@ export function SignUp({navigation}) {
               </Modal>
 
               <View style={{flex: 1}}>
-                <View style={[styles.container, {flexDirection: 'row', alignSelf: 'center'}]}>
+                
+                <View style={[styles.container, {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 20}]}>
                   <TouchableOpacity style={[backButton.base]} onPress={onPressLogin}>
                     <View>
                       <Text style={[backButton.text]}>⤺</Text>
                     </View>
                   </TouchableOpacity>
+                  <Text style={[styles.title]}>Creación de perfil</Text>
                 </View>
 
-                <View style={[formStyles.input_container, {marginBottom: 30}]}>
-                  <Text style={[styles.title, {lineHeight: 100}]}>Creación de perfil</Text>
+                <View style={[formStyles.input_container, {marginTop: 30}]}>
                   <Controller
                     name="name"
                     defaultValue=""
@@ -141,41 +190,21 @@ export function SignUp({navigation}) {
                       />
                     )}
                   />
-                  <Controller
-                    name="pin"
-                    defaultValue=""
-                    control={control}
-                    rules={{
-                      required: {value: true, message: 'Escribe un pin de 4 cifras'},
-                      pattern: {
-                        value: /^\d{4}$/,
-                        message: 'invalid pin',
-                      },
-                    }}
-                    render={({field: {onChange, value}}) => (
-                      <>
-                        <Input
-                          error={errors.pin}
-                          errorText={errors?.pin?.message}
-                          onChangeText={(text) => onChange(text)}
-                          value={value}
-                          placeholder="Pin"
-                          autoCapitalize="none"
-                          autoCorrect={false}
-                          textContentType="newPassword"
-                          secureTextEntry={hiddenPin ? true : false}
-                          enablesReturnKeyAutomatically
-                        />
-                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
-                          <TouchableOpacity onPress={() => {
-                            showPass();
-                          }}>
-                            <Image source={(hiddenPin) ? require('../../assets/eye_hidden_icon.png') : require('../../assets/eye_show_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
-                          </TouchableOpacity>
-                        </View>
-                      </>
-                    )}
-                  />
+                  <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet}}>Añadir un PIN?</Text>
+                    <View style={SignupStyle.switch}>
+                      <Switch
+                        trackColor={{false: '#767577', true: '#81b0ff'}}
+                        thumbColor={pinEnabled ? '#f5dd4b' : '#f4f3f4'}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={pinEnabled}
+                      />
+                    </View>
+                  </View>
+                  <>
+                    {(pinEnabled) ? pinInput : null}
+                  </>
                   <View style={{marginTop: 60}}>
                     <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
                   </View>
@@ -204,6 +233,12 @@ const SignupStyle = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     padding: 20,
+  },
+  switch: {
+    margin: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }]
   },
 });
 
@@ -288,4 +323,17 @@ const modalStyles = StyleSheet.create({
     marginTop: 20,
     fontWeight: 'bold',
   },
+  title: {
+    textAlign: 'center',
+    fontSize: 24,
+    marginTop: 20,
+    fontWeight: 'bold',
+  },
+  profile: {
+    textAlign: 'center',
+    fontSize: 30,
+    marginBottom: 20,
+    fontWeight: 'bold',
+    color: palette.violet,
+  }
 });

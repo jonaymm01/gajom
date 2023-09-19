@@ -43,7 +43,7 @@ export function ProfileSelector({...props}) {
     <View key={index} style={{justifyContent: 'center'}}>
     <TouchableOpacity style={selectorStyles.profileButton} onPress={() => props.selector(profile)}>
       <View style={styles.button_container}>
-        <Text style={[styles.button_text]}>{profile}</Text>
+        <Text style={[styles.button_text, {fontSize: 24}]}>{profile}</Text>
       </View> 
     </TouchableOpacity>
   </View>,
@@ -61,17 +61,12 @@ export function ProfileSelector({...props}) {
 }
 
 const selectorStyles = StyleSheet.create({
-  input_container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingRight: 20,
-    paddingLeft: 20,
-  },
   profileButton: {
     backgroundColor: palette.violet,
     margin: 10,
     height: 140,
     width: 140,
+    padding: 10,
+
   }
 });
