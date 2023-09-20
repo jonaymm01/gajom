@@ -273,6 +273,8 @@ export function Profile({navigation}) {
                 style={[modalStyles.button, modalStyles.grayBackground, {marginTop: 50}]}
                 onPress={() => {
                   setModalPin(!modalPin);
+                  resetField('pin');
+                  resetField('pin2');
                 }}
               >
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
@@ -281,6 +283,8 @@ export function Profile({navigation}) {
                 style={[modalStyles.button, modalStyles.violetBackground, {marginTop: 50}]}
                 onPress={() => {
                   handleSubmit(changePin, invalidPin)();
+                  resetField('pin');
+                  resetField('pin2');
                 }}
               >
                 <Text style={modalStyles.textStyle}>Aplicar</Text>
@@ -335,10 +339,10 @@ export function Profile({navigation}) {
             </View >
             <View style={{flexDirection: 'row', marginTop: 20}}>
               <Image source={require('../../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
-              <Button color={palette.violet} onPress={() => openChange('pin')} label={(activeProfile.pin == "0") ? "Añadir PIN" : "Cambiar PIN"}/>
+              <Button color={palette.violet} onPress={() => openChange('pin')} label={(activeProfile.pin == "0" || activeProfile.pin == undefined) ? "Añadir PIN" : "Cambiar PIN"}/>
             </View >
             <>
-              {(activeProfile.pin == "0") ? null : deletePinButton}
+              {(activeProfile.pin == "0" || activeProfile.pin == undefined) ? null : deletePinButton}
             </>
             <LineSeparator/>
             <View style={{marginTop: -20}}>
