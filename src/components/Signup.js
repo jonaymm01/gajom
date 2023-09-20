@@ -38,7 +38,6 @@ export function SignUp({navigation}) {
   };
 
   const onSubmit = async (value) => {
-    setNewProfile({name: value.name, pin: value.pin});
     const profile = await AsyncStorage.getItem(value.name);
     if (profile) {
       setModalWarning(true);
@@ -49,12 +48,14 @@ export function SignUp({navigation}) {
         const resultKeys = keys.filter((key) => key != 'active'); 
         setProfileList(resultKeys);
         setModalSigned(true);
+        setNewProfile({name: value.name, pin: value.pin});
       } else {
         await createProfile({name: value.name, pin: '0'})
         const keys = await AsyncStorage.getAllKeys();
         const resultKeys = keys.filter((key) => key != 'active'); 
         setProfileList(resultKeys);
         setModalSigned(true);
+        setNewProfile({name: value.name, pin: '0'});
       }
     };
   };
@@ -73,7 +74,7 @@ const pinInput =
     required: {value: true, message: 'Escribe un pin de 4 cifras'},
     pattern: {
       value: /^\d{4}$/,
-      message: 'invalid pin',
+      message: 'Debe tener 4 cifras',
     },
   }}
   render={({field: {onChange, value}}) => (
@@ -194,8 +195,8 @@ const pinInput =
                     <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet}}>Añadir un PIN?</Text>
                     <View style={SignupStyle.switch}>
                       <Switch
-                        trackColor={{false: '#767577', true: '#81b0ff'}}
-                        thumbColor={pinEnabled ? '#f5dd4b' : '#f4f3f4'}
+                        trackColor={{false: '#767577', true: palette.violet}}
+                        thumbColor={pinEnabled ? palette.violet : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={toggleSwitch}
                         value={pinEnabled}

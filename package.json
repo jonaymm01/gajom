@@ -7,8 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "wsl-tunnel": "REACT_NATIVE_PACKAGER_HOSTNAME=192.168.1.100 npx expo start --tunnel --port 19000",
-    "wsl-start": "REACT_NATIVE_PACKAGER_HOSTNAME=192.168.1.100 npx expo start --port 19000",
+    "wsl-tunnel": "REACT_NATIVE_PACKAGER_HOSTNAME=10.159.17.147 npx expo start --tunnel --port 19000",
+    "wsl-start": "REACT_NATIVE_PACKAGER_HOSTNAME=10.159.17.147 npx expo start --port 19000",
     "docs": "jsdoc -c ./.jsdoc.conf.json"
   },
   "dependencies": {

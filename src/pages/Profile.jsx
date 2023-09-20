@@ -13,6 +13,7 @@ import {ProfileContext} from '../../global';
 import {ProfileListContext} from '../../global';
 
 import {setActiveProfile, renameProfile, getAllProfiles} from '../_helpers/storage';
+import { delPin } from '../_helpers/ProfileContent';
 
 /**
  * Renderiza la página de perfil de usuario.
@@ -26,7 +27,6 @@ export function Profile({navigation}) {
 
   if ((profile !== '{}') || (typeof(profile) != 'undefined')) {
     const activeProfile = JSON.parse(profile);
-    const [active, loadActive] = useState(0);
 
     const [newName, setNewName] = useState('');
     const [modalName, setModalName] = useState(false);
@@ -68,15 +68,16 @@ export function Profile({navigation}) {
     };
 
     /**
-   * Método para cambiar la contraseña del usuario.
+   * Método para cambiar el PIN del usuario.
    * @param {*} value
    */
     const changePin = async (value) => {
+      const change_type = (activeProfile.pin == '0') ? 'añadido' : 'cambiado';
       await AsyncStorage.mergeItem(activeProfile.name, JSON.stringify({pin: value.pin2}));
       const modified = await AsyncStorage.getItem(activeProfile.name);
       setProfile(modified);
-      console.log('Se ha cambiado el PIN de', activeProfile.pin, ' por: ', value.pin2);
-      Alert.alert('¡Hecho!', 'Se ha cambiado correctamente el PIN.', [
+      console.log(`Se ha cambiado el PIN de`, activeProfile.pin, ' por: ', value.pin2);
+      Alert.alert('¡Hecho!', `Se ha ${change_type} correctamente el PIN.`, [
         {text: 'OK'},
       ],
       {
@@ -125,6 +126,28 @@ export function Profile({navigation}) {
       setActiveProfile('{}');
       console.log('El usuario ', activeProfile.name, ' ha cerrado sesión');
     };
+
+    /**
+   * Método para eliminar PIN
+   */
+    const deletePIN = async () => {
+      delPin(activeProfile.name);
+      const modified = await AsyncStorage.getItem(activeProfile.name);
+      setProfile(modified);
+      console.log('Se ha eliminado el PIN de', activeProfile.name);
+      Alert.alert('¡Aviso!', 'Ahora tu cuenta no tiene PIN.', [
+        {text: 'OK'},
+      ],
+      {
+        cancelable: true,
+      });
+    };
+
+    const deletePinButton = 
+      <View style={{flexDirection: 'row', marginTop: 20}}>
+        <Image source={require('../../assets/open_lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
+        <Button color={palette.gray} onPress={() => deletePIN()} label="Eliminar PIN"/>
+      </View >
 
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
@@ -194,13 +217,17 @@ export function Profile({navigation}) {
             setModalPin(!modalPin);
           }}>
           <View style={[modalStyles.centeredView, modalStyles.modalView]}>
-            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica una nueva contraseña</Text>
+            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo PIN</Text>
             <Controller
               name="pin"
               defaultValue=""
               control={control}
               rules={{
-                required: {value: true, message: 'Escribe tu contraseña'},
+                required: {value: true, message: 'Escribe un pin de 4 cifras'},
+                pattern: {
+                  value: /^\d{4}$/,
+                  message: 'Debe tener 4 cifras',
+                },
                 validate: () => getValues('pin') === getValues('pin2'),
               }}
               render={({field: {onChange, value}}) => (
@@ -209,7 +236,7 @@ export function Profile({navigation}) {
                   errorText={errors?.pin?.message}
                   onChangeText={(text) => onChange(text)}
                   value={value}
-                  placeholder="Contraseña"
+                  placeholder="PIN"
                   autoCapitalize="none"
                   autoCorrect={false}
                   textContentType="newPassword"
@@ -223,7 +250,7 @@ export function Profile({navigation}) {
               defaultValue=""
               control={control}
               rules={{
-                required: {value: true, message: 'Escribe tu contraseña'},
+                required: {value: true, message: 'Escribe tu PIN'},
                 validate: () => getValues('pin') === getValues('pin2'),
               }}
               render={({field: {onChange, value}}) => (
@@ -232,7 +259,7 @@ export function Profile({navigation}) {
                   errorText={errors?.pin2?.message}
                   onChangeText={(text) => onChange(text)}
                   value={value}
-                  placeholder="Repite la contraseña"
+                  placeholder="Escríbelo de nuevo"
                   autoCapitalize="none"
                   autoCorrect={false}
                   textContentType="newPassword"
@@ -308,8 +335,11 @@ export function Profile({navigation}) {
             </View >
             <View style={{flexDirection: 'row', marginTop: 20}}>
               <Image source={require('../../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
-              <Button color={palette.violet} onPress={() => openChange('pin')} label="Cambiar contraseña"/>
+              <Button color={palette.violet} onPress={() => openChange('pin')} label={(activeProfile.pin == "0") ? "Añadir PIN" : "Cambiar PIN"}/>
             </View >
+            <>
+              {(activeProfile.pin == "0") ? null : deletePinButton}
+            </>
             <LineSeparator/>
             <View style={{marginTop: -20}}>
               <Button color={palette.red} onPress={() => logOut()} label="Cerrar sesión" />

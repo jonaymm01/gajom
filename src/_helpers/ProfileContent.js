@@ -76,6 +76,14 @@ export const delTap = async (profile, name, options) => {
   const user = await AsyncStorage.getItem(profile);
 };
 
+export const delPin = async (profile) => {
+  const pinZero = {
+    pin: '0',
+  };
+  await AsyncStorage.mergeItem(profile, JSON.stringify(pinZero));
+  const user = await AsyncStorage.getItem(profile);
+};
+
 export const addQuestion = async (name, start, end) => {
   let questions = [];
   let questionsOutput = [];
