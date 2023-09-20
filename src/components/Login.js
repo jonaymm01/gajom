@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pres
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useForm, Controller} from 'react-hook-form';
-import {ProfileContext} from '../../global';
+import {ProfileContext, ProfileListContext} from '../../global';
 
 import { ProfileSelector } from './ProfileSelector';
 
@@ -23,7 +23,7 @@ import { RotateInUpLeft } from 'react-native-reanimated';
 export function Login({navigation}) {
   const [hiddenPin, setHiddenPin] = useState(true);
   const [activeProfile, setProfile] = useContext(ProfileContext);
-
+  const [profilesList, setProfilesList] = useContext(ProfileListContext);
   const [selected, setSelected] = useState('');
 
   const [modalPin, setModalPin] = useState(false);
@@ -80,6 +80,15 @@ export function Login({navigation}) {
     lock();
   }, [selected]);
 
+  const selector = 
+    <View style={{flex: 5}}>
+      <ProfileSelector selector={setSelected}/>
+    </View>
+
+  const emptyListWarning = 
+  <View style={{flex: 4, justifyContent: 'center', alignSelf: 'center', paddingLeft: 20, paddingRight: 20, marginBottom: 100}}>
+    <Text style={[{fontSize: 20}]}>Aún no has creado ningún perfil.</Text>
+  </View>
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -163,9 +172,9 @@ export function Login({navigation}) {
               </View>
           </Modal>
         
-        <View style={{flex: 5}}>
-          <ProfileSelector selector={setSelected}/>
-        </View>
+          <>
+            {(profilesList.length > 0) ? selector : emptyListWarning}
+          </>
     
     </SafeAreaView>
   );

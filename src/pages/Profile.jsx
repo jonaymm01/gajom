@@ -145,7 +145,7 @@ export function Profile({navigation}) {
 
     const deletePinButton = 
       <View style={{flexDirection: 'row', marginTop: 20}}>
-        <Image source={require('../../assets/open_lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
+        <Image source={require('../../assets/open_lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center', tintColor: palette.gray}}/>
         <Button color={palette.gray} onPress={() => deletePIN()} label="Eliminar PIN"/>
       </View >
 
