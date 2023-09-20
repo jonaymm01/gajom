@@ -170,16 +170,20 @@ const pinInput =
                       <Text style={[backButton.text]}>⤺</Text>
                     </View>
                   </TouchableOpacity>
-                  <Text style={[styles.title]}>Creación de perfil</Text>
+                  <View style={SignupStyle.titleContainer}>
+                   <Text style={[SignupStyle.title]}>Creación de perfil</Text>
+                  </View>
                 </View>
 
+                
                 <View style={[formStyles.input_container, {marginTop: 30}]}>
+                <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet, marginBottom: 10}}>Introduce un nombre:</Text>
                   <Controller
                     name="name"
                     defaultValue=""
                     control={control}
                     rules={{
-                      required: {value: true, message: 'Escribe tu nombre'},
+                      required: {value: true, message: 'Escribe un nombre'},
                     }}
                     render={({field: {onChange, value}}) => (
                       <Input
@@ -187,7 +191,7 @@ const pinInput =
                         errorText={errors?.name?.message}
                         onChangeText={(text) => onChange(text)}
                         value={value}
-                        placeholder="Nombre"
+                        placeholder="Nombre del perfil"
                       />
                     )}
                   />
@@ -221,7 +225,6 @@ const pinInput =
 export const formStyles = StyleSheet.create({
   input_container: {
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
     paddingLeft: 20,
     paddingRight: 20,
@@ -241,17 +244,31 @@ const SignupStyle = StyleSheet.create({
     paddingRight: 20,
     transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }]
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: palette.violet,
+  },
+  titleContainer: {
+    flex: 3,
+    backgroundColor: 'white',
+    borderColor: palette.violet,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    margin: 5,
+  }
 });
 
 
 const backButton = StyleSheet.create({
   base: {
+    flex: 1,
     backgroundColor: palette.gray,
     alignSelf: 'center',
-    width: 80,
     alignItems: 'center',
     paddingBottom: 10,
-    marginTop: 20,
   },
   text: {
     color: '#fff',

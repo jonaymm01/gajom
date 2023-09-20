@@ -326,10 +326,17 @@ export function Profile({navigation}) {
 
         <View style={[styles.container, {alignItems: 'center'}]}>
           <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
-            <View style = {{borderColor: palette.violet, borderWidth: 2, alignItems: 'center', padding: 50}}>
-              <View style={{backgroundColor: palette.violet, padding: 20}}>
-                <Text style={[styles.basic_font_bold, {color: '#fff'}]}>Sesión iniciada:</Text>
-                <Text style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 30}]}>{activeProfile.name}</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <View style = {{borderColor: palette.violet, borderWidth: 2, justifyContent: 'center', padding: 10, height: 50, marginRight: 25, borderRadius: 10}}>
+                <View style={{backgroundColor: palette.violet, padding: 10, borderRadius: 5}}/>
+              </View>
+              <View style = {{borderColor: palette.violet, borderWidth: 2, alignItems: 'center', padding: 10, borderRadius: 10}}>
+                <View style={{backgroundColor: palette.violet, padding: 20, maxWidth: 200, borderRadius: 5}}>
+                  <Text style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 30, textAlign: 'center'}]}>{activeProfile.name}</Text>
+                </View>
+              </View>
+              <View style = {{borderColor: palette.violet, borderWidth: 2, justifyContent: 'center', padding: 10, height: 50, marginLeft: 25, borderRadius: 10}}>
+                <View style={{backgroundColor: palette.violet, padding: 10, borderRadius: 5}}/>
               </View>
             </View>
             <Separator> Editar perfil </Separator>

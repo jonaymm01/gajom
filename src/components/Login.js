@@ -95,7 +95,7 @@ export function Login({navigation}) {
       <View style={{flex: 1, padding: 50}}>
           <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
             <View>
-              <Text style={[squareButtonOn.text, {fontSize: 30}]}>CREAR PERFIL</Text>
+              <Text style={[squareButtonOn.text, {fontSize: 30}]}>AÑADIR PERFIL</Text>
             </View>
           </TouchableOpacity>
       </View>
@@ -207,7 +207,7 @@ const accessForm = StyleSheet.create({
 const squareButtonOn = StyleSheet.create({
   base: {
     flex: 1,
-    backgroundColor: palette.red,
+    backgroundColor: palette.gray,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
