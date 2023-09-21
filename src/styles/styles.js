@@ -7,6 +7,13 @@ export const palette = {
 };
 
 export const styles = StyleSheet.create({
+  modalView: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   blank_background: {
     flex: 1,
     backgroundColor: '#fff',
@@ -103,56 +110,5 @@ export const formStyles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 20,
-  },
-});
-
-export const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderColor: '#ed1c24',
-    borderWidth: 10,
-    borderRadius: 10,
-    padding: 30,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
-  button: {
-    borderRadius: 10,
-    width: 200,
-    height: 80,
-    elevation: 10,
-  },
-  buttonOpen: {
-    backgroundColor: '#763CAD',
-  },
-  buttonClose: {
-    backgroundColor: '#ed1c24',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    lineHeight: 80,
-    fontSize: 30,
-  },
-  modalText: {
-    marginBottom: 40,
-    textAlign: 'center',
-    fontSize: 24,
-    marginTop: 20,
-    fontWeight: 'bold',
   },
 });

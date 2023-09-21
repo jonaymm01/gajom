@@ -111,15 +111,13 @@ const pinInput =
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <>
               <Modal
-                animationType="slide"
-                transparent={true}
+                animationType="fade"
                 visible={modalWarning}
                 onRequestClose={() => {
                   Alert.alert('Modal has been closed.');
                   setModalWarning(!modalWarning);
                 }}>
-                <View style={modalStyles.centeredView}>
-                  <View style={[modalStyles.modalView, modalStyles.borderWarning]}>
+                  <View style={styles.modalView}>
                     <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
                     <Text style={modalStyles.modalText}>Ya existe un perfil con este nombre.</Text>
                     <Pressable
@@ -128,36 +126,40 @@ const pinInput =
                       <Text style={modalStyles.textStyle}>¡Entendido!</Text>
                     </Pressable>
                   </View>
-                </View>
               </Modal>
 
               <Modal
-                animationType="slide"
-                transparent={true}
+                animationType="fade"
                 visible={modalSigned}
                 onRequestClose={() => {
                   Alert.alert('Modal has been closed.');
                   setModalSigned(!modalSigned);
                 }}>
-                <View style={modalStyles.centeredView}>
-                  <View style={[modalStyles.modalView, modalStyles.borderSigned]}>
-                    <Text style={modalStyles.title}>Perfil creado:</Text>
-                    <Text style={modalStyles.profile}>{newProfile.name}</Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Pressable
-                        style={[modalStyles.button, modalStyles.grayBackground]}
-                        onPress={() => setModalSigned(!modalSigned)}>
-                        <Text style={modalStyles.textStyle}>Cerrar</Text>
-                      </Pressable>
-                      <Pressable
-                        style={[modalStyles.button, modalStyles.violetBackground]}
-                        onPress={() => {
-                          onLogin();
-                          setModalSigned(!modalSigned);
-                        }}>
-                        <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
-                      </Pressable>
+                <View style={[styles.modalView, {marginTop: 100}]}>
+                  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={[modalStyles.title]}>¡PERFIL AÑADIDO!</Text>
+                  </View>
+                  <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{borderWidth: 4, borderColor: palette.violet, paddingTop: 40, paddingBottom: 40, paddingRight: 20, paddingLeft: 20}}>
+                      <View style={{width: 250}}>
+                        <Text style={modalStyles.profile}>{newProfile.name}</Text>
+                      </View>
                     </View>
+                  </View>
+                  <View style={{flexDirection: 'row', flex: 2}}>
+                    <Pressable
+                      style={[modalStyles.button, modalStyles.grayBackground, {flex: 1}]}
+                      onPress={() => setModalSigned(!modalSigned)}>
+                      <Text style={modalStyles.textStyle}>Volver</Text>
+                    </Pressable>
+                    <Pressable
+                      style={[modalStyles.button, modalStyles.violetBackground, {flex: 2}]}
+                      onPress={() => {
+                        onLogin();
+                        setModalSigned(!modalSigned);
+                      }}>
+                      <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
+                    </Pressable>
                   </View>
                 </View>
               </Modal>
@@ -280,34 +282,6 @@ const backButton = StyleSheet.create({
 
 
 const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderWidth: 4,
-    borderRadius: 10,
-    padding: 20,
-    width: 350,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
-  borderWarning: {
-    borderColor: '#ed1c24',
-  },
-  borderSigned: {
-    borderColor: palette.violet,
-  },
   button: {
     borderRadius: 10,
     width: 150,
@@ -332,7 +306,7 @@ const modalStyles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 20,
+    fontSize: 25,
   },
   modalText: {
     marginBottom: 40,
@@ -343,15 +317,16 @@ const modalStyles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 35,
     marginTop: 20,
     fontWeight: 'bold',
+    color: palette.violet,
   },
   profile: {
     textAlign: 'center',
     fontSize: 30,
-    marginBottom: 20,
     fontWeight: 'bold',
     color: palette.violet,
+
   }
 });

@@ -187,16 +187,6 @@ export function Questions() {
     return (
       <View style={styles.blank_background}>
 
-        <Modal
-          avoidKeyboard = {true}
-          animationType="slide"
-          transparent={true}
-          visible={modalAdd}
-          onRequestClose={() => {
-            setModalAdd(!modalAdd);
-          }}>
-        </Modal>
-
         <View style={isStart ? {flex: 0} : {flex: 1, flexDirection: 'row', alignItems: 'center', height: 80}}>
           <>
             {backButton}
@@ -250,16 +240,16 @@ export function Questions() {
         />
         <View style={{flexDirection: 'row'}}>
           <Pressable
-            style={[modalStyles.button, modalStyles.grayBackground]}
+            style={[creatorStyles.button, creatorStyles.grayBackground]}
             onPress={() => {
               resetField('add');
               toCreate(false);
             }}
           >
-            <Text style={modalStyles.textStyle}>Cancelar</Text>
+            <Text style={creatorStyles.textStyle}>Cancelar</Text>
           </Pressable>
           <Pressable
-            style={[modalStyles.button, modalStyles.violetBackground]}
+            style={[creatorStyles.button, creatorStyles.violetBackground]}
             onPress={() => {
               if ((getValues().add !== '') && (getValues().add !== undefined)) {
               alreadyExist().then((isDuplicate) => 
@@ -285,7 +275,7 @@ export function Questions() {
             }
             }}
           >
-            <Text style={modalStyles.textStyle}>Aplicar</Text>
+            <Text style={creatorStyles.textStyle}>Aplicar</Text>
           </Pressable>
         </View>
       </View>
@@ -351,29 +341,7 @@ export const questionStyles = StyleSheet.create({
   },
 });
 
-const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderColor: '#763CAD',
-    borderWidth: 5,
-    padding: 40,
-    height: 500,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
+const creatorStyles = StyleSheet.create({
   button: {
     borderRadius: 10,
     width: 150,

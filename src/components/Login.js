@@ -42,11 +42,10 @@ export function Login({navigation}) {
       name: selected,
       pin: value.pin,
     }; 
-    console.log(petition);
     await setActiveProfile(JSON.stringify(petition)).then((pass) => {
       if (pass?.pass) {
+        console.log(selected, 'ha abierto la sesión con PIN');
         setProfile(pass.profile);
-        console.log(selected, 'ha abierto la sesión');
         setSelected('');
       } else {
         setModalVisible(!modalVisible);
@@ -65,8 +64,8 @@ export function Login({navigation}) {
           const login = async () => {
             await setActiveProfile(JSON.stringify({name: selected, pin: '0'})).then((pass) => {
               if (pass?.pass) {
+                console.log(selected, 'ha abierto la sesión sin PIN');
                 setProfile(pass.profile);
-                console.log(selected, 'ha abierto la sesión');
               } else {
                 setModalVisible(true);
               }
@@ -101,13 +100,12 @@ export function Login({navigation}) {
       </View>
       <Modal
               avoidKeyboard = {true}
-              animationType="slide"
-              transparent={true}
+              animationType="fade"
               visible={modalPin}
               onRequestClose={() => {
                 setModalPin(!modalPin);
               }}>
-              <View style={[modalStyles.centeredView, modalStyles.modalView]}>
+              <View style={styles.modalView}>
                 <Text style={[accessForm.text, {marginTop: 40}]}>Iniciando sesión:</Text>
                 <Text style={[accessForm.profile_name, {marginBottom: 10, marginTop: 10}]}>{selected}</Text>
                 <Text style={[accessForm.text, {marginBottom: 20,}]}>Introduce aquí tu PIN</Text>
@@ -243,28 +241,6 @@ const squareButtonOff = StyleSheet.create({
 
 
 const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderColor: '#763CAD',
-    borderWidth: 5,
-    padding: 40,
-    height: 500,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
   button: {
     borderRadius: 10,
     width: 130,

@@ -153,13 +153,12 @@ export function Profile({navigation}) {
       <ScrollView style={{backgroundColor: '#fff'}}>
         <Modal
           avoidKeyboard = {true}
-          animationType="slide"
-          transparent={true}
+          animationType="fade"
           visible={modalName}
           onRequestClose={() => {
             setModalName(!modalName);
           }}>
-          <View style={[modalStyles.centeredView, modalStyles.modalView]}>
+          <View style={styles.modalView}>
             <View style={{flexDirection: 'row'}}>
               <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
               <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}> ➜ {newName} </Text>
@@ -210,13 +209,12 @@ export function Profile({navigation}) {
         </Modal>
 
         <Modal
-          animationType="slide"
-          transparent={true}
+          animationType="fade"
           visible={modalPin}
           onRequestClose={() => {
             setModalPin(!modalPin);
           }}>
-          <View style={[modalStyles.centeredView, modalStyles.modalView]}>
+          <View style={styles.modalView}>
             <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo PIN</Text>
             <Controller
               name="pin"
@@ -294,15 +292,13 @@ export function Profile({navigation}) {
         </Modal>
 
         <Modal
-          animationType="slide"
-          transparent={true}
+          animationType="fade"
           visible={modalDelete}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
             setModalDelete(!modalDelete);
           }}>
-          <View style={modalStyles.centeredView}>
-            <View style={modalStyles.modalView}>
+          <View style={styles.modalView}>
               <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
               <Text style={modalStyles.modalText}>Esto eliminará el usuario. ¿Desea continuar?</Text>
 
@@ -320,7 +316,6 @@ export function Profile({navigation}) {
                 onPress={() => setModalDelete(!modalDelete)}>
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
               </Pressable>
-            </View>
           </View>
         </Modal>
 
@@ -366,28 +361,6 @@ export function Profile({navigation}) {
 }
 
 const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderColor: '#763CAD',
-    borderWidth: 5,
-    padding: 40,
-    height: 500,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
   button: {
     borderRadius: 10,
     width: 150,

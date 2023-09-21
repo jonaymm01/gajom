@@ -57,13 +57,14 @@ export const getProfile = async (value) => {
  * @param {*} value
  */
 export const hasPin = async (value) => {
-  try {
-    const profile = await AsyncStorage.getItem(value);
-    console.log(value.pin);
-    return (JSON.parse(profile).pin != '0') ? true : false
-  } catch (error) {
-    console.log(error);
-  };
+  if ((typeof(value) != 'null') && (value != '')) {
+    try {
+      const profile = await AsyncStorage.getItem(value);
+      return (JSON.parse(profile).pin != '0') ? true : false
+    } catch (error) {
+      console.log(error);
+    };
+  }
 };
 
 
