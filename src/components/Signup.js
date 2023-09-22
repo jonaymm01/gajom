@@ -178,7 +178,7 @@ const pinInput =
                 </View>
 
                 
-                <View style={[formStyles.input_container, {marginTop: 30}]}>
+                <View style={[formStyles.input_container, {marginTop: 10}]}>
                 <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet, marginBottom: 10}}>Introduce un nombre:</Text>
                   <Controller
                     name="name"
@@ -197,7 +197,7 @@ const pinInput =
                       />
                     )}
                   />
-                  <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginBottom: 10}}>
                     <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet}}>Añadir un PIN?</Text>
                     <View style={SignupStyle.switch}>
                       <Switch
@@ -212,7 +212,7 @@ const pinInput =
                   <>
                     {(pinEnabled) ? pinInput : null}
                   </>
-                  <View style={{marginTop: 60}}>
+                  <View style={{marginTop: (pinEnabled) ? 60 : 20, paddingBottom: 20}}>
                     <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
                   </View>
                 </View>
@@ -241,7 +241,7 @@ const SignupStyle = StyleSheet.create({
     padding: 20,
   },
   switch: {
-    margin: 20,
+    marginLeft: 20,
     paddingLeft: 20,
     paddingRight: 20,
     transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }]
