@@ -67,6 +67,7 @@ const selectorStyles = StyleSheet.create({
     height: 140,
     width: 140,
     padding: 10,
+    borderRadius: 15,
 
   }
 });

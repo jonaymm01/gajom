@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     height: 80,
     width: 300,
     alignItems: 'center',
-    borderRadius: 40,
+    borderRadius: 20,
     marginTop: 10,
     elevation: 10,
   },

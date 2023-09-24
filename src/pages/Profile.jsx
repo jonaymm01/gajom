@@ -87,7 +87,15 @@ export function Profile({navigation}) {
     };
 
     const invalidPin= async (value) => {
-      if (getValues().pin != getValues().pin2) {
+      console.log(getValues().pin, " y ", getValues().pin2)
+      if (isNaN(getValues().pin)) {
+        Alert.alert('¡Ups!', 'El PIN debe ser un número de 4 cifras.', [
+          {text: 'OK'},
+        ],
+        {
+          cancelable: true,
+        });
+      } else if (getValues().pin != getValues().pin2) {
         Alert.alert('¡Ups!', 'El PIN debe coincidir.', [
           {text: 'OK'},
         ],
@@ -226,7 +234,6 @@ export function Profile({navigation}) {
                   value: /^\d{4}$/,
                   message: 'Debe tener 4 cifras',
                 },
-                validate: () => getValues('pin') === getValues('pin2'),
               }}
               render={({field: {onChange, value}}) => (
                 <Input
@@ -282,9 +289,10 @@ export function Profile({navigation}) {
               <Pressable
                 style={[modalStyles.button, modalStyles.violetBackground, {marginTop: 50}]}
                 onPress={() => {
-                  handleSubmit(changePin, invalidPin)();
-                  resetField('pin');
-                  resetField('pin2');
+                  handleSubmit(changePin, invalidPin)().then(() => {
+                    resetField('pin');
+                    resetField('pin2');
+                  });
                 }}
               >
                 <Text style={modalStyles.textStyle}>Aplicar</Text>
