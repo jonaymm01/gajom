@@ -123,12 +123,14 @@ export function Login({navigation}) {
                     render={({field: {onChange, value}}) => (
                       <>
                         <Input
+                          textAlign={'center'}
+                          maxLength={4}
                           keyboardType="numeric"
                           error={errors.pin}
                           errorText={errors?.pin?.message}
                           onChangeText={(text) => onChange(text)}
                           value={value}
-                          placeholder="Pin"
+                          placeholder="PIN"
                           autoCapitalize="none"
                           autoCorrect={false}
                           textContentType="newPassword"

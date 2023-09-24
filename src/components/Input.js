@@ -31,7 +31,7 @@ const styles = {
     t.p6,
     t.borderGray500,
     t.rounded,
-    t.textXl,
+    t.text2xl,
     t.textGray700,
   ],
   errorText: [t.mT1, t.textRed500],

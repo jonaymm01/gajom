@@ -237,6 +237,8 @@ export function Profile({navigation}) {
               }}
               render={({field: {onChange, value}}) => (
                 <Input
+                  textAlign={'center'}
+                  maxLength={4}
                   keyboardType="numeric"
                   error={errors.pin}
                   errorText={errors?.pin?.message}
@@ -261,12 +263,14 @@ export function Profile({navigation}) {
               }}
               render={({field: {onChange, value}}) => (
                 <Input
+                  textAlign={'center'}
+                  maxLength={4}
                   keyboardType="numeric"
                   error={errors.pin2}
                   errorText={errors?.pin2?.message}
                   onChangeText={(text) => onChange(text)}
                   value={value}
-                  placeholder="Escríbelo de nuevo"
+                  placeholder="Repítelo"
                   autoCapitalize="none"
                   autoCorrect={false}
                   textContentType="newPassword"
