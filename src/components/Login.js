@@ -123,6 +123,7 @@ export function Login({navigation}) {
                     render={({field: {onChange, value}}) => (
                       <>
                         <Input
+                          keyboardType="numeric"
                           error={errors.pin}
                           errorText={errors?.pin?.message}
                           onChangeText={(text) => onChange(text)}
