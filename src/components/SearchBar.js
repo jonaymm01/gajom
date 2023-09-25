@@ -1,5 +1,4 @@
 import { View, StyleSheet, ViewStyle, Platform, TextInput } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
 import { palette } from '../styles/styles';
 
@@ -7,7 +6,7 @@ export function SearchBar({...props}) {
   return (
     <View>
       <TextInput
-        style={[searchStyles.input, { width: props.width }]}
+        style={[searchStyles.input, { width: props.width, textAlign: 'center'}]}
         placeholder={props.placeholder}
         placeholderTextColor="#BBBBBB"
         autoCapitalize={props.autoCapitalize}
@@ -27,20 +26,13 @@ SearchBar.defaultProps = {
 };
 
 const searchStyles = StyleSheet.create({
-    icon: {
-        position: 'absolute',
-        top: 10.5,
-        left: 12,
-        zIndex: 1,
-      },
       input: {
-        paddingVertical: Platform.OS === 'ios' ? 9 : 6,
-        paddingLeft: 40,
+        paddingVertical: Platform.OS === 'ios' ? 18 : 14,
         paddingHorizontal: 20,
         backgroundColor: '#fff',
-        borderRadius: 50,
+        borderRadius: 10,
         fontSize: 20,
-        borderWidth: 1,
+        borderWidth: 3,
         borderColor: palette.violet,
         shadowColor: '#fdfcfc',
         shadowOffset: { width: 0, height: 1 },

@@ -43,7 +43,7 @@ export function Pictos() {
   useEffect(() => {
     let filtered = []
     if (text !== '') {
-      filtered = catContent.filter((picto) => picto.text.toLowerCase().startsWith(text.toLowerCase()));
+      filtered = catContent.filter((picto) => picto.text.toLowerCase().includes(text.toLowerCase()));
       isFiltered(true);
       setFiltered(filtered);
     } else {
@@ -66,8 +66,8 @@ export function Pictos() {
           <Picker.Item style={pickerStyles.pickerOption} label={'❯  Sensaciones'} value={'sensaciones'} />
           <Picker.Item style={pickerStyles.pickerOption} label={'❯  Ánimo'} value={'animo'} />
         </Picker>
-        <View style={{alignSelf: 'center', margin: 20}}>
-         <SearchBar placeholder={"Busca un pictograma"} width={260} autoCapitalize={'none'} autoCorrect={false} text={text} textChanger={onChangeText}/>
+        <View style={{alignSelf: 'center', marginBottom: 40, marginTop: 30,}}>
+         <SearchBar placeholder={"Busca un pictograma"} width={300} autoCapitalize={'none'} autoCorrect={false} text={text} textChanger={onChangeText}/>
         </View>
       </View>
       <ScrollView style={{backgroundColor: '#fff'}}>
@@ -87,7 +87,7 @@ const pickerStyles = StyleSheet.create({
   },
   picker: {
     backgroundColor: palette.violet,
-    height: 100,
+    height: 60,
     margin: 10,
     color: '#fff',
     elevation: 10,
