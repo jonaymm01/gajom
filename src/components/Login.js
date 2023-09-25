@@ -1,11 +1,13 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useForm, Controller} from 'react-hook-form';
-import {UserContext} from '../../global';
+import {ProfileContext, ProfileListContext} from '../../global';
 
-import {setActive} from '../_helpers/storage';
+import { ProfileSelector } from './ProfileSelector';
+
+import {hasPin, setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -19,139 +21,166 @@ import { RotateInUpLeft } from 'react-native-reanimated';
  * @return {JSX.Element}
  */
 export function Login({navigation}) {
-  const [hiddenPassword, setHiddenPassword] = useState(true);
-  const [activeUser, setUser] = useContext(UserContext);
+  const [hiddenPin, setHiddenPin] = useState(true);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
+  const [profilesList, setProfilesList] = useContext(ProfileListContext);
+  const [selected, setSelected] = useState('');
 
+  const [modalPin, setModalPin] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const onPressSignup = () => navigation.navigate('Signup');
 
-  const {handleSubmit, control, formState: {errors}} = useForm();
+  const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
   const showPass = () => {
-    setHiddenPassword(!hiddenPassword);
+    setHiddenPin(!hiddenPin);
   };
 
-  const onSubmit = async (value) => {
-    await setActive(JSON.stringify(value)).then((pass) => {
+  const Access = async (value) => {
+    const petition = {
+      name: selected,
+      pin: value.pin,
+    }; 
+    await setActiveProfile(JSON.stringify(petition)).then((pass) => {
       if (pass?.pass) {
-        setUser(pass.user);
-        setActive(pass.user);
-        console.log(value.email, 'ha iniciado sesión');
-        navigation.navigate('User');
+        console.log(selected, 'ha abierto la sesión con PIN');
+        setProfile(pass.profile);
+        setSelected('');
       } else {
-        setModalVisible(true);
+        setModalVisible(!modalVisible);
+        setSelected('');
       }
     });
-    const keys = await AsyncStorage.getAllKeys();
-    const result = await AsyncStorage.multiGet(keys);
-    console.log(result);
   };
 
-  (navigation.getState().routes !== undefined) ? console.log(navigation.getState().routes[0].params) : null;
+
+  useEffect(() => {
+    const lock = async () => hasPin(selected).then((lock) => {
+      if(selected != '') {
+        if (lock == true) {
+          setModalPin(!modalPin);
+        } else {
+          const login = async () => {
+            await setActiveProfile(JSON.stringify({name: selected, pin: '0'})).then((pass) => {
+              if (pass?.pass) {
+                console.log(selected, 'ha abierto la sesión sin PIN');
+                setProfile(pass.profile);
+              } else {
+                setModalVisible(true);
+              }
+            });
+          }
+          login();
+          setSelected('');
+        }
+      }
+    });
+    lock();
+  }, [selected]);
+
+  const selector = 
+    <View style={{flex: 5}}>
+      <ProfileSelector selector={setSelected}/>
+    </View>
+
+  const emptyListWarning = 
+  <View style={{flex: 4, justifyContent: 'center', alignSelf: 'center', paddingLeft: 20, paddingRight: 20, marginBottom: 100}}>
+    <Text style={[{fontSize: 20}]}>Aún no has creado ningún perfil.</Text>
+  </View>
 
   return (
-    <SafeAreaView>
-      <ScrollView keyboardShouldPersistTaps="handled" style={{backgroundColor: '#fff'}}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-          style={styles.blank_background}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <>
-              <View style={{flex: 1}}>
-                <Modal
-                  animationType="slide"
-                  transparent={true}
-                  visible={modalVisible}
-                  onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                  }}>
-                  <View style={modalStyles.centeredView}>
-                    <View style={modalStyles.modalView}>
-                      <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-                      <Text style={modalStyles.modalText}>Usuario o contraseña incorrectos</Text>
-                      <Pressable
-                        style={[modalStyles.button, modalStyles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-                      </Pressable>
-                    </View>
-                  </View>
-                </Modal>
-
-                <View style={[styles.container, {flexDirection: 'row'}]}>
-                  <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
-                    <View>
-                      <Text style={squareButtonOn.text}>¿No tienes cuenta en Gajom?</Text>
-                      <Text style={[squareButtonOn.text, {fontSize: 30}]}>REGÍSTRATE AQUÍ</Text>
-                    </View>
-                  </TouchableOpacity>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{flex: 1, padding: 50}}>
+          <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
+            <View>
+              <Text style={[squareButtonOn.text, {fontSize: 30}]}>AÑADIR PERFIL</Text>
+            </View>
+          </TouchableOpacity>
+      </View>
+      <Modal
+              avoidKeyboard = {true}
+              animationType="fade"
+              visible={modalPin}
+              onRequestClose={() => {
+                setModalPin(!modalPin);
+              }}>
+              <View style={styles.modalView}>
+                <View style={{alignItems: 'center', marginBottom: 20}}>
+                  <Text style={[accessForm.loginText, {marginBottom: 30}]}>INICIANDO SESIÓN</Text>
+                  <Text style={[accessForm.profile_name, {marginTop: 10}]}>{selected}</Text>
                 </View>
-
-                <View style={[formStyles.input_container, {marginBottom: 100}]}>
-                  <Text style={[styles.title, {lineHeight: 100}]}>Accede a tu cuenta en Gajom</Text>
-                  <Controller
-                    name="email"
-                    defaultValue={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.email : ''}
+                <View style={{alignItems: 'center'}}>
+                <Text style={[accessForm.text, {marginBottom: 20,}]}>Introduce aquí tu PIN</Text>
+                <Controller
+                    name="pin"
+                    defaultValue=""
                     control={control}
                     rules={{
-                      required: {value: true, message: 'Escribe tu correo electrónico'},
+                      required: {value: true, message: 'Escribe un pin de 4 cifras'},
                       pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'invalid email address',
+                        value: /^\d{4}$/,
+                        message: 'invalid pin',
                       },
-                    }}
-                    render={({field: {onChange, value}}) => (
-                      <Input
-                        error={errors.email}
-                        errorText={errors?.email?.message}
-                        onChangeText={(text) => onChange(text)}
-                        value={value}
-                        placeholder={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.email : 'Correo electrónico'}
-                        autoCapitalize="none"
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="password"
-                    defaultValue={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.password : ''}
-                    control={control}
-                    rules={{
-                      required: {value: true, message: 'Escribe una contraseña'},
                     }}
                     render={({field: {onChange, value}}) => (
                       <>
                         <Input
-                          error={errors.password}
-                          errorText={errors?.password?.message}
+                          textAlign={'center'}
+                          maxLength={4}
+                          keyboardType="numeric"
+                          error={errors.pin}
+                          errorText={errors?.pin?.message}
                           onChangeText={(text) => onChange(text)}
                           value={value}
-                          placeholder={(navigation.getState().routes[0].params !== undefined) ? navigation.getState().routes[0].params.password : 'Contraseña'}
+                          placeholder="PIN"
                           autoCapitalize="none"
                           autoCorrect={false}
                           textContentType="newPassword"
-                          secureTextEntry={hiddenPassword ? true : false}
+                          secureTextEntry={hiddenPin ? true : false}
                           enablesReturnKeyAutomatically
                         />
-                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.password?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
+                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
                           <TouchableOpacity onPress={() => {
                             showPass();
-                          }} style={LoginStyle.eye}>
-                            <Image source={(hiddenPassword) ? require('../../assets/eye_show_icon.png') : require('../../assets/eye_hidden_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
+                          }} >
+                            <Image source={(hiddenPin) ? require('../../assets/eye_hidden_icon.png') : require('../../assets/eye_show_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
                           </TouchableOpacity>
                         </View>
                       </>
                     )}
                   />
-                  <View style={{marginTop: 60}}>
-                    <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Iniciar sesión" />
+                <View style={{flexDirection: 'row', marginTop: 40}}>
+                  <Pressable
+                    style={[modalStyles.button, modalStyles.grayBackground]}
+                    onPress={() => {
+                      resetField('pin');
+                      setSelected('');
+                      setModalPin(!modalPin);
+                    }}
+                  >
+                  <Text style={modalStyles.textStyle}>Cancelar</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[modalStyles.button, modalStyles.violetBackground]}
+                    onPress={() => {
+                      handleSubmit(Access)();
+                      resetField('pin');
+                      setSelected('');
+                      setModalPin(!modalPin);
+                    }}
+                  >
+                    <Text style={modalStyles.textStyle}>Acceder</Text>
+                  </Pressable>
                   </View>
                 </View>
               </View>
-            </>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ScrollView>
+          </Modal>
+        
+          <>
+            {(profilesList.length > 0) ? selector : emptyListWarning}
+          </>
+    
     </SafeAreaView>
   );
 }
@@ -167,23 +196,35 @@ export const formStyles = StyleSheet.create({
   },
 });
 
-const LoginStyle = StyleSheet.create({
-  deleteButton: {
-    alignContent: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    padding: 20,
+const accessForm = StyleSheet.create({
+  profile_name: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: palette.violet,
+    textAlign: 'center',
   },
+  text: {
+    fontSize: 22,
+    color: palette.violet,
+  },
+  loginText: {
+    fontSize: 22,
+    backgroundColor: palette.violet,
+    color: '#fff',
+    padding: 20,
+    fontWeight: 'bold',
+  }
 });
 
 const squareButtonOn = StyleSheet.create({
   base: {
     flex: 1,
-    borderColor: '#fff',
-    backgroundColor: palette.red,
+    backgroundColor: palette.gray,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    elevation: 10,
+
   },
   text: {
     flex: 1,
@@ -214,48 +255,28 @@ const squareButtonOff = StyleSheet.create({
 
 
 const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: '#fff',
-    borderColor: '#ed1c24',
-    borderWidth: 4,
-    borderRadius: 10,
-    height: 400,
-    padding: 50,
-    width: 350,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
   button: {
     borderRadius: 10,
-    width: 200,
+    width: 130,
     height: 80,
     elevation: 10,
+    margin: 15,
   },
-  buttonOpen: {
-    backgroundColor: '#763CAD',
+  violetBackground: {
+    backgroundColor: palette.violet,
   },
-  buttonClose: {
+  grayBackground: {
+    backgroundColor: palette.gray,
+  },
+  redBackground: {
     backgroundColor: '#ed1c24',
   },
   textStyle: {
-    color: '#fff',
+    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 30,
+    fontSize: 25,
   },
   modalText: {
     marginBottom: 40,
@@ -265,3 +286,4 @@ const modalStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+

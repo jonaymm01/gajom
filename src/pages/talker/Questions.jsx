@@ -10,8 +10,8 @@ import {styles, palette} from '../../styles/styles';
 import {DefaultQuestions} from '../../content/DefaultQuestions';
 import * as Speech from 'expo-speech';
 
-import {UserContext} from '../../../global';
-import {addQuestion, deleteQuestion, searchQuestion} from '../../_helpers/UserContent';
+import {ProfileContext} from '../../../global';
+import {addQuestion, deleteQuestion, searchQuestion} from '../../_helpers/ProfileContent';
 
 /**
    * Método para reproducir el texto de un Pictograma
@@ -26,11 +26,11 @@ const speak = (text) => {
  * Método para renderizar página de Preguntas.
  * @return {JSX.Element}
  */
-export function Questions() {
-  const [activeUser, setUser] = useContext(UserContext);
-  let user = '{}';
-  if (activeUser !== '{}') {
-    user = JSON.parse(activeUser);
+export function Questions({navigation}) {
+  const [activeProfile, setProfile] = useContext(ProfileContext);
+  let profile = '{}';
+  if (activeProfile !== '{}') {
+    profile = JSON.parse(activeProfile);
   }
 
 
@@ -45,7 +45,7 @@ export function Questions() {
 
   const [create, toCreate] = useState(false);
 
-  let userButtons = [];
+  let profileButtons = [];
   let defaultButtons = [];
   let buttons = [];
 
@@ -73,11 +73,11 @@ export function Questions() {
   } else {
     const start = startWord;
     const questions = DefaultQuestions.questions.data.find((question) => question.start === start);
-    if ((user !== '{}') && (typeof(user.questions) !== 'undefined')) {
-      const userQuestions = user.questions.data.find((question) => question.start === start);
-      if (userQuestions !== undefined) {
-        userButtons = userQuestions.ends.map((question, index)=>
-          <View key={'user: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+    if ((profile !== '{}') && (typeof(profile.questions) !== 'undefined')) {
+      const profileQuestions = profile.questions.data.find((question) => question.start === start);
+      if (profileQuestions !== undefined) {
+        profileButtons = profileQuestions.ends.map((question, index)=>
+          <View key={'profile: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity style={[questionStyles.button]} onPress={() => {
               markStart(false);
               setEnd(question);
@@ -107,7 +107,7 @@ export function Questions() {
         </View>
       </TouchableOpacity>,
     );
-    buttons = userButtons.reverse().concat(defaultButtons);
+    buttons = profileButtons.reverse().concat(defaultButtons);
     startText =
       <View>
         <Text style={questionStyles.text}> {startWord} </Text>
@@ -126,10 +126,10 @@ export function Questions() {
 
     addButton =
           <TouchableOpacity style={[questionStyles.addButton]} onPress={() => {
-            (user === '{}') ? null :  toCreate(true);
+            (profile === '{}') ? navigation.navigate("Login") :  toCreate(true);
           }}>
             <View>
-              <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(user === '{}') ? 'Inicia sesión para crear tus propias preguntas' : '+'}</Text>
+              <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para añadir' : '+'}</Text>
             </View>
           </TouchableOpacity>;
   }
@@ -144,7 +144,7 @@ export function Questions() {
   if (!isStart) {
     const finalQuestion = startWord + ((startWord !== '¿') ? ' ' : '') + ((end.length > 0) ? end : '...');
     result =
-      <View style={{marginBottom: 60, marginTop: 30, alignItems: 'center'}}>
+      <View style={{marginBottom: 10, alignItems: 'center'}}>
         <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? '🕪  Pulsa para escuchar' : ''}</Text>
         <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
           speak(finalQuestion);
@@ -158,7 +158,7 @@ export function Questions() {
 
   const alreadyExist = async () => {
     const newEnd = getValues().add + '?';
-    const response = await searchQuestion(user.email, startWord, newEnd);
+    const response = await searchQuestion(profile.name, startWord, newEnd);
     return response;
   }
 
@@ -166,10 +166,10 @@ export function Questions() {
     const addedEnd = getValues().add;
     const question = startWord + ' ' + addedEnd + '?';
     const newEnd = addedEnd + '?';
-      addQuestion(user.email, startWord, newEnd).then(() => {
+      addQuestion(profile.name, startWord, newEnd).then(() => {
         setEnd(newEnd);
         markEnd(true);
-        AsyncStorage.getItem(user.email).then((modified) => setUser(modified));
+        AsyncStorage.getItem(profile.name).then((modified) => setProfile(modified));
       });
       toCreate(false);
   setNewQuest('');
@@ -177,25 +177,15 @@ export function Questions() {
   };
 
   const deleteQuest = async (start, end) => {
-    await deleteQuestion(user.email, start, end);
-    const modified = await AsyncStorage.getItem(user.email);
-    setUser(modified);
+    await deleteQuestion(profile.name, start, end);
+    const modified = await AsyncStorage.getItem(profile.name);
+    setProfile(modified);
     console.log('Se ha eliminado la pregunta: ', start + ' ' + end);
   };
 
   if (!create) {
     return (
       <View style={styles.blank_background}>
-
-        <Modal
-          avoidKeyboard = {true}
-          animationType="slide"
-          transparent={true}
-          visible={modalAdd}
-          onRequestClose={() => {
-            setModalAdd(!modalAdd);
-          }}>
-        </Modal>
 
         <View style={isStart ? {flex: 0} : {flex: 1, flexDirection: 'row', alignItems: 'center', height: 80}}>
           <>
@@ -207,7 +197,7 @@ export function Questions() {
         </View>
         <View style={{flex: 2}}>
           <View style={{width: 300, marginTop: -50}}>
-            <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20}]}>{isStart ? 'Empieza tu pregunta:' : ''}</Text>
+            <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20, color: palette.violet}]}>{isStart ? 'Empieza tu pregunta' : ''}</Text>
             <>
               {addButton}
             </>
@@ -250,16 +240,16 @@ export function Questions() {
         />
         <View style={{flexDirection: 'row'}}>
           <Pressable
-            style={[modalStyles.button, modalStyles.grayBackground]}
+            style={[creatorStyles.button, creatorStyles.grayBackground]}
             onPress={() => {
               resetField('add');
               toCreate(false);
             }}
           >
-            <Text style={modalStyles.textStyle}>Cancelar</Text>
+            <Text style={creatorStyles.textStyle}>Cancelar</Text>
           </Pressable>
           <Pressable
-            style={[modalStyles.button, modalStyles.violetBackground]}
+            style={[creatorStyles.button, creatorStyles.violetBackground]}
             onPress={() => {
               if ((getValues().add !== '') && (getValues().add !== undefined)) {
               alreadyExist().then((isDuplicate) => 
@@ -285,7 +275,7 @@ export function Questions() {
             }
             }}
           >
-            <Text style={modalStyles.textStyle}>Aplicar</Text>
+            <Text style={creatorStyles.textStyle}>Aplicar</Text>
           </Pressable>
         </View>
       </View>
@@ -316,9 +306,12 @@ export const questionStyles = StyleSheet.create({
   addButton: {
     backgroundColor: palette.gray,
     margin: 5,
+    marginBottom: 20,
     height: 80,
     width: 300,
     justifyContent: 'center',
+    borderRadius: 15,
+    elevation: 10,
   },
   defButton: {
     backgroundColor: palette.red,
@@ -351,29 +344,7 @@ export const questionStyles = StyleSheet.create({
   },
 });
 
-const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderColor: '#763CAD',
-    borderWidth: 5,
-    padding: 40,
-    height: 500,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
+const creatorStyles = StyleSheet.create({
   button: {
     borderRadius: 10,
     width: 150,

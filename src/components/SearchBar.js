@@ -42,7 +42,7 @@ const searchStyles = StyleSheet.create({
         fontSize: 20,
         borderWidth: 1,
         borderColor: palette.violet,
-        shadowColor: 'fdfcfc',
+        shadowColor: '#fdfcfc',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.5,
         shadowRadius: 1,

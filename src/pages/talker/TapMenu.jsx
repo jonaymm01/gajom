@@ -6,14 +6,14 @@ import ButtonList from '../../components/ButtonList';
 import {ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
-import {setTap} from '../../_helpers/UserContent';
+import {setTap} from '../../_helpers/ProfileContent';
 import {setActive} from '../../_helpers/storage';
 import TapList from '../../components/TapList';
-import {data} from '../../content/DefaultTaps.json';
+import {defaultTaps} from '../../content/DefaultTaps.js';
 import LineSeparator from '../../components/LineSeparator';
 import Separator from '../../components/Separator';
 
-import {UserContext} from '../../../global';
+import {ProfileContext} from '../../../global';
 
 
 /**
@@ -21,24 +21,23 @@ import {UserContext} from '../../../global';
  * @return {JSX.Element}
  */
 export function TapMenu({navigation}) {
-  const [user, setUser] = useContext(UserContext);
-  const [userTaps, setUserTaps] = useState('');
+  const [profile, setProfile] = useContext(ProfileContext);
+  const [profileTaps, setProfileTaps] = useState('');
   const [shouldRefresh, setRefresh] = useState(false);
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
 
-  const defaultTaps = require('../../content/DefaultTaps.json');
 
-  if ((user !== '{}')) {
-    const activeUser = JSON.parse(user);
+  if ((profile !== '{}')) {
+    const activeProfile = JSON.parse(profile);
 
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={styles.blank_background}>
-            <Separator>Tus TAPs</Separator>
+            <Separator>TAPs de {activeProfile.name}</Separator>
             <Button color={palette.gray} onPress={() => navigation.navigate('TapMaker')} label={'+'}/>
         </View>
         <View style={{marginTop: 50, backgroundColor: '#fff', marginBottom: 50}}>
-          <TapList navigation={navigation} removable={true}>{JSON.stringify(activeUser.taps)}</TapList>
+          <TapList navigation={navigation} removable={true}>{JSON.stringify(activeProfile.taps)}</TapList>
           <Separator>Sugerencias</Separator>
           <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
         </View>
@@ -48,11 +47,12 @@ export function TapMenu({navigation}) {
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={styles.blank_background}>
-          <Separator>Taps del usuario</Separator>
-          <Text style={[styles.text, {textAlign: 'center'}]}>¡Inicia sesión para crear tus propios TAPs!</Text>
+          <Separator>Tus TAPs</Separator>
+          <Text style={[styles.text, {textAlign: 'center', marginBottom: 10, fontStyle: 'italic'}]}>¡Inicia sesión para crear TAPs!</Text>
+          <Button color={palette.gray} onPress={() => navigation.navigate('Login')} label={'Iniciar Sesión'}/>
         </View>
         <View style={{marginTop: 50, backgroundColor: '#fff', marginBottom: 50}}>
-          <Separator>Taps de Gajom</Separator>
+          <Separator>Sugerencias</Separator>
           <TapList navigation={navigation}>{JSON.stringify(defaultTaps)}</TapList>
         </View>
       </ScrollView>

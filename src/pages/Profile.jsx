@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, Text, View, Image, Modal, Pressable, ScrollView, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {useForm, Controller} from 'react-hook-form';
 
 import Button from '../components/Button';
@@ -9,24 +10,28 @@ import Separator from '../components/Separator';
 import LineSeparator from '../components/LineSeparator';
 
 import {styles, palette} from '../styles/styles';
-import {UserContext} from '../../global';
-import {setUser, setActive} from '../_helpers/storage';
+import {ProfileContext} from '../../global';
+import {ProfileListContext} from '../../global';
+
+import {setActiveProfile, renameProfile, getAllProfiles} from '../_helpers/storage';
+import { delPin } from '../_helpers/ProfileContent';
 
 /**
  * Renderiza la página de perfil de usuario.
  * @param {any} navigation
  * @return {JSX.Element}
  */
-export function User({navigation}) {
-  const [user, setUser] = useContext(UserContext);
+export function Profile({navigation}) {
+  const [profile, setProfile] = useContext(ProfileContext);
+  const [profileList, setProfileList] = useContext(ProfileListContext);
 
-  if ((user !== '{}') || (typeof(user) != 'undefined')) {
-    const activeUser = JSON.parse(user);
-    const [active, loadActive] = useState(0);
+
+  if ((profile !== '{}') || (typeof(profile) != 'undefined')) {
+    const activeProfile = JSON.parse(profile);
 
     const [newName, setNewName] = useState('');
     const [modalName, setModalName] = useState(false);
-    const [modalPassword, setModalPassword] = useState(false);
+    const [modalPin, setModalPin] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
     const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
@@ -37,13 +42,11 @@ export function User({navigation}) {
     const openChange = async (flag) => {
       switch (flag) {
         case 'name':
+          setNewName('');
           setModalName(true);
           break;
-        case 'email':
-          setModalEmail(true);
-          break;
-        case 'password':
-          setModalPassword(true);
+        case 'pin':
+          setModalPin(true);
           break;
       }
     };
@@ -53,42 +56,55 @@ export function User({navigation}) {
    * @param {*} value
    */
     const changeName = async (value) => {
-      console.log('Se ha cambiado el nombre de', activeUser.email, ' por: ', value.name);
-      await AsyncStorage.mergeItem(activeUser.email, JSON.stringify({name: value.name}));
-      const modified = await AsyncStorage.getItem(activeUser.email);
-      setUser(modified);
-      console.log(modified);
+      const newName = value.name;
+      await renameProfile(activeProfile.name, newName);
+      const modified = await AsyncStorage.getItem(newName);
+      const newProfile = JSON.parse(modified);
+      setActiveProfile(modified).then((pass) => {
+        if (pass?.pass) {
+          setProfile(pass.profile);
+          getAllProfiles().then((profiles) => setProfileList(profiles));
+        };
+      });
     };
 
     /**
-   * Método para cambiar la contraseña del usuario.
+   * Método para cambiar el PIN del usuario.
    * @param {*} value
    */
-    const changePassword = async (value) => {
-      await AsyncStorage.mergeItem(activeUser.email, JSON.stringify({password: value.password2}));
-      const modified = await AsyncStorage.getItem(activeUser.email);
-      setUser(modified);
-      console.log('Se ha cambiado la contraseña de', activeUser.password, ' por: ', value.password2);
-      Alert.alert('¡Hecho!', 'Se ha cambiado correctamente la contraseña.', [
+    const changePin = async (value) => {
+      const change_type = (activeProfile.pin == '0') ? 'añadido' : 'cambiado';
+      await AsyncStorage.mergeItem(activeProfile.name, JSON.stringify({pin: value.pin2}));
+      const modified = await AsyncStorage.getItem(activeProfile.name);
+      setProfile(modified);
+      console.log(`Se ha cambiado el PIN de`, activeProfile.pin, ' por: ', value.pin2);
+      Alert.alert('¡Hecho!', `Se ha ${change_type} correctamente el PIN.`, [
         {text: 'OK'},
       ],
       {
         cancelable: true,
       });
-      setModalPassword(!modalPassword);
-      console.log(modified);
+      setModalPin(!modalPin);
     };
 
-    const invalidPassword = async (value) => {
-      if (getValues().password != getValues().password2) {
-        Alert.alert('¡Ups!', 'Ambas contraseñas deben coincidir.', [
+    const invalidPin= async (value) => {
+      console.log(getValues().pin, " y ", getValues().pin2)
+      if (isNaN(getValues().pin)) {
+        Alert.alert('¡Ups!', 'El PIN debe ser un número de 4 cifras.', [
+          {text: 'OK'},
+        ],
+        {
+          cancelable: true,
+        });
+      } else if (getValues().pin != getValues().pin2) {
+        Alert.alert('¡Ups!', 'El PIN debe coincidir.', [
           {text: 'OK'},
         ],
         {
           cancelable: true,
         });
       } else {
-        Alert.alert('¡Ups!', 'Contraseña inválida', [
+        Alert.alert('¡Ups!', 'PIN inválido', [
           {text: 'OK'},
         ],
         {
@@ -101,10 +117,13 @@ export function User({navigation}) {
    * Método para eliminar el usuario
    * @param {*} value
    */
-    const deleteUser = async (value) => {
-      await AsyncStorage.removeItem(activeUser.email);
-      setUser('{}');
-      console.log('Se ha eliminado el usuario ', activeUser.email);
+    const deleteProfile = async (value) => {
+      await AsyncStorage.removeItem(activeProfile.name);
+      setProfile('{}');
+      const keys = await AsyncStorage.getAllKeys();
+      const resultKeys = keys.filter((key) => key != 'active'); 
+      setProfileList(resultKeys);
+      console.log('Se ha eliminado el perfil ', activeProfile.name);
     };
 
     /**
@@ -112,23 +131,47 @@ export function User({navigation}) {
    * @param {*} value
    */
     const logOut = async (value) => {
-      setUser('{}');
-      setActive('{}');
-      console.log('El usuario ', activeUser.email, ' ha cerrado sesión');
+      setProfile('{}');
+      setActiveProfile('{}');
+      console.log('El usuario ', activeProfile.name, ' ha cerrado sesión');
     };
+
+    /**
+   * Método para eliminar PIN
+   */
+    const deletePIN = async () => {
+      delPin(activeProfile.name);
+      const modified = await AsyncStorage.getItem(activeProfile.name);
+      setProfile(modified);
+      console.log('Se ha eliminado el PIN de', activeProfile.name);
+      Alert.alert('¡Aviso!', 'Ahora tu cuenta no tiene PIN.', [
+        {text: 'OK'},
+      ],
+      {
+        cancelable: true,
+      });
+    };
+
+    const deletePinButton = 
+      <View style={{flexDirection: 'row', marginTop: 20}}>
+        <Image source={require('../../assets/open_lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center', tintColor: palette.gray}}/>
+        <Button color={palette.gray} onPress={() => deletePIN()} label="Eliminar PIN"/>
+      </View >
 
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <Modal
           avoidKeyboard = {true}
-          animationType="slide"
-          transparent={true}
+          animationType="fade"
           visible={modalName}
           onRequestClose={() => {
             setModalName(!modalName);
           }}>
-          <View style={[modalStyles.centeredView, modalStyles.modalView]}>
-            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>{activeUser.name} ➜ {newName} </Text>
+          <View style={styles.modalView}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
+              <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}> ➜ {newName} </Text>
+            </View>
             <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo nombre</Text>
             <Controller
               name="name"
@@ -139,6 +182,8 @@ export function User({navigation}) {
               }}
               render={({field: {onChange, value}}) => (
                 <Input
+                  maxLength={12}
+                  textAlign={"center"}
                   error={errors.name}
                   errorText={errors?.name?.message}
                   onChangeText={(text) => {
@@ -146,7 +191,7 @@ export function User({navigation}) {
                     onChange(text);
                   }}
                   value={value}
-                  placeholder={activeUser.name}
+                  placeholder={activeProfile.name}
                 />
               )}
             />
@@ -175,29 +220,34 @@ export function User({navigation}) {
         </Modal>
 
         <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalPassword}
+          animationType="fade"
+          visible={modalPin}
           onRequestClose={() => {
-            setModalPassword(!modalPassword);
+            setModalPin(!modalPin);
           }}>
-          <View style={[modalStyles.centeredView, modalStyles.modalView]}>
-            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica una nueva contraseña</Text>
+          <View style={styles.modalView}>
+            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo PIN</Text>
             <Controller
-              name="password"
+              name="pin"
               defaultValue=""
               control={control}
               rules={{
-                required: {value: true, message: 'Escribe tu contraseña'},
-                validate: () => getValues('password') === getValues('password2'),
+                required: {value: true, message: 'Escribe un pin de 4 cifras'},
+                pattern: {
+                  value: /^\d{4}$/,
+                  message: 'Debe tener 4 cifras',
+                },
               }}
               render={({field: {onChange, value}}) => (
                 <Input
-                  error={errors.password}
-                  errorText={errors?.password?.message}
+                  textAlign={'center'}
+                  maxLength={4}
+                  keyboardType="numeric"
+                  error={errors.pin}
+                  errorText={errors?.pin?.message}
                   onChangeText={(text) => onChange(text)}
                   value={value}
-                  placeholder="Contraseña"
+                  placeholder="PIN"
                   autoCapitalize="none"
                   autoCorrect={false}
                   textContentType="newPassword"
@@ -207,20 +257,23 @@ export function User({navigation}) {
               )}
             />
             <Controller
-              name="password2"
+              name="pin2"
               defaultValue=""
               control={control}
               rules={{
-                required: {value: true, message: 'Escribe tu contraseña'},
-                validate: () => getValues('password') === getValues('password2'),
+                required: {value: true, message: 'Escribe tu PIN'},
+                validate: () => getValues('pin') === getValues('pin2'),
               }}
               render={({field: {onChange, value}}) => (
                 <Input
-                  error={errors.password2}
-                  errorText={errors?.password2?.message}
+                  textAlign={'center'}
+                  maxLength={4}
+                  keyboardType="numeric"
+                  error={errors.pin2}
+                  errorText={errors?.pin2?.message}
                   onChangeText={(text) => onChange(text)}
                   value={value}
-                  placeholder="Repite la contraseña"
+                  placeholder="Repítelo"
                   autoCapitalize="none"
                   autoCorrect={false}
                   textContentType="newPassword"
@@ -233,7 +286,9 @@ export function User({navigation}) {
               <Pressable
                 style={[modalStyles.button, modalStyles.grayBackground, {marginTop: 50}]}
                 onPress={() => {
-                  setModalPassword(!modalPassword);
+                  setModalPin(!modalPin);
+                  resetField('pin');
+                  resetField('pin2');
                 }}
               >
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
@@ -241,7 +296,10 @@ export function User({navigation}) {
               <Pressable
                 style={[modalStyles.button, modalStyles.violetBackground, {marginTop: 50}]}
                 onPress={() => {
-                  handleSubmit(changePassword, invalidPassword)();
+                  handleSubmit(changePin, invalidPin)().then(() => {
+                    resetField('pin');
+                    resetField('pin2');
+                  });
                 }}
               >
                 <Text style={modalStyles.textStyle}>Aplicar</Text>
@@ -251,22 +309,20 @@ export function User({navigation}) {
         </Modal>
 
         <Modal
-          animationType="slide"
-          transparent={true}
+          animationType="fade"
           visible={modalDelete}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
             setModalDelete(!modalDelete);
           }}>
-          <View style={modalStyles.centeredView}>
-            <View style={modalStyles.modalView}>
+          <View style={styles.modalView}>
               <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
               <Text style={modalStyles.modalText}>Esto eliminará el usuario. ¿Desea continuar?</Text>
 
               <Pressable
                 style={[modalStyles.button, modalStyles.redBackground]}
                 onPress={() => {
-                  handleSubmit(deleteUser)();
+                  handleSubmit(deleteProfile)();
                   setModalDelete(!modalDelete);
                 }}
               >
@@ -277,19 +333,22 @@ export function User({navigation}) {
                 onPress={() => setModalDelete(!modalDelete)}>
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
               </Pressable>
-            </View>
           </View>
         </Modal>
 
         <View style={[styles.container, {alignItems: 'center'}]}>
           <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
-            <View style = {{borderColor: palette.violet, borderWidth: 2, alignItems: 'center', padding: 50}}>
-              <View>
-                <Text style={[styles.basic_font, {color: palette.violet, marginBottom: 30, fontSize: 25}]}>Hola, {activeUser.name}</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <View style = {{borderColor: palette.violet, borderWidth: 2, justifyContent: 'center', padding: 10, height: 50, marginRight: 25, borderRadius: 10}}>
+                <View style={{backgroundColor: palette.violet, padding: 10, borderRadius: 5}}/>
               </View>
-              <View style={{marginBottom: 30, backgroundColor: palette.violet, padding: 20}}>
-                <Text style={[styles.basic_font_bold, {color: '#fff'}]}>Sesión iniciada:</Text>
-                <Text style={[styles.basic_font, {color: '#fff'}]}>{activeUser.email}</Text>
+              <View style = {{borderColor: palette.violet, borderWidth: 2, alignItems: 'center', padding: 10, borderRadius: 10}}>
+                <View style={{backgroundColor: palette.violet, padding: 20, maxWidth: 200, borderRadius: 5}}>
+                  <Text style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 30, textAlign: 'center'}]}>{activeProfile.name}</Text>
+                </View>
+              </View>
+              <View style = {{borderColor: palette.violet, borderWidth: 2, justifyContent: 'center', padding: 10, height: 50, marginLeft: 25, borderRadius: 10}}>
+                <View style={{backgroundColor: palette.violet, padding: 10, borderRadius: 5}}/>
               </View>
             </View>
             <Separator> Editar perfil </Separator>
@@ -299,8 +358,11 @@ export function User({navigation}) {
             </View >
             <View style={{flexDirection: 'row', marginTop: 20}}>
               <Image source={require('../../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
-              <Button color={palette.violet} onPress={() => openChange('password')} label="Cambiar contraseña"/>
+              <Button color={palette.violet} onPress={() => openChange('pin')} label={(activeProfile.pin == "0" || activeProfile.pin == undefined) ? "Añadir PIN" : "Cambiar PIN"}/>
             </View >
+            <>
+              {(activeProfile.pin == "0" || activeProfile.pin == undefined) ? null : deletePinButton}
+            </>
             <LineSeparator/>
             <View style={{marginTop: -20}}>
               <Button color={palette.red} onPress={() => logOut()} label="Cerrar sesión" />
@@ -316,28 +378,6 @@ export function User({navigation}) {
 }
 
 const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderColor: '#763CAD',
-    borderWidth: 5,
-    padding: 40,
-    height: 500,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
-  },
   button: {
     borderRadius: 10,
     width: 150,

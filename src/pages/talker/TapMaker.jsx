@@ -1,29 +1,34 @@
 import {useState, useEffect, useContext} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image, Alert} from 'react-native';
-import {styles, palette} from '../../styles/styles';
+import {styles, palette, tapColors} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import {setTap, getTaps, addTap, searchTap} from '../../_helpers/UserContent';
+import {setTap, getTaps, addTap, searchTap} from '../../_helpers/ProfileContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import {UserContext} from '../../../global';
+import {ProfileContext} from '../../../global';
 
 /**
  * Método para renderizar página de Pictogramas.
  * @return {JSX.Element}
  */
 export function TapMaker({route, navigation}) {
-  const [activeUser, setUser] = useContext(UserContext);
+  const [activeProfile, setProfile] = useContext(ProfileContext);
   const [modalVoid, setModalVoid] = useState(false);
 
-  const user = JSON.parse(activeUser);
+  const yellow = tapColors.yellow;
+  const red = tapColors.red;
+  const blue = tapColors.blue;
+  const green = tapColors.green;
+
+  const profile = JSON.parse(activeProfile);
 
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
   const [opt, setOpt] = useState(1);
-  const [optColor, setOptColor] = useState('blue');
+  const [optColor, setOptColor] = useState(blue);
   const [optText, setOptText] = useState('');
 
   const [opt1Text, setText1] = useState('Opción 1');
@@ -38,10 +43,10 @@ export function TapMaker({route, navigation}) {
   const [usedOpts, setUsedOpts] = useState([]);
 
 
-  const [opt1Color, setColor1] = useState('blue');
-  const [opt2Color, setColor2] = useState('red');
-  const [opt3Color, setColor3] = useState('green');
-  const [opt4Color, setColor4] = useState('yellow');
+  const [opt1Color, setColor1] = useState(green);
+  const [opt2Color, setColor2] = useState(yellow);
+  const [opt3Color, setColor3] = useState(red);
+  const [opt4Color, setColor4] = useState(blue);
 
   const [colorsOff, setColorOff] = useState(['']);
   const [defOpts, setDefOpts] = useState(['']);
@@ -52,7 +57,7 @@ export function TapMaker({route, navigation}) {
 
   const colorButtons = () => {
     const colors = [
-      'red', 'blue', 'green', 'yellow',
+      red, blue, green, yellow,
     ];
     const colorsOn = colors.filter((x) => !colorsOff.includes(x));
     let output = [];
@@ -292,16 +297,16 @@ export function TapMaker({route, navigation}) {
       return option;
     });
 
-    await addTap(user.email, tapName, defTap);
-    const modified = await AsyncStorage.getItem(user.email);
-    setUser(modified);
+    await addTap(profile.name, tapName, defTap);
+    const modified = await AsyncStorage.getItem(profile.name);
+    setProfile(modified);
     navigation.navigate('TapMenu');
   };
 
   const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: 20, height: 20}} />;
 
   const alreadyExist = async () => {
-    const response = await searchTap(user.email, getValues().name);
+    const response = await searchTap(profile.name, getValues().name);
     return response;
   }
 
@@ -310,7 +315,7 @@ export function TapMaker({route, navigation}) {
       <View style={styles.blank_background}>
 
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={modalVoid}
           onRequestClose={() => {
@@ -420,7 +425,6 @@ export function TapMaker({route, navigation}) {
                       if (getValues().name.length > 0) {
                         alreadyExist().then((isDuplicate) => 
                         {
-                          console.log('isDuplicate: ', isDuplicate);
                           if(!isDuplicate) {
                             saveTap();
                           } else {

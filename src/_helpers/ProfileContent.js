@@ -2,16 +2,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Método para cargar un tap en el usuario
- * @param {string} email
+ * @param {string} name
  * @param {JSON} taps
  */
-export const setTap = async (email, taps) => {
-  await AsyncStorage.getItem(email).then((user) => {
+export const setTap = async (name, taps) => {
+  await AsyncStorage.getItem(name).then((user) => {
     AsyncStorage.mergeItem(
-        email,
+        name,
         JSON.stringify(taps),
         () => {
-          AsyncStorage.getItem(email, (err, result) => {
+          AsyncStorage.getItem(name, (err, result) => {
             console.log('setTap:', result);
             return result;
           });
@@ -20,17 +20,17 @@ export const setTap = async (email, taps) => {
   });
 };
 
-export const getTaps = async (email) => {
-  await AsyncStorage.getItem(email).then((user) => {
+export const getTaps = async (name) => {
+  await AsyncStorage.getItem(name).then((user) => {
     const taps = JSON.parse(user).taps.data;
     console.log(taps);
     return taps;
   });
 };
 
-export const addTap = async (email, name, options) => {
+export const addTap = async (profile, name, options) => {
   let taps = [];
-  await AsyncStorage.getItem(email).then((user) => {
+  await AsyncStorage.getItem(profile).then((user) => {
     console.log(user);
     console.log(typeof(JSON.parse(user).taps));
     if (typeof(JSON.parse(user).taps) !== 'undefined') {
@@ -48,12 +48,12 @@ export const addTap = async (email, name, options) => {
       data: taps,
     },
   };
-  await AsyncStorage.mergeItem(email, JSON.stringify(newData));
+  await AsyncStorage.mergeItem(profile, JSON.stringify(newData));
 };
 
-export const delTap = async (email, name, options) => {
+export const delTap = async (profile, name, options) => {
   let taps = [];
-  await AsyncStorage.getItem(email).then((user) => {
+  await AsyncStorage.getItem(profile).then((user) => {
     taps = JSON.parse(user).taps.data;
     const deletedTap = {
       'key': 0,
@@ -72,15 +72,23 @@ export const delTap = async (email, name, options) => {
       data: taps,
     },
   };
-  await AsyncStorage.mergeItem(email, JSON.stringify(newData));
-  const user = await AsyncStorage.getItem(email);
+  await AsyncStorage.mergeItem(profile, JSON.stringify(newData));
+  const user = await AsyncStorage.getItem(profile);
 };
 
-export const addQuestion = async (email, start, end) => {
+export const delPin = async (profile) => {
+  const pinZero = {
+    pin: '0',
+  };
+  await AsyncStorage.mergeItem(profile, JSON.stringify(pinZero));
+  const user = await AsyncStorage.getItem(profile);
+};
+
+export const addQuestion = async (name, start, end) => {
   let questions = [];
   let questionsOutput = [];
   let newDataArray = [];
-  await AsyncStorage.getItem(email).then((user) => {
+  await AsyncStorage.getItem(name).then((user) => {
     if (typeof(JSON.parse(user).questions) !== 'undefined') {
       questions = JSON.parse(user).questions.data;
       newDataArray = questions;
@@ -110,15 +118,15 @@ export const addQuestion = async (email, start, end) => {
       data: newDataArray
     },
   };
-  await AsyncStorage.mergeItem(email, JSON.stringify(newData));
+  await AsyncStorage.mergeItem(name, JSON.stringify(newData));
 };
 
-export const deleteQuestion = async (email, start, end) => {
+export const deleteQuestion = async (name, start, end) => {
   let questions = [];
   let questionsOutput = [];
   let newDataArray = [];
 
-  await AsyncStorage.getItem(email).then((user) => {
+  await AsyncStorage.getItem(name).then((user) => {
     questions = JSON.parse(user).questions.data;
     newDataArray = questions;
     const questionsWithStart = questions.filter((q) => q.start === start);
@@ -141,12 +149,12 @@ export const deleteQuestion = async (email, start, end) => {
       data: newDataArray
     },
   };
-  await AsyncStorage.mergeItem(email, JSON.stringify(newData));
+  await AsyncStorage.mergeItem(name, JSON.stringify(newData));
 };
 
-export const searchQuestion = async (email, start, end) => {
+export const searchQuestion = async (name, start, end) => {
   let response = false;
-  await AsyncStorage.getItem(email).then((user) => {
+  await AsyncStorage.getItem(name).then((user) => {
     if (typeof(JSON.parse(user).questions) !== 'undefined') {
       const questions = JSON.parse(user).questions.data;
       const questionsWithStart = questions.filter((q) => q.start === start);
@@ -159,9 +167,9 @@ export const searchQuestion = async (email, start, end) => {
   return response;
 };
 
-export const searchTap = async (email, name) => {
+export const searchTap = async (profile, name) => {
   let found = false;
-  await AsyncStorage.getItem(email).then((user) => {
+  await AsyncStorage.getItem(profile).then((user) => {
     if (typeof(JSON.parse(user).taps) !== 'undefined') {
       const taps = JSON.parse(user).taps.data;
       found = taps.some((tap) => tap.text === name);

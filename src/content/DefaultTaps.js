@@ -1,4 +1,12 @@
-{ 
+import { tapColors } from "../styles/styles"
+
+const yellow = tapColors.yellow;
+const red = tapColors.red;
+const blue = tapColors.blue;
+const green = tapColors.green;
+
+
+export const defaultTaps = { 
   "data": [
     {
       "key": 0,
@@ -6,15 +14,15 @@
       "options": [
         {
           "text": "Feliz",
-          "color": "yellow"
+          "color": yellow
         },
         {
           "text": "Triste",
-          "color": "blue"
+          "color": blue
         },
         {
           "text": "Enfadado",
-          "color": "red"
+          "color": red
         }
       ]
     },
@@ -24,11 +32,11 @@
       "options": [
         {
           "text": "Sí",
-          "color": "green"
+          "color": green
         },
         {
           "text": "No",
-          "color": "red"
+          "color": red
         }
       ]
     },
@@ -38,19 +46,19 @@
       "options": [
         {
           "text": "Arriba",
-          "color": "green"
+          "color": green
         },
         {
           "text": "Abajo",
-          "color": "yellow"
+          "color": yellow
         },
         {
           "text": "Derecha",
-          "color": "blue"
+          "color": blue
         },
         {
           "text": "Izquierda",
-          "color": "red"
+          "color": red
         }
       ]
     }
