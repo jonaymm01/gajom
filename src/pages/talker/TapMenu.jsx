@@ -49,7 +49,7 @@ export function TapMenu({navigation}) {
         <View style={styles.blank_background}>
           <Separator>Tus TAPs</Separator>
           <Text style={[styles.text, {textAlign: 'center', marginBottom: 10, fontStyle: 'italic'}]}>¡Inicia sesión para crear TAPs!</Text>
-          <Button color={palette.gray} onPress={() => navigation.navigate('Login')} label={'Iniciar Sesión'}/>
+          <Button color={palette.gray} onPress={() => navigation.navigate('profile')} label={'Iniciar Sesión'}/>
         </View>
         <View style={{marginTop: 50, backgroundColor: '#fff', marginBottom: 50}}>
           <Separator>Sugerencias</Separator>
