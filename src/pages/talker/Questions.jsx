@@ -33,7 +33,6 @@ export function Questions({navigation}) {
     profile = JSON.parse(activeProfile);
   }
 
-
   const [modalAdd, setModalAdd] = useState(false);
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
   const [newQuest, setNewQuest] = useState('');
@@ -186,8 +185,7 @@ export function Questions({navigation}) {
   if (!create) {
     return (
       <View style={styles.blank_background}>
-
-        <View style={isStart ? {flex: 0} : {flex: 1, flexDirection: 'row', alignItems: 'center', height: 80}}>
+        <View style={isStart ? {flex: -1} : {flex: 1, flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
           <>
             {backButton}
           </>
@@ -195,9 +193,8 @@ export function Questions({navigation}) {
             {result}
           </>
         </View>
-        <View style={{flex: 2}}>
-          <View style={{width: 300, marginTop: -50}}>
-            <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20, color: palette.violet}]}>{isStart ? 'Empieza tu pregunta' : ''}</Text>
+        <View style={isStart ? {flex: 0} : {flex: 5}}>
+          <View style={{width: 300, marginTop: 30}}>
             <>
               {addButton}
             </>
@@ -211,12 +208,12 @@ export function Questions({navigation}) {
   } else {
     return (
       <View style={{backgroundColor: 'white', flex: 1, justifyContent: 'center', padding: 20, alignItems: 'center'}}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', maxWidth: 200, alignItems: 'center', justifyContent: 'center'}}>
           <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', backgroundColor: palette.violet, padding: 10, margin: 10}]}>{startWord} </Text>
-          <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, backgroundColor: '#fff', padding: 10, margin: 10, borderColor: palette.violet, borderWidth: 2}]}>{newQuest}</Text>
+          <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, backgroundColor: '#fff', padding: 10, margin: 10, borderColor: palette.violet, borderWidth: 2, flexWrap: 'wrap'}]}>{newQuest}</Text>
           <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', backgroundColor: palette.violet, padding: 10, margin: 10}]}>?</Text>
         </View>
-        <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Completa la pregunta</Text>
+        <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet}]}>Completa la pregunta</Text>
         <Controller
           name="add"
           defaultValue=""
@@ -226,6 +223,7 @@ export function Questions({navigation}) {
           }}
           render={({field: {onChange, value}}) => (
             <Input
+              maxLength={30}
               error={errors.name}
               errorText={errors?.name?.message}
               onChangeText={(text) => {
@@ -302,20 +300,23 @@ export const questionStyles = StyleSheet.create({
     height: 80,
     width: 300,
     justifyContent: 'center',
+    padding: 15,
   },
   addButton: {
     backgroundColor: palette.gray,
     margin: 5,
     marginBottom: 20,
-    height: 80,
+    height: 50,
     width: 300,
     justifyContent: 'center',
-    borderRadius: 15,
+    alignContent: 'center',
+    borderRadius: 5,
     elevation: 10,
   },
   defButton: {
     backgroundColor: palette.red,
     margin: 5,
+    padding: 15,
     width: 250,
     height: 80,
     justifyContent: 'center',
