@@ -6,6 +6,13 @@ export const palette = {
   gray: '#b8b8b8',
 };
 
+export const tapColors = {
+  yellow: '#F1D225',
+  green: '#29B82B',
+  blue: '#0D62CE',
+  red: '#D31515',
+};
+
 export const styles = StyleSheet.create({
   modalView: {
     flex: 1,

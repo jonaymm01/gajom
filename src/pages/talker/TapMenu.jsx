@@ -9,7 +9,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {setTap} from '../../_helpers/ProfileContent';
 import {setActive} from '../../_helpers/storage';
 import TapList from '../../components/TapList';
-import {data} from '../../content/DefaultTaps.json';
+import {defaultTaps} from '../../content/DefaultTaps.js';
 import LineSeparator from '../../components/LineSeparator';
 import Separator from '../../components/Separator';
 
@@ -26,7 +26,6 @@ export function TapMenu({navigation}) {
   const [shouldRefresh, setRefresh] = useState(false);
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
 
-  const defaultTaps = require('../../content/DefaultTaps.json');
 
   if ((profile !== '{}')) {
     const activeProfile = JSON.parse(profile);

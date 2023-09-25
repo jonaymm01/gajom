@@ -6,7 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {ProfileListContext} from '../../global';
 
 
-import {setActiveProfile} from '../_helpers/storage';
+import {setActiveProfile, hasPin} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -20,6 +20,7 @@ import {styles, palette} from '../styles/styles';
 export function ProfileSelector({...props}) {
   const [hiddenPin, setHiddenPin] = useState(true);
   const [profileList, setProfileList] = useContext(ProfileListContext);
+  const [pinsBoolArray, setPinsBoolArray] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -28,25 +29,30 @@ export function ProfileSelector({...props}) {
   const showPass = () => {
     setHiddenPin(!hiddenPin);
   };
+  
+  let pinIs = [];
+
+  const pinsBool = async () => {
+    pinIs = await Promise.all(profileList.map(async (profile) => await hasPin(profile)));
+    return pinIs;
+  }
 
   useEffect(() => {
-    async() => { 
-     const keys = await AsyncStorage.getAllKeys();
-     const resultKeys = keys.filter((key) => key != 'active'); 
-     setProfileList(resultKeys);
-     console.log(keys);
-    }
-   }, []);
+    pinsBool().then((pins)=>setPinsBoolArray(pins));
+  }, [])
 
 
   buttonlist = profileList.map((profile, index) =>
-    <View key={index} style={{justifyContent: 'center'}}>
-    <TouchableOpacity style={selectorStyles.profileButton} onPress={() => props.selector(profile)}>
-      <View style={styles.button_container}>
-        <Text style={[styles.button_text, {fontSize: 24}]}>{profile}</Text>
-      </View> 
-    </TouchableOpacity>
-  </View>,
+    <View key={index} style={{justifyContent: 'center', padding: 5}}>
+      <TouchableOpacity style={selectorStyles.profileButton} onPress={() => props.selector(profile)}>
+        <View style={[styles.button_container, {flex: 3}]}>
+          <Text style={[styles.button_text, {fontSize: 24}]}>{profile}</Text>
+        </View> 
+        <View style={(pinsBoolArray[index]) ? {flex: 1, paddingTop: 10, alignItems: 'center'} : {} }>
+          {(pinsBoolArray[index]) ? <Image source={require('../../assets/lock.png')} tintColor={'white'} resizeMode='contain' style={{maxWidth: 30, maxHeight: 30}}/> : null}
+        </View>
+      </TouchableOpacity>
+    </View>,
   );
 
   return (
@@ -64,10 +70,9 @@ const selectorStyles = StyleSheet.create({
   profileButton: {
     backgroundColor: palette.violet,
     margin: 10,
-    height: 140,
+    height: 160,
     width: 140,
     padding: 10,
     borderRadius: 15,
-
   }
 });
