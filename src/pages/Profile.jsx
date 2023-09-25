@@ -182,6 +182,8 @@ export function Profile({navigation}) {
               }}
               render={({field: {onChange, value}}) => (
                 <Input
+                  maxLength={12}
+                  textAlign={"center"}
                   error={errors.name}
                   errorText={errors?.name?.message}
                   onChangeText={(text) => {

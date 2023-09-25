@@ -43,10 +43,10 @@ export function TapMaker({route, navigation}) {
   const [usedOpts, setUsedOpts] = useState([]);
 
 
-  const [opt1Color, setColor1] = useState(blue);
-  const [opt2Color, setColor2] = useState(red);
-  const [opt3Color, setColor3] = useState(green);
-  const [opt4Color, setColor4] = useState(yellow);
+  const [opt1Color, setColor1] = useState(green);
+  const [opt2Color, setColor2] = useState(yellow);
+  const [opt3Color, setColor3] = useState(red);
+  const [opt4Color, setColor4] = useState(blue);
 
   const [colorsOff, setColorOff] = useState(['']);
   const [defOpts, setDefOpts] = useState(['']);

@@ -26,7 +26,7 @@ const speak = (text) => {
  * Método para renderizar página de Preguntas.
  * @return {JSX.Element}
  */
-export function Questions() {
+export function Questions({navigation}) {
   const [activeProfile, setProfile] = useContext(ProfileContext);
   let profile = '{}';
   if (activeProfile !== '{}') {
@@ -126,10 +126,10 @@ export function Questions() {
 
     addButton =
           <TouchableOpacity style={[questionStyles.addButton]} onPress={() => {
-            (profile === '{}') ? null :  toCreate(true);
+            (profile === '{}') ? navigation.navigate("Login") :  toCreate(true);
           }}>
             <View>
-              <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para crear tus propias preguntas' : '+'}</Text>
+              <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para añadir' : '+'}</Text>
             </View>
           </TouchableOpacity>;
   }
@@ -144,7 +144,7 @@ export function Questions() {
   if (!isStart) {
     const finalQuestion = startWord + ((startWord !== '¿') ? ' ' : '') + ((end.length > 0) ? end : '...');
     result =
-      <View style={{marginBottom: 60, marginTop: 30, alignItems: 'center'}}>
+      <View style={{marginBottom: 10, alignItems: 'center'}}>
         <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>{isEnd ? '🕪  Pulsa para escuchar' : ''}</Text>
         <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
           speak(finalQuestion);
@@ -197,7 +197,7 @@ export function Questions() {
         </View>
         <View style={{flex: 2}}>
           <View style={{width: 300, marginTop: -50}}>
-            <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20}]}>{isStart ? 'Empieza tu pregunta:' : ''}</Text>
+            <Text style={[styles.basic_font, {fontStyle: 'italic', alignSelf: 'center', marginBottom: 20, color: palette.violet}]}>{isStart ? 'Empieza tu pregunta' : ''}</Text>
             <>
               {addButton}
             </>
@@ -306,9 +306,12 @@ export const questionStyles = StyleSheet.create({
   addButton: {
     backgroundColor: palette.gray,
     margin: 5,
+    marginBottom: 20,
     height: 80,
     width: 300,
     justifyContent: 'center',
+    borderRadius: 15,
+    elevation: 10,
   },
   defButton: {
     backgroundColor: palette.red,
