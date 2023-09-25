@@ -30,24 +30,26 @@ export default function Pictogram({...props}) {
 
 export const pictoStyles = StyleSheet.create({
   base: {
-    height: 260,
-    width: 250,
+    height: 160,
+    width: 160,
     alignItems: 'center',
     backgroundColor: palette.violet,
     borderRadius: 20,
     padding: 10,
-    margin: 10,
+    marginBottom: 10,
+    marginLeft: 5,
+    marginRight: 5,
   },
   text: {
     color: '#fff',
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   img: {
     flex: 1,
-    height: 190,
-    width: 220,
+    maxWidth: 120,
+    maxHeight: 120,
     borderRadius: 20,
   },
 });

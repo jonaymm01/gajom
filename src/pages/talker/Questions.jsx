@@ -126,7 +126,7 @@ export function Questions({navigation}) {
 
     addButton =
           <TouchableOpacity style={[questionStyles.addButton]} onPress={() => {
-            (profile === '{}') ? navigation.navigate("Login") :  toCreate(true);
+            (profile === '{}') ? navigation.navigate("profile") :  toCreate(true);
           }}>
             <View>
               <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para añadir' : '+'}</Text>

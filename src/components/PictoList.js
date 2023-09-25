@@ -40,14 +40,25 @@ export default function PictoList({...props}) {
 
   let pictolist = [];
 
-  pictolist = props.list.map((picto, index) =>
+  function compare(a,b) {
+    if (a.text < b.text)
+       return -1;
+    if (a.text > b.text)
+      return 1;
+    return 0;
+  }
+
+  const sortedList = props.list.sort(compare);
+
+  pictolist = sortedList.map((picto, index) =>
     <Pictogram key={index} img={picto.img} text={picto.text}/>,
   );
 
+
   return (
-    <>
+    <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
       {pictolist}
-    </>
+    </View>
   );
 }
 
