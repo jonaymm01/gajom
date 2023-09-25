@@ -106,8 +106,11 @@ export function Login({navigation}) {
                 setModalPin(!modalPin);
               }}>
               <View style={styles.modalView}>
-                <Text style={[accessForm.text, {marginTop: 40}]}>Iniciando sesión:</Text>
-                <Text style={[accessForm.profile_name, {marginBottom: 10, marginTop: 10}]}>{selected}</Text>
+                <View style={{alignItems: 'center', marginBottom: 20}}>
+                  <Text style={[accessForm.loginText, {marginBottom: 30}]}>INICIANDO SESIÓN</Text>
+                  <Text style={[accessForm.profile_name, {marginTop: 10}]}>{selected}</Text>
+                </View>
+                <View style={{alignItems: 'center'}}>
                 <Text style={[accessForm.text, {marginBottom: 20,}]}>Introduce aquí tu PIN</Text>
                 <Controller
                     name="pin"
@@ -169,6 +172,7 @@ export function Login({navigation}) {
                   >
                     <Text style={modalStyles.textStyle}>Acceder</Text>
                   </Pressable>
+                  </View>
                 </View>
               </View>
           </Modal>
@@ -197,11 +201,18 @@ const accessForm = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     color: palette.violet,
+    textAlign: 'center',
   },
   text: {
     fontSize: 22,
-    fontWeight: 'bold',
     color: palette.violet,
+  },
+  loginText: {
+    fontSize: 22,
+    backgroundColor: palette.violet,
+    color: '#fff',
+    padding: 20,
+    fontWeight: 'bold',
   }
 });
 

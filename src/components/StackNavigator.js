@@ -21,7 +21,7 @@ import { ScreenStackHeaderLeftView } from 'react-native-screens';
 
 const Stack = createStackNavigator();
 
-const MainStackNavigator = ({route}) => {
+const InfoStackNavigator = ({route}) => {
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false,
@@ -86,7 +86,7 @@ const TalkerStackNavigator = () => {
 };
 
 
-export {MainStackNavigator, ProfileStackNavigator, TalkerStackNavigator};
+export {TalkerStackNavigator, ProfileStackNavigator, InfoStackNavigator};
 
 
 const headerStyle = StyleSheet.create({

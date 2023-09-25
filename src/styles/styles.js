@@ -100,6 +100,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 30,
+    textAlign: 'center'
   },
   basic_font: {
     fontSize: 20,

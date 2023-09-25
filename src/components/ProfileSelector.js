@@ -39,7 +39,7 @@ export function ProfileSelector({...props}) {
 
   useEffect(() => {
     pinsBool().then((pins)=>setPinsBoolArray(pins));
-  }, [])
+  }, [profileList])
 
 
   buttonlist = profileList.map((profile, index) =>
@@ -48,7 +48,7 @@ export function ProfileSelector({...props}) {
         <View style={[styles.button_container, {flex: 3}]}>
           <Text style={[styles.button_text, {fontSize: 24}]}>{profile}</Text>
         </View> 
-        <View style={(pinsBoolArray[index]) ? {flex: 1, paddingTop: 10, alignItems: 'center'} : {} }>
+        <View style={(pinsBoolArray[index]) ? {flex: 1, paddingTop: 10} : {flex: 1, paddingTop: 10} }>
           {(pinsBoolArray[index]) ? <Image source={require('../../assets/lock.png')} tintColor={'white'} resizeMode='contain' style={{maxWidth: 30, maxHeight: 30}}/> : null}
         </View>
       </TouchableOpacity>

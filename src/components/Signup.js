@@ -152,7 +152,7 @@ const pinInput =
                   <View style={{flexDirection: 'row', flex: 2}}>
                     <Pressable
                       style={[modalStyles.button, modalStyles.grayBackground, {flex: 1}]}
-                      onPress={() => setModalSigned(!modalSigned)}>
+                      onPress={() => {setModalSigned(!modalSigned); navigation.navigate('Login')}}>
                       <Text style={modalStyles.textStyle}>Volver</Text>
                     </Pressable>
                     <Pressable
@@ -182,7 +182,7 @@ const pinInput =
 
                 
                 <View style={[formStyles.input_container, {marginTop: 10}]}>
-                <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet, marginBottom: 10}}>Introduce un nombre:</Text>
+                <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet, marginBottom: 10}}>Introduce un nombre</Text>
                   <Controller
                     name="name"
                     defaultValue=""
@@ -192,6 +192,8 @@ const pinInput =
                     }}
                     render={({field: {onChange, value}}) => (
                       <Input
+                        maxLength={12}
+                        textAlign={"center"}
                         error={errors.name}
                         errorText={errors?.name?.message}
                         onChangeText={(text) => onChange(text)}
