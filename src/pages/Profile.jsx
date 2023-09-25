@@ -168,9 +168,9 @@ export function Profile({navigation}) {
             setModalName(!modalName);
           }}>
           <View style={styles.modalView}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
-              <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}> ➜ {newName} </Text>
+            <View style={{flexDirection: 'row', paddingLeft: 10, paddingRight: 10, borderWidth: 3, borderColor: palette.violet}}>
+              <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
+              <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet}]}> ➜ {(newName == '') ? ' _____' : newName} </Text>
             </View>
             <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo nombre</Text>
             <Controller
