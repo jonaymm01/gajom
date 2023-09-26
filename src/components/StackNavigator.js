@@ -14,6 +14,7 @@ import {Questions} from '../pages/talker/Questions';
 import {TapMenu} from '../pages/talker/TapMenu';
 import {Tap} from '../pages/talker/Tap';
 import {TapMaker} from '../pages/talker/TapMaker';
+import { QuestionEnd } from '../pages/talker/QuestionEnd';
 
 import {ProfileContext} from '../../global';
 import {palette} from '../styles/styles';
@@ -80,7 +81,11 @@ const TalkerStackNavigator = () => {
         headerTitleStyle: headerStyle.titleBlack,
       }}/>
       <Stack.Screen name="TapMaker" component={TapMaker} />
-      <Stack.Screen name="Questions" component={Questions} options={{headerShown: true}} />
+      <Stack.Group> 
+        <Stack.Screen name="Questions" component={Questions} options={{headerShown: true}} />
+        <Stack.Screen name="QuestionEnd" component={QuestionEnd} options={{headerShown: true}} />
+      </Stack.Group>
+
     </Stack.Navigator>
   );
 };
