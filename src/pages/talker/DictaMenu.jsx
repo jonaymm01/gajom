@@ -16,11 +16,19 @@ export function DictaMenu({navigation}) {
       <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressNumbers}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> NÚMEROS </Text>
+            <View style={{marginTop: 15}}>
+              <Text style={talkerStyles.button_text_small}> 1  2 </Text>
+              <Text style={talkerStyles.button_text_small}> 3  4 </Text>
+            </View>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressText}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> PALABRAS </Text>
+            <View style={{marginTop: 15}}>
+              <Text style={talkerStyles.button_text_small}> a  b </Text>
+              <Text style={talkerStyles.button_text_small}> c  d </Text>
+            </View>
           </View>
         </TouchableOpacity>
     </SafeAreaView>
@@ -40,16 +48,13 @@ const talkerStyles = StyleSheet.create({
     textShadowColor: 'black',
     textShadowOffset: {width: 5, height: 5},
     textShadowRadius: 10,
-    marginTop: 10,
   },
   button_text_small: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 40,
     textShadowColor: 'black',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 5,
-    marginTop: 10,
-    paddingBottom: 20,
   },
 });
