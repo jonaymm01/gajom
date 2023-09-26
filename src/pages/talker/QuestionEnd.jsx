@@ -231,7 +231,7 @@ return (
           <Text style={creatorStyles.textStyle}>Aplicar</Text>
         </Pressable>
       </View>
-      </View>
+    </View>
   </Modal>
   <View style={styles.blank_background}>
       <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginTop: 30}}>

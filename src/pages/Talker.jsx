@@ -1,5 +1,6 @@
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {styles, palette} from '../styles/styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 /**
@@ -10,10 +11,10 @@ export function Talker({navigation}) {
   const onPressPictos = () => navigation.navigate('Pictos');
   const onPressTaps = () => navigation.navigate('TapMenu');
   const onPressQuestions = () => navigation.navigate('Questions');
+  const onPressDicta = () => navigation.navigate('DictaMenu');
+
 
   return (
-    <>
-
       <View style={[styles.container, {flexDirection: 'column', padding: 0}]}>
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressPictos}>
           <View style={styles.button_container}>
@@ -33,8 +34,13 @@ export function Talker({navigation}) {
             <Text style={talkerStyles.button_text_small}> CONSTRUYE UNA PREGUNTA </Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressDicta}>
+          <View style={styles.button_container}>
+            <Text style={talkerStyles.button_text}> DICTAR </Text>
+            <Text style={talkerStyles.button_text_small}> NÚMEROS O PALABRAS </Text>
+          </View>
+        </TouchableOpacity>
       </View>
-    </>
   );
 }
 

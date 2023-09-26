@@ -16,6 +16,10 @@ import {Tap} from '../pages/talker/Tap';
 import {TapMaker} from '../pages/talker/TapMaker';
 import { QuestionEnd } from '../pages/talker/QuestionEnd';
 
+import { DictaNumbers } from '../pages/talker/DictaNumbers';
+import { DictaText } from '../pages/talker/DictaText';
+import { DictaMenu } from '../pages/talker/DictaMenu';
+
 import {ProfileContext} from '../../global';
 import {palette} from '../styles/styles';
 import { ScreenStackHeaderLeftView } from 'react-native-screens';
@@ -84,6 +88,11 @@ const TalkerStackNavigator = () => {
       <Stack.Group> 
         <Stack.Screen name="Questions" component={Questions} options={{headerShown: true}} />
         <Stack.Screen name="QuestionEnd" component={QuestionEnd} options={{headerShown: true}} />
+      </Stack.Group>
+      <Stack.Group> 
+        <Stack.Screen name="DictaMenu" component={DictaMenu} options={{headerShown: true}} />
+        <Stack.Screen name="DictaNumbers" component={DictaNumbers} options={{headerShown: true}} />
+        <Stack.Screen name="DictaText" component={DictaText} options={{headerShown: true}} />
       </Stack.Group>
 
     </Stack.Navigator>
