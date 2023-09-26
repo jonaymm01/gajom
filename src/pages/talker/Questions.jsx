@@ -48,47 +48,37 @@ export function Questions({navigation}) {
   return (
 <View style={{ flex: 1 }}>
   <View style={{ flex: 1, flexDirection: 'row'}}>
-    <TouchableOpacity
-      style={questionStyles.button}
-      onPress={() => {goToEnd('¿Cómo')}} 
-    >
-      <Text style={questionStyles.buttonText}>¿Cómo...</Text>
-    </TouchableOpacity>
-
-    <TouchableOpacity
-      style={questionStyles.button}
-      onPress={() => {goToEnd('¿Qué')}}
-    >
-      <Text style={questionStyles.buttonText}>¿Qué...</Text>
-    </TouchableOpacity>
-  </View>
-  <View style={{ flex: 1, flexDirection: 'row'}}>
-    <TouchableOpacity
-      style={questionStyles.button}
-      onPress={() => {goToEnd('¿Cuándo')}}
-    >
+    <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Cuándo')}}>
+      <Image source={require('../../../assets/questIcons/cuandoIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
       <Text style={questionStyles.buttonText}>¿Cuándo...</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity
-      style={questionStyles.button}
-      onPress={() => {goToEnd('¿Dónde')}}
-    >
-      <Text style={questionStyles.buttonText}>¿Dónde...</Text>
+    <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Cómo')}}>
+      <Image source={require('../../../assets/questIcons/comoIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Text style={questionStyles.buttonText}>¿Cómo...</Text>
     </TouchableOpacity>
   </View>
+
   <View style={{ flex: 1, flexDirection: 'row'}}>
-    <TouchableOpacity
-      style={questionStyles.button}
-      onPress={() => {goToEnd('¿Quién')}}
-    >
-      <Text style={questionStyles.buttonText}>¿Quién...</Text>
+    <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Dónde')}}>
+      <Image source={require('../../../assets/questIcons/dondeIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Text style={questionStyles.buttonText}>¿Dónde...</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity
-      style={questionStyles.button}
-      onPress={() => {goToEnd('¿')}}
-    >
+    <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Quién')}}>
+      <Image source={require('../../../assets/questIcons/quienIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Text style={questionStyles.buttonText}>¿Quién...</Text>
+    </TouchableOpacity>
+  </View>
+  
+  <View style={{ flex: 1, flexDirection: 'row'}}>
+    <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Qué')}}>
+      <Image source={require('../../../assets/questIcons/queIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Text style={questionStyles.buttonText}>¿Qué...</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿')}}>
+      <Image source={require('../../../assets/questIcons/anyIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
       <Text style={questionStyles.buttonText}>¿...</Text>
     </TouchableOpacity>
   </View>

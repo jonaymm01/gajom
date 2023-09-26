@@ -109,7 +109,8 @@ export function QuestionEnd({route, navigation}) {
   </View>;
 
 const finalQuestion = start + ((start !== '¿') ? ' ' : '') + ((end.length > 0) ? end : '...');
-result =
+
+const result =
   <View style={{marginBottom: 10, alignItems: 'center'}}>
     <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>🕪  Pulsa para escuchar</Text>
     <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
@@ -141,11 +142,12 @@ setNewQuest('');
 resetField('add');
 };
 
-const deleteQuest = async (start, end) => {
-  await deleteQuestion(profile.name, start, end);
+const deleteQuest = async (start, questEnd) => {
+  await deleteQuestion(profile.name, start, questEnd);
   const modified = await AsyncStorage.getItem(profile.name);
   setProfile(modified);
-  console.log('Se ha eliminado la pregunta: ', start + ' ' + end);
+  (end == questEnd) ? setEnd('') : null;
+  console.log('Se ha eliminado la pregunta: ', start + ' ' + questEnd);
 };
 
 return (
