@@ -10,38 +10,6 @@ export const defaultTaps = {
   "data": [
     {
       "key": 0,
-      "text": "¿Cómo estás?",
-      "options": [
-        {
-          "text": "Feliz",
-          "color": yellow
-        },
-        {
-          "text": "Triste",
-          "color": blue
-        },
-        {
-          "text": "Enfadado",
-          "color": red
-        }
-      ]
-    },
-    {
-      "key": 0,
-      "text": "Sí / No",
-      "options": [
-        {
-          "text": "Sí",
-          "color": green
-        },
-        {
-          "text": "No",
-          "color": red
-        }
-      ]
-    },
-    {
-      "key": 0,
       "text": "Direcciones",
       "options": [
         {
@@ -61,6 +29,42 @@ export const defaultTaps = {
           "color": red
         }
       ]
-    }
+    },
+    {
+      "key": 0,
+      "text": "SÍ · NO",
+      "options": [
+        {
+          "text": "Sí",
+          "color": green
+        },
+        {
+          "text": "No",
+          "color": red
+        }
+      ]
+    },
+    {
+      "key": 0,
+      "text": "Hora de comer",
+      "options": [
+        {
+          "text": "Comer",
+          "color": yellow
+        },
+        {
+          "text": "Beber",
+          "color": blue
+        },
+        {
+          "text": "Descanso",
+          "color": red
+        },
+        {
+          "text": "Seguir",
+          "color": green
+        }
+      ]
+    },
   ]
 }

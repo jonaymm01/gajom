@@ -13,11 +13,8 @@ export const DefaultQuestions = {
         start: '¿Qué',
         ends: [
           'día es hoy?',
-          'haremos hoy?',
           'hora es?',
-          'ha dicho el doctor?',
-          'somos?',
-          'están haciendo?',
+          'has dicho?',
           'pasó?',
         ],
       },
@@ -28,6 +25,7 @@ export const DefaultQuestions = {
           'vuelves?',
           'me dan los resultados?',
           'me dan la medicación?',
+          'llegaremos?',
         ],
       },
       {
@@ -35,6 +33,7 @@ export const DefaultQuestions = {
         ends: [
           'estoy?',
           'vamos?',
+          'fue?',
           'están mis cosas?',
           'está el doctor?',
         ],
