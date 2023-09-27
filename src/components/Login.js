@@ -86,7 +86,7 @@ export function Login({navigation}) {
 
   const emptyListWarning = 
   <View style={{flex: 4, justifyContent: 'center', alignSelf: 'center', paddingLeft: 20, paddingRight: 20, marginBottom: 100}}>
-    <Text style={[{fontSize: 20}]}>Aún no has creado ningún perfil.</Text>
+    <Text style={[{fontSize: 20, color: palette.red, fontWeight: 'bold'}]}>Aún no has creado ningún perfil.</Text>
   </View>
 
   return (

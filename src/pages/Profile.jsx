@@ -368,7 +368,7 @@ export function Profile({navigation}) {
                   <Text style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 35, fontWeight: 'bold', textAlign: 'center'}]}>{activeProfile.name}</Text>
                 </View>
               </View>
-            <LineSeparator/>
+            <View style={{marginBottom: 40}}/>
             <View style={{flexDirection: 'row'}}>
               <Image source={require('../../assets/user_icon.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
               <Button color={palette.violet} onPress={() => openChange('name')} label="Cambiar nombre" />
@@ -380,7 +380,7 @@ export function Profile({navigation}) {
             <>
               {(activeProfile.pin == "0" || activeProfile.pin == undefined) ? null : deletePinButton}
             </>
-            <LineSeparator/>
+            <LineSeparator color={palette.red}/>
             <View style={{marginTop: -20}}>
               <Button color={palette.red} onPress={() => logOut()} label="Cerrar sesión" />
             </View>
