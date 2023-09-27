@@ -1,5 +1,6 @@
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {styles, palette} from '../styles/styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 /**
@@ -10,31 +11,36 @@ export function Talker({navigation}) {
   const onPressPictos = () => navigation.navigate('Pictos');
   const onPressTaps = () => navigation.navigate('TapMenu');
   const onPressQuestions = () => navigation.navigate('Questions');
+  const onPressDicta = () => navigation.navigate('DictaMenu');
+
 
   return (
-    <>
-
-      <View style={[styles.container, {flexDirection: 'column', padding: 0}]}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressPictos}>
+      <View style={[styles.container, {flexDirection: 'column', padding: 0, backgroundColor: '#fff'}]}>
+        <TouchableOpacity style={{backgroundColor: palette.violet, margin: 5, borderRadius: 20, flex: 1}} onPress={onPressPictos}>
           <View style={styles.button_container}>
-            <Text style={talkerStyles.button_text}> PICTOGRAMAS </Text>
-            <Text style={talkerStyles.button_text_small}> IMÁGENES CON SIGNIFICADO </Text>
+            <Text style={talkerStyles.button_text}> PICTOS </Text>
+            <Text style={talkerStyles.button_text_small}> UTILIZA PICTOGRAMAS </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressTaps}>
+        <TouchableOpacity style={{backgroundColor: palette.violet, margin: 5, borderRadius: 20, flex: 1}} onPress={onPressTaps}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> TAPS </Text>
             <Text style={talkerStyles.button_text_small}> ESCOGE ENTRE OPCIONES </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressQuestions}>
+        <TouchableOpacity style={{backgroundColor: palette.violet, margin: 5, borderRadius: 20, flex: 1}} onPress={onPressQuestions}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> PREGUNTADOR </Text>
             <Text style={talkerStyles.button_text_small}> CONSTRUYE UNA PREGUNTA </Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity style={{backgroundColor: palette.violet, margin: 5, borderRadius: 20, flex: 1}} onPress={onPressDicta}>
+          <View style={styles.button_container}>
+            <Text style={talkerStyles.button_text}> ¡DICTA! </Text>
+            <Text style={talkerStyles.button_text_small}> NÚMEROS O PALABRAS </Text>
+          </View>
+        </TouchableOpacity>
       </View>
-    </>
   );
 }
 

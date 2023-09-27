@@ -9,8 +9,8 @@ import {palette} from '../styles/styles';
  */
 export default function LineSeparator({label, ...props}) {
   return (
-    <View style={{flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 50, marginBottom: 50}}>
-      <View style={{flex: 1, height: 1, backgroundColor: palette.violet}} />
+    <View style={{flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 50, marginBottom: 50, paddingLeft: 20, paddingRight: 20}}>
+      <View style={{flex: 1, height: 2, backgroundColor: palette.violet}} />
     </View>
   );
 }

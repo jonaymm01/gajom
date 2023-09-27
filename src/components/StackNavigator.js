@@ -2,10 +2,9 @@ import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StyleSheet} from 'react-native';
 
-import {Main} from '../pages/Main';
+import {Info} from '../pages/Info';
 import {Talker} from '../pages/Talker';
 import {Profile} from '../pages/Profile';
-import {Contact} from '../pages/support/Contact';
 import {FQA} from '../pages/support/FQA';
 import {Login} from './Login';
 import {SignUp} from './Signup';
@@ -14,6 +13,11 @@ import {Questions} from '../pages/talker/Questions';
 import {TapMenu} from '../pages/talker/TapMenu';
 import {Tap} from '../pages/talker/Tap';
 import {TapMaker} from '../pages/talker/TapMaker';
+import { QuestionEnd } from '../pages/talker/QuestionEnd';
+
+import { DictaNumbers } from '../pages/talker/DictaNumbers';
+import { DictaText } from '../pages/talker/DictaText';
+import { DictaMenu } from '../pages/talker/DictaMenu';
 
 import {ProfileContext} from '../../global';
 import {palette} from '../styles/styles';
@@ -23,16 +27,11 @@ const Stack = createStackNavigator();
 
 const InfoStackNavigator = ({route}) => {
   return (
-    <Stack.Navigator screenOptions={{
+    <Stack.Navigator initialRouteName='Inicio' screenOptions={{
       headerShown: false,
-      headerTintColor: '#fff',
-      headerStyle: headerStyle.header,
-      headerTitleStyle: headerStyle.title,
-      title: 'Volver a Inicio',
-    }} initialRouteName='Inicio'>
-      <Stack.Screen name="Inicio" component={Main} />
-      <Stack.Screen name="FQA" component={FQA} options={{headerShown: true}} />
-      <Stack.Screen name="Contact" component={Contact} options={{headerShown: true}} />
+    }}>
+      <Stack.Screen name="Inicio" component={Info} />
+      <Stack.Screen name="FQA" component={FQA} />
     </Stack.Navigator>
   );
 };
@@ -42,18 +41,15 @@ const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false,
-      headerTintColor: '#fff',
-      headerStyle: headerStyle.header,
-      headerTitleStyle: headerStyle.title,
     }}>
       { (activeProfile == '{}') ? (
           <Stack.Group>
-            <Stack.Screen name="Login" component={Login} options={{title: 'Inicio de sesión'}} />
-            <Stack.Screen name="Signup" component={SignUp} options={{title: 'Registro'}} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Signup" component={SignUp} />
           </Stack.Group>
       ) : ( 
         <Stack.Group> 
-          <Stack.Screen name="Profile" component={Profile} options={{title: 'Perfil'}} />
+          <Stack.Screen name="Profile" component={Profile} />
         </Stack.Group>
       )}
     </Stack.Navigator>
@@ -62,25 +58,24 @@ const ProfileStackNavigator = () => {
 
 const TalkerStackNavigator = () => {
   return (
-    <Stack.Navigator 
-    screenOptions={{
+    <Stack.Navigator screenOptions={{
       headerShown: false,
-      headerTintColor: '#fff',
-      headerStyle: headerStyle.header,
-      headerTitleStyle: headerStyle.title,
-      title: 'Volver al Menú ',
     }}>
       <Stack.Screen name="Talker" component={Talker} />
-      <Stack.Screen name="Pictos" component={Pictos} options={{headerShown: true}} />
-      <Stack.Screen name="TapMenu" component={TapMenu} options={{headerShown: true}} />
-      <Stack.Screen name="Tap" component={Tap} options={{title: 'Volver a menú de TAPs',
-        headerShown: true,
-        headerStyle: headerStyle.headerWhite,
-        headerTintColor: '#000',
-        headerTitleStyle: headerStyle.titleBlack,
-      }}/>
+      <Stack.Screen name="Pictos" component={Pictos} />
+      <Stack.Screen name="TapMenu" component={TapMenu} />
+      <Stack.Screen name="Tap" component={Tap} />
       <Stack.Screen name="TapMaker" component={TapMaker} />
-      <Stack.Screen name="Questions" component={Questions} options={{headerShown: true}} />
+      <Stack.Group> 
+        <Stack.Screen name="Questions" component={Questions}/>
+        <Stack.Screen name="QuestionEnd" component={QuestionEnd}/>
+      </Stack.Group>
+      <Stack.Group> 
+        <Stack.Screen name="DictaMenu" component={DictaMenu}/>
+        <Stack.Screen name="DictaNumbers" component={DictaNumbers}/>
+        <Stack.Screen name="DictaText" component={DictaText}/>
+      </Stack.Group>
+
     </Stack.Navigator>
   );
 };
@@ -91,10 +86,10 @@ export {TalkerStackNavigator, ProfileStackNavigator, InfoStackNavigator};
 
 const headerStyle = StyleSheet.create({
   header: {
-    backgroundColor: palette.gray,
-    borderBottomColor: '#ffffff',
-    borderBottomWidth: 3,
+    backgroundColor: '#fff',
     height: 60,
+    borderBottomWidth: 7,
+    borderColor: palette.red
   },
   headerWhite: {
     backgroundColor: '#fff',
@@ -103,12 +98,9 @@ const headerStyle = StyleSheet.create({
     height: 60,
   },
   title: {
-    color: '#fff',
+    color: palette.red,
     fontSize: 23,
-    textShadowColor: 'black',
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 5,
-    marginRight: 10,
+    fontWeight: 'bold'
   },
   titleBlack: {
     color: '#000',

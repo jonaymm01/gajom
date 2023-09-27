@@ -39,5 +39,7 @@ const searchStyles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 1,
         elevation: 2,
+        color: palette.violet,
+        fontWeight: 'bold',
       }
 });

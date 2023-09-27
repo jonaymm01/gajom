@@ -45,12 +45,12 @@ export function ProfileSelector({...props}) {
   buttonlist = profileList.map((profile, index) =>
     <View key={index} style={{justifyContent: 'center', padding: 5}}>
       <TouchableOpacity style={selectorStyles.profileButton} onPress={() => props.selector(profile)}>
-        <View style={[styles.button_container, {flex: 3}]}>
-          <Text style={[styles.button_text, {fontSize: 24}]}>{profile}</Text>
-        </View> 
-        <View style={(pinsBoolArray[index]) ? {flex: 1, paddingTop: 10} : {flex: 1, paddingTop: 10} }>
-          {(pinsBoolArray[index]) ? <Image source={require('../../assets/lock.png')} tintColor={'white'} resizeMode='contain' style={{maxWidth: 30, maxHeight: 30}}/> : null}
+        <View style={{flex: 1, alignSelf: 'flex-end'}}>
+          {(pinsBoolArray[index]) ? <Image source={require('../../assets/lock.png')} tintColor={'white'} resizeMode='contain' style={{maxWidth: 25, maxHeight: 25}}/> : null}
         </View>
+        <View style={[styles.button_container, {flex: 10, justifyContent: 'center'}]}>
+          <Text style={[styles.button_text, {fontSize: 25}]}>{profile}</Text>
+        </View> 
       </TouchableOpacity>
     </View>,
   );
@@ -70,7 +70,7 @@ const selectorStyles = StyleSheet.create({
   profileButton: {
     backgroundColor: palette.violet,
     margin: 10,
-    height: 160,
+    height: 140,
     width: 140,
     padding: 10,
     borderRadius: 15,

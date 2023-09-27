@@ -1,7 +1,8 @@
 
 import React from 'react';
 import {View, Text, TextInput} from 'react-native';
-import {t} from 'react-native-tailwindcss';
+import {color, t} from 'react-native-tailwindcss';
+import { palette } from '../styles/styles';
 
 /**
  * Componente: Input de texto.
@@ -12,7 +13,7 @@ export default function Input(props) {
   return (
     <View style={styles.wrapper}>
       <TextInput
-        style={[styles.input, props.error && t.borderRed500, props.style]}
+        style={[styles.input, props.error && t.borderRed500, props.style, {color: palette.violet, borderColor: palette.violet}]}
         {...props}
       />
       {props.errorText && (
@@ -26,13 +27,13 @@ const styles = {
   wrapper: [t.selfStretch, t.mB5],
   input: [
     t.h11,
-    t.border,
+    t.border2,
     t.selfStretch,
     t.p6,
-    t.borderGray500,
+    t.borderPurple500,
     t.rounded,
     t.text2xl,
-    t.textGray700,
+    t.textPurple700,
   ],
   errorText: [t.mT1, t.textRed500],
 };
