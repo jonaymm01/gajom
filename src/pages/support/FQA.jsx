@@ -8,12 +8,29 @@ import {fqaContent} from '../../content/fqaContent';
  * Método para renderizar página de Preguntas Frecuentes.
  * @return {JSX.Element}
  */
-export function FQA() {
+export function FQA({route, navigation}) {
 
-  const content = fqaContent.map((question, index) => 
-  <View key={index} style={styles.box}>
-    <Text style={styles.question}>{question.question}</Text>
-    <Text style={styles.answer}>{question.answer}</Text>
+  let questList = [];
+  const { itemId, quest } = route.params;
+  
+  switch(quest) {
+    case 'profile':
+      questList = fqaContent.profile;
+      break;
+    case 'talker':
+      questList = fqaContent.talker;
+      break;
+    case 'fqa':
+      questList = fqaContent.fqa;
+      break;
+  }
+
+  const leftSignals = ['PICTOS', 'TAPS', 'PREGUNTADOR', '¡DICTA!'];
+
+  const content = questList.map((question, index) => 
+  <View key={index} style={leftSignals.includes(question.question) ? styles.boxStart :styles.box}>
+    <Text style={leftSignals.includes(question.question) ? styles.questionStart : styles.question}>{question.question}</Text>
+    <Text style={leftSignals.includes(question.question) ? styles.answerStart : styles.answer}>{question.answer}</Text>
   </View>,
   );
 
@@ -37,7 +54,17 @@ export const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 40,
     padding: 20,
-    borderColor: '#000',
+    borderColor: palette.violet,
+    borderWidth: 2,
+    elevation: 10,
+  },
+  boxStart: {
+    backgroundColor: palette.violet,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 40,
+    padding: 20,
+    borderColor: palette.violet,
     borderWidth: 2,
     elevation: 10,
   },
@@ -47,16 +74,35 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: -40,
     backgroundColor: palette.violet,
-    borderColor: '#000',
+    borderColor: palette.violet,
     borderWidth: 2,
     padding: 10,
     color: '#fff',
     alignSelf: 'flex-end',
-
+    textAlign: 'center',
+  },
+  questionStart: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    marginTop: -40,
+    backgroundColor: '#fff',
+    borderColor: palette.violet,
+    borderWidth: 2,
+    padding: 10,
+    color: palette.violet,
+    alignSelf: 'flex-start',
+    textAlign: 'center',
   },
   answer: {
     fontSize: 18,
     textAlign: 'left',
     color: palette.violet,
+  },
+  answerStart: {
+    fontSize: 20,
+    textAlign: 'left',
+    color: '#fff',
+    fontWeight: 'bold'
   }
 });
