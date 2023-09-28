@@ -49,7 +49,7 @@ export function ProfileSelector({...props}) {
           {(pinsBoolArray[index]) ? <Image source={require('../../assets/lock.png')} tintColor={'white'} resizeMode='contain' style={{maxWidth: 25, maxHeight: 25}}/> : null}
         </View>
         <View style={[styles.button_container, {flex: 10, justifyContent: 'center'}]}>
-          <Text style={[styles.button_text, {fontSize: 25}]}>{profile}</Text>
+          <Text style={[styles.button_text, {fontSize: 24}]}>{profile}</Text>
         </View> 
       </TouchableOpacity>
     </View>,

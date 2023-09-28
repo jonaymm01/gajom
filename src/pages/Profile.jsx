@@ -31,6 +31,7 @@ export function Profile({navigation}) {
 
     const [newName, setNewName] = useState('');
     const [modalName, setModalName] = useState(false);
+    const [modalWarning, setModalWarning] = useState(false);
     const [modalPin, setModalPin] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
     const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
@@ -56,16 +57,25 @@ export function Profile({navigation}) {
    * @param {*} value
    */
     const changeName = async (value) => {
+      const duplicate = await AsyncStorage.getItem(value.name);
+      if (duplicate) {
+        setModalWarning(!modalWarning);
+        setNewName('');
+      } else {
       const newName = value.name;
       await renameProfile(activeProfile.name, newName);
       const modified = await AsyncStorage.getItem(newName);
       const newProfile = JSON.parse(modified);
+      console.log('aa')
       setActiveProfile(modified).then((pass) => {
         if (pass?.pass) {
           setProfile(pass.profile);
           getAllProfiles().then((profiles) => setProfileList(profiles));
         };
-      });
+      setModalName(!modalName);
+      }); 
+      }
+      resetField('name');
     };
 
     /**
@@ -161,6 +171,23 @@ export function Profile({navigation}) {
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <Modal
+          animationType="fade"
+          visible={modalWarning}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalWarning(!modalWarning);
+          }}>
+            <View style={styles.modalView}>
+              <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+              <Text style={modalStyles.modalText}>Ya existe un perfil con este nombre.</Text>
+              <Pressable
+                style={[modalStyles.button, modalStyles.redBackground]}
+                onPress={() => setModalWarning(!modalWarning)}>
+                <Text style={modalStyles.textStyle}>¡Entendido!</Text>
+              </Pressable>
+            </View>
+        </Modal>
+        <Modal
           avoidKeyboard = {true}
           animationType="fade"
           visible={modalName}
@@ -209,8 +236,6 @@ export function Profile({navigation}) {
                 style={[modalStyles.button, modalStyles.violetBackground]}
                 onPress={() => {
                   handleSubmit(changeName)();
-                  resetField('name');
-                  setModalName(!modalName);
                 }}
               >
                 <Text style={modalStyles.textStyle}>Aplicar</Text>
@@ -343,7 +368,7 @@ export function Profile({navigation}) {
                   <Text style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 35, fontWeight: 'bold', textAlign: 'center'}]}>{activeProfile.name}</Text>
                 </View>
               </View>
-            <LineSeparator/>
+            <View style={{marginBottom: 40}}/>
             <View style={{flexDirection: 'row'}}>
               <Image source={require('../../assets/user_icon.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
               <Button color={palette.violet} onPress={() => openChange('name')} label="Cambiar nombre" />
@@ -355,7 +380,7 @@ export function Profile({navigation}) {
             <>
               {(activeProfile.pin == "0" || activeProfile.pin == undefined) ? null : deletePinButton}
             </>
-            <LineSeparator/>
+            <LineSeparator color={palette.red}/>
             <View style={{marginTop: -20}}>
               <Button color={palette.red} onPress={() => logOut()} label="Cerrar sesión" />
             </View>
