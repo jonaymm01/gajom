@@ -23,7 +23,7 @@ export default function Pictogram({...props}) {
   return (
     <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
       <Text style={pictoStyles.text}>{props.data.name}</Text>
-      <Image source={props.data.img} resizeMode='contain' style={pictoStyles.img} />
+      <Image source={props.data.img} resizeMode='contain' style={pictoStyles.img} backgroundColor={'#fff'} />
     </TouchableOpacity>
   );
 }

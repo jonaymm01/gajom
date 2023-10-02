@@ -3,8 +3,16 @@ import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity} from
 import {palette, styles} from '../../styles/styles';
 import PictoList from '../../components/PictoList';
 import {DefaultPictos} from '../../content/DefaultPictos';
-import {Picker} from '@react-native-picker/picker';
-import { SearchBar } from '../../components/SearchBar';
+import * as Speech from 'expo-speech';
+
+/**
+   * Método para reproducir el texto de un Pictograma
+   * @param {string} text
+   */
+const speak = (text) => {
+  Speech.speak(text);
+};
+
 /**
  * Método para renderizar página de Pictogramas.
  * @return {JSX.Element}
@@ -19,14 +27,8 @@ export function Pictos() {
   const [filteredContent, setFiltered] = useState([]); // Contenido se la categoría filtrado por búsqueda
   const [filtered, isFiltered] = useState(false); // Valor booleano que indica si se está filtrando o no
 
-
-
-  const onValueChanged = (value, previousValue) => {
-    this.setState({selectedItem: numberValue});
-    return value;
-  };
-
   const backTo = (picto) => {
+    speak(picto.name);
     const index = path.findIndex((p) => p.name == picto.name);
     let newPath = path;
     newPath.length = index+1;
@@ -82,11 +84,6 @@ export function Pictos() {
         </TouchableOpacity>
       <View style={pathStyles.container}>
          {pathButtons}
-      </View>
-      <View style={{backgroundColor: '#fff'}}>
-        <View style={{alignSelf: 'center', marginBottom: 40,}}>
-         <SearchBar placeholder={"Busca un pictograma"} width={300} autoCapitalize={'none'} autoCorrect={false} text={text} textChanger={onChangeText}/>
-        </View>
       </View>
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={pickerStyles.container}>
