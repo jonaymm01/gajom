@@ -3,118 +3,152 @@ export const DefaultPictos = {
     categories:
       [
         {
-          'name': 'acciones',
+          'name': 'Me apetece...',
+          'img': '',
           'content': [
             {
-              'text': 'Dormir',
+              'name': 'Dormir',
               'img': require('../../assets/pictos/acciones/dormir.png'),
+              'content': [],
             },
             {
-              'text': 'Salir',
+              'name': 'Salir',
               'img': require('../../assets/pictos/acciones/salir.png'),
+              'content': [],
             },
             {
-              'text': 'Hablar',
+              'name': 'Hablar',
               'img': require('../../assets/pictos/acciones/hablar.png'),
+              'content': [],
             },
             {
-              'text': 'Ver TV',
+              'name': 'Ver TV',
               'img': require('../../assets/pictos/acciones/ver_tv.png'),
+              'content': [],
             },
             {
-              'text': 'Comer',
+              'name': 'Comer',
               'img': require('../../assets/pictos/acciones/comer.png'),
+              'content': [],
             },
             {
-              'text': 'Beber',
+              'name': 'Beber',
               'img': require('../../assets/pictos/acciones/beber.png'),
+              'content': [],
             },
             {
-              'text': 'Duchar',
-              'img': require('../../assets/pictos/acciones/ducha.png'),
-            },
-            {
-              'text': 'Ir al baño',
-              'img': require('../../assets/pictos/acciones/orinar.png'),
+              'name': 'Baño',
+              'img': '',
+              'content': [
+                {
+                  'name': 'Duchar',
+                  'img': require('../../assets/pictos/acciones/ducha.png'),
+                  'content': [],
+                },
+                {
+                  'name': 'Ir al baño',
+                  'img': require('../../assets/pictos/acciones/orinar.png'),
+                  'content': [],
+                },
+              ]
             },
           ],
         },
         {
-          'name': 'entorno',
+          'name': 'Te pido...',
+          'img': '',
           'content': [
             {
-              'text': 'Apagar luz',
+              'name': 'Apagar luz',
               'img': require('../../assets/pictos/entorno/apagar_luz.png'),
+              'content': [],
             },
             {
-              'text': 'Encender Luz',
+              'name': 'Encender Luz',
               'img': require('../../assets/pictos/entorno/encender_luz.png'),
+              'content': [],
             },
             {
-              'text': 'Silencio',
+              'name': 'Silencio',
               'img': require('../../assets/pictos/entorno/silencio.png'),
+              'content': [],
             },
             {
-              'text': 'Cerrar puerta',
+              'name': 'Cerrar puerta',
               'img': require('../../assets/pictos/entorno/cerrar_puerta.png'),
+              'content': [],
             },
             {
-              'text': 'Abrir puerta',
+              'name': 'Abrir puerta',
               'img': require('../../assets/pictos/entorno/abrir_puerta.png'),
+              'content': [],
             },
           ],
         },
         {
-          'name': 'sensaciones',
+          'name': 'Siento...',
+          'img': '',
           'content': [
             {
-              'text': 'Frío',
+              'name': 'Frío',
               'img': require('../../assets/pictos/sensaciones/frio.png'),
+              'content': [],
             },
             {
-              'text': 'Calor',
+              'name': 'Calor',
               'img': require('../../assets/pictos/sensaciones/calor.png'),
+              'content': [],
             },
             {
-              'text': 'Hambre',
+              'name': 'Hambre',
               'img': require('../../assets/pictos/sensaciones/hambre.png'),
+              'content': [],
             },
             {
-              'text': 'Dolor',
+              'name': 'Dolor',
               'img': require('../../assets/pictos/sensaciones/dolor.png'),
+              'content': [],
             },
             {
-              'text': 'Sed',
+              'name': 'Sed',
               'img': require('../../assets/pictos/sensaciones/sed.png'),
+              'content': [],
             }
           ],
         },
         {
-          'name': 'animo',
+          'name': 'Hablemos de...',
+          'img': '',
           'content': [
             {
-              'text': 'Triste',
+              'name': 'Triste',
               'img': require('../../assets/pictos/animo/triste.png'),
+              'content': [],
             },
             {
-              'text': 'Enfadado',
+              'name': 'Enfadado',
               'img': require('../../assets/pictos/animo/enfadado.png'),
+              'content': [],
             },
             {
-              'text': 'Feliz',
+              'name': 'Feliz',
               'img': require('../../assets/pictos/animo/contento.png'),
+              'content': [],
             },
             {
-              'text': 'Asustado',
+              'name': 'Asustado',
               'img': require('../../assets/pictos/animo/asustado.png'),
+              'content': [],
             },
             {
-              'text': 'Nervioso',
+              'name': 'Nervioso',
               'img': require('../../assets/pictos/animo/nervioso.png'),
+              'content': [],
             },
             {
-              'text': 'Molesto',
+              'name': 'Molesto',
               'img': require('../../assets/pictos/animo/molesto.png'),
+              'content': [],
             },
           ],
         },

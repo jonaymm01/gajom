@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, ScrollView, StyleSheet, SafeAreaView} from 'react-native';
+import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native';
 import {palette, styles} from '../../styles/styles';
 import PictoList from '../../components/PictoList';
 import {DefaultPictos} from '../../content/DefaultPictos';
@@ -11,39 +11,53 @@ import { SearchBar } from '../../components/SearchBar';
  */
 export function Pictos() {  
   const [text, onChangeText] = useState(''); // Texto insertado en la barra de búsqueda
-  const [category, setCategory] = useState('all'); // Nombre de la categoría seleccionada
-
-  const selectedCat = [];
-  const catList = DefaultPictos.data.categories;
-  const allPictos = catList.map((cat) => selectedCat.concat(cat.content)).flat();
-  const [catContent, setContent] = useState(allPictos); // Contenido de la categoría seleccionada
+  
+  const [pressed, setPressed] = useState(''); // Nombre de la categoría seleccionada
+  const [pictoList, setList] = useState(DefaultPictos.data.categories);
+  const [path, setPath] = useState([]);
   
   const [filteredContent, setFiltered] = useState([]); // Contenido se la categoría filtrado por búsqueda
   const [filtered, isFiltered] = useState(false); // Valor booleano que indica si se está filtrando o no
 
 
-  const catNames = DefaultPictos.data.categories.map((cat) => cat.name);
 
   const onValueChanged = (value, previousValue) => {
     this.setState({selectedItem: numberValue});
     return value;
   };
 
+  const backTo = (picto) => {
+    const index = path.findIndex((p) => p.name == picto.name);
+    let newPath = path;
+    newPath.length = index+1;
+    setList(newPath.at(-1).content);
+    setPath(newPath);
+    console.log(newPath);
+    setPressed('');
+  };
+
+  const reboot = () => {
+    setList(DefaultPictos.data.categories);
+    setPath([]);
+  };
+
+
   useEffect(() => {
-    if (category !== 'all') {
-      const selectedCat = catList.find((cat) => cat.name === category);
-      setContent(selectedCat.content);
-    } else {
-      const selectedCat = [];
-      const filteredList = catList.map((cat) => selectedCat.concat(cat.content));
-      setContent(filteredList.flat());
+    if (pressed !== '') {
+      const selectedPicto = pictoList.find((picto) => picto.name === pressed);
+      if (selectedPicto.content.length > 0) {
+        setList(selectedPicto.content);
+        setPath(path.concat(selectedPicto));
+        console.log("content: ", selectedPicto.content)
+      }
     }
-  }, [category]);
+    console.log("path:", path);
+  }, [pressed]);
 
   useEffect(() => {
     let filtered = []
     if (text !== '') {
-      filtered = catContent.filter((picto) => picto.text.toLowerCase().includes(text.toLowerCase()));
+      filtered = pictoList.filter((picto) => picto.name.toLowerCase().includes(text.toLowerCase()));
       isFiltered(true);
       setFiltered(filtered);
     } else {
@@ -51,31 +65,35 @@ export function Pictos() {
     }
   }, [text]);
   
+  const pathButtons = path.map((picto, index) =>
+      <TouchableOpacity key={picto.name+index} style={pathStyles.button} onPress={() => backTo(picto)}>
+        <Text style={pathStyles.buttonText}>
+          {picto.name}
+        </Text>
+      </TouchableOpacity>,
+    );
 
   return (
-    <>
+    <View style={{backgroundColor: '#fff', flex: 1}}>
+        <TouchableOpacity style={pathStyles.backButton} onPress={() => reboot()}>
+          <Text style={[pathStyles.buttonText, {textAlign: 'center'}]}>
+            Volver a empezar
+          </Text>
+        </TouchableOpacity>
+      <View style={pathStyles.container}>
+         {pathButtons}
+      </View>
       <View style={{backgroundColor: '#fff'}}>
-        <Picker
-          style={pickerStyles.picker}
-          dropdownIconColor={'#fff'}
-          selectedValue={category}
-          onValueChange={(itemValue) => setCategory(itemValue)}>
-          <Picker.Item style={pickerStyles.pickerOption} label={'✦ Todos'} value={'all'} />
-          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Acciones'} value={'acciones'} />
-          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Entorno'} value={'entorno'} />
-          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Sensaciones'} value={'sensaciones'} />
-          <Picker.Item style={pickerStyles.pickerOption} label={'❯  Ánimo'} value={'animo'} />
-        </Picker>
-        <View style={{alignSelf: 'center', marginBottom: 40, marginTop: 30,}}>
+        <View style={{alignSelf: 'center', marginBottom: 40,}}>
          <SearchBar placeholder={"Busca un pictograma"} width={300} autoCapitalize={'none'} autoCorrect={false} text={text} textChanger={onChangeText}/>
         </View>
       </View>
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={pickerStyles.container}>
-          <PictoList list={(filtered) ? filteredContent : catContent}/>
+          <PictoList setPressed={setPressed} list={(filtered) ? filteredContent : pictoList}/>
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 }
 
@@ -85,16 +103,30 @@ const pickerStyles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
   },
-  picker: {
+});
+
+const pathStyles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    margin: 20,
+  },
+  button: {
     backgroundColor: palette.violet,
-    height: 60,
-    margin: 10,
+    padding: 15,
+    margin: 5,
+    borderRadius: 10,
+  },
+  buttonText: {
     color: '#fff',
-    elevation: 10,
     fontSize: 20,
+    fontWeight: 'bold',
   },
-  pickerOption: {
-    fontSize: 25,
-    color: palette.violet,
-  },
+  backButton: {
+    backgroundColor: palette.gray,
+    borderRadius: 10,
+    margin: 5,
+    padding: 15
+  }
 });

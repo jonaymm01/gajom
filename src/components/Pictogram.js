@@ -21,20 +21,31 @@ const speak = (text) => {
  */
 export default function Pictogram({...props}) {
   return (
-    <TouchableOpacity style={[pictoStyles.base]} onPress={() => speak(props.text)}>
-      <Text style={pictoStyles.text}>{props.text}</Text>
-      <Image source={props.img} resizeMode='contain' style={pictoStyles.img} />
+    <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
+      <Text style={pictoStyles.text}>{props.data.name}</Text>
+      <Image source={props.data.img} resizeMode='contain' style={pictoStyles.img} />
     </TouchableOpacity>
   );
 }
 
 export const pictoStyles = StyleSheet.create({
-  base: {
+  baseNoTerminal: {
     height: 160,
     width: 160,
     alignItems: 'center',
     backgroundColor: palette.violet,
     borderRadius: 20,
+    padding: 10,
+    marginBottom: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  baseTerminal: {
+    height: 160,
+    width: 160,
+    alignItems: 'center',
+    backgroundColor: palette.gray,
+    borderRadius: 0,
     padding: 10,
     marginBottom: 10,
     marginLeft: 5,
@@ -50,6 +61,6 @@ export const pictoStyles = StyleSheet.create({
     flex: 1,
     maxWidth: 120,
     maxHeight: 120,
-    borderRadius: 20,
+    borderRadius: 10,
   },
 });

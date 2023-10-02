@@ -18,6 +18,7 @@ const App = () => {
       const names = await getAllProfiles();
       setProfileList(names);
       console.log("Usuarios disponibles: ", names);
+      await AsyncStorage.removeItem('Pibe');
       await AsyncStorage.getItem('active')
           .then((profile) => {
             console.log('el perfil activo es:', profile);

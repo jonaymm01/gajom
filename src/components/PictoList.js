@@ -41,9 +41,9 @@ export default function PictoList({...props}) {
   let pictolist = [];
 
   function compare(a,b) {
-    if (a.text < b.text)
+    if (a.name < b.name)
        return -1;
-    if (a.text > b.text)
+    if (a.name > b.name)
       return 1;
     return 0;
   }
@@ -51,7 +51,7 @@ export default function PictoList({...props}) {
   const sortedList = props.list.sort(compare);
 
   pictolist = sortedList.map((picto, index) =>
-    <Pictogram key={index} img={picto.img} text={picto.text}/>,
+    <Pictogram key={index} data={picto} setPressed={props.setPressed}/>,
   );
 
 

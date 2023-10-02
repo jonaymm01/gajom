@@ -25,9 +25,9 @@ export function Login({navigation}) {
   const [activeProfile, setProfile] = useContext(ProfileContext);
   const [profilesList, setProfilesList] = useContext(ProfileListContext);
   const [selected, setSelected] = useState('');
+  const [isSelected, markSelected] = useState(false);
 
   const [modalPin, setModalPin] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressSignup = () => navigation.navigate('Signup');
 
@@ -46,10 +46,10 @@ export function Login({navigation}) {
       if (pass?.pass) {
         console.log(selected, 'ha abierto la sesión con PIN');
         setProfile(pass.profile);
+        setModalPin(!modalPin);
         setSelected('');
       } else {
-        setModalVisible(!modalVisible);
-        setSelected('');
+        resetField('pin');
       }
     });
   };
@@ -67,7 +67,6 @@ export function Login({navigation}) {
                 console.log(selected, 'ha abierto la sesión sin PIN');
                 setProfile(pass.profile);
               } else {
-                setModalVisible(true);
               }
             });
           }
@@ -78,6 +77,10 @@ export function Login({navigation}) {
     });
     lock();
   }, [selected]);
+
+  useEffect(() => {
+    (!modalPin) ? setSelected('') : null; 
+  }, [modalPin]);
 
   const selector = 
     <View style={{flex: 5}}>
@@ -120,7 +123,7 @@ export function Login({navigation}) {
                       required: {value: true, message: 'Escribe un pin de 4 cifras'},
                       pattern: {
                         value: /^\d{4}$/,
-                        message: 'invalid pin',
+                        message: 'Debe tener 4 cifras',
                       },
                     }}
                     render={({field: {onChange, value}}) => (
@@ -165,9 +168,6 @@ export function Login({navigation}) {
                     style={[modalStyles.button, modalStyles.violetBackground]}
                     onPress={() => {
                       handleSubmit(Access)();
-                      resetField('pin');
-                      setSelected('');
-                      setModalPin(!modalPin);
                     }}
                   >
                     <Text style={modalStyles.textStyle}>Acceder</Text>
