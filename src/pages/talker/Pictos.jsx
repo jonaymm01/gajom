@@ -41,6 +41,7 @@ export function Pictos() {
   const reboot = () => {
     setList(DefaultPictos.data.categories);
     setPath([]);
+    setPressed('');
   };
 
 

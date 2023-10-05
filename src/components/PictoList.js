@@ -48,7 +48,7 @@ export default function PictoList({...props}) {
     return 0;
   }
 
-  const sortedList = props.list.sort(compare);
+  const sortedList = props.list.sort((a, b) => compare(a, b));
 
   pictolist = sortedList.map((picto, index) =>
     <Pictogram key={index} data={picto} setPressed={props.setPressed}/>,
