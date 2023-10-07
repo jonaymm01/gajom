@@ -933,59 +933,56 @@ export const DefaultPictos = {
             },
             {
               'name': 'Procedencia',
-              'img': require('../../assets/pictos/identidad.png'),
+              'img': require('../../assets/pictos/identidad/procedencia.png'),
               'content': [
                 {
                   'name': 'Extranjero',
-                  'img': require('../../assets/pictos/identidad.png'),
                   'content': []
                 },
                 {
                   'name': 'Residente',
-                  'img': require('../../assets/pictos/identidad.png'),
                   'content': []
                 },
               ]
             },
             {
               'name': 'Religión',
-              'img': require('../../assets/pictos/identidad.png'),
+              'img': require('../../assets/pictos/estado/nutricion/valores/religion.png'),
               'content': [
                 {
                   'name': 'Cristianismo',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/religiones/cristianismo.png'),
                   'content': []
                 },
                 {
                   'name': 'Judaísmo',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/religiones/judaismo.png'),
                   'content': []
                 },
                 {
                   'name': 'Islam',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/religiones/islam.png'),
                   'content': []
                 },
                 {
                   'name': 'Hinduismo',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/religiones/hinduismo.png'),
                   'content': []
                 },
                 {
                   'name': 'Budismo',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/religiones/budismo.png'),
                   'content': []
                 },
                 {
                   'name': '[Otra]',
-                  'img': require('../../assets/pictos/identidad.png'),
                   'content': []
                 },
               ]
             },
             {
               'name': 'Grupo sanguíneo',
-              'img': require('../../assets/pictos/identidad.png'),
+              'img': require('../../assets/pictos/identidad/grupo_sangre.png'),
               'content': [
                 {
                   'name': 'A +',
@@ -1022,27 +1019,26 @@ export const DefaultPictos = {
               ]
             },
             {
-              'name': 'Identidad sexual',
-              'img': require('../../assets/pictos/identidad.png'),
+              'name': 'Género',
+              'img': require('../../assets/pictos/identidad/genero.png'),
               'content': [
                 {
                   'name': 'Hombre',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/identidad/genero/hombre.png'),
                   'content': []
                 },
                 {
                   'name': 'Mujer',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/identidad/genero/mujer.png'),
                   'content': []
                 },
                 {
                   'name': 'Trans',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'img': require('../../assets/pictos/identidad/genero/trans.png'),
                   'content': []
                 },
                 {
-                  'name': '[Otra]',
-                  'img': require('../../assets/pictos/identidad.png'),
+                  'name': '[Otro]',
                   'content': []
                 },
               ]
@@ -1110,34 +1106,9 @@ export const DefaultPictos = {
                   'content': [],
                 },
                 {
-                  'name': 'Medicamentos',
+                  'name': 'Medicamento',
                   'img': require('../../assets/pictos/salud/medicamentos.png'),
-                  'content': [
-                    {
-                      'name': 'Antibióticos',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Antiinflamatorios',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Sulfamidas',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Yodados',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Anticonvulsivos',
-                      'content': [],
-                    },
-                    {
-                      'name': '[Otro]',
-                      'content': [],
-                    },
-                  ],
+                  'content': [],
                 },
               ]
             },
