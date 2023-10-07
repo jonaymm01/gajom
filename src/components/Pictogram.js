@@ -59,7 +59,7 @@ export default function Pictogram({...props}) {
   } else {
       return (
         <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
-          <Text style={pictoStyles.text}>{props.data.name}</Text>
+          <Text style={[pictoStyles.text, {fontSize: 25}]}>{props.data.name}</Text>
         </TouchableOpacity>
       );
   }
@@ -118,6 +118,7 @@ export const pictoStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    textAlign: 'center',
   },
   img: {
     flex: 1,

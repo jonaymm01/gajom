@@ -66,5 +66,15 @@ export const defaultTaps = {
         }
       ]
     },
+    {
+      "key": 0,
+      "text": "¡Ayuda!",
+      "options": [
+        {
+          "text": "¡Ayuda!",
+          "color": red
+        },
+      ]
+    },
   ]
 }
