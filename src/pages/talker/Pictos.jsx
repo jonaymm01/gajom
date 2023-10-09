@@ -34,7 +34,6 @@ export function Pictos() {
     newPath.length = index+1;
     setList(newPath.at(-1).content);
     setPath(newPath);
-    console.log(newPath);
     setPressed('');
   };
 
@@ -51,10 +50,8 @@ export function Pictos() {
       if (selectedPicto.content.length > 0) {
         setList(selectedPicto.content);
         setPath(path.concat(selectedPicto));
-        console.log("content: ", selectedPicto.content)
       }
     }
-    console.log("path:", path);
   }, [pressed]);
 
   useEffect(() => {

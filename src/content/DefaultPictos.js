@@ -4,11 +4,6 @@ const body_parts = [
     'img': require('../../assets/pictos/estado/dolor/cabeza.png'),
     'content': [
       {
-        'name': 'Boca',
-        'img': require('../../assets/pictos/estado/dolor/cabeza/boca.png'),
-        'content': []
-      },
-      {
         'name': 'Frente',
         'img': require('../../assets/pictos/estado/dolor/cabeza/frente.png'),
         'content': []
@@ -16,6 +11,11 @@ const body_parts = [
       {
         'name': 'Nariz',
         'img': require('../../assets/pictos/estado/dolor/cabeza/nariz.png'),
+        'content': []
+      },
+      {
+        'name': 'Boca',
+        'img': require('../../assets/pictos/estado/dolor/cabeza/boca.png'),
         'content': []
       },
     ]
@@ -26,65 +26,28 @@ const body_parts = [
     'content': []
   },
   {
-    'name': 'Pierna',
-    'img': require('../../assets/pictos/estado/dolor/pierna.png'),
+    'name': 'Torso',
+    'img': require('../../assets/pictos/estado/dolor/torso.png'),
     'content': [
       {
-        'name': 'Derecha',
-        'img': require('../../assets/pictos/derecha.png'),
+        'name': 'Pecho',
+        'img': require('../../assets/pictos/estado/dolor/torso/pecho.png'),
         'content': []
       },
       {
-        'name': 'Izquierda',
-        'img': require('../../assets/pictos/izquierda.png'),
+        'name': 'Espalda',
+        'img': require('../../assets/pictos/estado/dolor/torso/espalda.png'),
         'content': []
       },
       {
-        'name': 'Ambas',
-        'img': require('../../assets/pictos/ambos.png'),
+        'name': 'Barriga',
+        'img': require('../../assets/pictos/estado/dolor/torso/barriga.png'),
         'content': []
       },
       {
-        'name': 'Rodilla',
-        'img': require('../../assets/pictos/estado/dolor/pierna/rodilla.png'),
-        'content': [
-          {
-            'name': 'Derecha',
-            'img': require('../../assets/pictos/derecha.png'),
-            'content': []
-          },
-          {
-            'name': 'Izquierda',
-            'img': require('../../assets/pictos/izquierda.png'),
-            'content': []
-          },
-          {
-            'name': 'Ambas',
-            'img': require('../../assets/pictos/ambos.png'),
-            'content': []
-          },
-        ]
-      },
-      {
-        'name': 'Pie',
-        'img': require('../../assets/pictos/estado/dolor/pierna/pie.png'),
-        'content': [
-          {
-            'name': 'Derecho',
-            'img': require('../../assets/pictos/derecha.png'),
-            'content': []
-          },
-          {
-            'name': 'Izquierdo',
-            'img': require('../../assets/pictos/izquierda.png'),
-            'content': []
-          },
-          {
-            'name': 'Ambos',
-            'img': require('../../assets/pictos/ambos.png'),
-            'content': []
-          },
-        ]
+        'name': 'Nalgas',
+        'img': require('../../assets/pictos/estado/dolor/torso/nalgas.png'),
+        'content': []
       },
     ]
   },
@@ -93,18 +56,28 @@ const body_parts = [
     'img': require('../../assets/pictos/estado/dolor/brazo.png'),
     'content': [
       {
-        'name': 'Derecho',
-        'img': require('../../assets/pictos/derecha.png'),
-        'content': []
-      },
-      {
         'name': 'Izquierdo',
         'img': require('../../assets/pictos/izquierda.png'),
         'content': []
       },
       {
+        'name': 'Derecho',
+        'img': require('../../assets/pictos/derecha.png'),
+        'content': []
+      },
+      {
         'name': 'Ambos',
         'img': require('../../assets/pictos/ambos.png'),
+        'content': []
+      },
+      {
+        'name': 'Hombro',
+        'img': require('../../assets/pictos/estado/dolor/brazo/hombro.png'),
+        'content': []
+      },
+      {
+        'name': 'Codo',
+        'img': require('../../assets/pictos/estado/dolor/brazo/codo.png'),
         'content': []
       },
       {
@@ -128,41 +101,68 @@ const body_parts = [
           },
         ]
       },
-      {
-        'name': 'Codo',
-        'img': require('../../assets/pictos/estado/dolor/brazo/codo.png'),
-        'content': []
-      },
-      {
-        'name': 'Hombro',
-        'img': require('../../assets/pictos/estado/dolor/brazo/hombro.png'),
-        'content': []
-      },
     ]
   },
   {
-    'name': 'Torso',
-    'img': require('../../assets/pictos/estado/dolor/torso.png'),
+    'name': 'Pierna',
+    'img': require('../../assets/pictos/estado/dolor/pierna.png'),
     'content': [
       {
-        'name': 'Barriga',
-        'img': require('../../assets/pictos/estado/dolor/torso/barriga.png'),
+        'name': 'Izquierda',
+        'img': require('../../assets/pictos/izquierda.png'),
         'content': []
       },
       {
-        'name': 'Nalgas',
-        'img': require('../../assets/pictos/estado/dolor/torso/nalgas.png'),
+        'name': 'Derecha',
+        'img': require('../../assets/pictos/derecha.png'),
         'content': []
       },
       {
-        'name': 'Pecho',
-        'img': require('../../assets/pictos/estado/dolor/torso/pecho.png'),
+        'name': 'Ambas',
+        'img': require('../../assets/pictos/ambos.png'),
         'content': []
       },
       {
-        'name': 'Espalda',
-        'img': require('../../assets/pictos/estado/dolor/torso/espalda.png'),
-        'content': []
+        'name': 'Rodilla',
+        'img': require('../../assets/pictos/estado/dolor/pierna/rodilla.png'),
+        'content': [
+          {
+            'name': 'Izquierda',
+            'img': require('../../assets/pictos/izquierda.png'),
+            'content': []
+          },
+          {
+            'name': 'Derecha',
+            'img': require('../../assets/pictos/derecha.png'),
+            'content': []
+          },
+          {
+            'name': 'Ambas',
+            'img': require('../../assets/pictos/ambos.png'),
+            'content': []
+          },
+        ]
+      },
+      {
+        'name': 'Pie',
+        'img': require('../../assets/pictos/estado/dolor/pierna/pie.png'),
+        'content': [
+          {
+            'name': 'Izquierdo',
+            'img': require('../../assets/pictos/izquierda.png'),
+            'content': []
+          },
+          {
+            'name': 'Derecho',
+            'img': require('../../assets/pictos/derecha.png'),
+            'content': []
+          },
+          {
+            'name': 'Ambos',
+            'img': require('../../assets/pictos/ambos.png'),
+            'content': []
+          },
+        ]
       },
     ]
   },
@@ -296,7 +296,7 @@ const alergias_nutri = [
             'content': []
           },
           {
-            'name': '[Otros]',
+            'name': 'Otros',
             'content': []
           },
         ]
@@ -362,6 +362,145 @@ export const DefaultPictos = {
                 {
                   'name': 'Enfadado',
                   'img': require('../../assets/pictos/moods/enfadado.png'),
+                  'content': []
+                },
+              ]
+            },
+            {
+              'name': 'Aseo',
+              'img': require('../../assets/pictos/estado/aseo.png'),
+              'content': [
+                {
+                  'name': 'Prótesis y accesorios',
+                  'img': require('../../assets/pictos/estado/aseo/gafas.png'),
+                  'content': [
+                    {
+                      'name': 'Gafas',
+                      'img': require('../../assets/pictos/estado/aseo/gafas.png'),
+                      'content': []
+                    },
+                    {
+                      'name': 'Dentadura',
+                      'img': require('../../assets/pictos/estado/aseo/protesis_accesorios/dentadura.png'),
+                      'content': []
+                    },
+                    {
+                      'name': 'Audífono',
+                      'img': require('../../assets/pictos/estado/aseo/protesis_accesorios/audifono.png'),
+                      'content': []
+                    },
+                  ]
+                },
+                {
+                  'name': 'Bañar',
+                  'img': require('../../assets/pictos/estado/aseo/bañar.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Pelo',
+                  'img': require('../../assets/pictos/estado/aseo/pelo.png'),
+                  'content': [
+                    {
+                      'name': 'Lavar',
+                      'content': []
+                    },
+                    {
+                      'name': 'Cortar',
+                      'content': []
+                    },
+                    {
+                      'name': 'Recoger',
+                      'content': []
+                    },
+                    {
+                      'name': 'Afeitar',
+                      'content': []
+                    },
+                  ]
+                },
+                {
+                  'name': 'Vestir',
+                  'img': require('../../assets/pictos/estado/aseo/vestir.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Lavar los dientes',
+                  'img': require('../../assets/pictos/estado/aseo/lavar_dientes.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Cortar las uñas',
+                  'img': require('../../assets/pictos/estado/aseo/cortar_uñas.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Maquillaje',
+                  'img': require('../../assets/pictos/estado/aseo/maquillaje.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Hacer la cama',
+                  'img': require('../../assets/pictos/estado/aseo/hacer_cama.png'),
+                  'content': []
+                },
+              ]
+            },
+            {
+              'name': 'Heces y orina',
+              'img': require('../../assets/pictos/estado/heces_orina.png'),
+              'content': [
+                {
+                  'name': 'Hacer caca',
+                  'img': require('../../assets/pictos/estado/heces_orina/heces.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Hacer pis',
+                  'img': require('../../assets/pictos/estado/heces_orina/orina.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Pañal',
+                  'img': require('../../assets/pictos/estado/heces_orina/pañal.png'),
+                  'content': []
+                },
+              ]
+            },
+            {
+              'name': 'Temperatura',
+              'img': require('../../assets/pictos/estado/temperatura.png'),
+              'content': [
+                {
+                  'name': 'Hace calor',
+                  'content': []
+                },
+                {
+                  'name': 'Hace frío',
+                  'content': []
+                },
+              ]
+            },
+            {
+              'name': 'Respiración',
+              'img': require('../../assets/pictos/estado/respirar.png'),
+              'content': [
+                {
+                  'name': 'No puedo',
+                  'img': require('../../assets/pictos/no.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Pañuelos',
+                  'content': []
+                },
+                {
+                  'name': 'Inhalador',
+                  'img': require('../../assets/pictos/estado/respirar/inhalador.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Aerosol',
+                  'img': require('../../assets/pictos/estado/respirar/aerosol.png'),
                   'content': []
                 },
               ]
@@ -436,112 +575,18 @@ export const DefaultPictos = {
                           'content': []
                         },
                         {
-                          'name': 'Nervioso',
+                          'name': 'Tengo estrés',
                           'img': require('../../assets/pictos/moods/nervioso.png'),
                           'content': []
                         },
                         {
-                          'name': 'Miedo',
+                          'name': 'Tengo miedo',
                           'img': require('../../assets/pictos/moods/asustado.png'),
                           'content': []
                         },
                       ]
                     },
                   ]
-                },
-              ]
-            },
-            {
-              'name': 'Aseo',
-              'img': require('../../assets/pictos/estado/aseo.png'),
-              'content': [
-                {
-                  'name': 'Hacer la cama',
-                  'img': require('../../assets/pictos/estado/aseo/hacer_cama.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Bañar',
-                  'img': require('../../assets/pictos/estado/aseo/bañar.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Vestir',
-                  'img': require('../../assets/pictos/estado/aseo/vestir.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Lavar los dientes',
-                  'img': require('../../assets/pictos/estado/aseo/lavar_dientes.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Afeitar',
-                  'img': require('../../assets/pictos/estado/aseo/afeitar.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Pelo',
-                  'img': require('../../assets/pictos/estado/aseo/pelo.png'),
-                  'content': [
-                    {
-                      'name': 'Lavar el pelo',
-                      'img': require('../../assets/pictos/estado/aseo/pelo/lavar_pelo.png'),
-                      'content': []
-                    },
-                    {
-                      'name': 'Cortar el pelo',
-                      'img': require('../../assets/pictos/estado/aseo/pelo/cortar_pelo.png'),
-                      'content': []
-                    },
-                  ]
-                },
-                {
-                  'name': 'Cortar las uñas',
-                  'img': require('../../assets/pictos/estado/aseo/cortar_uñas.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Maquillaje',
-                  'img': require('../../assets/pictos/estado/aseo/maquillaje.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Prótesis y accesorios',
-                  'img': require('../../assets/pictos/estado/aseo/gafas.png'),
-                  'content': [
-                    {
-                      'name': 'Gafas',
-                      'img': require('../../assets/pictos/estado/aseo/gafas.png'),
-                      'content': []
-                    },
-                    {
-                      'name': 'Dentadura',
-                      'img': require('../../assets/pictos/estado/aseo/protesis_accesorios/dentadura.png'),
-                      'content': []
-                    },
-                    {
-                      'name': 'Audífono',
-                      'img': require('../../assets/pictos/estado/aseo/protesis_accesorios/audifono.png'),
-                      'content': []
-                    },
-                  ]
-                },
-              ]
-            },
-            {
-              'name': 'Temperatura',
-              'img': require('../../assets/pictos/estado/temperatura.png'),
-              'content': [
-                {
-                  'name': 'Tengo calor',
-                  'img': require('../../assets/pictos/sintomas/deshidratacion.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Tengo frío',
-                  'img': require('../../assets/pictos/estado/temperatura/frio.png'),
-                  'content': []
                 },
               ]
             },
@@ -562,7 +607,7 @@ export const DefaultPictos = {
                       'content': []
                     },
                     {
-                      'name': 'Descansar',
+                      'name': 'Parar un momento',
                       'content': []
                     },
                     {
@@ -587,55 +632,19 @@ export const DefaultPictos = {
               ]
             },
             {
-              'name': 'Respiración',
-              'img': require('../../assets/pictos/estado/respirar.png'),
-              'content': [
-                {
-                  'name': 'No puedo',
-                  'img': require('../../assets/pictos/no.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Pañuelos',
-                  'content': []
-                },
-                {
-                  'name': 'Inhalador',
-                  'img': require('../../assets/pictos/estado/respirar/inhalador.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Aerosol',
-                  'img': require('../../assets/pictos/estado/respirar/aerosol.png'),
-                  'content': []
-                },
-              ]
-            },
-            {
-              'name': 'Heces y orina',
-              'img': require('../../assets/pictos/estado/heces_orina.png'),
-              'content': [
-                {
-                  'name': 'Hacer caca',
-                  'img': require('../../assets/pictos/estado/heces_orina/heces.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Hacer pis',
-                  'img': require('../../assets/pictos/estado/heces_orina/orina.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Pañal',
-                  'img': require('../../assets/pictos/estado/heces_orina/pañal.png'),
-                  'content': []
-                },
-              ]
-            },
-            {
               'name': 'Moverme',
               'img': require('../../assets/pictos/estado/moverme.png'),
               'content': [
+                {
+                  'name': 'No puedo mover',
+                  'img': require('../../assets/pictos/no.png'),
+                  'content': body_parts
+                }, 
+                {
+                  'name': 'Puedo mover',
+                  'img': require('../../assets/pictos/si.png'),
+                  'content': body_parts
+                },  
                 {
                   'name': 'Levantarme',
                   'img': require('../../assets/pictos/estado/moverme/levantarme.png'),
@@ -661,18 +670,13 @@ export const DefaultPictos = {
                   'img': require('../../assets/pictos/estado/moverme/silla_ruedas.png'),
                   'content': [
                     {
+                      'name': 'Parar',
+                      'img': require('../../assets/pictos/parar.png'),
+                      'content': []
+                    },
+                    {
                       'name': 'Avanzar',
                       'img': require('../../assets/pictos/arriba.png'),
-                      'content': []
-                    },
-                    {
-                      'name': 'Atrás',
-                      'img': require('../../assets/pictos/abajo.png'),
-                      'content': []
-                    },
-                    {
-                      'name': 'Derecha',
-                      'img': require('../../assets/pictos/derecha.png'),
                       'content': []
                     },
                     {
@@ -681,22 +685,17 @@ export const DefaultPictos = {
                       'content': []
                     },
                     {
-                      'name': 'Parar',
-                      'img': require('../../assets/pictos/parar.png'),
+                      'name': 'Derecha',
+                      'img': require('../../assets/pictos/derecha.png'),
+                      'content': []
+                    },
+                    {
+                      'name': 'Atrás',
+                      'img': require('../../assets/pictos/abajo.png'),
                       'content': []
                     },
                   ]
-                },
-                {
-                  'name': 'Puedo mover',
-                  'img': require('../../assets/pictos/si.png'),
-                  'content': body_parts
-                },
-                {
-                  'name': 'No puedo mover',
-                  'img': require('../../assets/pictos/no.png'),
-                  'content': body_parts
-                },        
+                },     
               ]
             },
             {
@@ -807,10 +806,6 @@ export const DefaultPictos = {
               'img': require('../../assets/pictos/sintomas/alergia.png'),
               'content': [
                 {
-                  'name': '[Otra]',
-                  'content': [],
-                },
-                {
                   'name': 'Alimentarias',
                   'img': require('../../assets/pictos/estado/nutricion.png'),
                   'content': alergias_nutri,
@@ -839,7 +834,7 @@ export const DefaultPictos = {
                           'content': [],
                         },
                         {
-                          'name': '[Otros]',
+                          'name': 'Otros',
                           'content': [],
                         },
                       ],
@@ -861,6 +856,10 @@ export const DefaultPictos = {
                 {
                   'name': 'Medicamento',
                   'img': require('../../assets/pictos/salud/medicamentos.png'),
+                  'content': [],
+                },
+                {
+                  'name': 'Otra',
                   'content': [],
                 },
               ]
@@ -903,10 +902,6 @@ export const DefaultPictos = {
                   'content': [],
                 },
                 {
-                  'name': '[Otra]',
-                  'content': [],
-                },
-                {
                   'name': 'Anemia',
                   'content': [],
                 },
@@ -917,10 +912,6 @@ export const DefaultPictos = {
                 {
                   'name': 'Cáncer',
                   'content': [
-                    {
-                      'name': '[Otro]',
-                      'content': [],
-                    },
                     {
                       'name': 'Próstata',
                       'content': [],
@@ -943,6 +934,10 @@ export const DefaultPictos = {
                     },
                     {
                       'name': 'EPOC',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Otro',
                       'content': [],
                     },
                   ],
@@ -984,6 +979,10 @@ export const DefaultPictos = {
                       'content': [],
                     },
                   ],
+                },
+                {
+                  'name': 'Otra',
+                  'content': [],
                 },
               ]
             },
@@ -1171,7 +1170,7 @@ export const DefaultPictos = {
                   'content': []
                 },
                 {
-                  'name': '[Otra]',
+                  'name': 'Otra',
                   'content': []
                 },
               ]
@@ -1234,7 +1233,7 @@ export const DefaultPictos = {
                   'content': []
                 },
                 {
-                  'name': '[Otro]',
+                  'name': 'Otro',
                   'content': []
                 },
               ]

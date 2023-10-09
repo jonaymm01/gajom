@@ -50,6 +50,7 @@ const speak = (text) => {
  */
 export default function Pictogram({...props}) {
   const oneWord = (props.data.name.trim().indexOf(' ') == -1) ? true : false;
+  const otrosKeys = ['Otro', 'Otra', 'Otros', 'Otras'];
   if (props.data.hasOwnProperty('img')) {
     return (
       <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
@@ -59,7 +60,7 @@ export default function Pictogram({...props}) {
     );
   } else {
       return (
-        <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
+        <TouchableOpacity style={[((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal), ((otrosKeys.includes(props.data.name) == true) ? {borderRadius: 100} : null)]} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
           <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={[((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal), {fontSize: 25}]}>{props.data.name}</Text>
         </TouchableOpacity>
       );
