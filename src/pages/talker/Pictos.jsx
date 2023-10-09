@@ -76,15 +76,18 @@ export function Pictos() {
       </TouchableOpacity>,
     );
 
-  return (
-    <View style={{backgroundColor: '#fff', flex: 1}}>
-        <TouchableOpacity style={pathStyles.backButton} onPress={() => reboot()}>
+  const restartButton = [
+        <TouchableOpacity key={'start'} style={pathStyles.backButton} onPress={() => reboot()}>
           <Text style={[pathStyles.buttonText, {textAlign: 'center'}]}>
-            Volver a empezar
+            Inicio
           </Text>
         </TouchableOpacity>
+  ]
+
+  return (
+    <View style={{backgroundColor: '#fff', flex: 1}}>        
       <View style={pathStyles.container}>
-         {pathButtons}
+        {restartButton.concat(pathButtons)}
       </View>
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={pickerStyles.container}>
