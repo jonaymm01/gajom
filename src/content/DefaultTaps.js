@@ -10,24 +10,20 @@ export const defaultTaps = {
   "data": [
     {
       "key": 0,
-      "text": "Direcciones",
+      "text": "Quiniela",
       "options": [
         {
-          "text": "Arriba",
-          "color": green
+          "text": "1",
+          "color": blue,
         },
         {
-          "text": "Abajo",
-          "color": yellow
+          "text": "X",
+          "color": yellow,
         },
         {
-          "text": "Derecha",
-          "color": blue
+          "text": "2",
+          "color": red,
         },
-        {
-          "text": "Izquierda",
-          "color": red
-        }
       ]
     },
     {
@@ -41,28 +37,6 @@ export const defaultTaps = {
         {
           "text": "No",
           "color": red
-        }
-      ]
-    },
-    {
-      "key": 0,
-      "text": "Hora de comer",
-      "options": [
-        {
-          "text": "Comer",
-          "color": yellow
-        },
-        {
-          "text": "Beber",
-          "color": blue
-        },
-        {
-          "text": "Descanso",
-          "color": red
-        },
-        {
-          "text": "Seguir",
-          "color": green
         }
       ]
     },
