@@ -4,6 +4,7 @@ export const palette = {
   violet: '#763CAD',
   red: '#AC3C60',
   gray: '#b8b8b8',
+  darkViolet: '#3f1963',
 };
 
 export const tapColors = {

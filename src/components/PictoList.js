@@ -48,15 +48,15 @@ export default function PictoList({...props}) {
     return 0;
   }
 
-  const sortedList = props.list.sort((a, b) => compare(a, b));
+  // const sortedList = props.list.sort((a, b) => compare(a, b));
 
-  pictolist = sortedList.map((picto, index) =>
+  pictolist = props.list.map((picto, index) =>
     <Pictogram key={index} data={picto} setPressed={props.setPressed}/>,
   );
 
 
   return (
-    <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
+    <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center'}}>
       {pictolist}
     </View>
   );

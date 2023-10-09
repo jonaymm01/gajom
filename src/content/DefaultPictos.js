@@ -322,24 +322,6 @@ export const DefaultPictos = {
     categories:
       [
         {
-          'name': 'Favores',
-          'img': require('../../assets/pictos/favores.png'),
-          'content': [
-            {
-              'name': 'No te duermas',
-              'content': []
-            },
-            {
-              'name': 'Vete',
-              'content': []
-            },
-            {
-              'name': 'Silencio',
-              'content': []
-            },
-          ]
-        },
-        {
           'name': 'Estado',
           'img': require('../../assets/pictos/estado.png'),
           'content': [
@@ -817,6 +799,202 @@ export const DefaultPictos = {
           ]
         },
         {
+          'name': 'Salud',
+          'img': require('../../assets/pictos/salud.png'),
+          'content': [
+            {
+              'name': 'Alergias',
+              'img': require('../../assets/pictos/sintomas/alergia.png'),
+              'content': [
+                {
+                  'name': '[Otra]',
+                  'content': [],
+                },
+                {
+                  'name': 'Alimentarias',
+                  'img': require('../../assets/pictos/estado/nutricion.png'),
+                  'content': alergias_nutri,
+                },
+                {
+                  'name': 'Respiratoria',
+                  'img': require('../../assets/pictos/estado/respirar.png'),
+                  'content': [
+                    {
+                      'name': 'Polen',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Polvo',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Animales',
+                      'content': [
+                        {
+                          'name': 'Gato',
+                          'content': [],
+                        },
+                        {
+                          'name': 'Perro',
+                          'content': [],
+                        },
+                        {
+                          'name': '[Otros]',
+                          'content': [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  'name': 'Acaros',
+                  'content': [],
+                },
+                {
+                  'name': 'Humedad',
+                  'content': [],
+                },
+                {
+                  'name': 'Cosméticos',
+                  'content': [],
+                },
+                {
+                  'name': 'Medicamento',
+                  'img': require('../../assets/pictos/salud/medicamentos.png'),
+                  'content': [],
+                },
+              ]
+            },
+            {
+              'name': 'Enfermedad',
+              'img': require('../../assets/pictos/sintomas/infeccion.png'),
+              'content': [
+                {
+                  'name': 'Intoxicación',
+                  'content': []
+                },
+                {
+                  'name': 'Tensión',
+                  'content': [
+                    {
+                      'name': 'Alta',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Baja',
+                      'content': [],
+                    },
+                  ],
+                },
+                {
+                  'name': 'Colesterol alto',
+                  'content': [],
+                },
+                {
+                  'name': 'Artritis',
+                  'content': [],
+                },
+                {
+                  'name': 'Cardiopatía',
+                  'content': [],
+                },
+                {
+                  'name': 'Diabetes',
+                  'content': [],
+                },
+                {
+                  'name': '[Otra]',
+                  'content': [],
+                },
+                {
+                  'name': 'Anemia',
+                  'content': [],
+                },
+                {
+                  'name': 'EPOC',
+                  'content': [],
+                },
+                {
+                  'name': 'Cáncer',
+                  'content': [
+                    {
+                      'name': '[Otro]',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Próstata',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Pulmonar',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Hígado',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Piel',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Mama',
+                      'content': [],
+                    },
+                    {
+                      'name': 'EPOC',
+                      'content': [],
+                    },
+                  ],
+                },
+                {
+                  'name': 'ETS',
+                  'content': [
+                    {
+                      'name': 'VIH',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Hepatitis',
+                      'content': [
+                        {
+                          'name': 'B',
+                          'content': [],
+                        },
+                        {
+                          'name': 'C',
+                          'content': [],
+                        },
+                      ],
+                    },
+                    {
+                      'name': 'Sífilis',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Gonorrea',
+                      'content': [],
+                    },
+                    {
+                      'name': 'Clamidia',
+                      'content': [],
+                    },
+                    {
+                      'name': 'HPV',
+                      'content': [],
+                    },
+                  ],
+                },
+              ]
+            },
+            {
+              'name': 'Síntomas',
+              'img': require('../../assets/pictos/estado/sintomas.png'),
+              'content': sintomas
+            }
+          ]
+        },
+        {
           'name': 'Háblame de...',
           'img': require('../../assets/pictos/hablame_de.png'),
           'content': [
@@ -877,6 +1055,24 @@ export const DefaultPictos = {
                   'content': []
                 },
               ]
+            },
+          ]
+        },
+        {
+          'name': 'Favores',
+          'img': require('../../assets/pictos/favores.png'),
+          'content': [
+            {
+              'name': 'No te duermas',
+              'content': []
+            },
+            {
+              'name': 'Vete',
+              'content': []
+            },
+            {
+              'name': 'Silencio',
+              'content': []
             },
           ]
         },
@@ -1043,202 +1239,6 @@ export const DefaultPictos = {
                 },
               ]
             },
-          ]
-        },
-        {
-          'name': 'Salud',
-          'img': require('../../assets/pictos/salud.png'),
-          'content': [
-            {
-              'name': 'Alergias',
-              'img': require('../../assets/pictos/sintomas/alergia.png'),
-              'content': [
-                {
-                  'name': '[Otra]',
-                  'content': [],
-                },
-                {
-                  'name': 'Alimentarias',
-                  'img': require('../../assets/pictos/estado/nutricion.png'),
-                  'content': alergias_nutri,
-                },
-                {
-                  'name': 'Respiratoria',
-                  'img': require('../../assets/pictos/estado/respirar.png'),
-                  'content': [
-                    {
-                      'name': 'Polen',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Polvo',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Animales',
-                      'content': [
-                        {
-                          'name': 'Gato',
-                          'content': [],
-                        },
-                        {
-                          'name': 'Perro',
-                          'content': [],
-                        },
-                        {
-                          'name': '[Otros]',
-                          'content': [],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  'name': 'Acaros',
-                  'content': [],
-                },
-                {
-                  'name': 'Humedad',
-                  'content': [],
-                },
-                {
-                  'name': 'Cosméticos',
-                  'content': [],
-                },
-                {
-                  'name': 'Medicamento',
-                  'img': require('../../assets/pictos/salud/medicamentos.png'),
-                  'content': [],
-                },
-              ]
-            },
-            {
-              'name': 'Enfermedades',
-              'img': require('../../assets/pictos/sintomas/infeccion.png'),
-              'content': [
-                {
-                  'name': 'Intoxicación',
-                  'content': []
-                },
-                {
-                  'name': 'Tensión',
-                  'content': [
-                    {
-                      'name': 'Alta',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Baja',
-                      'content': [],
-                    },
-                  ],
-                },
-                {
-                  'name': 'Colesterol alto',
-                  'content': [],
-                },
-                {
-                  'name': 'Artritis',
-                  'content': [],
-                },
-                {
-                  'name': 'Cardiopatía',
-                  'content': [],
-                },
-                {
-                  'name': 'Diabetes',
-                  'content': [],
-                },
-                {
-                  'name': '[Otra]',
-                  'content': [],
-                },
-                {
-                  'name': 'Anemia',
-                  'content': [],
-                },
-                {
-                  'name': 'EPOC',
-                  'content': [],
-                },
-                {
-                  'name': 'Cáncer',
-                  'content': [
-                    {
-                      'name': '[Otro]',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Próstata',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Pulmonar',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Hígado',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Piel',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Mama',
-                      'content': [],
-                    },
-                    {
-                      'name': 'EPOC',
-                      'content': [],
-                    },
-                  ],
-                },
-                {
-                  'name': 'ETS',
-                  'content': [
-                    {
-                      'name': 'VIH',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Hepatitis',
-                      'content': [
-                        {
-                          'name': 'B',
-                          'content': [],
-                        },
-                        {
-                          'name': 'C',
-                          'content': [],
-                        },
-                      ],
-                    },
-                    {
-                      'name': 'Sífilis',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Gonorrea',
-                      'content': [],
-                    },
-                    {
-                      'name': 'Clamidia',
-                      'content': [],
-                    },
-                    {
-                      'name': 'HPV',
-                      'content': [],
-                    },
-                  ],
-                },
-              ]
-            },
-            {
-              'name': 'Síntomas',
-              'img': require('../../assets/pictos/estado/sintomas.png'),
-              'content': sintomas
-            }
           ]
         },
       ]

@@ -49,17 +49,18 @@ const speak = (text) => {
  * @return {JSX.Element}
  */
 export default function Pictogram({...props}) {
+  const oneWord = (props.data.name.trim().indexOf(' ') == -1) ? true : false;
   if (props.data.hasOwnProperty('img')) {
     return (
-      <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal_img : pictoStyles.baseTerminal_img)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
-        <Text style={pictoStyles.text}>{props.data.name}</Text>
+      <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
         <Image source={props.data.img} resizeMode='contain' style={pictoStyles.img} backgroundColor={'#fff'} />
+        <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal)}>{props.data.name}</Text>
       </TouchableOpacity>
     );
   } else {
       return (
         <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
-          <Text style={[pictoStyles.text, {fontSize: 25}]}>{props.data.name}</Text>
+          <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={[((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal), {fontSize: 25}]}>{props.data.name}</Text>
         </TouchableOpacity>
       );
   }
@@ -67,63 +68,46 @@ export default function Pictogram({...props}) {
 }
 
 export const pictoStyles = StyleSheet.create({
-  baseNoTerminal_img: {
-    height: 160,
-    width: 160,
-    alignItems: 'center',
-    backgroundColor: palette.violet,
-    borderRadius: 20,
-    padding: 10,
-    marginBottom: 10,
-    marginLeft: 5,
-    marginRight: 5,
-  },
-  baseTerminal_img: {
-    height: 160,
-    width: 160,
-    alignItems: 'center',
-    backgroundColor: palette.gray,
-    borderRadius: 0,
-    padding: 10,
-    marginBottom: 10,
-    marginLeft: 5,
-    marginRight: 5,
-  },
   baseNoTerminal: {
-    height: 160,
+    height: 180,
     width: 160,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: palette.violet,
-    borderRadius: 20,
+    backgroundColor: '#fff',
+    borderColor: palette.violet,
+    borderWidth: 5,
+    borderRadius: 40,
     padding: 10,
-    marginBottom: 10,
-    marginLeft: 5,
-    marginRight: 5,
+    margin: 10,
   },
   baseTerminal: {
-    height: 160,
+    height: 180,
     width: 160,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: palette.gray,
-    borderRadius: 0,
+    borderColor: palette.darkViolet,
+    borderWidth: 5,
+    borderRadius: 10,
     padding: 10,
-    marginBottom: 10,
-    marginLeft: 5,
-    marginRight: 5,
+    margin: 10,
   },
-  text: {
-    color: '#fff',
+  textNoTerminal: {
+    color: palette.violet,
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    textAlign: 'center',
+    padding: 5,
+  },
+  textTerminal: {
+    color: palette.darkViolet,
+    fontSize: 20,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   img: {
     flex: 1,
-    maxWidth: 120,
-    maxHeight: 120,
+    maxWidth: 100,
+    maxHeight: 100,
     borderRadius: 10,
   },
 });
