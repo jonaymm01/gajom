@@ -164,8 +164,7 @@ export function Profile({navigation}) {
 
     const deletePinButton = 
       <View style={{flexDirection: 'row', marginTop: 20}}>
-        <Image source={require('../../assets/open_lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center', tintColor: palette.gray}}/>
-        <Button color={palette.gray} onPress={() => deletePIN()} label="Eliminar PIN"/>
+        <Button img={require('../../assets/open_lock.png')} color={palette.gray} onPress={() => deletePIN()} label="Eliminar PIN"/>
       </View >
 
     return (
@@ -363,25 +362,25 @@ export function Profile({navigation}) {
 
         <View style={[styles.container, {alignItems: 'center'}]}>
           <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
-              <View style = {{borderColor: palette.violet, borderWidth: 2, alignItems: 'center', padding: 5, borderRadius: 5}}>
-                <View style={{backgroundColor: palette.violet, padding: 20, paddingLeft: 40, paddingRight: 40, borderRadius: 5}}>
-                  <Text style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 35, fontWeight: 'bold', textAlign: 'center'}]}>{activeProfile.name}</Text>
-                </View>
-              </View>
+            <View style={{flex: 1, backgroundColor: palette.darkViolet, padding: 30, borderRadius: 10}}>
+              <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 35, fontWeight: 'bold', textAlign: 'center'}]}>{activeProfile.name}</Text>
+            </View>
             <View style={{marginBottom: 40}}/>
             <View style={{flexDirection: 'row'}}>
-              <Image source={require('../../assets/user_icon.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
-              <Button color={palette.violet} onPress={() => openChange('name')} label="Cambiar nombre" />
+              <Button img={require('../../assets/user_icon.png')} color={palette.violet} onPress={() => openChange('name')} label="Cambiar nombre" />
             </View >
             <View style={{flexDirection: 'row', marginTop: 20}}>
-              <Image source={require('../../assets/lock.png')} resizeMode='contain' style={{maxHeight: 40, maxWidth: 60, alignSelf: 'center'}}/>
-              <Button color={palette.violet} onPress={() => openChange('pin')} label={(activeProfile.pin == "0" || activeProfile.pin == undefined) ? "Añadir PIN" : "Cambiar PIN"}/>
+              <Button img={require('../../assets/lock.png')} color={palette.violet} onPress={() => openChange('pin')} label={(activeProfile.pin == "0" || activeProfile.pin == undefined) ? "Añadir PIN" : "Cambiar PIN"}/>
             </View >
             <>
               {(activeProfile.pin == "0" || activeProfile.pin == undefined) ? null : deletePinButton}
             </>
-            <LineSeparator color={palette.red}/>
-            <View style={{marginTop: -20}}>
+            <View style={{marginTop: 40, marginBottom: 30, flexDirection: 'row', justifyContent: 'space-between', width: 150}}>
+                <View style={{backgroundColor: palette.gray, height: 10, width: 10, borderRadius: 2}}/>
+                <View style={{backgroundColor: palette.gray, height: 10, width: 10, borderRadius: 2}}/>
+                <View style={{backgroundColor: palette.gray, height: 10, width: 10, borderRadius: 2}}/>
+            </View>
+            <View>
               <Button color={palette.red} onPress={() => logOut()} label="Cerrar sesión" />
             </View>
             <View style={{marginTop: 10, marginBottom: 20}}>

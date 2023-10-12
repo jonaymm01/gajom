@@ -8,6 +8,7 @@ import {palette, styles} from '../../styles/styles';
  */
 export function DictaMenu({navigation}) {  
   const onPressNumbers = () => navigation.navigate('DictaNumbers');
+  const onPressLetters = () => navigation.navigate('DictaLetters');
   const onPressText = () => navigation.navigate('DictaText');
 
 
@@ -16,19 +17,19 @@ export function DictaMenu({navigation}) {
       <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressNumbers}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> NÚMEROS </Text>
-            <View style={{marginTop: 15}}>
-              <Text style={talkerStyles.button_text_small}> 1  2 </Text>
-              <Text style={talkerStyles.button_text_small}> 3  4 </Text>
-            </View>
+            <Text style={talkerStyles.button_text_small}> 0-1-2-3-4-5-6-7-8-9 </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressLetters}>
+          <View style={styles.button_container}>
+            <Text style={talkerStyles.button_text}> LETRAS </Text>
+            <Text style={talkerStyles.button_text_small}> Deletrea cualquier palabra </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressText}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> PALABRAS </Text>
-            <View style={{marginTop: 15}}>
-              <Text style={talkerStyles.button_text_small}> a  b </Text>
-              <Text style={talkerStyles.button_text_small}> c  d </Text>
-            </View>
+            <Text style={talkerStyles.button_text_small}> Dicta frases completas </Text>
           </View>
         </TouchableOpacity>
     </SafeAreaView>
@@ -52,9 +53,6 @@ const talkerStyles = StyleSheet.create({
   button_text_small: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 40,
-    textShadowColor: 'black',
-    textShadowOffset: {width: 2, height: 2},
-    textShadowRadius: 5,
+    fontSize: 25,
   },
 });

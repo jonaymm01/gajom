@@ -181,8 +181,37 @@ const sintomas = [
     'content': []
   },
   {
-    'name': 'Infección',
-    'img': require('../../assets/pictos/sintomas/infeccion.png'),
+    'name': 'Respiratorios',
+    'img': require('../../assets/pictos/estado/respirar.png'),
+    'content': [
+      {
+        'name': 'No puedo respirar',
+        'img': require('../../assets/pictos/no.png'),
+        'content': []
+      },
+      {
+        'name': 'Tos',
+        'img': require('../../assets/pictos/sintomas/tos.png'),
+        'content': [
+          {
+            'name': 'Seca',
+            'content': []
+          },
+          {
+            'name': 'Productiva',
+            'content': []
+          },
+        ]
+      },
+      {
+        'name': 'Congestión',
+        'content': []
+      },
+    ]
+  },
+  {
+    'name': 'Dolor',
+    'img': require('../../assets/pictos/estado/dolor.png'),
     'content': body_parts
   },
   {
@@ -191,33 +220,24 @@ const sintomas = [
     'content': []
   },
   {
-    'name': 'Reacción alérgica',
-    'img': require('../../assets/pictos/sintomas/alergia.png'),
+    'name': 'Estreñimiento',
+    'img': require('../../assets/pictos/sintomas/estreñimiento.png'),
     'content': []
   },
   {
-    'name': 'Tos',
-    'img': require('../../assets/pictos/sintomas/tos.png'),
-    'content': [
-      {
-        'name': 'Seca',
-        'content': []
-      },
-      {
-        'name': 'Productiva',
-        'content': []
-      },
-    ]
-  },
-  {
-    'name': 'Fiebre',
-    'img': require('../../assets/pictos/sintomas/fiebre.png'),
+    'name': 'Reacción alérgica',
+    'img': require('../../assets/pictos/sintomas/alergia.png'),
     'content': []
   },
   {
     'name': 'Picor',
     'img': require('../../assets/pictos/sintomas/picor.png'),
     'content': body_parts,
+  },
+  {
+    'name': 'Fiebre',
+    'img': require('../../assets/pictos/sintomas/fiebre.png'),
+    'content': []
   },
   {
     'name': 'Fatiga',
@@ -230,23 +250,8 @@ const sintomas = [
     'content': []
   },
   {
-    'name': 'Respiratorios',
-    'img': require('../../assets/pictos/estado/respirar.png'),
-    'content': []
-  },
-  {
-    'name': 'Estreñimiento',
-    'img': require('../../assets/pictos/sintomas/estreñimiento.png'),
-    'content': []
-  },
-  {
     'name': 'Mareo',
     'img': require('../../assets/pictos/sintomas/mareo.png'),
-    'content': []
-  },
-  {
-    'name': 'Desmayo',
-    'img': require('../../assets/pictos/sintomas/desmayo.png'),
     'content': []
   },
 ]

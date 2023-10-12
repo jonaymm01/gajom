@@ -1,7 +1,7 @@
 // Button.js
 import {StyleSheet} from 'react-native';
 import React from 'react';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity, Text, Image, View} from 'react-native';
 
 /**
  * Componente: Botón.
@@ -9,11 +9,23 @@ import {TouchableOpacity, Text} from 'react-native';
  * @return {JSX.Element}
  */
 export default function Button({label, ...props}) {
-  return (
-    <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
-      <Text style={styles.button_text}>{label}</Text>
-    </TouchableOpacity>
-  );
+  if (props.img) {
+    return (
+      <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+          <Image source={props.img} resizeMode='contain' tintColor={'#fff'} style={{maxHeight: 30, maxWidth: 30, marginLeft: 20}}/>
+          <Text style={[styles.button_text, {flex: 2, textAlign: 'right', marginRight: 20}]}>{label}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
+        <Text style={styles.button_text}>{label}</Text>
+      </TouchableOpacity>
+    );
+  }
+
 }
 
 export const styles = StyleSheet.create({
@@ -29,6 +41,7 @@ export const styles = StyleSheet.create({
     color: '#fff',
     lineHeight: 80,
     fontSize: 23,
+    fontWeight: '500',
   },
   purple: {
     backgroundColor: '#763CAD',

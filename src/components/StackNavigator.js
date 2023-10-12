@@ -17,6 +17,7 @@ import { QuestionEnd } from '../pages/talker/QuestionEnd';
 
 import { DictaNumbers } from '../pages/talker/DictaNumbers';
 import { DictaText } from '../pages/talker/DictaText';
+import { DictaLetters } from '../pages/talker/DictaLetters';
 import { DictaMenu } from '../pages/talker/DictaMenu';
 
 import {ProfileContext} from '../../global';
@@ -73,6 +74,7 @@ const TalkerStackNavigator = () => {
       <Stack.Group> 
         <Stack.Screen name="DictaMenu" component={DictaMenu}/>
         <Stack.Screen name="DictaNumbers" component={DictaNumbers}/>
+        <Stack.Screen name="DictaLetters" component={DictaLetters}/>
         <Stack.Screen name="DictaText" component={DictaText}/>
       </Stack.Group>
 
