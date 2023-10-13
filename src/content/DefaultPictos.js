@@ -1003,37 +1003,50 @@ export const DefaultPictos = {
           'img': require('../../assets/pictos/hablame_de.png'),
           'content': [
             {
-              'name': 'Familiares',
+              'name': 'Personas',
               'content': [
                 {
-                  'name': 'Hijos',
+                  'name': 'Yo',
                   'content': []
                 },
                 {
-                  'name': 'Padres',
+                  'name': 'Tú',
                   'content': []
                 },
                 {
-                  'name': 'Hermanos',
-                  'content': []
+                  'name': 'Familiares',
+                  'content': [
+                    {
+                      'name': 'Todos',
+                      'content': []
+                    },
+                    {
+                      'name': 'Hijos',
+                      'content': []
+                    },
+                    {
+                      'name': 'Padres',
+                      'content': []
+                    },
+                    {
+                      'name': 'Hermanos',
+                      'content': []
+                    },
+                    {
+                      'name': 'Pareja',
+                      'content': []
+                    },
+                    {
+                      'name': 'Otro',
+                      'content': []
+                    },
+                  ]
                 },
                 {
-                  'name': 'Pareja',
-                  'content': []
-                },
-                {
-                  'name': 'Otro',
-                  'content': []
-                },
-                {
-                  'name': 'Todos',
+                  'name': 'Amigos',
                   'content': []
                 },
               ]
-            },
-            {
-              'name': 'Amigos',
-              'content': []
             },
             {
               'name': 'Novedades',
@@ -1067,16 +1080,60 @@ export const DefaultPictos = {
           'img': require('../../assets/pictos/favores.png'),
           'content': [
             {
-              'name': 'No te duermas',
-              'content': []
+              'name': 'Sonido',
+              'content': [
+                {
+                  'name': 'Habla más bajo',
+                  'content': []
+                },
+                {
+                  'name': 'Habla más alto',
+                  'content': []
+                },
+                {
+                  'name': 'Quiero silencio',
+                  'content': []
+                },
+              ]
             },
             {
-              'name': 'Vete',
-              'content': []
+              'name': 'Compañía',
+              'content': [
+                {
+                  'name': 'Quiero compañía',
+                  'content': []
+                },
+                {
+                  'name': 'Quiero estar solo',
+                  'content': []
+                },
+              ]
             },
             {
-              'name': 'Silencio',
-              'content': []
+              'name': 'Luz',
+              'content': [
+                {
+                  'name': 'Enciende la luz',
+                  'content': []
+                },
+                {
+                  'name': 'Apaga la luz',
+                  'content': []
+                },
+              ]
+            },
+            {
+              'name': 'Puerta',
+              'content': [
+                {
+                  'name': 'Abre la puerta',
+                  'content': []
+                },
+                {
+                  'name': 'Cierra la puerta',
+                  'content': []
+                },
+              ]
             },
           ]
         },

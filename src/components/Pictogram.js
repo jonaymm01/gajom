@@ -50,7 +50,7 @@ const speak = (text) => {
  */
 export default function Pictogram({...props}) {
   const oneWord = (props.data.name.trim().indexOf(' ') == -1) ? true : false;
-  const otrosKeys = ['Otro', 'Otra', 'Otros', 'Otras'];
+  const otrosKeys = ['Otro', 'Otra', 'Otros', 'Otras', 'Todos'];
   if (props.data.hasOwnProperty('img')) {
     return (
       <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native';
+import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Pressable, Image} from 'react-native';
 import {palette, styles} from '../../styles/styles';
 import * as Speech from 'expo-speech';
 
@@ -7,8 +7,9 @@ import * as Speech from 'expo-speech';
  * Método para reproducir el número
  * @param {string} text
  */
-const speak = (num) => {
-  Speech.speak(num);
+const speak = (letter) => {
+  let l = letter;
+  Speech.speak(l);
 };
 
 /**
@@ -17,75 +18,87 @@ const speak = (num) => {
  */
 export function DictaNumbers() {  
 
+  const [word, setWord] = useState('');
+
+  const letters1 = ['1', '2', '3'];
+  const letters2 = ['4', '5', '6'];
+  const letters3 = ['7', '8', '9'];
+  const letters = [letters1, letters2, letters3];
+
+  const letterRow = (list) => list.map( (letter, index) =>
+    <TouchableOpacity key={'row:'+index} style={talkerStyles.button} onPress={() => {setWord(word+letter); speak(letter)}}>
+          <View key={'row:'+index} style={styles.button_container}>
+            <Text key={'row:'+index} style={talkerStyles.button_text}> {letter} </Text>
+          </View>
+      </TouchableOpacity>
+  )
+
+  const lettersRows = letters.map((list, index) => 
+    <View key={'rows:'+index} style= {{flex: 1,backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center'}}>
+      {letterRow(list)}
+    </View>
+  )
+
+  const deleteButton = 
+    <TouchableOpacity
+        style={[talkerStyles.button, {backgroundColor: palette.gray}]}
+        onPress={() => {
+          setWord('');
+        }}
+      >
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <Image source={require('../../../assets/trash_icon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 40, maxHeight: 40, alignSelf: 'center'}} />
+      </View>
+    </TouchableOpacity>
+
+const deleteLastButton = 
+<TouchableOpacity
+    style={[talkerStyles.button, {backgroundColor: palette.gray}]}
+    onPress={() => {
+      setWord(word.slice(0, -1));
+    }}
+  >
+  <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+    <Text style={{fontSize: 40, color: '#fff', fontWeight: '500'}}>⌫</Text>
+  </View>
+</TouchableOpacity>
+
+const sayWordButton = 
+<TouchableOpacity
+    style={[talkerStyles.button, {backgroundColor: palette.darkViolet}]}
+    onPress={() => {
+      speak(word);
+    }}
+  >
+  <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+    <Text style={{fontSize: 25, color: '#fff', fontWeight: '500'}}>LEER</Text>
+  </View>
+</TouchableOpacity>
+
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flexDirection: 'row', flex: 1}}>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('1')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 1 </Text>
-            </View>
+    <View style={{flex: 1}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={talkerStyles.word}> {(word == '') ? '¡Escribe tu número!' : word} </Text>
+      </View>
+      {lettersRows}
+      <View style= {{flex: 1,backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center'}}>
+        {deleteLastButton}
+        <TouchableOpacity style={talkerStyles.button} onPress={() => {setWord(word+'0'); speak('0')}}>
+          <View style={styles.button_container}>
+            <Text style={talkerStyles.button_text}> 0 </Text>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('2')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 2 </Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('3')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 3 </Text>
-            </View>
+        <TouchableOpacity style={[talkerStyles.button, {backgroundColor: palette.red}]} onPress={() => {setWord(word+' ')}}>
+          <View style={styles.button_container}>
+            <Text style={talkerStyles.button_text}> ␣ </Text>
+          </View>
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row', flex: 1}}>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('4')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 4 </Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('5')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 5 </Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('6')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 6 </Text>
-            </View>
-        </TouchableOpacity>
+      <View style= {{flex: 1,backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center'}}>
+        {deleteButton}
+        {sayWordButton}
       </View>
-      <View style={{flexDirection: 'row', flex: 1}}>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('7')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 7 </Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('8')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 8 </Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('9')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 9 </Text>
-            </View>
-        </TouchableOpacity>
-      </View>
-      <View style={{flexDirection: 'row', flex: 1}}>
-        <TouchableOpacity style={[ {backgroundColor: '#fff'}]}>
-            <View style={styles.button_container}>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={talkerStyles.button} onPress={() => speak('0')}>
-            <View style={styles.button_container}>
-              <Text style={talkerStyles.button_text}> 0 </Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={[ {backgroundColor: '#fff'}]}>
-            <View style={styles.button_container}>
-            </View>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -93,17 +106,20 @@ const talkerStyles = StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: palette.violet,
-    margin: 5,
-    borderRadius: 15,
-    elevation: 3
+    margin: 2,
+    borderRadius: 10,
   },
   button_text: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 60,
+    fontSize: 40,
     textShadowColor: 'black',
-    textShadowOffset: {width: 5, height: 5},
+    textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 10,
-    borderRadius: 5,
   },
+  word: {
+    color: palette.violet,
+    fontSize: 30,
+    fontWeight: 'bold',
+  }
 });
