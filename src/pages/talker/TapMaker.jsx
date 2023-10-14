@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image, Alert} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image, Alert, TextInput} from 'react-native';
 import {styles, palette, tapColors, dp} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
@@ -134,7 +134,7 @@ export function TapMaker({route, navigation}) {
             required: {value: true, message: 'Escribe una opción'},
           }}
           render={({field: {onChange, value}}) => (
-            <Input
+            <TextInput
               error={errors.name}
               errorText={errors?.name?.message}
               onChangeText={(text) => {

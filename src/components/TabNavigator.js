@@ -63,7 +63,7 @@ const BottomTabNavigator = () => {
         <Tab.Screen name="talker" component={TalkerStackNavigator} options={{title: 'Gajom', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
           headerTitleStyle: {color: 'white', fontWeight: 'bold', fontSize: dp(20)}, headerTitleAlign: 'center'}}/>
         <Tab.Screen name="info" component={InfoStackNavigator} options={{title: 'Info', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
-          headerTitleStyle: {color: 'white', fontWeight: 'bold'}, fontSize: dp(20), headerTitleAlign: 'center'}}/>
+          headerTitleStyle: {color: 'white', fontWeight: 'bold', fontSize: dp(20)}, headerTitleAlign: 'center'}}/>
       </Tab.Navigator>
     </View>
   );
