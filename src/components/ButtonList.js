@@ -1,7 +1,7 @@
 import React, {ReactNode, useState, useEffect, useContext} from 'react';
 import Button from './Button';
 import {Pressable, View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
-import {palette} from '../styles/styles';
+import {palette, dp} from '../styles/styles';
 import {delTap} from '../_helpers/ProfileContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -50,7 +50,7 @@ export default function ButtonList({...props}) {
         <TouchableOpacity onPress={() => {
           deleteTap(profile.name, tap.text, tap.options);
         }} style={ButtonListStyle.deleteButton}>
-          <Image source={require('../../assets/trash_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
+          <Image source={require('../../assets/trash_icon.png')} resizeMode='contain' style={{width: dp(30), height: dp(30)}} />
         </TouchableOpacity>
       </View>,
     );
@@ -74,7 +74,7 @@ const ButtonListStyle = StyleSheet.create({
   deleteButton: {
     alignContent: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: dp(10),
+    padding: dp(10),
   },
 });

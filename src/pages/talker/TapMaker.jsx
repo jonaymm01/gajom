@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image, Alert} from 'react-native';
-import {styles, palette, tapColors} from '../../styles/styles';
+import {styles, palette, tapColors, dp} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -64,7 +64,7 @@ export function TapMaker({route, navigation}) {
     if (colorsOn.length > 0) {
       output = colorsOn.map((color, index) => <TouchableOpacity key={index} style={[styles.button, {backgroundColor: color}]} onPress={() => setColor(opt, color)}/>);
     } else {
-      output = <Text style={{alignSelf: 'center', fontStyle: 'italic'}}>Paleta de colores</Text>;
+      output = <Text style={{alignSelf: 'center', fontStyle: 'italic', fontSize: dp(20)}}>Paleta de colores</Text>;
     }
     return output;
   };
@@ -143,7 +143,7 @@ export function TapMaker({route, navigation}) {
               }}
               value={value}
               placeholder={optText}
-              style={{backgroundColor: 'white', justifyContent: 'center', width: 150, alignSelf: 'center', marginBottom: -20, height: 40, fontSize: 15, textAlign: 'center'}}
+              style={{backgroundColor: 'white', justifyContent: 'center', width: dp(150), alignSelf: 'center', marginBottom: dp(-20), height: dp(40), fontSize: dp(15), textAlign: 'center'}}
             />
           )}
         />
@@ -156,9 +156,9 @@ export function TapMaker({route, navigation}) {
             fontStyle: !opt1Used ? 'italic' : 'normal',
             textShadowColor: (opt === index) ? null : 'black',
             backgroundColor: ((opt === index) ) ? 'white' : null,
-            width: (opt === index) ? 140 : null,
+            width: (opt === index) ? dp(140) : null,
             borderStyle: (getOptColor(index) === 'white') ? 'dashed' : null,
-            borderWidth: (getOptUsed(index) && (getOptColor(index) === 'white') && (opt == index)) ? 2 : null,
+            borderWidth: (getOptUsed(index) && (getOptColor(index) === 'white') && (opt == index)) ? dp(2) : null,
           },
         ]}> {getOptText(index)} </Text>
       </View>
@@ -167,19 +167,19 @@ export function TapMaker({route, navigation}) {
   const OptsList = [];
   for (let index = 1; index <= 4; index++) {
     OptsList.push(<View key={index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: 10, backgroundColor: getOptColor(index)}]}
+      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: dp(10), backgroundColor: getOptColor(index)}]}
         onPress={() => {
           setColor(index, 'white');
         }}>
-        <Image source={require('../../../assets/picker_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
+        <Image source={require('../../../assets/picker_icon.png')} resizeMode='contain' style={{width: dp(30), height: dp(30)}} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
         setOpt(index);
       }}>
         <View style={[tapPreview.option, {
-          width: !getOptUsed(index) ? 200 : 160,
+          width: !getOptUsed(index) ? dp(200) : dp(160),
           backgroundColor: getOptColor(index),
-          borderWidth: ((getOptColor(index) === 'white')) ? 2 : null,
+          borderWidth: ((getOptColor(index) === 'white')) ? dp(2) : null,
           borderStyle: (getOptColor(index) === 'white') ? 'dashed' : null,
         }]}>
           <>
@@ -187,7 +187,7 @@ export function TapMaker({route, navigation}) {
           </>
         </View>
       </TouchableOpacity>
-      <Text style={[tapPreview.optionText, {fontSize: 30, lineHeight: 30, marginLeft: 10, color: getOptColor(index)}]}> {(getOptUsed(index) && (getOptColor(index) !== 'white')) ? '☑' : '☐'} </Text>
+      <Text style={[tapPreview.optionText, {fontSize: dp(30), lineHeight: dp(30), marginLeft: dp(10), color: getOptColor(index)}]}> {(getOptUsed(index) && (getOptColor(index) !== 'white')) ? '☑' : '☐'} </Text>
     </View>,
     );
   }
@@ -303,7 +303,7 @@ export function TapMaker({route, navigation}) {
     navigation.navigate('TapMenu');
   };
 
-  const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: 20, height: 20}} />;
+  const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: dp(20), height: dp(20)}} />;
 
   const alreadyExist = async () => {
     const response = await searchTap(profile.name, getValues().name);
@@ -322,7 +322,7 @@ export function TapMaker({route, navigation}) {
             setModalVoid(!modalVoid);
           }}>
           <View style={modalStyles.modalAlert}>
-            <Image source={require('../../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+            <Image source={require('../../../assets/warning.png')} resizeMode='contain' style={{width: dp(80), height: dp(80)}} />
             <Text style={modalStyles.modalText}>Tu TAP debe tener al menos una opción</Text>
             <Pressable
               style={[modalStyles.button, modalStyles.redBackground]}
@@ -332,21 +332,21 @@ export function TapMaker({route, navigation}) {
           </View>
         </Modal>
 
-        <View style={{padding: 20, marginBottom: 25}}>
-          <Text style= {{fontSize: 18, fontWeight: 'bold'}}>Pulsa una opción para cambiarla.</Text>
-          <Text style= {{fontSize: 16}}>1. Escribe su contenido.</Text>
-          <Text style= {{fontSize: 16}}>2. Píntala con cualquier color de la paleta.</Text>
-          <Text style= {{fontSize: 16, fontStyle: 'italic'}}>¡Pulsa {pickerIcon} para llevar el color a la paleta!</Text>
+        <View style={{padding: dp(20), marginBottom: dp(25)}}>
+          <Text style= {{fontSize: dp(18), fontWeight: 'bold'}}>Pulsa una opción para cambiarla.</Text>
+          <Text style= {{fontSize: dp(16)}}>1. Escribe su contenido.</Text>
+          <Text style= {{fontSize: dp(16)}}>2. Píntala con cualquier color de la paleta.</Text>
+          <Text style= {{fontSize: dp(16), fontStyle: 'italic'}}>¡Pulsa {pickerIcon} para llevar el color a la paleta!</Text>
         </View>
 
-        <View style={{flex: 5, margin: 30, marginBottom: 70}}>
+        <View style={{flex: 5, margin: dp(30), marginBottom: dp(70)}}>
           <>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{alignContent: 'center', justifyContent: 'center'}}>
                 <>
                   {OptsList}
                 </>
-                <View style={[{flexDirection: 'row', margin: 20, marginBottom: 50}]}>
+                <View style={[{flexDirection: 'row', margin: dp(20), marginBottom: dp(50)}]}>
                   <View style={[tapMaker.colorTable]}>
                     <>
                       {colorButtons()}
@@ -361,12 +361,12 @@ export function TapMaker({route, navigation}) {
         <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
           <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
             <View style={styles.button_container}>
-              <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>❮  DESCARTAR</Text>
+              <Text style={{color: '#fff', fontSize: dp(20), fontWeight: 'bold'}}>❮  DESCARTAR</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => confirmTap()}>
             <View style={styles.button_container}>
-              <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>TERMINAR  ❯</Text>
+              <Text style={{color: '#fff', fontSize: dp(20), fontWeight: 'bold'}}>TERMINAR  ❯</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -381,12 +381,12 @@ export function TapMaker({route, navigation}) {
           style={styles.blank_background}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <>
-              <View style={{marginTop: 40, alignItems: 'center'}}>
-                <Text style={[styles.title, {marginBottom: 20, color: palette.violet}]}>Este es el resultado:</Text>
+              <View style={{marginTop: dp(40), alignItems: 'center'}}>
+                <Text style={[styles.title, {marginBottom: dp(20), color: palette.violet}]}>Este es el resultado:</Text>
                 <>
                   {defOptsFiltered}
                 </>
-                <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
+                <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
                 <Controller
                   name="name"
                   defaultValue=""
@@ -395,7 +395,7 @@ export function TapMaker({route, navigation}) {
                     required: {value: true, message: 'Escribe tu nombre'},
                   }}
                   render={({field: {onChange, value}}) => (
-                    <View style={{width: 300}}>
+                    <View style={{width: dp(300)}}>
                       <Input
                         error={errors.name}
                         errorText={errors?.name?.message}
@@ -460,8 +460,8 @@ export function TapMaker({route, navigation}) {
 
 const tapPreview = StyleSheet.create({
   option: {
-    width: 280,
-    height: 50,
+    width: dp(280),
+    height: dp(50),
     color: '#fff',
     textShadowColor: 'black',
     justifyContent: 'center',
@@ -470,15 +470,15 @@ const tapPreview = StyleSheet.create({
   optionText: {
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 20,
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 2,
+    fontSize: dp(20),
+    textShadowOffset: {width: dp(1), height: dp(1)},
+    textShadowRadius: dp(2),
     alignSelf: 'center',
   },
   deleteOption: {
     backgroundColor: palette.gray,
-    width: 40,
-    height: 40,
+    width: dp(40),
+    height: dp(40),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -486,8 +486,8 @@ const tapPreview = StyleSheet.create({
     color: '#000',
     backgroundColor: '#fff',
     fontWeight: 'bold',
-    fontSize: 30,
-    padding: 6,
+    fontSize: dp(30),
+    padding: dp(6),
   },
 });
 
@@ -495,44 +495,44 @@ const tapMaker = StyleSheet.create({
   nextButton: {
     backgroundColor: palette.violet,
     color: '#fff',
-    height: 50,
-    width: 50,
+    height: dp(50),
+    width: dp(50),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
-    marginLeft: 20,
+    borderRadius: dp(10),
+    marginLeft: dp(20),
   },
   backButton: {
     backgroundColor: palette.violet,
     color: '#fff',
-    height: 50,
-    width: 50,
+    height: dp(50),
+    width: dp(50),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
-    marginRight: 20,
+    borderRadius: dp(10),
+    marginRight: dp(20),
   },
   loadText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 30,
-    lineHeight: 30,
+    fontSize: dp(30),
+    lineHeight: dp(30),
   },
   extractor: {
     alignSelf: 'center',
     color: '#fff',
     fontWeight: 'bold',
     textShadowColor: 'black',
-    textShadowOffset: {width: 1, height: 1},
-    textShadowRadius: 2,
+    textShadowOffset: {width: dp(1), height: dp(1)},
+    textShadowRadius: dp(2),
   },
   colorTable: {
     flexDirection: 'row',
     borderColor: '#000',
-    borderWidth: 2,
+    borderWidth: dp(2),
     borderStyle: 'dotted',
-    width: 300,
-    height: 60,
+    width: dp(300),
+    height: dp(60),
     justifyContent: 'center',
     alignSelf: 'flex-start',
   },
@@ -542,40 +542,40 @@ const modalStyles = StyleSheet.create({
   modalView: {
     backgroundColor: 'white',
     borderColor: '#763CAD',
-    borderWidth: 5,
-    height: 500,
+    borderWidth: dp(5),
+    height: dp(500),
     shadowColor: '#000',
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: dp(0),
+      height: dp(2),
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
+    shadowOpacity: dp(0.25),
+    shadowRadius: dp(4),
+    elevation: dp(10),
   },
   modalAlert: {
-    marginTop: 100,
+    marginTop: dp(100),
     backgroundColor: 'white',
     borderColor: '#ed1c24',
-    borderWidth: 5,
-    padding: 40,
-    height: 400,
+    borderWidth: dp(5),
+    padding: dp(40),
+    height: dp(400),
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: dp(0),
+      height: dp(2),
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 10,
+    shadowOpacity: dp(0.25),
+    shadowRadius: dp(4),
+    elevation: dp(10),
   },
   button: {
-    borderRadius: 10,
-    width: 150,
-    height: 80,
-    elevation: 10,
-    margin: 15,
+    borderRadius: dp(10),
+    width: dp(150),
+    height: dp(80),
+    elevation: dp(10),
+    margin: dp(15),
   },
   violetBackground: {
     backgroundColor: palette.violet,
@@ -590,14 +590,14 @@ const modalStyles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 80,
-    fontSize: 25,
+    lineHeight: dp(80),
+    fontSize: dp(25),
   },
   modalText: {
-    marginBottom: 40,
+    marginBottom: dp(40),
     textAlign: 'center',
-    fontSize: 24,
-    marginTop: 20,
+    fontSize: dp(24),
+    marginTop: dp(20),
     fontWeight: 'bold',
   },
 });

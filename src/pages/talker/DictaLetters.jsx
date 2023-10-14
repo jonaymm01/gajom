@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Pressable, Image} from 'react-native';
-import {palette, styles} from '../../styles/styles';
+import {palette, styles, dp} from '../../styles/styles';
 import * as Speech from 'expo-speech';
 
 /**
@@ -61,7 +61,9 @@ export function DictaLetters() {
           setWord('');
         }}
       >
-        <Image source={require('../../../assets/trash_icon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 40, maxHeight: 40, margin: 10, alignSelf: 'center'}} />
+      <View style={{alignItems: 'center', marginTop: dp(10), flex: 1}}>
+        <Image source={require('../../../assets/trash_icon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(40), maxHeight: dp(40)}} />
+      </View>
     </TouchableOpacity>
 
 const deleteLastButton = 
@@ -71,8 +73,8 @@ const deleteLastButton =
       setWord(word.slice(0, -1));
     }}
   >
-  <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={{fontSize: 40, color: '#fff', fontWeight: '500'}}>⌫</Text>
+  <View style={{justifyContent: 'center', alignItems: 'center'}}>
+    <Text style={{fontSize: dp(40), color: '#fff', fontWeight: '500'}}>⌫</Text>
   </View>
 </TouchableOpacity>
 
@@ -84,7 +86,7 @@ const sayWordButton =
     }}
   >
   <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={{fontSize: 25, color: '#fff', fontWeight: '500'}}>LEER</Text>
+    <Text style={{fontSize: dp(25), color: '#fff', fontWeight: '500'}}>LEER</Text>
   </View>
 </TouchableOpacity>
 
@@ -113,14 +115,14 @@ const talkerStyles = StyleSheet.create({
   button_text: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: dp(35),
     textShadowColor: 'black',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 10,
   },
   word: {
     color: palette.violet,
-    fontSize: 30,
+    fontSize: dp(30),
     fontWeight: 'bold',
   }
 });

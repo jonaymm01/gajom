@@ -9,7 +9,7 @@ import Input from '../components/Input';
 import Separator from '../components/Separator';
 import LineSeparator from '../components/LineSeparator';
 
-import {styles, palette} from '../styles/styles';
+import {styles, palette, dp} from '../styles/styles';
 import {ProfileContext} from '../../global';
 import {ProfileListContext} from '../../global';
 
@@ -66,7 +66,6 @@ export function Profile({navigation}) {
       await renameProfile(activeProfile.name, newName);
       const modified = await AsyncStorage.getItem(newName);
       const newProfile = JSON.parse(modified);
-      console.log('aa')
       setActiveProfile(modified).then((pass) => {
         if (pass?.pass) {
           setProfile(pass.profile);
@@ -163,7 +162,7 @@ export function Profile({navigation}) {
     };
 
     const deletePinButton = 
-      <View style={{flexDirection: 'row', marginTop: 20}}>
+      <View style={{flexDirection: 'row', marginTop: dp(20)}}>
         <Button img={require('../../assets/open_lock.png')} color={palette.gray} onPress={() => deletePIN()} label="Eliminar PIN"/>
       </View >
 
@@ -177,7 +176,7 @@ export function Profile({navigation}) {
             setModalWarning(!modalWarning);
           }}>
             <View style={styles.modalView}>
-              <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+              <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: dp(80), height: dp(80)}} />
               <Text style={modalStyles.modalText}>Ya existe un perfil con este nombre.</Text>
               <Pressable
                 style={[modalStyles.button, modalStyles.redBackground]}
@@ -194,11 +193,11 @@ export function Profile({navigation}) {
             setModalName(!modalName);
           }}>
           <View style={[styles.modalView, {justifyContent: 'center'}]}>
-            <View style={{flexDirection: 'row', paddingLeft: 10, paddingRight: 10, borderWidth: 3, borderColor: palette.violet}}>
-              <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
-              <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet}]}> ➜ {(newName == '') ? ' _____' : newName} </Text>
+            <View style={{flexDirection: 'row', paddingLeft: dp(10), paddingRight: dp(10), borderWidth: dp(3), borderColor: palette.violet}}>
+              <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
+              <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet}]}> ➜ {(newName == '') ? ' _____' : newName} </Text>
             </View>
-            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo nombre</Text>
+            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>Indica un nuevo nombre</Text>
             <Controller
               name="name"
               defaultValue=""
@@ -251,7 +250,7 @@ export function Profile({navigation}) {
             setModalPin(!modalPin);
           }}>
           <View style={styles.modalView}>
-            <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet}]}>Indica un nuevo PIN</Text>
+            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>Indica un nuevo PIN</Text>
             <Controller
               name="pin"
               defaultValue=""
@@ -276,8 +275,8 @@ export function Profile({navigation}) {
                   autoCapitalize="none"
                   autoCorrect={false}
                   textContentType="newPassword"
-                  secureTextEntry
                   enablesReturnKeyAutomatically
+                  showHide={true}
                 />
               )}
             />
@@ -302,14 +301,14 @@ export function Profile({navigation}) {
                   autoCapitalize="none"
                   autoCorrect={false}
                   textContentType="newPassword"
-                  secureTextEntry
                   enablesReturnKeyAutomatically
+                  showHide={true}
                 />
               )}
             />
             <View style={{flexDirection: 'row'}}>
               <Pressable
-                style={[modalStyles.button, modalStyles.grayBackground, {marginTop: 50}]}
+                style={[modalStyles.button, modalStyles.grayBackground, {marginTop: dp(50)}]}
                 onPress={() => {
                   setModalPin(!modalPin);
                   resetField('pin');
@@ -319,7 +318,7 @@ export function Profile({navigation}) {
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
               </Pressable>
               <Pressable
-                style={[modalStyles.button, modalStyles.violetBackground, {marginTop: 50}]}
+                style={[modalStyles.button, modalStyles.violetBackground, {marginTop: dp(50)}]}
                 onPress={() => {
                   handleSubmit(changePin, invalidPin)().then(() => {
                     resetField('pin');
@@ -341,7 +340,7 @@ export function Profile({navigation}) {
             setModalDelete(!modalDelete);
           }}>
           <View style={styles.modalView}>
-              <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
+              <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: dp(80), height: dp(80)}} />
               <Text style={modalStyles.modalText}>Esto eliminará el usuario. ¿Desea continuar?</Text>
 
               <Pressable
@@ -354,7 +353,7 @@ export function Profile({navigation}) {
                 <Text style={modalStyles.textStyle}>Sí, eliminar</Text>
               </Pressable>
               <Pressable
-                style={[modalStyles.button, modalStyles.grayBackground, {marginTop: 20}]}
+                style={[modalStyles.button, modalStyles.grayBackground, {marginTop: dp(20)}]}
                 onPress={() => setModalDelete(!modalDelete)}>
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
               </Pressable>
@@ -362,29 +361,29 @@ export function Profile({navigation}) {
         </Modal>
 
         <View style={[styles.container, {alignItems: 'center'}]}>
-          <View style = {{alignItems: 'flex-start', marginTop: 40, alignItems: 'center'}}>
-            <View style={{flex: 1, backgroundColor: palette.darkViolet, padding: 30, borderRadius: 10}}>
-              <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: 35, fontWeight: 'bold', textAlign: 'center'}]}>{activeProfile.name}</Text>
+          <View style = {{alignItems: 'flex-start', marginTop: dp(40), alignItems: 'center'}}>
+            <View style={{flex: 1, backgroundColor: palette.darkViolet, padding: dp(30), borderRadius: dp(10)}}>
+              <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.basic_font, {color: '#fff', alignSelf: 'center', fontSize: dp(35), fontWeight: 'bold', textAlign: 'center'}]}>{activeProfile.name}</Text>
             </View>
-            <View style={{marginBottom: 40}}/>
+            <View style={{marginBottom: dp(40)}}/>
             <View style={{flexDirection: 'row'}}>
               <Button img={require('../../assets/user_icon.png')} color={palette.violet} onPress={() => openChange('name')} label="Cambiar nombre" />
             </View >
-            <View style={{flexDirection: 'row', marginTop: 20}}>
+            <View style={{flexDirection: 'row', marginTop: dp(20)}}>
               <Button img={require('../../assets/lock.png')} color={palette.violet} onPress={() => openChange('pin')} label={(activeProfile.pin == "0" || activeProfile.pin == undefined) ? "Añadir PIN" : "Cambiar PIN"}/>
             </View >
             <>
               {(activeProfile.pin == "0" || activeProfile.pin == undefined) ? null : deletePinButton}
             </>
-            <View style={{marginTop: 40, marginBottom: 30, flexDirection: 'row', justifyContent: 'space-between', width: 150}}>
-                <View style={{backgroundColor: palette.gray, height: 10, width: 10, borderRadius: 2}}/>
-                <View style={{backgroundColor: palette.gray, height: 10, width: 10, borderRadius: 2}}/>
-                <View style={{backgroundColor: palette.gray, height: 10, width: 10, borderRadius: 2}}/>
+            <View style={{marginTop: dp(40), marginBottom: dp(30), flexDirection: 'row', justifyContent: 'space-between', width: dp(150)}}>
+                <View style={{backgroundColor: palette.gray, height: dp(10), width: dp(10), borderRadius: dp(2)}}/>
+                <View style={{backgroundColor: palette.gray, height: dp(10), width: dp(10), borderRadius: dp(2)}}/>
+                <View style={{backgroundColor: palette.gray, height: dp(10), width: dp(10), borderRadius: dp(2)}}/>
             </View>
             <View>
               <Button color={palette.red} onPress={() => logOut()} label="Cerrar sesión" />
             </View>
-            <View style={{marginTop: 10, marginBottom: 20}}>
+            <View style={{marginTop: dp(10), marginBottom: dp(20)}}>
               <Button color={palette.gray} onPress={() => setModalDelete(!modalDelete)} label="Eliminar perfil" />
             </View>
           </View>
@@ -396,11 +395,11 @@ export function Profile({navigation}) {
 
 const modalStyles = StyleSheet.create({
   button: {
-    borderRadius: 10,
-    width: 150,
-    height: 80,
-    elevation: 10,
-    margin: 15,
+    borderRadius: dp(10),
+    width: dp(150),
+    height: dp(80),
+    elevation: dp(10),
+    margin: dp(15),
   },
   violetBackground: {
     backgroundColor: palette.violet,
@@ -415,14 +414,14 @@ const modalStyles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 80,
-    fontSize: 25,
+    lineHeight: dp(80),
+    fontSize: dp(25),
   },
   modalText: {
-    marginBottom: 40,
+    marginBottom: dp(40),
     textAlign: 'center',
-    fontSize: 24,
-    marginTop: 20,
+    fontSize: dp(24),
+    marginTop: dp(20),
     fontWeight: 'bold',
   },
 });

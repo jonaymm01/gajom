@@ -6,7 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import {styles, palette} from '../../styles/styles';
+import {styles, palette, dp} from '../../styles/styles';
 import {DefaultQuestions} from '../../content/DefaultQuestions';
 import * as Speech from 'expo-speech';
 
@@ -53,36 +53,36 @@ export function Questions({navigation}) {
 <View style={{ flex: 1 }}>
   <View style={{ flex: 1, flexDirection: 'row'}}>
     <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Cuándo')}}>
-      <Image source={require('../../../assets/questIcons/cuandoIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Image source={require('../../../assets/questIcons/cuandoIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(50), maxHeight: dp(50), margin: dp(10)}} />
       <Text style={questionStyles.buttonText}>¿Cuándo...</Text>
     </TouchableOpacity>
 
     <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Cómo')}}>
-      <Image source={require('../../../assets/questIcons/comoIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Image source={require('../../../assets/questIcons/comoIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(50), maxHeight: dp(50), margin: dp(10)}} />
       <Text style={questionStyles.buttonText}>¿Cómo...</Text>
     </TouchableOpacity>
   </View>
 
   <View style={{ flex: 1, flexDirection: 'row'}}>
     <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Dónde')}}>
-      <Image source={require('../../../assets/questIcons/dondeIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Image source={require('../../../assets/questIcons/dondeIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(50), maxHeight: dp(50), margin: dp(10)}} />
       <Text style={questionStyles.buttonText}>¿Dónde...</Text>
     </TouchableOpacity>
 
     <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Quién')}}>
-      <Image source={require('../../../assets/questIcons/quienIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Image source={require('../../../assets/questIcons/quienIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(50), maxHeight: dp(50), margin: dp(10)}} />
       <Text style={questionStyles.buttonText}>¿Quién...</Text>
     </TouchableOpacity>
   </View>
   
   <View style={{ flex: 1, flexDirection: 'row'}}>
     <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿Qué')}}>
-      <Image source={require('../../../assets/questIcons/queIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Image source={require('../../../assets/questIcons/queIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(50), maxHeight: dp(50), margin: dp(10)}} />
       <Text style={questionStyles.buttonText}>¿Qué...</Text>
     </TouchableOpacity>
 
     <TouchableOpacity style={questionStyles.button} onPress={() => {goToEnd('¿')}}>
-      <Image source={require('../../../assets/questIcons/anyIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 50, maxHeight: 50, margin: 10}} />
+      <Image source={require('../../../assets/questIcons/anyIcon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(50), maxHeight: dp(50), margin: dp(10)}} />
       <Text style={questionStyles.buttonText}>¿...</Text>
     </TouchableOpacity>
   </View>
@@ -97,14 +97,14 @@ export const questionStyles = StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: palette.violet,
-    margin: 2,
+    margin: dp(2),
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonText: {
     textAlign: 'center',
     color: '#fff',
-    fontSize: 25,
+    fontSize: dp(25),
     fontWeight: 'bold'
   }
 });

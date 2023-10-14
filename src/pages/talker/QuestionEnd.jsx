@@ -6,7 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import {styles, palette} from '../../styles/styles';
+import {styles, palette, dp} from '../../styles/styles';
 import {DefaultQuestions} from '../../content/DefaultQuestions';
 import * as Speech from 'expo-speech';
 
@@ -42,7 +42,7 @@ export function QuestionEnd({route, navigation}) {
   const { itemId, start } = route.params;
 
   let backButton =
-    <View style={{height: 60, margin: 5}}>
+    <View style={{height: dp(60), margin: dp(5)}}>
     </View>;
 
   let profileButtons = [];
@@ -65,7 +65,7 @@ export function QuestionEnd({route, navigation}) {
           <TouchableOpacity onPress={() => {
             deleteQuest(start, question);
           }} style={questionStyles.deleteButton}>
-            <Image source={require('../../../assets/trash_icon.png')} resizeMode='contain' style={{width: 30, height: 30}} />
+            <Image source={require('../../../assets/trash_icon.png')} resizeMode='contain' style={{width: dp(30), height: dp(30)}} />
           </TouchableOpacity>
         </View>,
       );
@@ -100,7 +100,7 @@ export function QuestionEnd({route, navigation}) {
           (profile === '{}') ? navigation.navigate("profile") :  setModalAdd(!modalAdd);
         }}>
           <View>
-            <Text style={[questionStyles.smallButtonText, {fontSize: 20, textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para añadir' : '+'}</Text>
+            <Text style={[questionStyles.smallButtonText, {fontSize: dp(20), textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para añadir' : '+'}</Text>
           </View>
         </TouchableOpacity>;
 
@@ -264,62 +264,62 @@ export const questionStyles = StyleSheet.create({
     alignSelf: 'center',
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: dp(20),
   },
   smallButtonText: {
     alignSelf: 'center',
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: dp(40),
   },
   button: {
     backgroundColor: palette.violet,
-    margin: 5,
-    height: 80,
-    width: 300,
+    margin: dp(5),
+    height: dp(80),
+    width: dp(300),
     justifyContent: 'center',
-    padding: 15,
+    padding: dp(15),
   },
   addButton: {
     backgroundColor: palette.gray,
-    margin: 5,
-    marginBottom: 20,
-    height: 50,
-    width: 300,
+    margin: dp(5),
+    marginBottom: dp(20),
+    height: dp(50),
+    width: dp(300),
     justifyContent: 'center',
     alignContent: 'center',
-    borderRadius: 5,
-    elevation: 10,
+    borderRadius: dp(5),
+    elevation: dp(10),
   },
   defButton: {
     backgroundColor: palette.red,
-    margin: 5,
-    padding: 15,
-    width: 250,
-    height: 80,
+    margin: dp(5),
+    padding: dp(15),
+    width: dp(250),
+    height: dp(80),
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: dp(0),
+      height: dp(2),
     },
-    shadowOpacity: 0.9,
-    shadowRadius: 4,
-    elevation: 10,
+    shadowOpacity: dp(0.9),
+    shadowRadius: dp(4),
+    elevation: dp(10),
   },
   backButton: {
     backgroundColor: palette.gray,
-    height: 60,
-    width: 60,
+    height: dp(60),
+    width: dp(60),
     justifyContent: 'center',
   },
   text: {
-    fontSize: 30,
+    fontSize: dp(30),
   },
   title: {
-    fontSize: 25,
+    fontSize: dp(25),
     fontWeight: 'bold',
-    margin: 20,
+    margin: dp(20),
   },
 });
 

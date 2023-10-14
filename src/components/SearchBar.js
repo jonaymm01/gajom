@@ -1,6 +1,6 @@
 import { View, StyleSheet, ViewStyle, Platform, TextInput } from 'react-native';
 import React from 'react';
-import { palette } from '../styles/styles';
+import { palette, dp } from '../styles/styles';
 
 export function SearchBar({...props}) {
   return (
@@ -31,7 +31,7 @@ const searchStyles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: '#fff',
         borderRadius: 10,
-        fontSize: 20,
+        fontSize: dp(20),
         borderWidth: 3,
         borderColor: palette.violet,
         shadowColor: '#fdfcfc',

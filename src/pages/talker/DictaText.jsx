@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, ScrollView, StyleSheet, SafeAreaView, Pressable, TouchableOpacity, Image} from 'react-native';
-import {palette, styles} from '../../styles/styles';
+import {palette, styles, dp} from '../../styles/styles';
 import {useForm, Controller} from 'react-hook-form';
 import * as Speech from 'expo-speech';
 
@@ -45,9 +45,9 @@ export function DictaText() {
             required: {value: true, message: 'Escribe las palabras a reproducir'},
           }}
           render={({field: {onChange, value}}) => (
-          <View style={{maxWidth: 250, minWidth: 100}}>
+          <View style={{maxWidth: dp(250), minWidth: dp(100)}}>
             <Input
-              minWidth={250}
+              minWidth={dp(250)}
               error={errors.name}
               errorText={errors?.name?.message}
               onChangeText={(text) => {
@@ -63,7 +63,7 @@ export function DictaText() {
         />
         </View>
         <Text style={[styles.title, {marginBottom: 20, color: palette.violet, marginTop: 30}]}>¡Pulsa para dictarlo!</Text>
-        <View style={{minWidth: 200, minHeight: 200}}>
+        <View style={{minWidth: dp(200), minHeight: dp(200)}}>
         <TouchableOpacity style={{backgroundColor: palette.violet, elevation: 10, borderRadius: 20, flex: 1, marginLeft: 20, marginRight: 20}} onPress={() => speak(text)}>
             <View>
               <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', padding: 10, margin: 10, flexWrap: 'wrap'}]}>{(text == '') ? '...' : text}</Text>
@@ -88,6 +88,6 @@ const creatorStyles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 25,
+    fontSize: dp(25),
   },
 });

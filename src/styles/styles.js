@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, PixelRatio, Dimensions} from 'react-native';
 
 export const palette = {
   violet: '#763CAD',
@@ -13,6 +13,14 @@ export const tapColors = {
   blue: '#0D62CE',
   red: '#D31515',
 };
+
+const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+export const w_width = SCREEN_WIDTH;
+export const w_height = SCREEN_HEIGHT;
+
+const scale = SCREEN_HEIGHT / 781;
+export const dp = dp => PixelRatio.getFontScale()*dp*scale;
+
 
 export const styles = StyleSheet.create({
   modalView: {
@@ -39,21 +47,21 @@ export const styles = StyleSheet.create({
     marginTop: 15,
   },
   title: {
-    fontSize: 22,
+    fontSize: dp(22),
     fontWeight: 'bold',
   },
   title_white: {
-    fontSize: 22,
+    fontSize: dp(22),
     fontWeight: 'bold',
     color: '#fff',
   },
   text: {
-    fontSize: 20,
+    fontSize: dp(20),
     marginLeft: 10,
     marginRight: 10,
   },
   text_white: {
-    fontSize: 16,
+    fontSize: dp(16),
     textAlign: 'justify',
     padding: 14,
     color: '#fff',
@@ -66,12 +74,12 @@ export const styles = StyleSheet.create({
   logopedazo_container: {
     flex: 1,
     backgroundColor: '#000',
-    fontSize: 16,
+    fontSize: dp(16),
     width: 30,
   },
   logopedazo_title: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: dp(30),
     justifyContent: 'center',
     fontWeight: 'bold',
     fontStyle: 'italic',
@@ -79,7 +87,7 @@ export const styles = StyleSheet.create({
   logopedazo_text: {
     flex: 2,
     color: '#fff',
-    fontSize: 18,
+    fontSize: dp(18),
     textAlign: 'justify',
     padding: 20,
   },
@@ -100,14 +108,14 @@ export const styles = StyleSheet.create({
   button_text: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: dp(30),
     textAlign: 'center',
   },
   basic_font: {
-    fontSize: 20,
+    fontSize: dp(20),
   },
   basic_font_bold: {
-    fontSize: 20,
+    fontSize: dp(20),
     fontWeight: 'bold',
   },
 });

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native';
-import {palette, styles} from '../../styles/styles';
+import {palette, styles, dp} from '../../styles/styles';
 import PictoList from '../../components/PictoList';
 import {DefaultPictos} from '../../content/DefaultPictos';
 import * as Speech from 'expo-speech';
@@ -108,23 +108,23 @@ const pathStyles = StyleSheet.create({
     backgroundColor: '#fff',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    margin: 20,
+    margin: dp(20),
   },
   button: {
     backgroundColor: palette.violet,
-    padding: 15,
-    margin: 5,
-    borderRadius: 10,
+    padding: dp(15),
+    margin: dp(5),
+    borderRadius: dp(10),
   },
   buttonText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: dp(20),
     fontWeight: 'bold',
   },
   backButton: {
     backgroundColor: palette.gray,
-    borderRadius: 10,
-    margin: 5,
-    padding: 15
+    borderRadius: dp(10),
+    margin: dp(5),
+    padding: dp(15)
   }
 });

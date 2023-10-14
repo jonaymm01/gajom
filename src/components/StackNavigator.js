@@ -21,7 +21,7 @@ import { DictaLetters } from '../pages/talker/DictaLetters';
 import { DictaMenu } from '../pages/talker/DictaMenu';
 
 import {ProfileContext} from '../../global';
-import {palette} from '../styles/styles';
+import {palette, dp} from '../styles/styles';
 import { ScreenStackHeaderLeftView } from 'react-native-screens';
 
 const Stack = createStackNavigator();
@@ -89,24 +89,24 @@ export {TalkerStackNavigator, ProfileStackNavigator, InfoStackNavigator};
 const headerStyle = StyleSheet.create({
   header: {
     backgroundColor: '#fff',
-    height: 60,
-    borderBottomWidth: 7,
+    height: dp(60),
+    borderBottomWidth: dp(7),
     borderColor: palette.red
   },
   headerWhite: {
     backgroundColor: '#fff',
     borderBottomColor: '#fff',
-    borderBottomWidth: 5,
-    height: 60,
+    borderBottomWidth: dp(5),
+    height: dp(60),
   },
   title: {
     color: palette.red,
-    fontSize: 23,
+    fontSize: dp(23),
     fontWeight: 'bold'
   },
   titleBlack: {
     color: '#000',
-    fontSize: 23,
-    marginRight: 10,
+    fontSize: dp(23),
+    marginRight: dp(10),
   },
 });

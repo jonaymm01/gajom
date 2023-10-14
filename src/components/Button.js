@@ -3,6 +3,8 @@ import {StyleSheet} from 'react-native';
 import React from 'react';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
 
+import { dp } from '../styles/styles';
+
 /**
  * Componente: Botón.
  * @param {*} {label, ...props}
@@ -13,7 +15,7 @@ export default function Button({label, ...props}) {
     return (
       <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={props.img} resizeMode='contain' tintColor={'#fff'} style={{maxHeight: 30, maxWidth: 30, marginLeft: 20}}/>
+          <Image source={props.img} resizeMode='contain' tintColor={'#fff'} style={{maxHeight: dp(30), maxWidth: dp(30), marginLeft: dp(20)}}/>
           <Text style={[styles.button_text, {flex: 2, textAlign: 'right', marginRight: 20}]}>{label}</Text>
         </View>
       </TouchableOpacity>
@@ -30,17 +32,17 @@ export default function Button({label, ...props}) {
 
 export const styles = StyleSheet.create({
   button: {
-    height: 80,
-    width: 300,
+    height: dp(80),
+    width: dp(300),
     alignItems: 'center',
-    borderRadius: 20,
-    marginTop: 10,
-    elevation: 10
+    borderRadius: dp(20),
+    marginTop: dp(10),
+    elevation: 5
   },
   button_text: {
     color: '#fff',
-    lineHeight: 80,
-    fontSize: 23,
+    lineHeight: dp(80),
+    fontSize: dp(23),
     fontWeight: '500',
   },
   purple: {

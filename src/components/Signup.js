@@ -9,7 +9,7 @@ import {createProfile, setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-import {styles, palette} from '../styles/styles';
+import {styles, palette, dp, w_width} from '../styles/styles';
 
 /**
  * Componente: Registro
@@ -18,7 +18,6 @@ import {styles, palette} from '../styles/styles';
  */
 export function SignUp({navigation}) {
   const [modalWarning, setModalWarning] = useState(false);
-  const [hiddenPin, setHiddenPin] = useState(true);
   const [modalSigned, setModalSigned] = useState(false);
 
   const [pinEnabled, setPinEnabled] = useState(false);
@@ -32,10 +31,6 @@ export function SignUp({navigation}) {
   const onPressLogin = () => navigation.navigate('Login');
 
   const {handleSubmit, control, formState: {errors}, getValues} = useForm();
-
-  const showPass = () => {
-    setHiddenPin(!hiddenPin);
-  };
 
   const onSubmit = async (value) => {
     const profile = await AsyncStorage.getItem(value.name);
@@ -91,100 +86,88 @@ const pinInput =
         autoCapitalize="none"
         autoCorrect={false}
         textContentType="newPassword"
-        secureTextEntry={hiddenPin ? true : false}
         enablesReturnKeyAutomatically
+        showHide={true}
       />
-      <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
-        <TouchableOpacity onPress={() => {
-          showPass();
-        }}>
-          <Image source={(hiddenPin) ? require('../../assets/eye_hidden_icon.png') : require('../../assets/eye_show_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
-        </TouchableOpacity>
-      </View>
     </>
   )}
   />
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView keyboardShouldPersistTaps="handled" style= {{backgroundColor: '#fff'}}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
           style={styles.blank_background}>
-          <ScrollView>
           <View>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <>
-              <Modal
-                animationType="fade"
-                visible={modalWarning}
-                onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
-                  setModalWarning(!modalWarning);
-                }}>
-                  <View style={styles.modalView}>
-                    <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: 80, height: 80}} />
-                    <Text style={modalStyles.modalText}>Ya existe un perfil con este nombre.</Text>
-                    <Pressable
-                      style={[modalStyles.button, modalStyles.redBackground]}
-                      onPress={() => setModalWarning(!modalWarning)}>
-                      <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-                    </Pressable>
-                  </View>
-              </Modal>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <>
+                <Modal
+                  animationType="fade"
+                  visible={modalWarning}
+                  onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalWarning(!modalWarning);
+                  }}>
+                    <View style={styles.modalView}>
+                      <Image source={require('../../assets/warning.png')} resizeMode='contain' style={{width: dp(80), height: dp(80)}} />
+                      <Text style={modalStyles.modalText}>Ya existe un perfil con este nombre.</Text>
+                      <Pressable
+                        style={[modalStyles.button, modalStyles.redBackground]}
+                        onPress={() => setModalWarning(!modalWarning)}>
+                        <Text style={modalStyles.textStyle}>¡Entendido!</Text>
+                      </Pressable>
+                    </View>
+                </Modal>
 
-              <Modal
-                animationType="fade"
-                visible={modalSigned}
-                onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
-                  setModalSigned(!modalSigned);
-                }}>
-                <View style={[styles.modalView, {marginTop: 100}]}>
-                  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={[modalStyles.title]}>¡PERFIL AÑADIDO!</Text>
-                  </View>
-                  <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={{borderWidth: 4, borderColor: palette.violet, paddingTop: 40, paddingBottom: 40, paddingRight: 20, paddingLeft: 20}}>
-                      <View style={{width: 250}}>
-                        <Text style={modalStyles.profile}>{newProfile.name}</Text>
+                <Modal
+                  animationType="fade"
+                  visible={modalSigned}
+                  onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalSigned(!modalSigned);
+                  }}>
+                  <View style={[styles.modalView, {marginTop: 100}]}>
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                      <Text style={[modalStyles.title]}>¡PERFIL AÑADIDO!</Text>
+                    </View>
+                    <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+                      <View style={{borderWidth: 4, borderColor: palette.violet, paddingTop: 40, paddingBottom: 40, paddingRight: 20, paddingLeft: 20}}>
+                        <View style={{width: 250}}>
+                          <Text style={modalStyles.profile}>{newProfile.name}</Text>
+                        </View>
                       </View>
                     </View>
+                    <View style={{flexDirection: 'row', flex: 2}}>
+                      <Pressable
+                        style={[modalStyles.button, modalStyles.grayBackground, {flex: 1}]}
+                        onPress={() => {setModalSigned(!modalSigned); navigation.navigate('Login')}}>
+                        <Text style={modalStyles.textStyle}>Volver</Text>
+                      </Pressable>
+                      <Pressable
+                        style={[modalStyles.button, modalStyles.violetBackground, {flex: 2}]}
+                        onPress={() => {
+                          onLogin();
+                          setModalSigned(!modalSigned);
+                        }}>
+                        <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
+                      </Pressable>
+                    </View>
                   </View>
-                  <View style={{flexDirection: 'row', flex: 2}}>
-                    <Pressable
-                      style={[modalStyles.button, modalStyles.grayBackground, {flex: 1}]}
-                      onPress={() => {setModalSigned(!modalSigned); navigation.navigate('Login')}}>
-                      <Text style={modalStyles.textStyle}>Volver</Text>
-                    </Pressable>
-                    <Pressable
-                      style={[modalStyles.button, modalStyles.violetBackground, {flex: 2}]}
-                      onPress={() => {
-                        onLogin();
-                        setModalSigned(!modalSigned);
-                      }}>
-                      <Text style={modalStyles.textStyle}>Iniciar Sesión</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </Modal>
-
-              <View style={{flex: 1}}>
-                
-                <View style={[styles.container, {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', margin: 20}]}>
+                </Modal>
+                  
+                <View style={[styles.container, {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}]}>
                   <TouchableOpacity style={[backButton.base]} onPress={onPressLogin}>
                     <View>
                       <Text style={[backButton.text]}>⤺</Text>
                     </View>
                   </TouchableOpacity>
                   <View style={SignupStyle.titleContainer}>
-                   <Text style={[SignupStyle.title]}>Creación de perfil</Text>
+                  <Text style={[SignupStyle.title]}>Creación de perfil</Text>
                   </View>
                 </View>
 
-                
-                <View style={[formStyles.input_container, {marginTop: 10}]}>
-                <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet, marginBottom: 10}}>Introduce un nombre</Text>
+                <View style={{flex: 4}}> 
+                <Text style={{fontSize: dp(22), fontWeight: 'bold', color: palette.violet, marginBottom: dp(10)}}>Introduce un nombre</Text>
                   <Controller
                     name="name"
                     defaultValue=""
@@ -205,8 +188,8 @@ const pinInput =
                       />
                     )}
                   />
-                  <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginBottom: 10}}>
-                    <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet}}>Añadir un PIN?</Text>
+                  <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginBottom: dp(10)}}>
+                    <Text style={{fontSize: dp(22), fontWeight: 'bold', color: palette.violet}}>Añadir un PIN?</Text>
                     <View style={SignupStyle.switch}>
                       <Switch
                         trackColor={{false: '#767577', true: palette.violet}}
@@ -220,17 +203,14 @@ const pinInput =
                   <>
                     {(pinEnabled) ? pinInput : null}
                   </>
-                  <View style={{marginTop: (pinEnabled) ? 40 : 20, paddingBottom: 20}}>
+                  <View style={{paddingBottom: dp(20)}}>
                     <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
                   </View>
                 </View>
-              </View>
-            </>
-          </TouchableWithoutFeedback>
+              </>
+            </TouchableWithoutFeedback>
           </View>
-          </ScrollView>
         </KeyboardAvoidingView>
-      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -238,8 +218,8 @@ export const formStyles = StyleSheet.create({
   input_container: {
     justifyContent: 'center',
     backgroundColor: '#fff',
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: dp(20),
+    paddingRight: dp(20),
   },
 });
 
@@ -247,17 +227,17 @@ const SignupStyle = StyleSheet.create({
   deleteButton: {
     alignContent: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
-    padding: 20,
+    borderRadius: dp(10),
+    padding: dp(20),
   },
   switch: {
-    marginLeft: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-    transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }]
+    marginLeft: dp(20),
+    paddingLeft: dp(20),
+    paddingRight: dp(20),
+    transform: [{ scaleX: dp(1.8) }, { scaleY: dp(1.8) }]
   },
   title: {
-    fontSize: 24,
+    fontSize: dp(24),
     fontWeight: 'bold',
     color: palette.violet,
   },
@@ -265,11 +245,11 @@ const SignupStyle = StyleSheet.create({
     flex: 3,
     backgroundColor: 'white',
     borderColor: palette.violet,
-    borderWidth: 2,
+    borderWidth: dp(2),
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-    margin: 5,
+    marginLeft: dp(5),
+    padding: dp(10),
   }
 });
 
@@ -280,12 +260,12 @@ const backButton = StyleSheet.create({
     backgroundColor: palette.gray,
     alignSelf: 'center',
     alignItems: 'center',
-    paddingBottom: 10,
+    paddingBottom: dp(10),
   },
   text: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: dp(40),
     alignSelf: 'center',
   },
 });
@@ -316,25 +296,25 @@ const modalStyles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: 80,
-    fontSize: 25,
+    fontSize: dp(25),
   },
   modalText: {
     marginBottom: 40,
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: dp(24),
     marginTop: 20,
     fontWeight: 'bold',
   },
   title: {
     textAlign: 'center',
-    fontSize: 35,
+    fontSize: dp(35),
     marginTop: 20,
     fontWeight: 'bold',
     color: palette.violet,
   },
   profile: {
     textAlign: 'center',
-    fontSize: 30,
+    fontSize: dp(30),
     fontWeight: 'bold',
     color: palette.violet,
 

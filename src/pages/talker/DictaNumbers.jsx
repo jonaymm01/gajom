@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Pressable, Image} from 'react-native';
-import {palette, styles} from '../../styles/styles';
+import {palette, styles, dp} from '../../styles/styles';
 import * as Speech from 'expo-speech';
 
 /**
@@ -61,7 +61,7 @@ export function DictaNumbers() {
         }}
       >
       <View style={{flex: 1, justifyContent: 'center'}}>
-        <Image source={require('../../../assets/trash_icon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 40, maxHeight: 40, alignSelf: 'center'}} />
+        <Image source={require('../../../assets/trash_icon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(40), maxHeight: dp(40), alignSelf: 'center'}} />
       </View>
     </TouchableOpacity>
 
@@ -73,7 +73,7 @@ const deleteLastButton =
     }}
   >
   <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={[{fontSize: 40, color: '#fff', fontWeight: '500'}]}> ⌫ </Text>
+    <Text style={[{fontSize: dp(40), color: '#fff', fontWeight: '500'}]}> ⌫ </Text>
   </View>
 </TouchableOpacity>
 
@@ -85,7 +85,7 @@ const sayWordButton =
     }}
   >
   <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={{fontSize: 25, color: '#fff', fontWeight: '500'}}>LEER ENTERO</Text>
+    <Text style={{fontSize: dp(25), color: '#fff', fontWeight: '500'}}>LEER ENTERO</Text>
   </View>
 </TouchableOpacity>
 
@@ -97,7 +97,7 @@ const spellButton =
     }}
   >
   <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={{fontSize: 25, color: '#fff', fontWeight: '500'}}>DELETREO</Text>
+    <Text style={{fontSize: dp(25), color: '#fff', fontWeight: '500'}}>DELETREO</Text>
   </View>
 </TouchableOpacity>
 
@@ -134,14 +134,14 @@ const talkerStyles = StyleSheet.create({
   button_text: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: dp(40),
     textShadowColor: 'black',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 10,
   },
   word: {
     color: palette.violet,
-    fontSize: 30,
+    fontSize: dp(30),
     fontWeight: 'bold',
   }
 });

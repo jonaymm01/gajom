@@ -2,7 +2,7 @@
 import {StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
-import {styles, palette} from '../styles/styles';
+import {styles, palette, dp} from '../styles/styles';
 import {DefaultPictos} from '../content/DefaultPictos';
 import * as Speech from 'expo-speech';
 
@@ -67,7 +67,7 @@ export default function Pictogram({...props}) {
   } else {
       return (
         <TouchableOpacity style={[((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal), ((otrosKeys.includes(props.data.name) == true) ? {borderRadius: 100} : null)]} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
-          <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={[((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal), {fontSize: 25}]}>{props.data.name}</Text>
+          <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={[((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal), {fontSize: dp(25)}]}>{props.data.name}</Text>
         </TouchableOpacity>
       );
   }
@@ -76,45 +76,45 @@ export default function Pictogram({...props}) {
 
 export const pictoStyles = StyleSheet.create({
   baseNoTerminal: {
-    height: 180,
-    width: 160,
+    height: dp(180),
+    width: dp(160),
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
     borderColor: palette.violet,
-    borderWidth: 5,
-    borderRadius: 40,
-    padding: 10,
-    margin: 10,
+    borderWidth: dp(5),
+    borderRadius: dp(40),
+    padding: dp(10),
+    margin: dp(10),
   },
   baseTerminal: {
-    height: 180,
-    width: 160,
+    height: dp(180),
+    width: dp(160),
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: palette.darkViolet,
-    borderWidth: 5,
-    borderRadius: 10,
-    padding: 10,
-    margin: 10,
+    borderWidth: dp(5),
+    borderRadius: dp(10),
+    padding: dp(10),
+    margin: dp(10),
   },
   textNoTerminal: {
     color: palette.violet,
-    fontSize: 20,
+    fontSize: dp(20),
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 5,
+    padding: dp(5),
   },
   textTerminal: {
     color: palette.darkViolet,
-    fontSize: 20,
+    fontSize: dp(20),
     fontWeight: 'bold',
     textAlign: 'center',
   },
   img: {
     flex: 1,
-    maxWidth: 100,
-    maxHeight: 100,
-    borderRadius: 10,
+    maxWidth: dp(100),
+    maxHeight: dp(100),
+    borderRadius: dp(10),
   },
 });

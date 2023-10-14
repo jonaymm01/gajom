@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, ScrollView, StyleSheet} from 'react-native';
 
-import {palette} from '../../styles/styles';
+import {palette, dp} from '../../styles/styles';
 import {fqaContent} from '../../content/fqaContent';
 
 /**
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
     elevation: 10,
   },
   question: {
-    fontSize: 20,
+    fontSize: dp(20),
     fontWeight: 'bold',
     marginBottom: 20,
     marginTop: -40,
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   questionStart: {
-    fontSize: 20,
+    fontSize: dp(20),
     fontWeight: 'bold',
     marginBottom: 20,
     marginTop: -40,
@@ -95,12 +95,12 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   answer: {
-    fontSize: 18,
+    fontSize: dp(18),
     textAlign: 'left',
     color: palette.violet,
   },
   answerStart: {
-    fontSize: 20,
+    fontSize: dp(20),
     textAlign: 'left',
     color: '#fff',
     fontWeight: 'bold'

@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
-import {styles, palette} from '../styles/styles';
+import {styles, palette, dp} from '../styles/styles';
 import * as Speech from 'expo-speech';
 
 /**
@@ -38,7 +38,7 @@ const talkerStyles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 40,
+    fontSize: dp(40),
     textAlign: 'justify',
     color: palette.violet,
     lineHeight: 100,
@@ -48,7 +48,7 @@ const talkerStyles = StyleSheet.create({
     fontWeight: 'bold',
     paddingLeft: 30,
     paddingRight: 30,
-    fontSize: 50,
+    fontSize: dp(50),
     textShadowColor: 'black',
     textShadowOffset: {width: 1, height: 4},
     textShadowRadius: 2,

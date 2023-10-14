@@ -11,7 +11,7 @@ import {hasPin, setActiveProfile} from '../_helpers/storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-import {styles, palette} from '../styles/styles';
+import {styles, palette, dp} from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { RotateInUpLeft } from 'react-native-reanimated';
 
@@ -50,6 +50,12 @@ export function Login({navigation}) {
         setSelected('');
       } else {
         resetField('pin');
+        Alert.alert('¡Ups!', 'Pin incorrecto.', [
+          {text: 'OK'},
+        ],
+        {
+          cancelable: true,
+        });
       }
     });
   };
@@ -88,16 +94,16 @@ export function Login({navigation}) {
     </View>
 
   const emptyListWarning = 
-  <View style={{flex: 4, justifyContent: 'center', alignSelf: 'center', paddingLeft: 20, paddingRight: 20, marginBottom: 100}}>
-    <Text style={[{fontSize: 20, color: palette.red, fontWeight: 'bold'}]}>Aún no has creado ningún perfil.</Text>
+  <View style={{flex: 4, justifyContent: 'center', alignSelf: 'center', paddingLeft: dp(20), paddingRight: dp(20), marginBottom: dp(100)}}>
+    <Text style={[{fontSize: dp(20), color: palette.red, fontWeight: 'bold'}]}>Aún no has creado ningún perfil.</Text>
   </View>
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      <View style={{flex: 1, padding: 50}}>
+      <View style={{flex: 1, padding: dp(50)}}>
           <TouchableOpacity style={[squareButtonOn.base]} onPress={onPressSignup}>
-            <View>
-              <Text style={[squareButtonOn.text, {fontSize: 30}]}>AÑADIR PERFIL</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={[squareButtonOn.text, {fontSize: dp(30)}]}>AÑADIR PERFIL</Text>
             </View>
           </TouchableOpacity>
       </View>
@@ -109,12 +115,12 @@ export function Login({navigation}) {
                 setModalPin(!modalPin);
               }}>
               <View style={styles.modalView}>
-                <View style={{alignItems: 'center', marginBottom: 20}}>
-                  <Text style={[accessForm.loginText, {marginBottom: 30}]}>INICIANDO SESIÓN</Text>
-                  <Text style={[accessForm.profile_name, {marginTop: 10}]}>{selected}</Text>
+                <View style={{alignItems: 'center', marginBottom: dp(10)}}>
+                  <Text style={[accessForm.loginText, {marginBottom: dp(10)}]}>INICIANDO SESIÓN</Text>
+                  <Text style={[accessForm.profile_name, {marginTop: dp(10)}]}>{selected}</Text>
                 </View>
                 <View style={{alignItems: 'center'}}>
-                <Text style={[accessForm.text, {marginBottom: 20,}]}>Introduce aquí tu PIN</Text>
+                <Text style={[accessForm.text, {marginBottom: dp(30)}]}>Introduce aquí tu PIN</Text>
                 <Controller
                     name="pin"
                     defaultValue=""
@@ -140,20 +146,13 @@ export function Login({navigation}) {
                           autoCapitalize="none"
                           autoCorrect={false}
                           textContentType="newPassword"
-                          secureTextEntry={hiddenPin ? true : false}
                           enablesReturnKeyAutomatically
+                          showHide={true}
                         />
-                        <View style={{alignSelf: 'flex-end', marginTop: (errors?.pin?.message?.length > 0) ? -103 : -80, marginRight: 10}}>
-                          <TouchableOpacity onPress={() => {
-                            showPass();
-                          }} >
-                            <Image source={(hiddenPin) ? require('../../assets/eye_hidden_icon.png') : require('../../assets/eye_show_icon.png')} resizeMode='contain' style={{width: 40, height: 40}} />
-                          </TouchableOpacity>
-                        </View>
                       </>
                     )}
                   />
-                <View style={{flexDirection: 'row', marginTop: 40}}>
+                <View style={{flexDirection: 'row'}}>
                   <Pressable
                     style={[modalStyles.button, modalStyles.grayBackground]}
                     onPress={() => {
@@ -191,27 +190,27 @@ export const formStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingRight: 20,
-    paddingLeft: 20,
+    paddingRight: dp(20),
+    paddingLeft: dp(20),
   },
 });
 
 const accessForm = StyleSheet.create({
   profile_name: {
-    fontSize: 40,
+    fontSize: dp(40),
     fontWeight: 'bold',
     color: palette.violet,
     textAlign: 'center',
   },
   text: {
-    fontSize: 22,
+    fontSize: dp(22),
     color: palette.violet,
   },
   loginText: {
-    fontSize: 22,
+    fontSize: dp(22),
     backgroundColor: palette.violet,
     color: '#fff',
-    padding: 20,
+    padding: dp(20),
     fontWeight: 'bold',
   }
 });
@@ -222,15 +221,14 @@ const squareButtonOn = StyleSheet.create({
     backgroundColor: palette.gray,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    elevation: 10,
+    padding: dp(20),
+    elevation: dp(10),
 
   },
   text: {
-    flex: 1,
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: dp(20),
     alignSelf: 'center',
   },
 });
@@ -238,7 +236,7 @@ const squareButtonOn = StyleSheet.create({
 const squareButtonOff = StyleSheet.create({
   base: {
     flex: 1,
-    borderWidth: 5,
+    borderWidth: dp(5),
     borderColor: '#fff',
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -248,19 +246,19 @@ const squareButtonOff = StyleSheet.create({
     flex: 1,
     color: palette.red,
     fontWeight: 'bold',
-    fontSize: 20,
-    lineHeight: 120,
+    fontSize: (20),
+    lineHeight: dp(120),
   },
 });
 
 
 const modalStyles = StyleSheet.create({
   button: {
-    borderRadius: 10,
-    width: 130,
-    height: 80,
-    elevation: 10,
-    margin: 15,
+    borderRadius: dp(10),
+    width: dp(130),
+    height: dp(80),
+    elevation: dp(10),
+    margin: dp(15),
   },
   violetBackground: {
     backgroundColor: palette.violet,
@@ -275,14 +273,14 @@ const modalStyles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 80,
-    fontSize: 25,
+    lineHeight: dp(80),
+    fontSize: (25),
   },
   modalText: {
-    marginBottom: 40,
+    marginBottom: dp(40),
     textAlign: 'center',
-    fontSize: 24,
-    marginTop: 20,
+    fontSize: (24),
+    marginTop: dp(20),
     fontWeight: 'bold',
   },
 });
