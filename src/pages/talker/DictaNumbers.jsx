@@ -9,6 +9,11 @@ import * as Speech from 'expo-speech';
  */
 const speak = (letter) => {
   let l = letter;
+  switch(letter) {
+    case '5504042355': 
+      l = '¿Qué somos?';
+      break;
+  }
   Speech.speak(l);
 };
 

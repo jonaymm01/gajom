@@ -15,7 +15,10 @@ const speak = (letter) => {
       break;
     case 'Y': 
       l = 'ye';
-      break;  
+      break; 
+    case 'CARAMBOLA': 
+      l = '¡Sabroso fruto mágico en Pueblo Pelícano!';
+      break;   
   }
   Speech.speak(l);
 };
@@ -110,7 +113,7 @@ const talkerStyles = StyleSheet.create({
   button_text: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 35,
     textShadowColor: 'black',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 10,
