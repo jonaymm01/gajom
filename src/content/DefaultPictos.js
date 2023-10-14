@@ -304,6 +304,16 @@ export const DefaultPictos = {
           'img': require('../../assets/pictos/estado.png'),
           'content': [
             {
+              'name': 'Me encuentro mejor',
+              'img': require('../../assets/pictos/si.png'),
+              'content': [],
+            },
+            {
+              'name': 'Me encuentro peor',
+              'img': require('../../assets/pictos/no.png'),
+              'content': [],
+            },
+            {
               'name': 'Dolor',
               'img': require('../../assets/pictos/estado/dolor.png'),
               'content': body_parts,
