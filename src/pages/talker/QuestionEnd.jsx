@@ -55,6 +55,7 @@ export function QuestionEnd({route, navigation}) {
       profileButtons = profileQuestions.ends.map((question, index)=>
         <View key={'profile: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <TouchableOpacity style={[questionStyles.button]} onPress={() => {
+            speak(question);
             setEnd(question);
           }}>
             <View>
@@ -72,6 +73,7 @@ export function QuestionEnd({route, navigation}) {
   }
   defaultButtons = questions.ends.sort().map((question, index)=>
     <TouchableOpacity key={'default: ' + index} style={[questionStyles.button]} onPress={() => {
+      speak(question);
       setEnd(question);
     }}>
       <View>
@@ -111,8 +113,8 @@ export function QuestionEnd({route, navigation}) {
 const finalQuestion = start + ((start !== '¿') ? ' ' : '') + ((end.length > 0) ? end : '...');
 
 const result =
-  <View style={{marginBottom: 10, alignItems: 'center'}}>
-    <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>🕪  Pulsa para escuchar</Text>
+  <View style={{marginBottom: 10, alignItems: 'center', justifyContent: 'center'}}>
+    <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>Pulsa para escuchar</Text>
     <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
       speak(finalQuestion);
     }}>
@@ -234,7 +236,7 @@ return (
     </View>
   </Modal>
   <View style={styles.blank_background}>
-      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginTop: 30, justifyContent: 'center'}}>
         <>
           {backButton}
         </>

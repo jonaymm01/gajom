@@ -26,7 +26,7 @@ export function DictaText() {
 
   return (
     <SafeAreaView style= {{flex: 1, backgroundColor: '#fff'}}>
-      <View style={{alignItems: 'center', backgroundColor: '#fff', flex: 1}}>
+      <View style={{alignItems: 'center', backgroundColor: '#fff', flex: 1, marginTop: 30}}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
           <Pressable
             style={[creatorStyles.button, {backgroundColor: palette.gray}]}
@@ -62,10 +62,10 @@ export function DictaText() {
           )}
         />
         </View>
-        <Text style={[styles.title, {marginBottom: 20, color: palette.violet}]}>¡Pulsa para dictarlo!</Text>
+        <Text style={[styles.title, {marginBottom: 20, color: palette.violet, marginTop: 30}]}>¡Pulsa para dictarlo!</Text>
         <View style={{minWidth: 200, minHeight: 200}}>
-        <TouchableOpacity style={{backgroundColor: palette.violet, elevation: 10, borderRadius: 20, flex: 1}} onPress={() => speak(text)}>
-            <View style={{}}>
+        <TouchableOpacity style={{backgroundColor: palette.violet, elevation: 10, borderRadius: 20, flex: 1, marginLeft: 20, marginRight: 20}} onPress={() => speak(text)}>
+            <View>
               <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', padding: 10, margin: 10, flexWrap: 'wrap'}]}>{(text == '') ? '...' : text}</Text>
             </View>
         </TouchableOpacity>

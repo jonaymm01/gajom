@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView, Switch} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Modal, Pressable, Image, KeyboardAvoidingView, KeyboardAwareScrollView, TouchableWithoutFeedback, Keyboard, Platform, SafeAreaView, Switch} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 
@@ -107,10 +107,7 @@ const pinInput =
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView keyboardShouldPersistTaps="handled" style= {{backgroundColor: '#fff'}}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-          style={styles.blank_background}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style= {{backgroundColor: '#fff'}}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <>
               <Modal
@@ -180,7 +177,9 @@ const pinInput =
                   </View>
                 </View>
 
-                
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+                  style={styles.blank_background}>
                 <View style={[formStyles.input_container, {marginTop: 10}]}>
                 <Text style={{fontSize: 22, fontWeight: 'bold', color: palette.violet, marginBottom: 10}}>Introduce un nombre</Text>
                   <Controller
@@ -199,6 +198,7 @@ const pinInput =
                         onChangeText={(text) => onChange(text)}
                         value={value}
                         placeholder="Nombre del perfil"
+                        autoCapitalize='sentences'
                       />
                     )}
                   />
@@ -221,11 +221,11 @@ const pinInput =
                     <Button color={palette.violet} onPress={handleSubmit(onSubmit)} label="Registrarse" />
                   </View>
                 </View>
+                </KeyboardAvoidingView>
               </View>
             </>
           </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

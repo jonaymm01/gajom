@@ -24,6 +24,12 @@ const speak = (text) => {
     case 'A +':
       text = 'A positivo';
       break;
+    case 'B -':
+      text = 'B negativo';
+      break;
+    case 'B +':
+      text = 'B positivo';
+      break;
     case 'AB -':
       text = 'A B negativo';
       break;

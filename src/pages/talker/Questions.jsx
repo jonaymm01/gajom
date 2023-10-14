@@ -14,6 +14,9 @@ import {ProfileContext} from '../../../global';
 import {addQuestion, deleteQuestion, searchQuestion} from '../../_helpers/ProfileContent';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+const speak = (txt) => {
+  Speech.speak(txt);
+};
 
 /**
  * Método para renderizar página de Preguntas.
@@ -27,6 +30,7 @@ export function Questions({navigation}) {
   }
   
   const goToEnd = async (start) => {
+    speak(start);
     navigation.navigate('QuestionEnd', {
       itemId: 1,
       start: start,

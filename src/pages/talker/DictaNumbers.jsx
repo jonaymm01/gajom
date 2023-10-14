@@ -13,6 +13,15 @@ const speak = (letter) => {
 };
 
 /**
+ * Método para deletrear el número
+ * @param {string} text
+ */
+const spell = (letter) => {
+  let l = letter.split('');
+  Speech.speak(l.join(' '));
+};
+
+/**
  * Método para renderizar página de dictar números.
  * @return {JSX.Element}
  */
@@ -59,7 +68,7 @@ const deleteLastButton =
     }}
   >
   <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={{fontSize: 40, color: '#fff', fontWeight: '500'}}>⌫</Text>
+    <Text style={[{fontSize: 40, color: '#fff', fontWeight: '500'}]}> ⌫ </Text>
   </View>
 </TouchableOpacity>
 
@@ -71,7 +80,19 @@ const sayWordButton =
     }}
   >
   <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={{fontSize: 25, color: '#fff', fontWeight: '500'}}>LEER</Text>
+    <Text style={{fontSize: 25, color: '#fff', fontWeight: '500'}}>LEER ENTERO</Text>
+  </View>
+</TouchableOpacity>
+
+const spellButton = 
+<TouchableOpacity
+    style={[talkerStyles.button, {backgroundColor: palette.darkViolet}]}
+    onPress={() => {
+      spell(word);
+    }}
+  >
+  <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+    <Text style={{fontSize: 25, color: '#fff', fontWeight: '500'}}>DELETREO</Text>
   </View>
 </TouchableOpacity>
 
@@ -82,20 +103,16 @@ const sayWordButton =
       </View>
       {lettersRows}
       <View style= {{flex: 1,backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center'}}>
-        {deleteLastButton}
+        {deleteButton}
         <TouchableOpacity style={talkerStyles.button} onPress={() => {setWord(word+'0'); speak('0')}}>
           <View style={styles.button_container}>
             <Text style={talkerStyles.button_text}> 0 </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[talkerStyles.button, {backgroundColor: palette.red}]} onPress={() => {setWord(word+' ')}}>
-          <View style={styles.button_container}>
-            <Text style={talkerStyles.button_text}> ␣ </Text>
-          </View>
-        </TouchableOpacity>
+        {deleteLastButton}
       </View>
       <View style= {{flex: 1,backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center'}}>
-        {deleteButton}
+        {spellButton}
         {sayWordButton}
       </View>
     </View>

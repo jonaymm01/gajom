@@ -168,7 +168,7 @@ export function Profile({navigation}) {
       </View >
 
     return (
-      <ScrollView style={{backgroundColor: '#fff'}}>
+      <ScrollView style={{backgroundColor: '#fff'}} keyboardShouldPersistTaps='handled'>
         <Modal
           animationType="fade"
           visible={modalWarning}
@@ -193,7 +193,7 @@ export function Profile({navigation}) {
           onRequestClose={() => {
             setModalName(!modalName);
           }}>
-          <View style={styles.modalView}>
+          <View style={[styles.modalView, {justifyContent: 'center'}]}>
             <View style={{flexDirection: 'row', paddingLeft: 10, paddingRight: 10, borderWidth: 3, borderColor: palette.violet}}>
               <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
               <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet}]}> ➜ {(newName == '') ? ' _____' : newName} </Text>
@@ -218,6 +218,7 @@ export function Profile({navigation}) {
                   }}
                   value={value}
                   placeholder={activeProfile.name}
+                  autoCapitalize='sentences'
                 />
               )}
             />

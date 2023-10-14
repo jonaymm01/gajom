@@ -5,15 +5,12 @@ export const DefaultQuestions = {
         start: '¿Cómo',
         ends: [
           'estás?',
-          'está la familia?',
           'funciona esto?',
         ],
       },
       {
         start: '¿Qué',
         ends: [
-          'día es hoy?',
-          'hora es?',
           'has dicho?',
           'pasó?',
         ],
@@ -22,20 +19,14 @@ export const DefaultQuestions = {
         start: '¿Cuándo',
         ends: [
           'me puedo ir?',
-          'vuelves?',
           'me dan los resultados?',
-          'me dan la medicación?',
-          'llegaremos?',
         ],
       },
       {
         start: '¿Dónde',
         ends: [
           'estoy?',
-          'vamos?',
-          'fue?',
           'están mis cosas?',
-          'está el doctor?',
         ],
       },
       {
@@ -43,13 +34,13 @@ export const DefaultQuestions = {
         ends: [
           'eres?',
           'es?',
-          'soy?',
-          'llamó?',
         ],
       },
       {
         start: '¿',
         ends: [
+          'Para qué sirve eso?',
+          'Estás bien?',
         ],
       },
     ],

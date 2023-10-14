@@ -1,3 +1,39 @@
+const izo_dero_ambos = [
+  {
+    'name': 'Izquierdo',
+    'img': require('../../assets/pictos/izquierda.png'),
+    'content': []
+  },
+  {
+    'name': 'Derecho',
+    'img': require('../../assets/pictos/derecha.png'),
+    'content': []
+  },
+  {
+    'name': 'Ambos',
+    'img': require('../../assets/pictos/ambos.png'),
+    'content': []
+  },
+]
+
+const iza_dera_ambas = [
+  {
+    'name': 'Izquierda',
+    'img': require('../../assets/pictos/izquierda.png'),
+    'content': []
+  },
+  {
+    'name': 'Derecha',
+    'img': require('../../assets/pictos/derecha.png'),
+    'content': []
+  },
+  {
+    'name': 'Ambas',
+    'img': require('../../assets/pictos/ambos.png'),
+    'content': []
+  },
+]
+
 const body_parts = [
   {
     'name': 'Cabeza',
@@ -7,6 +43,16 @@ const body_parts = [
         'name': 'Frente',
         'img': require('../../assets/pictos/estado/dolor/cabeza/frente.png'),
         'content': []
+      },
+      {
+        'name': 'Ojos',
+        'img': require('../../assets/pictos/estado/dolor/cabeza/ojos.png'),
+        'content': izo_dero_ambos,
+      },
+      {
+        'name': 'Oídos',
+        'img': require('../../assets/pictos/estado/dolor/cabeza/oreja.png'),
+        'content': izo_dero_ambos,
       },
       {
         'name': 'Nariz',
@@ -40,7 +86,7 @@ const body_parts = [
         'content': []
       },
       {
-        'name': 'Barriga',
+        'name': 'Vientre',
         'img': require('../../assets/pictos/estado/dolor/torso/barriga.png'),
         'content': []
       },
@@ -54,117 +100,39 @@ const body_parts = [
   {
     'name': 'Brazo',
     'img': require('../../assets/pictos/estado/dolor/brazo.png'),
-    'content': [
-      {
-        'name': 'Izquierdo',
-        'img': require('../../assets/pictos/izquierda.png'),
-        'content': []
-      },
-      {
-        'name': 'Derecho',
-        'img': require('../../assets/pictos/derecha.png'),
-        'content': []
-      },
-      {
-        'name': 'Ambos',
-        'img': require('../../assets/pictos/ambos.png'),
-        'content': []
-      },
+    'content': izo_dero_ambos.concat([
       {
         'name': 'Hombro',
         'img': require('../../assets/pictos/estado/dolor/brazo/hombro.png'),
-        'content': []
+        'content': izo_dero_ambos,
       },
       {
         'name': 'Codo',
         'img': require('../../assets/pictos/estado/dolor/brazo/codo.png'),
-        'content': []
+        'content': izo_dero_ambos,
       },
       {
         'name': 'Mano',
         'img': require('../../assets/pictos/estado/dolor/brazo/mano.png'),
-        'content': [
-          {
-            'name': 'Izquierda',
-            'img': require('../../assets/pictos/izquierda.png'),
-            'content': []
-          },
-          {
-            'name': 'Derecha',
-            'img': require('../../assets/pictos/derecha.png'),
-            'content': []
-          },
-          {
-            'name': 'Ambas',
-            'img': require('../../assets/pictos/ambos.png'),
-            'content': []
-          },
-        ]
+        'content': iza_dera_ambas,
       },
-    ]
+    ]),
   },
   {
     'name': 'Pierna',
     'img': require('../../assets/pictos/estado/dolor/pierna.png'),
-    'content': [
-      {
-        'name': 'Izquierda',
-        'img': require('../../assets/pictos/izquierda.png'),
-        'content': []
-      },
-      {
-        'name': 'Derecha',
-        'img': require('../../assets/pictos/derecha.png'),
-        'content': []
-      },
-      {
-        'name': 'Ambas',
-        'img': require('../../assets/pictos/ambos.png'),
-        'content': []
-      },
+    'content': iza_dera_ambas.concat([
       {
         'name': 'Rodilla',
         'img': require('../../assets/pictos/estado/dolor/pierna/rodilla.png'),
-        'content': [
-          {
-            'name': 'Izquierda',
-            'img': require('../../assets/pictos/izquierda.png'),
-            'content': []
-          },
-          {
-            'name': 'Derecha',
-            'img': require('../../assets/pictos/derecha.png'),
-            'content': []
-          },
-          {
-            'name': 'Ambas',
-            'img': require('../../assets/pictos/ambos.png'),
-            'content': []
-          },
-        ]
+        'content': iza_dera_ambas,
       },
       {
         'name': 'Pie',
         'img': require('../../assets/pictos/estado/dolor/pierna/pie.png'),
-        'content': [
-          {
-            'name': 'Izquierdo',
-            'img': require('../../assets/pictos/izquierda.png'),
-            'content': []
-          },
-          {
-            'name': 'Derecho',
-            'img': require('../../assets/pictos/derecha.png'),
-            'content': []
-          },
-          {
-            'name': 'Ambos',
-            'img': require('../../assets/pictos/ambos.png'),
-            'content': []
-          },
-        ]
+        'content': izo_dero_ambos,
       },
-    ]
+    ]),
   },
 ]
 
@@ -176,8 +144,13 @@ const sintomas = [
     'content': []
   },
   {
-    'name': 'Escalofríos',
-    'img': require('../../assets/pictos/sintomas/escalofrios.png'),
+    'name': 'Mala visión',
+    'img': require('../../assets/pictos/sintomas/ver_mal.png'),
+    'content': []
+  },
+  {
+    'name': 'Reacción alérgica',
+    'img': require('../../assets/pictos/sintomas/alergia.png'),
     'content': []
   },
   {
@@ -215,6 +188,11 @@ const sintomas = [
     'content': body_parts
   },
   {
+    'name': 'Picor',
+    'img': require('../../assets/pictos/sintomas/picor.png'),
+    'content': body_parts,
+  },
+  {
     'name': 'Diarrea',
     'img': require('../../assets/pictos/sintomas/diarrea.png'),
     'content': []
@@ -225,18 +203,13 @@ const sintomas = [
     'content': []
   },
   {
-    'name': 'Reacción alérgica',
-    'img': require('../../assets/pictos/sintomas/alergia.png'),
+    'name': 'Fiebre',
+    'img': require('../../assets/pictos/sintomas/fiebre.png'),
     'content': []
   },
   {
-    'name': 'Picor',
-    'img': require('../../assets/pictos/sintomas/picor.png'),
-    'content': body_parts,
-  },
-  {
-    'name': 'Fiebre',
-    'img': require('../../assets/pictos/sintomas/fiebre.png'),
+    'name': 'Mareo',
+    'img': require('../../assets/pictos/sintomas/mareo.png'),
     'content': []
   },
   {
@@ -250,21 +223,15 @@ const sintomas = [
     'content': []
   },
   {
-    'name': 'Mareo',
-    'img': require('../../assets/pictos/sintomas/mareo.png'),
+    'name': 'Escalofríos',
+    'img': require('../../assets/pictos/sintomas/escalofrios.png'),
     'content': []
   },
 ]
 
 const alergias_nutri = [
       {
-        'name': 'Huevo',
-        'img': require('../../assets/pictos/estado/nutricion/alergias/huevo.png'),
-        'content': []
-      },
-      {
-        'name': 'Pescado',
-        'img': require('../../assets/pictos/estado/nutricion/alergias/pescado.png'),
+        'name': 'Soy alérgico a ese alimento',
         'content': []
       },
       {
@@ -312,12 +279,18 @@ const alergias_nutri = [
         'content': []
       },
       {
-        'name': 'Soja',
-        'img': require('../../assets/pictos/estado/nutricion/alergias/soja.png'),
+        'name': 'Huevo',
+        'img': require('../../assets/pictos/estado/nutricion/alergias/huevo.png'),
         'content': []
       },
       {
-        'name': 'Soy alérgico a eso',
+        'name': 'Pescado',
+        'img': require('../../assets/pictos/estado/nutricion/alergias/pescado.png'),
+        'content': []
+      },
+      {
+        'name': 'Soja',
+        'img': require('../../assets/pictos/estado/nutricion/alergias/soja.png'),
         'content': []
       },
     ]
@@ -394,11 +367,26 @@ export const DefaultPictos = {
                       'img': require('../../assets/pictos/estado/aseo/protesis_accesorios/audifono.png'),
                       'content': []
                     },
+                    {
+                      'name': 'Bastón',
+                      'img': require('../../assets/pictos/estado/aseo/protesis_accesorios/baston.png'),
+                      'content': []
+                    },
                   ]
                 },
                 {
                   'name': 'Bañar',
                   'img': require('../../assets/pictos/estado/aseo/bañar.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Lavar los dientes',
+                  'img': require('../../assets/pictos/estado/aseo/lavar_dientes.png'),
+                  'content': []
+                },
+                {
+                  'name': 'Vestir',
+                  'img': require('../../assets/pictos/estado/aseo/vestir.png'),
                   'content': []
                 },
                 {
@@ -424,19 +412,22 @@ export const DefaultPictos = {
                   ]
                 },
                 {
-                  'name': 'Vestir',
-                  'img': require('../../assets/pictos/estado/aseo/vestir.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Lavar los dientes',
-                  'img': require('../../assets/pictos/estado/aseo/lavar_dientes.png'),
-                  'content': []
-                },
-                {
-                  'name': 'Cortar las uñas',
-                  'img': require('../../assets/pictos/estado/aseo/cortar_uñas.png'),
-                  'content': []
+                  'name': 'Uñas',
+                  'img': require('../../assets/pictos/estado/aseo/uña.png'),
+                  'content': [
+                    {
+                      'name': 'Cortar',
+                      'content': []
+                    },
+                    {
+                      'name': 'Limar',
+                      'content': []
+                    },
+                    {
+                      'name': 'Pintar',
+                      'content': []
+                    },
+                  ]
                 },
                 {
                   'name': 'Maquillaje',
@@ -847,7 +838,7 @@ export const DefaultPictos = {
                   ],
                 },
                 {
-                  'name': 'Acaros',
+                  'name': 'Ácaros',
                   'content': [],
                 },
                 {
@@ -874,8 +865,8 @@ export const DefaultPictos = {
               'img': require('../../assets/pictos/sintomas/infeccion.png'),
               'content': [
                 {
-                  'name': 'Intoxicación',
-                  'content': []
+                  'name': 'Diabetes',
+                  'content': [],
                 },
                 {
                   'name': 'Tensión',
@@ -889,30 +880,6 @@ export const DefaultPictos = {
                       'content': [],
                     },
                   ],
-                },
-                {
-                  'name': 'Colesterol alto',
-                  'content': [],
-                },
-                {
-                  'name': 'Artritis',
-                  'content': [],
-                },
-                {
-                  'name': 'Cardiopatía',
-                  'content': [],
-                },
-                {
-                  'name': 'Diabetes',
-                  'content': [],
-                },
-                {
-                  'name': 'Anemia',
-                  'content': [],
-                },
-                {
-                  'name': 'EPOC',
-                  'content': [],
                 },
                 {
                   'name': 'Cáncer',
@@ -986,6 +953,30 @@ export const DefaultPictos = {
                   ],
                 },
                 {
+                  'name': 'Intoxicación',
+                  'content': []
+                },
+                {
+                  'name': 'Colesterol alto',
+                  'content': [],
+                },
+                {
+                  'name': 'Artritis',
+                  'content': [],
+                },
+                {
+                  'name': 'Cardiopatía',
+                  'content': [],
+                },
+                {
+                  'name': 'Anemia',
+                  'content': [],
+                },
+                {
+                  'name': 'EPOC',
+                  'content': [],
+                },
+                {
                   'name': 'Otra',
                   'content': [],
                 },
@@ -1006,11 +997,11 @@ export const DefaultPictos = {
               'name': 'Personas',
               'content': [
                 {
-                  'name': 'Yo',
+                  'name': 'Háblame de mi',
                   'content': []
                 },
                 {
-                  'name': 'Tú',
+                  'name': 'Háblame de ti',
                   'content': []
                 },
                 {
@@ -1076,7 +1067,7 @@ export const DefaultPictos = {
           ]
         },
         {
-          'name': 'Favores',
+          'name': 'Por favor...',
           'img': require('../../assets/pictos/favores.png'),
           'content': [
             {
@@ -1100,7 +1091,7 @@ export const DefaultPictos = {
               'name': 'Compañía',
               'content': [
                 {
-                  'name': 'Quiero compañía',
+                  'name': 'Quiero estar acompañado',
                   'content': []
                 },
                 {
