@@ -28,7 +28,7 @@ export default function Input(props) {
     <View style={{marginBottom: dp(30)}}>
     <View style={inputStyles.wrapper}>
       <TextInput
-        secureTextEntry={hiddenPin ? true : false}
+        secureTextEntry={ ((props.showHide) ? (hiddenPin ? true : false ) : (false))}
         style={inputStyles.text}
         {...props}
       />
@@ -56,9 +56,10 @@ const inputStyles = StyleSheet.create({
   },
   text: {
     flex: 4,
-    fontSize: dp(20),
+    fontSize: dp(25),
     color: palette.violet,
     fontWeight: '500',
+    textAlign: 'center',
   },
   errorText: {
     color: 'red',

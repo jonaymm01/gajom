@@ -308,7 +308,7 @@ export function Profile({navigation}) {
             />
             <View style={{flexDirection: 'row'}}>
               <Pressable
-                style={[modalStyles.button, modalStyles.grayBackground, {marginTop: dp(50)}]}
+                style={[modalStyles.button, modalStyles.grayBackground]}
                 onPress={() => {
                   setModalPin(!modalPin);
                   resetField('pin');
@@ -318,7 +318,7 @@ export function Profile({navigation}) {
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
               </Pressable>
               <Pressable
-                style={[modalStyles.button, modalStyles.violetBackground, {marginTop: dp(50)}]}
+                style={[modalStyles.button, modalStyles.violetBackground]}
                 onPress={() => {
                   handleSubmit(changePin, invalidPin)().then(() => {
                     resetField('pin');
