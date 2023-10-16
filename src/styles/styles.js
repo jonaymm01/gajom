@@ -3,7 +3,7 @@ import {StyleSheet, PixelRatio, Dimensions} from 'react-native';
 export const palette = {
   violet: '#763CAD',
   red: '#AC3C60',
-  gray: '#b8b8b8',
+  gray: '#919191',
   darkViolet: '#3f1963',
 };
 

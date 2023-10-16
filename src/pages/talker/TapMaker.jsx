@@ -17,6 +17,7 @@ import {ProfileContext} from '../../../global';
 export function TapMaker({route, navigation}) {
   const [activeProfile, setProfile] = useContext(ProfileContext);
   const [modalVoid, setModalVoid] = useState(false);
+  const [modalOption, setModalOption] = useState(false);
   const [modalName, setModalName] = useState(false);
 
   const yellow = tapColors.yellow;
@@ -29,7 +30,6 @@ export function TapMaker({route, navigation}) {
 
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
-  const [defOpts, setDefOpts] = useState(['']);
   const [tapName, setTapName] = useState('');
 
   const [usedColor0, setUsedColor0] = useState(red);
@@ -38,54 +38,33 @@ export function TapMaker({route, navigation}) {
   const [usedColor3, setUsedColor3] = useState('');
   const [usedColors, setUsedColors] = useState([red, '', '', '']);
 
+  const [text0, setText0] = useState('Opción 1');
+  const [text1, setText1] = useState('Opción 2');
+  const [text2, setText2] = useState('Opción 3');
+  const [text3, setText3] = useState('Opción 4');
+  const [texts, setTexts] = useState(['Opción 1']);
+
   const [optsCounter, setOpsCounter] = useState(1);
 
   const [colorPalette, setPalette] = useState([red, blue, yellow, green, pink]);
 
   const [editingColor, setEditingColor] = useState(-1);
+  const [editingText, setEditingText] = useState(-1);
 
-  const confirmTap = () => {
-    const finalOpts = [
-      {
-        'text': opt1Used ? opt1Text : null,
-        'color': (opt1Used && opt1Color !== 'white') ? opt1Color : null,
-      },
-      {
-        'text': opt2Used ? opt2Text : null,
-        'color': (opt2Used && opt2Color !== 'white') ? opt2Color : null,
-      },
-      {
-        'text': opt3Used ? opt3Text : null,
-        'color': (opt3Used && opt3Color !== 'white') ? opt3Color : null,
-      },
-      {
-        'text': opt4Used ? opt4Text : null,
-        'color': (opt4Used && opt4Color !== 'white') ? opt4Color : null,
-      },
-    ];
-    const filteredOpts = finalOpts.filter((opt) => ((opt.text != null) && opt.color != null));
-    setDefOpts(filteredOpts);
-    (filteredOpts.length > 0) ? isConfirmed(true) : Alert.alert('¡Aún no está listo!', 'Tu TAP debe tener al menos una opción configurada.', [
-      {text: 'OK'},
-    ],
-    {
-      cancelable: true,
-    }); ;
-  };
+  const [newText, setNewText] = useState('');
 
-  const defOptsFiltered = defOpts.map((opt, index) => <Text key={index} style={[tapPreview.optionText, tapPreview.option, {backgroundColor: opt.color},
-  ]}> {opt.text} </Text>,
-  );
 
   /**
    * Guarda el TAP creado
    * @param {JSON} value
    */
   const saveTap = async () => {
-    const defTap = defOpts.map((opt) => {
+    const defColors = usedColors.filter((color) => color != '');
+    console.log(defColors);
+    const defTap = defColors.map((color, index) => {
       const option = {
-        text: opt.text,
-        color: opt.color,
+        text: texts[index],
+        color: color,
       };
       return option;
     });
@@ -125,6 +104,10 @@ export function TapMaker({route, navigation}) {
     setUsedColors([usedColor0, usedColor1, usedColor2, usedColor3]);
   }, [usedColor0, usedColor1, usedColor2, usedColor3]);
 
+  useEffect(() => {
+    setTexts([text0, text1, text2, text3]);
+  }, [text0, text1, text2, text3]);
+
   const colorPaletteFiltered = colorPalette.filter((color) => !usedColors.includes(color));
 
   const colorPaletteButtons = colorPaletteFiltered.map((color, index) => 
@@ -156,9 +139,12 @@ export function TapMaker({route, navigation}) {
       <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
         {(editingColor == 0) ? colorChangeView : editColorButton(0)}
       </View>
-      <TouchableOpacity key={0} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[0]}]} onPress={()=>console.log(usedColors[0])}>
+      <TouchableOpacity key={0} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[0]}]} onPress={()=> {
+        setEditingText(0);  
+        setModalOption(!modalOption);
+      } }>
       <View style={tapStyles.box}>
-        <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {0} </Text>
+        <Text style={tapStyles.button_text}> {text0} </Text>
       </View>
       </TouchableOpacity>
     </View>;
@@ -168,9 +154,12 @@ export function TapMaker({route, navigation}) {
         <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
           {(editingColor == 1) ? colorChangeView : editColorButton(1)}
         </View>
-        <TouchableOpacity key={1} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[1]}]} onPress={()=>console.log(usedColors[1])}>
+        <TouchableOpacity key={1} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[1]}]} onPress={()=> {
+        setEditingText(1);  
+        setModalOption(!modalOption);
+        }}>
         <View style={tapStyles.box}>
-          <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {1} </Text>
+          <Text style={tapStyles.button_text}> {text1} </Text>
         </View>
         </TouchableOpacity>
       </View>;
@@ -180,9 +169,12 @@ export function TapMaker({route, navigation}) {
       <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
         {(editingColor == 2) ? colorChangeView : editColorButton(2)}
       </View>
-      <TouchableOpacity key={2} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[2]}]} onPress={()=>console.log(usedColors[2])}>
+      <TouchableOpacity key={2} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[2]}]} onPress={()=>{
+        setEditingText(2);  
+        setModalOption(!modalOption);
+      }}>
       <View style={tapStyles.box}>
-        <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {2} </Text>
+        <Text style={tapStyles.button_text}> {text2} </Text>
       </View>
       </TouchableOpacity>
     </View>;
@@ -192,9 +184,12 @@ export function TapMaker({route, navigation}) {
       <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
         {(editingColor == 3) ? colorChangeView : editColorButton(3)}
       </View>
-      <TouchableOpacity key={3} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[3]}]} onPress={()=>console.log(usedColors[3])}>
+      <TouchableOpacity key={3} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[3]}]} onPress={()=>{
+        setEditingText(3);  
+        setModalOption(!modalOption);
+      }}>
       <View style={tapStyles.box}>
-        <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {3} </Text>
+        <Text style={tapStyles.button_text}> {text3} </Text>
       </View>
       </TouchableOpacity>
     </View>
@@ -204,12 +199,15 @@ export function TapMaker({route, navigation}) {
       switch(optsCounter) {
         case 1:
           setUsedColor1(colorPaletteFiltered[0]); 
+          setText1('Opción 2');
           break;
         case 2:
-          setUsedColor2(colorPaletteFiltered[0]); 
+          setUsedColor2(colorPaletteFiltered[0]);
+          setText2('Opción 3'); 
           break;
         case 3:
           setUsedColor3(colorPaletteFiltered[0]); 
+          setText3('Opción 4');
           break;
       }
     };
@@ -224,7 +222,7 @@ export function TapMaker({route, navigation}) {
           (editingColor == 3) ? setEditingColor(-1) : null; 
           break;
         case 3:
-          setUsedColor2(''); 
+          setUsedColor2('');
           (editingColor == 2) ? setEditingColor(-1) : null; 
           break;
         case 2:
@@ -236,23 +234,138 @@ export function TapMaker({route, navigation}) {
     await removeNew().then(() => setOpsCounter(optsCounter-1));
   }
 
+  const changeText = async (value) => {
+    const text = getValues().text;
+    switch(editingText) {
+      case 0:
+        setText0(text);
+        break;
+      case 1:
+        setText1(text);
+        break;
+      case 2:
+        setText2(text);
+        break;
+      case 3:
+        setText3(text);
+        break;
+    }
+    resetField('text');
+    setNewText('');
+  };
+
+  console.log(texts);
+
   return (
     <View style={{backgroundColor: '#fff', flex: 1}}>
+
+    <Modal
+      avoidKeyboard = {true}
+      animationType="fade"
+      visible={modalName}
+      onRequestClose={() => {
+        setModalName(!modalName);
+      }}>
+       <View style={{flex: 1, marginTop: dp(40), alignItems: 'center'}}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>
+        <View style={{alignItems: 'center'}}>
+        <Text style={[styles.title, {marginBottom: dp(20), color: palette.violet}]}>Este es el resultado:</Text>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{backgroundColor: usedColor0, width: dp(200), padding: dp(10), margin: dp(2)}}>
+            <Text style={tapPreview.optionText}> {text0} </Text>
+          </View>
+          <View style={{backgroundColor: usedColor1, width: dp(200), padding: dp(10), margin: dp(2), display: ((optsCounter < 2) ? 'none' : null)}}>
+            <Text style={tapPreview.optionText}> {text1} </Text>
+          </View>
+          <View style={{backgroundColor: usedColor2, width: dp(200), padding: dp(10), margin: dp(2), display: ((optsCounter < 3) ? 'none' : null)}}>
+            <Text style={tapPreview.optionText}> {text2} </Text>
+          </View>
+          <View style={{backgroundColor: usedColor3, width: dp(200), padding: dp(10), margin: dp(2), display: ((optsCounter < 4) ? 'none' : null)}}>
+            <Text style={tapPreview.optionText}> {text3} </Text>
+          </View>
+        </View>
+        <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
+        <Controller
+          name="name"
+          defaultValue=""
+          control={control}
+          rules={{
+            required: {value: true, message: 'Escribe un nombre'},
+          }}
+          render={({field: {onChange, value}}) => (
+            <View style={{width: dp(300)}}>
+              <Input
+                error={errors.name}
+                errorText={errors?.name?.message}
+                onChangeText={(text) => {
+                  setTapName(text);
+                  onChange(text);
+                }
+                }
+                value={value}
+                placeholder='Nombre'
+              />
+            </View>
+          )}
+        />
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={[modalStyles.button, modalStyles.grayBackground]}
+            onPress={() => {
+              setModalName(!modalName);
+            }}
+          >
+            <Text style={modalStyles.textStyle}>Atrás</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[modalStyles.button, modalStyles.violetBackground]}
+            onPress={() => {
+              if (getValues().name.length > 0) {
+                alreadyExist().then((isDuplicate) => 
+                {
+                  if(!isDuplicate) {
+                    saveTap();
+                  } else {
+                    Alert.alert('¡Ups!', 'Ya tienes un TAP con este nombre.', [
+                      {text: 'OK'},
+                    ],
+                    {
+                      cancelable: true,
+                    });
+                  }
+                });
+              } else {
+                Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
+                  {text: 'OK'},
+                ],
+                {
+                  cancelable: true,
+                });
+              }
+            }}
+          >
+            <Text style={modalStyles.textStyle}>Guardar</Text>
+          </TouchableOpacity>
+        </View>
+        </View>
+        </KeyboardAvoidingView>
+      </View>
+    </Modal>
 
       <Modal
           avoidKeyboard = {true}
           animationType="fade"
-          visible={modalName}
+          visible={modalOption}
           onRequestClose={() => {
-            setModalName(!modalName);
+            setModalOption(!modalOption);
           }}>
           <View style={[styles.modalView, {justifyContent: 'center'}]}>
-            <View style={{flexDirection: 'row', paddingLeft: dp(10), paddingRight: dp(10), borderWidth: dp(3), borderColor: palette.violet}}>
-              <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet, textDecorationLine: 'line-through'}]}> Opción </Text>
+            <View style={[tapStyles.TO, {backgroundColor: usedColors[editingText]}]}>
+              <Text style={[tapStyles.button_text]}> {(newText == '') ? texts[editingText] : newText} </Text>
             </View>
             <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>Escribe el contenido</Text>
             <Controller
-              name="name"
+              name="text"
               defaultValue=""
               control={control}
               rules={{
@@ -260,40 +373,52 @@ export function TapMaker({route, navigation}) {
               }}
               render={({field: {onChange, value}}) => (
                 <Input
-                  maxLength={12}
+                  maxLength={15}
                   textAlign={"center"}
                   error={errors.name}
                   errorText={errors?.name?.message}
                   onChangeText={(text) => {
-                    setNewName(text);
+                    setNewText(text);
                     onChange(text);
                   }}
                   value={value}
-                  placeholder={activeProfile.name}
+                  placeholder={texts[editingText]}
                   autoCapitalize='sentences'
                 />
               )}
             />
             <View style={{flexDirection: 'row'}}>
-              <Pressable
+              <TouchableOpacity
                 style={[modalStyles.button, modalStyles.grayBackground]}
                 onPress={() => {
-                  resetField('name');
-                  setModalName(!modalName);
+                  resetField('text');
+                  setNewText('');
+                  setModalOption(!modalOption);
                 }}
               >
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={[modalStyles.button, modalStyles.violetBackground]}
                 onPress={() => {
+                  if (newText == '') {
+                    Alert.alert('¡Ups!', 'Aún no has escrito nada.', [
+                      {text: 'OK'},
+                    ],
+                    {
+                      cancelable: true,
+                    });
+                  } else {
+                    handleSubmit(changeText)();
+                    setModalOption(!setModalOption);
+                  }
                 }}
               >
                 <Text style={modalStyles.textStyle}>Aplicar</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+      </Modal>
 
       <View style={{flex: 1}}>
         {optButton0}
@@ -306,13 +431,13 @@ export function TapMaker({route, navigation}) {
           style={[{backgroundColor: ((optsCounter < 2) ? palette.gray : palette.violet)}, tapMaker.controlButton]}
           onPress={() => { removeOpt() }}
         >
-          <Text style={modalStyles.textStyle}>-</Text>
+          <Text style={[modalStyles.textStyle, {fontSize: dp(45)}]}>-</Text>
         </TouchableOpacity>
         <TouchableOpacity disabled={(optsCounter > 3)}
           style={[{backgroundColor: ((optsCounter > 3) ? palette.gray : palette.violet)}, tapMaker.controlButton]}
           onPress={() => { addOpt() }}
         >
-          <Text style={modalStyles.textStyle}>+</Text>
+          <Text style={[modalStyles.textStyle, {fontSize: dp(45)}]}>+</Text>
         </TouchableOpacity>
       </View>
       <View style={{flexDirection: 'row'}}>
@@ -326,6 +451,7 @@ export function TapMaker({route, navigation}) {
         <TouchableOpacity
           style={[{backgroundColor: palette.darkViolet}, tapMaker.controlButton]}
           onPress={() => {
+            setModalName(!modalName);
           }}
         >
           <Text style={modalStyles.textStyle}>Confirmar</Text>
@@ -347,10 +473,12 @@ const tapPreview = StyleSheet.create({
   optionText: {
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: dp(20),
+    fontSize: dp(30),
     textShadowOffset: {width: dp(1), height: dp(1)},
     textShadowRadius: dp(2),
     alignSelf: 'center',
+    color: '#fff',
+    fontWeight: '500'
   },
   deleteOption: {
     backgroundColor: palette.gray,
@@ -388,9 +516,9 @@ const tapStyles = StyleSheet.create({
     fontWeight: 'bold',
     paddingLeft: 30,
     paddingRight: 30,
-    fontSize: dp(50),
+    fontSize: dp(30),
     textShadowColor: 'black',
-    textShadowOffset: {width: 1, height: 4},
+    textShadowOffset: {width: 1, height: 2},
     textShadowRadius: 2,
     marginTop: 10,
     paddingBottom: 20,

@@ -97,6 +97,12 @@ const pinInput =
     <SafeAreaView style={{flex: 1}}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+          keyboardVerticalOffset={
+            Platform.select({
+               ios: () => dp(-80),
+               android: () => dp(-80),
+            })()
+          }
           style={styles.blank_background}>
           <View>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
