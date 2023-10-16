@@ -20,7 +20,7 @@ const BottomTabNavigator = () => {
   }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{width, height}}>
       <Tab.Navigator initialRouteName={'talker'}
         screenOptions={({route}) => ({
           safeAreaInsets: {

@@ -3,7 +3,7 @@ import {StyleSheet, PixelRatio, Dimensions} from 'react-native';
 export const palette = {
   violet: '#763CAD',
   red: '#AC3C60',
-  gray: '#b8b8b8',
+  gray: '#919191',
   darkViolet: '#3f1963',
 };
 
@@ -12,6 +12,7 @@ export const tapColors = {
   green: '#29B82B',
   blue: '#0D62CE',
   red: '#D31515',
+  pink: '#fa3ee4',
 };
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
