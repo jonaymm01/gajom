@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image, Alert, TextInput} from 'react-native';
-import {styles, palette, tapColors, dp} from '../../styles/styles';
+import {Text, View, TouchableOpacity, StyleSheet, Pressable, ScrollView, Modal, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, Image, Alert, TextInput, ToastAndroid, Touchable} from 'react-native';
+import {styles, palette, tapColors, dp, w_width} from '../../styles/styles';
 import {Controller, set, useForm} from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -17,239 +17,32 @@ import {ProfileContext} from '../../../global';
 export function TapMaker({route, navigation}) {
   const [activeProfile, setProfile] = useContext(ProfileContext);
   const [modalVoid, setModalVoid] = useState(false);
+  const [modalName, setModalName] = useState(false);
 
   const yellow = tapColors.yellow;
   const red = tapColors.red;
   const blue = tapColors.blue;
   const green = tapColors.green;
+  const pink = tapColors.pink;
 
   const profile = JSON.parse(activeProfile);
 
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
-  const [opt, setOpt] = useState(1);
-  const [optColor, setOptColor] = useState(blue);
-  const [optText, setOptText] = useState('');
-
-  const [opt1Text, setText1] = useState('Opción 1');
-  const [opt2Text, setText2] = useState('Opción 2');
-  const [opt3Text, setText3] = useState('Opción 3');
-  const [opt4Text, setText4] = useState('Opción 4');
-
-  const [opt1Used, markOpt1] = useState(false);
-  const [opt2Used, markOpt2] = useState(false);
-  const [opt3Used, markOpt3] = useState(false);
-  const [opt4Used, markOpt4] = useState(false);
-  const [usedOpts, setUsedOpts] = useState([]);
-
-
-  const [opt1Color, setColor1] = useState(green);
-  const [opt2Color, setColor2] = useState(yellow);
-  const [opt3Color, setColor3] = useState(red);
-  const [opt4Color, setColor4] = useState(blue);
-
-  const [colorsOff, setColorOff] = useState(['']);
   const [defOpts, setDefOpts] = useState(['']);
-
   const [tapName, setTapName] = useState('');
 
-  const [confirmed, isConfirmed] = useState(false);
+  const [usedColor0, setUsedColor0] = useState(red);
+  const [usedColor1, setUsedColor1] = useState('');
+  const [usedColor2, setUsedColor2] = useState('');
+  const [usedColor3, setUsedColor3] = useState('');
+  const [usedColors, setUsedColors] = useState([red, '', '', '']);
 
-  const colorButtons = () => {
-    const colors = [
-      red, blue, green, yellow,
-    ];
-    const colorsOn = colors.filter((x) => !colorsOff.includes(x));
-    let output = [];
-    if (colorsOn.length > 0) {
-      output = colorsOn.map((color, index) => <TouchableOpacity key={index} style={[styles.button, {backgroundColor: color}]} onPress={() => setColor(opt, color)}/>);
-    } else {
-      output = <Text style={{alignSelf: 'center', fontStyle: 'italic', fontSize: dp(20)}}>Paleta de colores</Text>;
-    }
-    return output;
-  };
+  const [optsCounter, setOpsCounter] = useState(1);
 
-  const getOptColor = (opt) => {
-    switch (opt) {
-      case 1: return opt1Color;
-      case 2: return opt2Color;
-      case 3: return opt3Color;
-      case 4: return opt4Color;
-    }
-  };
+  const [colorPalette, setPalette] = useState([red, blue, yellow, green, pink]);
 
-  const getOptText = (opt) => {
-    switch (opt) {
-      case 1: return opt1Text;
-      case 2: return opt2Text;
-      case 3: return opt3Text;
-      case 4: return opt4Text;
-    }
-  };
-
-  const getOptUsed = (opt) => {
-    switch (opt) {
-      case 1: return opt1Used;
-      case 2: return opt2Used;
-      case 3: return opt3Used;
-      case 4: return opt4Used;
-    }
-  };
-
-  const markOpt = (opt, state) => {
-    switch (opt) {
-      case 1: return markOpt1(state);
-      case 2: return markOpt2(state);
-      case 3: return markOpt3(state);
-      case 4: return markOpt4(state);
-    }
-  };
-
-  const setColor = (opt, color) => {
-    switch (opt) {
-      case 1: return setColor1(color);
-      case 2: return setColor2(color);
-      case 3: return setColor3(color);
-      case 4: return setColor4(color);
-    }
-  };
-
-  const setText = (opt, text) => {
-    switch (opt) {
-      case 1: return setText1(text);
-      case 2: return setText2(text);
-      case 3: return setText3(text);
-      case 4: return setText4(text);
-    }
-  };
-
-  const optionInput = (index) =>
-    <>
-      <View style={{display: (opt == index) ? 'flex' : 'none'}}>
-        <Controller
-          name="opt"
-          defaultValue=''
-          control={control}
-          rules={{
-            required: {value: true, message: 'Escribe una opción'},
-          }}
-          render={({field: {onChange, value}}) => (
-            <TextInput
-              error={errors.name}
-              errorText={errors?.name?.message}
-              onChangeText={(text) => {
-                setText(opt, text);
-                onChange(text);
-              }}
-              value={value}
-              placeholder={optText}
-              style={{backgroundColor: 'white', justifyContent: 'center', width: dp(150), alignSelf: 'center', marginBottom: dp(-20), height: dp(40), fontSize: dp(15), textAlign: 'center'}}
-            />
-          )}
-        />
-      </View>
-      <View style={{display: (opt == index) ? 'none' : 'flex'}}>
-        <Text style={[
-          tapPreview.optionText,
-          {
-            color: (opt === index) ? 'black' : 'white',
-            fontStyle: !opt1Used ? 'italic' : 'normal',
-            textShadowColor: (opt === index) ? null : 'black',
-            backgroundColor: ((opt === index) ) ? 'white' : null,
-            width: (opt === index) ? dp(140) : null,
-            borderStyle: (getOptColor(index) === 'white') ? 'dashed' : null,
-            borderWidth: (getOptUsed(index) && (getOptColor(index) === 'white') && (opt == index)) ? dp(2) : null,
-          },
-        ]}> {getOptText(index)} </Text>
-      </View>
-    </>;
-
-  const OptsList = [];
-  for (let index = 1; index <= 4; index++) {
-    OptsList.push(<View key={index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-      <TouchableOpacity style = {[tapPreview.deleteOption, {marginRight: dp(10), backgroundColor: getOptColor(index)}]}
-        onPress={() => {
-          setColor(index, 'white');
-        }}>
-        <Image source={require('../../../assets/picker_icon.png')} resizeMode='contain' style={{width: dp(30), height: dp(30)}} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-        setOpt(index);
-      }}>
-        <View style={[tapPreview.option, {
-          width: !getOptUsed(index) ? dp(200) : dp(160),
-          backgroundColor: getOptColor(index),
-          borderWidth: ((getOptColor(index) === 'white')) ? dp(2) : null,
-          borderStyle: (getOptColor(index) === 'white') ? 'dashed' : null,
-        }]}>
-          <>
-            {optionInput(index)}
-          </>
-        </View>
-      </TouchableOpacity>
-      <Text style={[tapPreview.optionText, {fontSize: dp(30), lineHeight: dp(30), marginLeft: dp(10), color: getOptColor(index)}]}> {(getOptUsed(index) && (getOptColor(index) !== 'white')) ? '☑' : '☐'} </Text>
-    </View>,
-    );
-  }
-
-  useEffect(() => {
-    setColorOff([opt1Color, opt2Color, opt3Color, opt4Color]);
-  }, [opt1Color, opt2Color, opt3Color, opt4Color]);
-
-  useEffect(() => {
-    setUsedOpts([opt1Used, opt2Used, opt3Used, opt4Used]);
-  }, [opt1Used, opt2Used, opt3Used, opt4Used]);
-
-  useEffect(() => {
-    resetField('opt');
-    switch (opt) {
-      case 1:
-        setOptColor(opt1Color);
-        setOptText(opt1Text);
-        break;
-      case 2:
-        setOptColor(opt2Color);
-        setOptText(opt2Text);
-        break;
-      case 3:
-        setOptColor(opt3Color);
-        setOptText(opt3Text);
-        break;
-      case 4:
-        setOptColor(opt4Color);
-        setOptText(opt4Text);
-        break;
-    }
-  }, [opt]);
-
-  useEffect(() => {
-    (opt1Text === '') ? setText1('Opción 1') : null;
-    (opt2Text === '') ? setText2('Opción 2') : null;
-    (opt3Text === '') ? setText3('Opción 3') : null;
-    (opt4Text === '') ? setText4('Opción 4') : null;
-
-    (opt1Text != 'Opción 1') ? markOpt1(true) : markOpt1(false);
-    (opt2Text != 'Opción 2') ? markOpt2(true) : markOpt2(false);
-    (opt3Text != 'Opción 3') ? markOpt3(true) : markOpt3(false);
-    (opt4Text != 'Opción 4') ? markOpt4(true) : markOpt4(false);
-  }, [opt1Text, opt2Text, opt3Text, opt4Text]);
-
-  useEffect(() => {
-    switch (opt) {
-      case 1:
-        setOptColor(opt1Color);
-        break;
-      case 2:
-        setOptColor(opt2Color);
-        break;
-      case 3:
-        setOptColor(opt3Color);
-        break;
-      case 4:
-        setOptColor(opt4Color);
-        break;
-    };
-  }, [opt1Color, opt2Color, opt3Color, opt4Color]);
+  const [editingColor, setEditingColor] = useState(-1);
 
   const confirmTap = () => {
     const finalOpts = [
@@ -303,6 +96,7 @@ export function TapMaker({route, navigation}) {
     navigation.navigate('TapMenu');
   };
 
+
   const pickerIcon = <Image source={require('../../../assets/picker_icon_black.png')} style={{width: dp(20), height: dp(20)}} />;
 
   const alreadyExist = async () => {
@@ -310,152 +104,235 @@ export function TapMaker({route, navigation}) {
     return response;
   }
 
-  if (!confirmed) {
-    return (
-      <View style={styles.blank_background}>
+  const paint = async (color) => {
+    switch(editingColor) {
+      case 0: 
+        setUsedColor0(color);
+        break;
+      case 1: 
+        setUsedColor1(color);
+        break;
+      case 2: 
+        setUsedColor2(color);
+        break;
+      case 3: 
+        setUsedColor3(color);
+        break;
+    }
+  }
 
-        <Modal
+  useEffect(() => {
+    setUsedColors([usedColor0, usedColor1, usedColor2, usedColor3]);
+  }, [usedColor0, usedColor1, usedColor2, usedColor3]);
+
+  const colorPaletteFiltered = colorPalette.filter((color) => !usedColors.includes(color));
+
+  const colorPaletteButtons = colorPaletteFiltered.map((color, index) => 
+    <TouchableOpacity key={index} style={[tapStyles.TO, {flex: 4, backgroundColor: color, margin: dp(5)}]} onPress={()=>paint(color)}>
+    </TouchableOpacity>
+  );
+
+  const colorChangeView = 
+    <>
+      <TouchableOpacity key={'back'} style={[tapStyles.TO, {flex: 4, backgroundColor: palette.darkViolet, margin: dp(5), borderRadius: dp(15)}]} onPress={()=>setEditingColor(-1)}>
+        <View>
+          <Text style={{color: '#fff', fontSize: dp(20), textAlign: 'center'}}>✔</Text>
+        </View>
+      </TouchableOpacity>
+      {colorPaletteButtons}
+    </>
+
+  const editColorButton = ((index) =>
+    <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: usedColors[index], margin: dp(2)}} onPress={()=>setEditingColor(index)}>
+      <View>
+        <Image source={require('../../../assets/palette.png')} tintColor={'#fff'} resizeMode='contain' style={{width: dp(40), height: dp(40)}} />
+      </View>
+    </TouchableOpacity>
+  )
+
+
+  const optButton0 = 
+    <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
+        {(editingColor == 0) ? colorChangeView : editColorButton(0)}
+      </View>
+      <TouchableOpacity key={0} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[0]}]} onPress={()=>console.log(usedColors[0])}>
+      <View style={tapStyles.box}>
+        <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {0} </Text>
+      </View>
+      </TouchableOpacity>
+    </View>;
+
+  const optButton1 = 
+    <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
+          {(editingColor == 1) ? colorChangeView : editColorButton(1)}
+        </View>
+        <TouchableOpacity key={1} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[1]}]} onPress={()=>console.log(usedColors[1])}>
+        <View style={tapStyles.box}>
+          <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {1} </Text>
+        </View>
+        </TouchableOpacity>
+      </View>;
+
+  const optButton2 = 
+  <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
+        {(editingColor == 2) ? colorChangeView : editColorButton(2)}
+      </View>
+      <TouchableOpacity key={2} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[2]}]} onPress={()=>console.log(usedColors[2])}>
+      <View style={tapStyles.box}>
+        <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {2} </Text>
+      </View>
+      </TouchableOpacity>
+    </View>;
+
+  const optButton3 = 
+  <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{flex: 1, backgroundColor: '#fff', padding: dp(5)}}>
+        {(editingColor == 3) ? colorChangeView : editColorButton(3)}
+      </View>
+      <TouchableOpacity key={3} style={[tapStyles.TO, {flex: 4, backgroundColor: usedColors[3]}]} onPress={()=>console.log(usedColors[3])}>
+      <View style={tapStyles.box}>
+        <Text numberOfLines={2} adjustsFontSizeToFit style={tapStyles.button_text}> Opción {3} </Text>
+      </View>
+      </TouchableOpacity>
+    </View>
+
+  const addOpt = async () => {
+    const paintNew = async () => {
+      switch(optsCounter) {
+        case 1:
+          setUsedColor1(colorPaletteFiltered[0]); 
+          break;
+        case 2:
+          setUsedColor2(colorPaletteFiltered[0]); 
+          break;
+        case 3:
+          setUsedColor3(colorPaletteFiltered[0]); 
+          break;
+      }
+    };
+    await paintNew().then(() => setOpsCounter(optsCounter+1));
+  }
+
+  const removeOpt = async () => {
+    const removeNew = async () => {
+      switch(optsCounter) {
+        case 4:
+          setUsedColor3('');
+          (editingColor == 3) ? setEditingColor(-1) : null; 
+          break;
+        case 3:
+          setUsedColor2(''); 
+          (editingColor == 2) ? setEditingColor(-1) : null; 
+          break;
+        case 2:
+          setUsedColor1(''); 
+          (editingColor == 1) ? setEditingColor(-1) : null; 
+          break;
+      }
+    };
+    await removeNew().then(() => setOpsCounter(optsCounter-1));
+  }
+
+  return (
+    <View style={{backgroundColor: '#fff', flex: 1}}>
+
+      <Modal
+          avoidKeyboard = {true}
           animationType="fade"
-          transparent={true}
-          visible={modalVoid}
+          visible={modalName}
           onRequestClose={() => {
-            setModalVoid(!modalVoid);
+            setModalName(!modalName);
           }}>
-          <View style={modalStyles.modalAlert}>
-            <Image source={require('../../../assets/warning.png')} resizeMode='contain' style={{width: dp(80), height: dp(80)}} />
-            <Text style={modalStyles.modalText}>Tu TAP debe tener al menos una opción</Text>
-            <Pressable
-              style={[modalStyles.button, modalStyles.redBackground]}
-              onPress={() => setModalVoid(!modalVoid)}>
-              <Text style={modalStyles.textStyle}>¡Entendido!</Text>
-            </Pressable>
+          <View style={[styles.modalView, {justifyContent: 'center'}]}>
+            <View style={{flexDirection: 'row', paddingLeft: dp(10), paddingRight: dp(10), borderWidth: dp(3), borderColor: palette.violet}}>
+              <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet, textDecorationLine: 'line-through'}]}> Opción </Text>
+            </View>
+            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>Escribe el contenido</Text>
+            <Controller
+              name="name"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: {value: true, message: 'Escribe el contenido'},
+              }}
+              render={({field: {onChange, value}}) => (
+                <Input
+                  maxLength={12}
+                  textAlign={"center"}
+                  error={errors.name}
+                  errorText={errors?.name?.message}
+                  onChangeText={(text) => {
+                    setNewName(text);
+                    onChange(text);
+                  }}
+                  value={value}
+                  placeholder={activeProfile.name}
+                  autoCapitalize='sentences'
+                />
+              )}
+            />
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={[modalStyles.button, modalStyles.grayBackground]}
+                onPress={() => {
+                  resetField('name');
+                  setModalName(!modalName);
+                }}
+              >
+                <Text style={modalStyles.textStyle}>Cancelar</Text>
+              </Pressable>
+              <Pressable
+                style={[modalStyles.button, modalStyles.violetBackground]}
+                onPress={() => {
+                }}
+              >
+                <Text style={modalStyles.textStyle}>Aplicar</Text>
+              </Pressable>
+            </View>
           </View>
         </Modal>
 
-        <View style={{padding: dp(20), marginBottom: dp(25)}}>
-          <Text style= {{fontSize: dp(18), fontWeight: 'bold'}}>Pulsa una opción para cambiarla.</Text>
-          <Text style= {{fontSize: dp(16)}}>1. Escribe su contenido.</Text>
-          <Text style= {{fontSize: dp(16)}}>2. Píntala con cualquier color de la paleta.</Text>
-          <Text style= {{fontSize: dp(16), fontStyle: 'italic'}}>¡Pulsa {pickerIcon} para llevar el color a la paleta!</Text>
-        </View>
-
-        <View style={{flex: 5, margin: dp(30), marginBottom: dp(70)}}>
-          <>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{alignContent: 'center', justifyContent: 'center'}}>
-                <>
-                  {OptsList}
-                </>
-                <View style={[{flexDirection: 'row', margin: dp(20), marginBottom: dp(50)}]}>
-                  <View style={[tapMaker.colorTable]}>
-                    <>
-                      {colorButtons()}
-                    </>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </>
-        </View>
-
-        <View style={[styles.container, {flexDirection: 'row', flex: 2}]}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: palette.gray}]} onPress={() => navigation.navigate('TapMenu')}>
-            <View style={styles.button_container}>
-              <Text style={{color: '#fff', fontSize: dp(20), fontWeight: 'bold'}}>❮  DESCARTAR</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={() => confirmTap()}>
-            <View style={styles.button_container}>
-              <Text style={{color: '#fff', fontSize: dp(20), fontWeight: 'bold'}}>TERMINAR  ❯</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
+      <View style={{flex: 1}}>
+        {optButton0}
+        {(optsCounter > 1) ? optButton1 : null}
+        {(optsCounter > 2) ? optButton2 : null}
+        {(optsCounter > 3) ? optButton3 : null}
       </View>
-    );
-  } else {
-    return (
-      <ScrollView keyboardShouldPersistTaps="handled" style={{backgroundColor: 'white'}}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
-          style={styles.blank_background}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <>
-              <View style={{marginTop: dp(40), alignItems: 'center'}}>
-                <Text style={[styles.title, {marginBottom: dp(20), color: palette.violet}]}>Este es el resultado:</Text>
-                <>
-                  {defOptsFiltered}
-                </>
-                <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
-                <Controller
-                  name="name"
-                  defaultValue=""
-                  control={control}
-                  rules={{
-                    required: {value: true, message: 'Escribe tu nombre'},
-                  }}
-                  render={({field: {onChange, value}}) => (
-                    <View style={{width: dp(300)}}>
-                      <Input
-                        error={errors.name}
-                        errorText={errors?.name?.message}
-                        onChangeText={(text) => {
-                          setTapName(text);
-                          onChange(text);
-                        }
-                        }
-                        value={value}
-                        placeholder='Nombre'
-                      />
-                    </View>
-                  )}
-                />
-                <View style={{flexDirection: 'row'}}>
-                  <Pressable
-                    style={[modalStyles.button, modalStyles.grayBackground]}
-                    onPress={() => {
-                      isConfirmed(false);
-                    }}
-                  >
-                    <Text style={modalStyles.textStyle}>Cancelar</Text>
-                  </Pressable>
-                  <Pressable
-                    style={[modalStyles.button, modalStyles.violetBackground]}
-                    onPress={() => {
-                      if (getValues().name.length > 0) {
-                        alreadyExist().then((isDuplicate) => 
-                        {
-                          if(!isDuplicate) {
-                            saveTap();
-                          } else {
-                            Alert.alert('¡Ups!', 'Ya tienes un TAP con este nombre.', [
-                              {text: 'OK'},
-                            ],
-                            {
-                              cancelable: true,
-                            });
-                          }
-                        });
-                      } else {
-                        Alert.alert('¡Espera!', 'Aún no has introducido un nombre.', [
-                          {text: 'OK'},
-                        ],
-                        {
-                          cancelable: true,
-                        });
-                      }
-                    }}
-                  >
-                    <Text style={modalStyles.textStyle}>Guardar</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    );
-  }
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity disabled={(optsCounter < 2)}
+          style={[{backgroundColor: ((optsCounter < 2) ? palette.gray : palette.violet)}, tapMaker.controlButton]}
+          onPress={() => { removeOpt() }}
+        >
+          <Text style={modalStyles.textStyle}>-</Text>
+        </TouchableOpacity>
+        <TouchableOpacity disabled={(optsCounter > 3)}
+          style={[{backgroundColor: ((optsCounter > 3) ? palette.gray : palette.violet)}, tapMaker.controlButton]}
+          onPress={() => { addOpt() }}
+        >
+          <Text style={modalStyles.textStyle}>+</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity
+          style={[{backgroundColor: palette.red}, tapMaker.controlButton]}
+          onPress={() => { navigation.navigate('TapMenu');
+          }}
+        >
+          <Text style={modalStyles.textStyle}>Descartar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[{backgroundColor: palette.darkViolet}, tapMaker.controlButton]}
+          onPress={() => {
+          }}
+        >
+          <Text style={modalStyles.textStyle}>Confirmar</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
 }
 
 const tapPreview = StyleSheet.create({
@@ -491,7 +368,43 @@ const tapPreview = StyleSheet.create({
   },
 });
 
+const tapStyles = StyleSheet.create({
+  TO: {
+    justifyContent: 'center',
+    margin: dp(5)
+  },
+  box: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: dp(40),
+    textAlign: 'justify',
+    color: palette.violet,
+    lineHeight: 100,
+  },
+  button_text: {
+    color: '#fff',
+    fontWeight: 'bold',
+    paddingLeft: 30,
+    paddingRight: 30,
+    fontSize: dp(50),
+    textShadowColor: 'black',
+    textShadowOffset: {width: 1, height: 4},
+    textShadowRadius: 2,
+    marginTop: 10,
+    paddingBottom: 20,
+    textAlign: 'center',
+  },
+});
+
 const tapMaker = StyleSheet.create({
+  controlButton: {
+    flex: 1, 
+    justifyContent: 'center', 
+    margin: dp(10), 
+    borderRadius: dp(10),
+  },
   nextButton: {
     backgroundColor: palette.violet,
     color: '#fff',
@@ -539,40 +452,9 @@ const tapMaker = StyleSheet.create({
 });
 
 const modalStyles = StyleSheet.create({
-  modalView: {
-    backgroundColor: 'white',
-    borderColor: '#763CAD',
-    borderWidth: dp(5),
-    height: dp(500),
-    shadowColor: '#000',
-    shadowOffset: {
-      width: dp(0),
-      height: dp(2),
-    },
-    shadowOpacity: dp(0.25),
-    shadowRadius: dp(4),
-    elevation: dp(10),
-  },
-  modalAlert: {
-    marginTop: dp(100),
-    backgroundColor: 'white',
-    borderColor: '#ed1c24',
-    borderWidth: dp(5),
-    padding: dp(40),
-    height: dp(400),
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: dp(0),
-      height: dp(2),
-    },
-    shadowOpacity: dp(0.25),
-    shadowRadius: dp(4),
-    elevation: dp(10),
-  },
   button: {
     borderRadius: dp(10),
-    width: dp(150),
+    width: dp(130),
     height: dp(80),
     elevation: dp(10),
     margin: dp(15),
@@ -591,12 +473,12 @@ const modalStyles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: dp(80),
-    fontSize: dp(25),
+    fontSize: (25),
   },
   modalText: {
     marginBottom: dp(40),
     textAlign: 'center',
-    fontSize: dp(24),
+    fontSize: (24),
     marginTop: dp(20),
     fontWeight: 'bold',
   },

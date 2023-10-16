@@ -12,6 +12,7 @@ export const tapColors = {
   green: '#29B82B',
   blue: '#0D62CE',
   red: '#D31515',
+  pink: '#fa3ee4',
 };
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
