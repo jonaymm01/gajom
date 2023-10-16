@@ -17,18 +17,18 @@ const speak = (text) => {
  * Método para renderizar página de Pictogramas.
  * @return {JSX.Element}
  */
-export function Pictos() {  
-  const [text, onChangeText] = useState(''); // Texto insertado en la barra de búsqueda
-  
+export function Pictos() {    
   const [pressed, setPressed] = useState(''); // Nombre de la categoría seleccionada
   const [pictoList, setList] = useState(DefaultPictos.data.categories);
   const [path, setPath] = useState([]);
-  
+  const [text, setText] = useState('');
+
   const [filteredContent, setFiltered] = useState([]); // Contenido se la categoría filtrado por búsqueda
   const [filtered, isFiltered] = useState(false); // Valor booleano que indica si se está filtrando o no
 
   const backTo = (picto) => {
     speak(picto.name);
+    setText(picto.text);
     const index = path.findIndex((p) => p.name == picto.name);
     let newPath = path;
     newPath.length = index+1;
@@ -43,7 +43,6 @@ export function Pictos() {
     setPressed('');
   };
 
-
   useEffect(() => {
     if (pressed !== '') {
       const selectedPicto = pictoList.find((picto) => picto.name === pressed);
@@ -53,17 +52,6 @@ export function Pictos() {
       }
     }
   }, [pressed]);
-
-  useEffect(() => {
-    let filtered = []
-    if (text !== '') {
-      filtered = pictoList.filter((picto) => picto.name.toLowerCase().includes(text.toLowerCase()));
-      isFiltered(true);
-      setFiltered(filtered);
-    } else {
-      isFiltered(false);
-    }
-  }, [text]);
   
   const pathButtons = path.map((picto, index) =>
       <TouchableOpacity key={picto.name+index} style={pathStyles.button} onPress={() => backTo(picto)}>
@@ -72,6 +60,8 @@ export function Pictos() {
         </Text>
       </TouchableOpacity>,
     );
+
+  const pathNames = path.map((picto) => picto.name);
 
   const restartButton = [
         <TouchableOpacity key={'start'} style={pathStyles.backButton} onPress={() => reboot()}>
@@ -86,11 +76,18 @@ export function Pictos() {
       <View style={pathStyles.container}>
         {restartButton.concat(pathButtons)}
       </View>
-      <ScrollView style={{backgroundColor: '#fff'}}>
+      <ScrollView style={{backgroundColor: '#fff'}} persistentScrollbar={true}>
         <View style={pickerStyles.container}>
-          <PictoList setPressed={setPressed} list={(filtered) ? filteredContent : pictoList}/>
+          <PictoList setText={setText} setPressed={setPressed} list={(filtered) ? filteredContent : pictoList}/>
         </View>
       </ScrollView>
+      <View style={{margin: dp(20), display: (text == '') ? 'none' : null}}>
+        <TouchableOpacity style={{backgroundColor: palette.darkViolet, justifyContent: 'center', padding: dp(20)}} onPress={() => speak(text)}>
+          <Text numberOfLines={1} adjustsFontSizeToFit style={{color: '#fff', textAlign: 'center', fontSize: dp(20), fontWeight: '500'}}>
+            {text}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

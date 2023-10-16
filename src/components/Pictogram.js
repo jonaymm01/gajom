@@ -59,14 +59,14 @@ export default function Pictogram({...props}) {
   const otrosKeys = ['Otro', 'Otra', 'Otros', 'Otras', 'Todos'];
   if (props.data.hasOwnProperty('img')) {
     return (
-      <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
+      <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name); props.setText(props.data.text)}}>
         <Image source={props.data.img} resizeMode='contain' style={pictoStyles.img} backgroundColor={'#fff'} />
         <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal)}>{props.data.name}</Text>
       </TouchableOpacity>
     );
   } else {
       return (
-        <TouchableOpacity style={[((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal), ((otrosKeys.includes(props.data.name) == true) ? {borderRadius: 100} : null)]} onPress={() => {speak(props.data.name); props.setPressed(props.data.name)}}>
+        <TouchableOpacity style={[((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal), ((otrosKeys.includes(props.data.name) == true) ? {borderRadius: 100} : null)]} onPress={() => {speak(props.data.name); props.setPressed(props.data.name); props.setText(props.data.text)}}>
           <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={[((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal), {fontSize: dp(25)}]}>{props.data.name}</Text>
         </TouchableOpacity>
       );

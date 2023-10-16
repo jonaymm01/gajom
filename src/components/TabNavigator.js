@@ -51,6 +51,7 @@ const BottomTabNavigator = () => {
           tabBarActiveBackgroundColor: palette.red,
           tabBarStyle: {
             height: dp(80),
+            elevation: 5
           },
           tabBarLabelStyle: {
             display: 'none'
