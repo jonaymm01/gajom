@@ -128,8 +128,8 @@ const talkerStyles = StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: palette.violet,
-    margin: 2,
-    borderRadius: 10,
+    margin: dp(2),
+    borderRadius: dp(10),
   },
   button_text: {
     color: '#fff',
@@ -137,7 +137,7 @@ const talkerStyles = StyleSheet.create({
     fontSize: dp(40),
     textShadowColor: 'black',
     textShadowOffset: {width: 2, height: 2},
-    textShadowRadius: 10,
+    textShadowRadius: dp(10),
   },
   word: {
     color: palette.violet,

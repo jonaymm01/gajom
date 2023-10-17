@@ -18,7 +18,6 @@ export default function Button({label, ...props}) {
       </TouchableOpacity>
     );
   } if (props.img) {
-    console.log('Ay')
     return (
       <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>

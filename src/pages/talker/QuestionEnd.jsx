@@ -91,7 +91,7 @@ export function QuestionEnd({route, navigation}) {
       navigation.navigate('Questions');
     }}>
       <View>
-        <Text style={[questionStyles.smallButtonText, {lineHeight: 40}]}> ⤺ </Text>
+        <Text style={[questionStyles.smallButtonText, {lineHeight: dp(40)}]}> ⤺ </Text>
       </View>
     </TouchableOpacity>;
 
@@ -113,7 +113,7 @@ export function QuestionEnd({route, navigation}) {
 const finalQuestion = start + ((start !== '¿') ? ' ' : '') + ((end.length > 0) ? end : '...');
 
 const result =
-  <View style={{marginBottom: 10, alignItems: 'center', justifyContent: 'center'}}>
+  <View style={{marginBottom: dp(10), alignItems: 'center', justifyContent: 'center'}}>
     <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>Pulsa para escuchar</Text>
     <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
       speak(finalQuestion);
@@ -153,7 +153,7 @@ const deleteQuest = async (start, questEnd) => {
 };
 
 return (
-  <View style={{backgroundColor: 'white', flex: 1, justifyContent: 'center', padding: 20, alignItems: 'center'}}>
+  <View style={{backgroundColor: 'white', flex: 1, justifyContent: 'center', padding: dp(20), alignItems: 'center'}}>
     <Modal
     animationType="fade"
     visible={modalAdd}
@@ -162,12 +162,12 @@ return (
       setModalAdd(!modalAdd);
     }}>
     <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', flex: 1}}>
-      <View style={{flexDirection: 'row', maxWidth: 200, alignItems: 'center', justifyContent: 'center'}}>
-        <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', backgroundColor: palette.violet, padding: 10, margin: 10}]}>{start} </Text>
-        <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, backgroundColor: '#fff', padding: 10, margin: 10, borderColor: palette.violet, borderWidth: 2, flexWrap: 'wrap', textAlign: 'center'}]}>{newQuest}</Text>
-        <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', backgroundColor: palette.violet, padding: 10, margin: 10}]}>?</Text>
+      <View style={{flexDirection: 'row', maxWidth: dp(200), alignItems: 'center', justifyContent: 'center'}}>
+        <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: '#fff', backgroundColor: palette.violet, padding: dp(10), margin: dp(10)}]}>{start} </Text>
+        <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet, backgroundColor: '#fff', padding: dp(10), margin: dp(10), borderColor: palette.violet, borderWidth: dp(2), flexWrap: 'wrap', textAlign: 'center'}]}>{newQuest}</Text>
+        <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: '#fff', backgroundColor: palette.violet, padding: dp(10), margin: dp(10)}]}>?</Text>
       </View>
-      <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet}]}>Completa la pregunta</Text>
+      <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet, fontSize: dp(25)}]}>Completa la pregunta</Text>
       <Controller
         name="add"
         defaultValue=""
@@ -324,11 +324,11 @@ export const questionStyles = StyleSheet.create({
 
 const creatorStyles = StyleSheet.create({
   button: {
-    borderRadius: 10,
-    width: 150,
-    height: 80,
-    elevation: 10,
-    margin: 15,
+    borderRadius: dp(10),
+    width: dp(150),
+    height: dp(80),
+    elevation: dp(10),
+    margin: dp(15),
   },
   violetBackground: {
     backgroundColor: palette.violet,
@@ -343,14 +343,14 @@ const creatorStyles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 80,
-    fontSize: 25,
+    lineHeight: dp(80),
+    fontSize: dp(25),
   },
   modalText: {
-    marginBottom: 40,
+    marginBottom: dp(40),
     textAlign: 'center',
-    fontSize: 24,
-    marginTop: 20,
+    fontSize: dp(24),
+    marginTop: dp(20),
     fontWeight: 'bold',
   },
 });
