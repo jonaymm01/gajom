@@ -1838,7 +1838,7 @@ export const DefaultPictos = {
                     },
                     {
                       'name': 'Gluten',
-                      'text': 'Soy celiaco.',
+                      'text': 'Tengo alergia al gluten.',
                       'img': require('../../assets/pictos/estado/nutricion/gluten.png'),
                       'content': []
                     },

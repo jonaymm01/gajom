@@ -17,8 +17,8 @@ const speak = (letter) => {
       l = 'ye';
       break; 
     case 'CARAMBOLA': 
-      l = '¡Sabroso fruto mágico en Pueblo Pelícano!';
-      break;   
+      l = '¡Deliciosa fruta estrella!';
+      break;
   }
   Speech.speak(l);
 };
@@ -92,8 +92,8 @@ const sayWordButton =
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={talkerStyles.word}> {(word == '') ? '¡Deletrea tu palabra!' : word} </Text>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: dp(15)}}>
+        <Text adjustsFontSizeToFit style={talkerStyles.word}>{(word == '') ? '¡Deletrea tu palabra!' : word}</Text>
       </View>
       {lettersRows}
       <View style={{flex:1, flexDirection: 'row'}}>

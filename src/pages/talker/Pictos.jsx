@@ -72,7 +72,7 @@ export function Pictos() {
   ]
 
   return (
-    <View style={{backgroundColor: '#fff', flex: 1}}>        
+    <View style={{backgroundColor: '#fff', flex: 1}}>    
       <View style={pathStyles.container}>
         {restartButton.concat(pathButtons)}
       </View>
@@ -81,13 +81,14 @@ export function Pictos() {
           <PictoList setText={setText} setPressed={setPressed} list={(filtered) ? filteredContent : pictoList}/>
         </View>
       </ScrollView>
-      <View style={{margin: dp(20), display: (text == '') ? 'none' : null}}>
+      <View style={{padding: dp(45), position: 'absolute', left: 0, right: 0, bottom: 0, display: (text == '') ? 'none' : null, backgroundColor: '#fff', opacity: 0.9}}/>   
+      <View style={{margin: dp(10), position: 'absolute', left: 0, right: 0, bottom: 0, display: (text == '') ? 'none' : null}}>
         <TouchableOpacity style={{backgroundColor: palette.darkViolet, justifyContent: 'center', padding: dp(20)}} onPress={() => speak(text)}>
           <Text numberOfLines={1} adjustsFontSizeToFit style={{color: '#fff', textAlign: 'center', fontSize: dp(20), fontWeight: '500'}}>
             {text}
           </Text>
         </TouchableOpacity>
-      </View>
+      </View>    
     </View>
   );
 }
@@ -97,6 +98,7 @@ const pickerStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
+    marginBottom: dp(120),
   },
 });
 

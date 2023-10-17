@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, ScrollView, StyleSheet, SafeAreaView, Pressable, TouchableOpacity, Image} from 'react-native';
+import {Text, View, ScrollView, StyleSheet, SafeAreaView, Pressable, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 import {palette, styles, dp} from '../../styles/styles';
 import {useForm, Controller} from 'react-hook-form';
 import * as Speech from 'expo-speech';
 
+import Button from '../../components/Button';
 import Input from '../../components/Input';
 
 /**
@@ -23,52 +24,53 @@ export function DictaText() {
   const [text, setText] = useState('');
   const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
 
-
   return (
-    <SafeAreaView style= {{flex: 1, backgroundColor: '#fff'}}>
-      <View style={{alignItems: 'center', backgroundColor: '#fff', flex: 1, marginTop: 30}}>
-        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
-          <Pressable
-            style={[creatorStyles.button, {backgroundColor: palette.gray}]}
-            onPress={() => {
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{alignItems: 'center', backgroundColor: '#fff', flex: 1, marginBottom: dp(10), alignContent: 'center'}}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+          keyboardVerticalOffset={
+            Platform.select({
+               ios: () => dp(100),
+               android: () => dp(100),
+            })()
+          }
+          style={{alignItems: 'center', marginTop: dp(20)}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', marginTop: dp(5), marginBottom: dp(20)}}>
+          <Button color={palette.violet} onPress={() => speak(text)} label="Leer texto"/>
+        </View>
+        <Controller
+              name="txt"
+              defaultValue=""
+              control={control}
+              rules={{
+                required: {value: true, message: 'Escribe algunas palabras'},
+              }}
+              render={({field: {onChange, value}}) => (
+                <Input
+                  maxLength={150}
+                  multiline
+                  textAlign={"left"}
+                  error={errors.name}
+                  errorText={errors?.name?.message}
+                  onChangeText={(text) => {
+                    onChange(text);
+                    setText(text);
+                  }}
+                  value={value}
+                  placeholder={'...'}
+                  autoCapitalize='sentences'
+                  marginLeft={dp(10)}
+                  fontSize={dp(22)}
+                />
+              )}
+            />
+        </KeyboardAvoidingView>
+        <View style={{marginTop: -dp(15)}}>
+          <Button img={require('../../../assets/trash_icon.png')} color={palette.gray} onPress={() => {
               resetField('txt');
               setText('');
-            }}
-          >
-            <Image source={require('../../../assets/trash_icon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: 40, maxHeight: 40, margin: 10, alignSelf: 'center'}} />
-          </Pressable>
-          <Controller
-          name="txt"
-          defaultValue=""
-          control={control}
-          rules={{
-            required: {value: true, message: 'Escribe las palabras a reproducir'},
-          }}
-          render={({field: {onChange, value}}) => (
-          <View style={{maxWidth: dp(250), minWidth: dp(100)}}>
-            <Input
-              minWidth={dp(250)}
-              error={errors.name}
-              errorText={errors?.name?.message}
-              onChangeText={(text) => {
-                setText(text);
-                onChange(text);
-              }}
-              value={value}
-              placeholder={'Escribe aquí'}
-              autoCapitalize="none"
-            />
-          </View>
-          )}
-        />
-        </View>
-        <Text style={[styles.title, {marginBottom: 20, color: palette.violet, marginTop: 30}]}>¡Pulsa para dictarlo!</Text>
-        <View style={{minWidth: dp(200), minHeight: dp(200)}}>
-        <TouchableOpacity style={{backgroundColor: palette.violet, elevation: 10, borderRadius: 20, flex: 1, marginLeft: 20, marginRight: 20}} onPress={() => speak(text)}>
-            <View>
-              <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', padding: 10, margin: 10, flexWrap: 'wrap'}]}>{(text == '') ? '...' : text}</Text>
-            </View>
-        </TouchableOpacity>
+          }} label={text.length + '/150'}/>
         </View>
       </View>
     </SafeAreaView>
@@ -77,17 +79,17 @@ export function DictaText() {
 
 const creatorStyles = StyleSheet.create({
   button: {
-    borderRadius: 10,
-    width: 60,
-    height: 60,
-    elevation: 10,
-    marginRight: 15,
+    borderRadius: dp(10),
+    width: dp(60),
+    height: dp(60),
+    elevation: dp(10),
+    marginRight: dp(15),
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 80,
+    lineHeight: dp(80),
     fontSize: dp(25),
   },
 });

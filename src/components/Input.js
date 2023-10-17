@@ -16,7 +16,7 @@ export default function Input(props) {
   };
 
   const eye =       
-  <View style={{marginRight: dp(10), flex: 1}}>
+  <View style={{flex: 1}}>
   <TouchableOpacity onPress={() => {
     showPass();
   }}>
@@ -44,15 +44,15 @@ export default function Input(props) {
 const inputStyles = StyleSheet.create({
   wrapper: {
     borderWidth: dp(2),
-    height: dp(60),
     borderColor: palette.violet,
     borderRadius: dp(6),
     justifyContent: 'center',
     width: dp(300),
-    height: dp(80),
+    minHeight: dp(80),
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: dp(10)
   },
   text: {
     flex: 4,

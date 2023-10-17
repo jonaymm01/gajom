@@ -11,7 +11,14 @@ import { dp } from '../styles/styles';
  * @return {JSX.Element}
  */
 export default function Button({label, ...props}) {
-  if (props.img) {
+  if (props.onlyImg) {
+    return (
+      <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
+        <Image source={props.img} resizeMode='contain' tintColor={'#fff'} style={{maxHeight: dp(30), maxWidth: dp(30)}}/>
+      </TouchableOpacity>
+    );
+  } if (props.img) {
+    console.log('Ay')
     return (
       <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
@@ -25,7 +32,7 @@ export default function Button({label, ...props}) {
       <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
         <Text style={styles.button_text}>{label}</Text>
       </TouchableOpacity>
-    );
+  );
   }
 
 }
@@ -37,7 +44,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: dp(20),
     marginTop: dp(10),
-    elevation: 5
+    elevation: 5,
+    justifyContent: 'center',
   },
   button_text: {
     color: '#fff',
