@@ -168,7 +168,7 @@ const pinInput =
                     </View>
                   </TouchableOpacity>
                   <View style={SignupStyle.titleContainer}>
-                  <Text adjustsFontSizeToFit style={[SignupStyle.title]}>Creación de perfil</Text>
+                  <Text adjustsFontSizeToFit style={[SignupStyle.title]}>Nuevo perfil</Text>
                   </View>
                 </View>
 

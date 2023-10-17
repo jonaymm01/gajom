@@ -197,7 +197,7 @@ export function Profile({navigation}) {
               <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet, textDecorationLine: 'line-through'}]}> {activeProfile.name} </Text>
               <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet}]}> ➜ {(newName == '') ? ' _____' : newName} </Text>
             </View>
-            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>Indica un nuevo nombre</Text>
+            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet, fontSize: dp(25)}]}>Indica un nuevo nombre</Text>
             <Controller
               name="name"
               defaultValue=""
@@ -250,7 +250,7 @@ export function Profile({navigation}) {
             setModalPin(!modalPin);
           }}>
           <View style={styles.modalView}>
-            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>Indica un nuevo PIN</Text>
+            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet, fontSize: dp(30)}]}>Indica un nuevo PIN</Text>
             <Controller
               name="pin"
               defaultValue=""

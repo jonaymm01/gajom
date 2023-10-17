@@ -26,7 +26,7 @@ export default function Input(props) {
 
   return (
     <View style={{marginBottom: dp(30)}}>
-    <View style={inputStyles.wrapper}>
+    <View style={[inputStyles.wrapper, {borderColor: (props.borderColor) ? props.borderColor : palette.violet}]}>
       <TextInput
         secureTextEntry={ ((props.showHide) ? (hiddenPin ? true : false ) : (false))}
         style={inputStyles.text}
@@ -43,8 +43,7 @@ export default function Input(props) {
 
 const inputStyles = StyleSheet.create({
   wrapper: {
-    borderWidth: dp(2),
-    borderColor: palette.violet,
+    borderWidth: dp(3),
     borderRadius: dp(6),
     justifyContent: 'center',
     width: dp(300),

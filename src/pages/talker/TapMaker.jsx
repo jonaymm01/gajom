@@ -145,6 +145,7 @@ export function TapMaker({route, navigation}) {
       } }>
       <View style={tapStyles.box}>
         <Text style={tapStyles.button_text}> {text0} </Text>
+        <Text style={tapStyles.button_text_small}> Pulsa para editar </Text>
       </View>
       </TouchableOpacity>
     </View>;
@@ -160,6 +161,7 @@ export function TapMaker({route, navigation}) {
         }}>
         <View style={tapStyles.box}>
           <Text style={tapStyles.button_text}> {text1} </Text>
+          <Text style={tapStyles.button_text_small}> Pulsa para editar </Text>
         </View>
         </TouchableOpacity>
       </View>;
@@ -175,6 +177,7 @@ export function TapMaker({route, navigation}) {
       }}>
       <View style={tapStyles.box}>
         <Text style={tapStyles.button_text}> {text2} </Text>
+        <Text style={tapStyles.button_text_small}> Pulsa para editar </Text>
       </View>
       </TouchableOpacity>
     </View>;
@@ -190,6 +193,7 @@ export function TapMaker({route, navigation}) {
       }}>
       <View style={tapStyles.box}>
         <Text style={tapStyles.button_text}> {text3} </Text>
+        <Text style={tapStyles.button_text_small}> Pulsa para editar </Text>
       </View>
       </TouchableOpacity>
     </View>
@@ -256,6 +260,12 @@ export function TapMaker({route, navigation}) {
 
   console.log(texts);
 
+  const previewOpts = texts.map((opt, index) => 
+    <View key={index} style={{backgroundColor: usedColors[index], width: dp(200), height: dp(60), padding: dp(10), margin: dp(2), display: ((optsCounter < (index+1)) ? 'none' : null)}}>
+      <Text adjustsFontSizeToFit numberOfLines={1} style={tapPreview.optionText}>{texts[index]}</Text>
+    </View>
+  );
+
   return (
     <View style={{backgroundColor: '#fff', flex: 1}}>
 
@@ -271,18 +281,7 @@ export function TapMaker({route, navigation}) {
         <View style={{alignItems: 'center'}}>
         <Text style={[styles.title, {marginBottom: dp(20), color: palette.violet}]}>Este es el resultado:</Text>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{backgroundColor: usedColor0, width: dp(200), padding: dp(10), margin: dp(2)}}>
-            <Text style={tapPreview.optionText}> {text0} </Text>
-          </View>
-          <View style={{backgroundColor: usedColor1, width: dp(200), padding: dp(10), margin: dp(2), display: ((optsCounter < 2) ? 'none' : null)}}>
-            <Text style={tapPreview.optionText}> {text1} </Text>
-          </View>
-          <View style={{backgroundColor: usedColor2, width: dp(200), padding: dp(10), margin: dp(2), display: ((optsCounter < 3) ? 'none' : null)}}>
-            <Text style={tapPreview.optionText}> {text2} </Text>
-          </View>
-          <View style={{backgroundColor: usedColor3, width: dp(200), padding: dp(10), margin: dp(2), display: ((optsCounter < 4) ? 'none' : null)}}>
-            <Text style={tapPreview.optionText}> {text3} </Text>
-          </View>
+          {previewOpts}
         </View>
         <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>¿Cómo se llamará este TAP?</Text>
         <Controller
@@ -361,9 +360,9 @@ export function TapMaker({route, navigation}) {
           }}>
           <View style={[styles.modalView, {justifyContent: 'center'}]}>
             <View style={[tapStyles.TO, {backgroundColor: usedColors[editingText]}]}>
-              <Text style={[tapStyles.button_text]}> {(newText == '') ? texts[editingText] : newText} </Text>
+              <Text style={[tapStyles.button_text, {paddingBottom: 10}]}> {(newText == '') ? texts[editingText] : newText} </Text>
             </View>
-            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet}]}>Escribe el contenido</Text>
+            <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: usedColors[editingText]}]}>Escribe el contenido</Text>
             <Controller
               name="text"
               defaultValue=""
@@ -373,6 +372,8 @@ export function TapMaker({route, navigation}) {
               }}
               render={({field: {onChange, value}}) => (
                 <Input
+                  color={usedColors[editingText]}
+                  borderColor={usedColors[editingText]}
                   maxLength={15}
                   textAlign={"center"}
                   error={errors.name}
@@ -399,7 +400,7 @@ export function TapMaker({route, navigation}) {
                 <Text style={modalStyles.textStyle}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[modalStyles.button, modalStyles.violetBackground]}
+                style={[modalStyles.button, {backgroundColor: usedColors[editingText]}]}
                 onPress={() => {
                   if (newText == '') {
                     Alert.alert('¡Ups!', 'Aún no has escrito nada.', [
@@ -521,8 +522,21 @@ const tapStyles = StyleSheet.create({
     textShadowOffset: {width: 1, height: 2},
     textShadowRadius: 2,
     marginTop: 10,
-    paddingBottom: 20,
     textAlign: 'center',
+  },
+  button_text_small: {
+    color: '#fff',
+    fontStyle: 'italic',
+    fontWeight: '500',
+    paddingLeft: 30,
+    paddingRight: 30,
+    fontSize: dp(25),
+    textAlign: 'center',
+    paddingBottom: 20,
+    textShadowColor: 'black',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 2,
+    opacity: 0.9,
   },
 });
 

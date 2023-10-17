@@ -115,12 +115,12 @@ export function Login({navigation}) {
                 setModalPin(!modalPin);
               }}>
               <View style={styles.modalView}>
-                <View style={{alignItems: 'center', marginBottom: dp(10)}}>
-                  <Text style={[accessForm.loginText, {marginBottom: dp(10)}]}>INICIANDO SESIÓN</Text>
-                  <Text style={[accessForm.profile_name, {marginTop: dp(10)}]}>{selected}</Text>
+                <View style={[accessForm.profileButton, {marginBottom: dp(40)}]}>
+                  <View style={[styles.button_container, {flex: 10, justifyContent: 'center'}]}>
+                    <Text style={[styles.button_text, {fontSize: dp(24)}]}>{selected}</Text>
+                  </View> 
                 </View>
                 <View style={{alignItems: 'center'}}>
-                <Text style={[accessForm.text, {marginBottom: dp(30)}]}>Introduce aquí tu PIN</Text>
                 <Controller
                     name="pin"
                     defaultValue=""
@@ -196,22 +196,17 @@ export const formStyles = StyleSheet.create({
 });
 
 const accessForm = StyleSheet.create({
-  profile_name: {
-    fontSize: dp(40),
-    fontWeight: 'bold',
-    color: palette.violet,
-    textAlign: 'center',
-  },
   text: {
     fontSize: dp(22),
     color: palette.violet,
   },
-  loginText: {
-    fontSize: dp(22),
+  profileButton: {
     backgroundColor: palette.violet,
-    color: '#fff',
-    padding: dp(20),
-    fontWeight: 'bold',
+    margin: dp(10),
+    height: dp(140),
+    width: dp(140),
+    padding: dp(10),
+    borderRadius: dp(15),
   }
 });
 

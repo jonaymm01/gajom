@@ -164,7 +164,7 @@ return (
     <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', flex: 1}}>
       <View style={{flexDirection: 'row', maxWidth: 200, alignItems: 'center', justifyContent: 'center'}}>
         <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', backgroundColor: palette.violet, padding: 10, margin: 10}]}>{start} </Text>
-        <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, backgroundColor: '#fff', padding: 10, margin: 10, borderColor: palette.violet, borderWidth: 2, flexWrap: 'wrap'}]}>{newQuest}</Text>
+        <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: palette.violet, backgroundColor: '#fff', padding: 10, margin: 10, borderColor: palette.violet, borderWidth: 2, flexWrap: 'wrap', textAlign: 'center'}]}>{newQuest}</Text>
         <Text style={[styles.title, {marginBottom: 20, marginTop: 40, color: '#fff', backgroundColor: palette.violet, padding: 10, margin: 10}]}>?</Text>
       </View>
       <Text style={[styles.title, {marginBottom: 20, marginTop: 20, color: palette.violet}]}>Completa la pregunta</Text>
@@ -176,8 +176,8 @@ return (
           required: {value: true, message: 'Escribe el resto de la pregunta'},
         }}
         render={({field: {onChange, value}}) => (
-        <View style={{maxWidth: 250, minWidth: 100}}>
           <Input
+            multiline
             textAlign={'center'}
             maxLength={30}
             error={errors.name}
@@ -190,7 +190,6 @@ return (
             placeholder={'...'}
             autoCapitalize="none"
           />
-        </View>
         )}
       />
       <View style={{flexDirection: 'row'}}>

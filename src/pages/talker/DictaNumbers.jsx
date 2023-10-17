@@ -103,8 +103,8 @@ const spellButton =
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={talkerStyles.word}> {(word == '') ? '¡Escribe tu número!' : word} </Text>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: dp(15)}}>
+        <Text adjustsFontSizeToFit style={talkerStyles.word}>{(word == '') ? '¡Escribe tu número!' : word}</Text>
       </View>
       {lettersRows}
       <View style= {{flex: 1,backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center'}}>
