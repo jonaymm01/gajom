@@ -1,17 +1,16 @@
-// Button.js
 import {StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
 import {styles, palette, dp} from '../styles/styles';
 import {DefaultPictos} from '../content/DefaultPictos';
-import * as Speech from 'expo-speech';
+import Tts from 'react-native-tts';
 
 /**
-   * Método para reproducir el texto de un Pictograma
-   * @param {string} text
-   */
-const speak = (text) => {
-  switch(text) {
+ * Método para reproducir el texto de un Pictograma
+ * @param {string} text
+ */
+const speak = text => {
+  switch (text) {
     case '0 -':
       text = '0 negativo';
       break;
@@ -46,7 +45,7 @@ const speak = (text) => {
       text = 'H P V';
       break;
   }
-  Speech.speak(text);
+  Tts.speak(text);
 };
 
 /**
@@ -55,23 +54,69 @@ const speak = (text) => {
  * @return {JSX.Element}
  */
 export default function Pictogram({...props}) {
-  const oneWord = (props.data.name.trim().indexOf(' ') == -1) ? true : false;
+  const oneWord = props.data.name.trim().indexOf(' ') == -1 ? true : false;
   const otrosKeys = ['Otro', 'Otra', 'Otros', 'Otras', 'Todos'];
   if (props.data.hasOwnProperty('img')) {
     return (
-      <TouchableOpacity style={((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal)} onPress={() => {speak(props.data.name); props.setPressed(props.data.name); props.setText(props.data.text)}}>
-        <Image source={props.data.img} resizeMode='contain' style={pictoStyles.img} backgroundColor={'#fff'} />
-        <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal)}>{props.data.name}</Text>
+      <TouchableOpacity
+        style={
+          props.data.content.length > 0
+            ? pictoStyles.baseNoTerminal
+            : pictoStyles.baseTerminal
+        }
+        onPress={() => {
+          speak(props.data.name);
+          props.setPressed(props.data.name);
+          props.setText(props.data.text);
+        }}>
+        <Image
+          source={props.data.img}
+          resizeMode="contain"
+          style={pictoStyles.img}
+          backgroundColor={'#fff'}
+        />
+        <Text
+          numberOfLines={oneWord ? 1 : 2}
+          adjustsFontSizeToFit
+          style={
+            props.data.content.length > 0
+              ? pictoStyles.textNoTerminal
+              : pictoStyles.textTerminal
+          }>
+          {props.data.name}
+        </Text>
       </TouchableOpacity>
     );
   } else {
-      return (
-        <TouchableOpacity style={[((props.data.content.length > 0) ? pictoStyles.baseNoTerminal : pictoStyles.baseTerminal), ((otrosKeys.includes(props.data.name) == true) ? {borderRadius: 100} : null)]} onPress={() => {speak(props.data.name); props.setPressed(props.data.name); props.setText(props.data.text)}}>
-          <Text numberOfLines={(oneWord) ? 1 : 2} adjustsFontSizeToFit style={[((props.data.content.length > 0) ?  pictoStyles.textNoTerminal : pictoStyles.textTerminal), {fontSize: dp(25)}]}>{props.data.name}</Text>
-        </TouchableOpacity>
-      );
+    return (
+      <TouchableOpacity
+        style={[
+          props.data.content.length > 0
+            ? pictoStyles.baseNoTerminal
+            : pictoStyles.baseTerminal,
+          otrosKeys.includes(props.data.name) == true
+            ? {borderRadius: 100}
+            : null,
+        ]}
+        onPress={() => {
+          speak(props.data.name);
+          props.setPressed(props.data.name);
+          props.setText(props.data.text);
+        }}>
+        <Text
+          numberOfLines={oneWord ? 1 : 2}
+          adjustsFontSizeToFit
+          style={[
+            props.data.content.length > 0
+              ? pictoStyles.textNoTerminal
+              : pictoStyles.textTerminal,
+            {fontSize: dp(25)},
+          ]}>
+          {props.data.name}
+        </Text>
+      </TouchableOpacity>
+    );
   }
-
 }
 
 export const pictoStyles = StyleSheet.create({
@@ -81,9 +126,9 @@ export const pictoStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-    borderColor: palette.violet,
-    borderWidth: dp(5),
-    borderRadius: dp(40),
+    borderColor: 'black',
+    borderWidth: dp(3),
+    borderRadius: dp(5),
     padding: dp(10),
     margin: dp(10),
   },
@@ -93,21 +138,20 @@ export const pictoStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: palette.darkViolet,
-    borderWidth: dp(5),
-    borderRadius: dp(10),
+    borderWidth: dp(4),
+    borderRadius: dp(5),
     padding: dp(10),
     margin: dp(10),
   },
   textNoTerminal: {
-    color: palette.violet,
-    fontSize: dp(20),
-    fontWeight: 'bold',
+    color: 'black',
+    fontSize: dp(23),
     textAlign: 'center',
     padding: dp(5),
   },
   textTerminal: {
     color: palette.darkViolet,
-    fontSize: dp(20),
+    fontSize: dp(23),
     fontWeight: 'bold',
     textAlign: 'center',
   },

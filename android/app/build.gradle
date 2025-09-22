@@ -1,0 +1,70 @@
+apply plugin: "com.android.application"
+apply plugin: "com.facebook.react"
+
+
+def enableProguardInReleaseBuilds = false
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+react { autolinkLibrariesWithApp() }
+
+android {
+    
+    ndkVersion "23.1.7779620"
+    buildToolsVersion '35.0.0'
+    compileSdk 35
+
+    namespace "com.gajom"
+    defaultConfig {
+        applicationId "com.anonymous.Gajom"
+        minSdkVersion 24
+        targetSdkVersion 35
+        versionCode 9
+        versionName "1.5.4"
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file('gajom-upload.keystore')
+            storePassword 'cruapaneando'
+            keyAlias 'gajom-upload-keystore'
+            keyPassword 'cruapaneando'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
+        force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10"
+        force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10"
+    }
+}
+
+dependencies {
+    implementation "com.facebook.react:react-android:0.77.0"
+    if (hermesEnabled.toBoolean()) {
+        implementation "com.facebook.react:hermes-android:0.77.0"
+    } else {
+        implementation jscFlavor
+    }
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+}
+
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+

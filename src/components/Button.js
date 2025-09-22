@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 import React from 'react';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
 
-import { dp } from '../styles/styles';
+import {dp} from '../styles/styles';
 
 /**
  * Componente: Botón.
@@ -13,27 +13,66 @@ import { dp } from '../styles/styles';
 export default function Button({label, ...props}) {
   if (props.onlyImg) {
     return (
-      <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
-        <Image source={props.img} resizeMode='contain' tintColor={'#fff'} style={{maxHeight: dp(30), maxWidth: dp(30)}}/>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        {...props}
+        style={[
+          styles.button,
+          {backgroundColor: props.color, borderColor: props.color},
+        ]}>
+        <Image
+          source={props.img}
+          resizeMode="contain"
+          tintColor={'#fff'}
+          style={{maxHeight: dp(30), maxWidth: dp(30)}}
+        />
       </TouchableOpacity>
     );
-  } if (props.img) {
+  }
+  if (props.img) {
     return (
-      <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
-        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={props.img} resizeMode='contain' tintColor={'#fff'} style={{maxHeight: dp(30), maxWidth: dp(30), marginLeft: dp(20)}}/>
-          <Text style={[styles.button_text, {flex: 2, textAlign: 'right', marginRight: 20}]}>{label}</Text>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        {...props}
+        style={[
+          styles.button,
+          {backgroundColor: props.color, borderColor: props.color},
+        ]}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            source={props.img}
+            resizeMode="contain"
+            tintColor={'#fff'}
+            style={{maxHeight: dp(30), maxWidth: dp(30), marginLeft: dp(20)}}
+          />
+          <Text
+            style={[
+              styles.button_text,
+              {flex: 2, textAlign: 'right', marginRight: 20},
+            ]}>
+            {label}
+          </Text>
         </View>
       </TouchableOpacity>
     );
   } else {
     return (
-      <TouchableOpacity activeOpacity={0.8} {...props} style={[styles.button, {backgroundColor: props.color, borderColor: props.color}]}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        {...props}
+        style={[
+          styles.button,
+          {backgroundColor: props.color, borderColor: props.color},
+        ]}>
         <Text style={styles.button_text}>{label}</Text>
       </TouchableOpacity>
-  );
+    );
   }
-
 }
 
 export const styles = StyleSheet.create({
@@ -41,9 +80,8 @@ export const styles = StyleSheet.create({
     height: dp(80),
     width: dp(300),
     alignItems: 'center',
-    borderRadius: dp(20),
+    borderRadius: dp(5),
     marginTop: dp(10),
-    elevation: 5,
     justifyContent: 'center',
   },
   button_text: {

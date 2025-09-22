@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
 import {styles, palette, dp} from '../styles/styles';
-import * as Speech from 'expo-speech';
+import Tts from 'react-native-tts';
 
 /**
  * Método para renderizar lista de botones
@@ -12,24 +12,35 @@ export default function TOList({...props}) {
    * Método para activar la lectura de texto del TAP
    * @param {string} text
    */
-  const speak = (text) => {
-    Speech.speak(text);
+  const speak = text => {
+    Tts.speak(text);
   };
 
-  const taplist = props.list.map((tap, index) =>
-    <TouchableOpacity key={index} style={[styles.button, {backgroundColor: tap.color}]} onPress={()=>speak(tap.text)}>
-      <View style={styles.button_container}>
-        <Text numberOfLines={2} adjustsFontSizeToFit style={talkerStyles.button_text}>{tap.text}</Text>
-      </View>
-    </TouchableOpacity>,
-  );
-  return (
-    <>
-      {taplist}
-    </>
-  );
+  const taplist = props.list.map((tap, index) => (
+    <View key={index} style={{flex: 1}}>
+      <TouchableOpacity
+        key={index}
+        style={[{backgroundColor: tap.color, flex: 1}]}
+        onPress={() => speak(tap.text)}>
+        <View style={styles.button_container}>
+          <Text
+            numberOfLines={2}
+            adjustsFontSizeToFit
+            style={talkerStyles.button_text}>
+            {tap.text}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <View
+        style={{
+          display: index != props.list.length - 1 ? 'flex' : 'none',
+          height: dp(5),
+        }}
+      />
+    </View>
+  ));
+  return <>{taplist}</>;
 }
-
 
 const talkerStyles = StyleSheet.create({
   box: {
@@ -46,12 +57,7 @@ const talkerStyles = StyleSheet.create({
   button_text: {
     color: '#fff',
     fontWeight: 'bold',
-    paddingLeft: 30,
-    paddingRight: 30,
-    fontSize: dp(50),
-    textShadowColor: 'black',
-    textShadowOffset: {width: 1, height: 4},
-    textShadowRadius: 2,
+    fontSize: dp(60),
     marginTop: 10,
     paddingBottom: 20,
     textAlign: 'center',

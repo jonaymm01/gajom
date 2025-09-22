@@ -1,0 +1,6 @@
+module Pods_Gajom {
+  umbrella header "Pods-Gajom-umbrella.h"
+
+  export *
+  module * { export * }
+}

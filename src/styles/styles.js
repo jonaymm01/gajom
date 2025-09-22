@@ -1,17 +1,18 @@
 import {StyleSheet, PixelRatio, Dimensions} from 'react-native';
 
 export const palette = {
-  violet: '#763CAD',
-  red: '#AC3C60',
+  violet: '#785ad1',
+  red: '#833A58',
   gray: '#919191',
-  darkViolet: '#3f1963',
+  darkViolet: '#543567',
+  white: '#fff',
 };
 
 export const tapColors = {
-  yellow: '#F1D225',
-  green: '#29B82B',
+  yellow: '#cfb50d',
+  green: '#229824',
   blue: '#0D62CE',
-  red: '#D31515',
+  red: '#ed5050',
   pink: '#fa3ee4',
 };
 
@@ -20,8 +21,7 @@ export const w_width = SCREEN_WIDTH;
 export const w_height = SCREEN_HEIGHT;
 
 const scale = SCREEN_HEIGHT / 781;
-export const dp = dp => PixelRatio.getFontScale()*dp*scale;
-
+export const dp = dp => PixelRatio.getFontScale() * dp * scale;
 
 export const styles = StyleSheet.create({
   modalView: {

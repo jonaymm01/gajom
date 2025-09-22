@@ -3,7 +3,11 @@ import {StyleSheet, View, Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {InfoStackNavigator, TalkerStackNavigator, ProfileStackNavigator} from './StackNavigator';
+import {
+  InfoStackNavigator,
+  TalkerStackNavigator,
+  ProfileStackNavigator,
+} from './StackNavigator';
 
 import {palette, dp} from '../styles/styles';
 import {ProfileContext} from '../../global';
@@ -12,7 +16,6 @@ const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
-  const [activeRoute, setRoute] = useState('');
   const [activeProfile, setProfile] = useContext(ProfileContext);
   let profile = '{}';
   if (activeProfile !== '{}') {
@@ -21,7 +24,8 @@ const BottomTabNavigator = () => {
 
   return (
     <View style={{width, height}}>
-      <Tab.Navigator initialRouteName={'talker'}
+      <Tab.Navigator
+        initialRouteName={'talker'}
         screenOptions={({route}) => ({
           safeAreaInsets: {
             bottom: 0,
@@ -30,41 +34,57 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
             if (route.name === 'talker') {
-              iconName = focused ?
-            'ios-chatbubbles' :
-            'ios-chatbubbles-outline';
+              iconName = 'volume-medium';
             } else if (route.name === 'info') {
-              iconName = focused ?
-            'ios-information-circle' :
-            'ios-information-circle-outline';
+              iconName = 'information-circle';
             } else if (route.name === 'profile') {
-              iconName = focused ?
-            'ios-person' :
-            'ios-person-outline';
+              iconName = 'person-circle';
             }
 
-            return <Ionicons name={iconName} size={dp(30)} style={{height: dp(30), width: dp(30)}} color={color} />;
+            return (
+              <Ionicons
+                name={iconName}
+                size={dp(30)}
+                style={{height: dp(30), width: dp(30)}}
+                color={color}
+              />
+            );
           },
-          tabBarInactiveTintColor: palette.red,
+          tabBarInactiveTintColor: palette.darkViolet,
           tabBarActiveTintColor: 'white',
           tabBarInactiveBackgroundColor: 'white',
-          tabBarActiveBackgroundColor: palette.red,
+          tabBarActiveBackgroundColor: palette.darkViolet,
           tabBarStyle: {
             height: dp(80),
-            elevation: 5
           },
           tabBarLabelStyle: {
-            display: 'none'
-          }
-        })}
-        
-      >
-        <Tab.Screen name="profile" component={ProfileStackNavigator} options={{title: 'Perfiles', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
-          headerTitleStyle: {color: 'white', fontWeight: 'bold', fontSize: dp(20)}, headerTitleAlign: 'center'}}/>
-        <Tab.Screen name="talker" component={TalkerStackNavigator} options={{title: 'Gajom', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
-          headerTitleStyle: {color: 'white', fontWeight: 'bold', fontSize: dp(20)}, headerTitleAlign: 'center'}}/>
-        <Tab.Screen name="info" component={InfoStackNavigator} options={{title: 'Info', headerTitle: (profile === '{}') ? 'Ninguna sesión iniciada' : `Sesión de ${profile.name}`, headerStyle: {backgroundColor: palette.red},
-          headerTitleStyle: {color: 'white', fontWeight: 'bold', fontSize: dp(20)}, headerTitleAlign: 'center'}}/>
+            display: 'none',
+          },
+        })}>
+        <Tab.Screen
+          name="profile"
+          component={ProfileStackNavigator}
+          options={{
+            title: 'Perfiles',
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="talker"
+          component={TalkerStackNavigator}
+          options={{
+            title: 'Gajom',
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="info"
+          component={InfoStackNavigator}
+          options={{
+            title: 'Info',
+            headerShown: false,
+          }}
+        />
       </Tab.Navigator>
     </View>
   );

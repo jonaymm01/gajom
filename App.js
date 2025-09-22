@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ProfileContext} from './global';
 import {ProfileListContext} from './global';
 import {getAllProfiles, setActiveProfile} from './src/_helpers/storage';
+import Tts from 'react-native-tts';
 
 const App = () => {
   const [profileList, setProfileList] = useState([]);
@@ -17,32 +18,30 @@ const App = () => {
     const fetchData = async () => {
       const names = await getAllProfiles();
       setProfileList(names);
-      console.log("Usuarios disponibles: ", names);
+      console.log('Usuarios disponibles: ', names);
       await AsyncStorage.removeItem('818282');
-      await AsyncStorage.getItem('active')
-          .then((profile) => {
-            console.log('el perfil activo es:', profile);
-            setActiveProfile(profile).then((pass) => {
-              if (pass?.pass) {
-                setProfile(pass.profile);
-              };
-            },
-            );
-          });
+      await AsyncStorage.getItem('active').then(profile => {
+        console.log('el perfil activo es:', profile);
+        setActiveProfile(profile).then(pass => {
+          if (pass?.pass) {
+            setProfile(pass.profile);
+          }
+        });
+      });
     };
-    fetchData()
-        .catch(console.error);
+    fetchData().catch(console.error);
   }, []);
+
+  Tts.setDefaultLanguage('es-ES');
 
   return (
     <ProfileListContext.Provider value={[profileList, setProfileList]}>
-    <ProfileContext.Provider value={[profile, setProfile]}>
-      <NavigationContainer>
-        <BottomTabNavigator />
-      </NavigationContainer>
-    </ProfileContext.Provider>
+      <ProfileContext.Provider value={[profile, setProfile]}>
+        <NavigationContainer>
+          <BottomTabNavigator />
+        </NavigationContainer>
+      </ProfileContext.Provider>
     </ProfileListContext.Provider>
-
   );
 };
 export default App;

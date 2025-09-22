@@ -9,11 +9,10 @@ import {fqaContent} from '../../content/fqaContent';
  * @return {JSX.Element}
  */
 export function FQA({route, navigation}) {
-
   let questList = [];
-  const { itemId, quest } = route.params;
-  
-  switch(quest) {
+  const {itemId, quest} = route.params;
+
+  switch (quest) {
     case 'profile':
       questList = fqaContent.profile;
       break;
@@ -27,18 +26,34 @@ export function FQA({route, navigation}) {
 
   const leftSignals = ['PICTOS', 'TAPS', 'PREGUNTADOR', '¡DICTA!'];
 
-  const content = questList.map((question, index) => 
-  <View key={index} style={leftSignals.includes(question.question) ? styles.boxStart :styles.box}>
-    <Text style={leftSignals.includes(question.question) ? styles.questionStart : styles.question}>{question.question}</Text>
-    <Text style={leftSignals.includes(question.question) ? styles.answerStart : styles.answer}>{question.answer}</Text>
-  </View>,
-  );
+  const content = questList.map((question, index) => (
+    <View
+      key={index}
+      style={
+        leftSignals.includes(question.question) ? styles.boxStart : styles.box
+      }>
+      <Text
+        style={
+          leftSignals.includes(question.question)
+            ? styles.questionStart
+            : styles.question
+        }>
+        {question.question}
+      </Text>
+      <Text
+        style={
+          leftSignals.includes(question.question)
+            ? styles.answerStart
+            : styles.answer
+        }>
+        {question.answer}
+      </Text>
+    </View>
+  ));
 
   return (
     <ScrollView style={{backgroundColor: '#fff'}}>
-      <View style={styles.container}>
-        {content}
-      </View>
+      <View style={styles.container}>{content}</View>
     </ScrollView>
   );
 }
@@ -56,7 +71,6 @@ export const styles = StyleSheet.create({
     padding: 20,
     borderColor: palette.violet,
     borderWidth: 2,
-    elevation: 10,
   },
   boxStart: {
     backgroundColor: palette.violet,
@@ -66,7 +80,6 @@ export const styles = StyleSheet.create({
     padding: 20,
     borderColor: palette.violet,
     borderWidth: 2,
-    elevation: 10,
   },
   question: {
     fontSize: dp(20),
@@ -103,6 +116,6 @@ export const styles = StyleSheet.create({
     fontSize: dp(20),
     textAlign: 'left',
     color: '#fff',
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });

@@ -1,5 +1,15 @@
 import React, {useState, useContext} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, ScrollView, Modal, Pressable, Image, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Modal,
+  Pressable,
+  Image,
+  Alert,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 
@@ -8,19 +18,24 @@ import Button from '../../components/Button';
 
 import {styles, palette, dp} from '../../styles/styles';
 import {DefaultQuestions} from '../../content/DefaultQuestions';
-import * as Speech from 'expo-speech';
+import Tts from 'react-native-tts';
 
 import {ProfileContext} from '../../../global';
-import {addQuestion, deleteQuestion, searchQuestion} from '../../_helpers/ProfileContent';
+import {
+  addQuestion,
+  deleteQuestion,
+  searchQuestion,
+} from '../../_helpers/ProfileContent';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 /**
-   * Método para reproducir el texto de un Pictograma
-   * @param {string} text
-   */
-const speak = (text) => {
-  Speech.speak(text);
+ * Método para reproducir el texto de un Pictograma
+ * @param {string} text
+ */
+const speak = text => {
+  Tts.speak(text);
 };
-
 
 /**
  * Método para renderizar página de Preguntas.
@@ -34,235 +49,386 @@ export function QuestionEnd({route, navigation}) {
   }
 
   const [modalAdd, setModalAdd] = useState(false);
-  const {handleSubmit, control, formState: {errors}, getValues, resetField} = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: {errors},
+    getValues,
+    resetField,
+  } = useForm();
   const [newQuest, setNewQuest] = useState('');
 
   const [end, setEnd] = useState('');
 
-  const { itemId, start } = route.params;
+  const {itemId, start} = route.params;
 
-  let backButton =
-    <View style={{height: dp(60), margin: dp(5)}}>
-    </View>;
+  let backButton = <View style={{height: dp(60), margin: dp(5)}}></View>;
 
   let profileButtons = [];
   let buttons = [];
 
-  const questions = DefaultQuestions.questions.data.find((question) => question.start === start);
-  if ((profile !== '{}') && (typeof(profile.questions) !== 'undefined')) {
-    const profileQuestions = profile.questions.data.find((question) => question.start === start);
+  const questions = DefaultQuestions.questions.data.find(
+    question => question.start === start,
+  );
+  if (profile !== '{}' && typeof profile.questions !== 'undefined') {
+    const profileQuestions = profile.questions.data.find(
+      question => question.start === start,
+    );
     if (profileQuestions !== undefined) {
-      profileButtons = profileQuestions.ends.map((question, index)=>
-        <View key={'profile: ' + index} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          <TouchableOpacity style={[questionStyles.button]} onPress={() => {
-            speak(question);
-            setEnd(question);
+      profileButtons = profileQuestions.ends.map((question, index) => (
+        <View
+          key={'profile: ' + index}
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
+          <TouchableOpacity
+            style={[questionStyles.button]}
+            onPress={() => {
+              speak(question);
+              setEnd(question);
+            }}>
             <View>
-              <Text style={questionStyles.buttonText}> {'...' + question} </Text>
+              <Text style={questionStyles.buttonText}>
+                {' '}
+                {'...' + question}{' '}
+              </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-            deleteQuest(start, question);
-          }} style={questionStyles.deleteButton}>
-            <Image source={require('../../../assets/trash_icon.png')} resizeMode='contain' style={{width: dp(30), height: dp(30)}} />
+          <TouchableOpacity
+            onPress={() => {
+              deleteQuest(start, question);
+            }}
+            style={questionStyles.deleteButton}>
+            <Image
+              source={require('../../../assets/trash_icon.png')}
+              resizeMode="contain"
+              style={{width: dp(30), height: dp(30), marginLeft: dp(8)}}
+            />
           </TouchableOpacity>
-        </View>,
-      );
+        </View>
+      ));
     }
   }
-  defaultButtons = questions.ends.sort().map((question, index)=>
-    <TouchableOpacity key={'default: ' + index} style={[questionStyles.button]} onPress={() => {
-      speak(question);
-      setEnd(question);
-    }}>
+  defaultButtons = questions.ends.sort().map((question, index) => (
+    <TouchableOpacity
+      key={'default: ' + index}
+      style={[questionStyles.button]}
+      onPress={() => {
+        speak(question);
+        setEnd(question);
+      }}>
       <View>
         <Text style={questionStyles.buttonText}> {'...' + question} </Text>
       </View>
-    </TouchableOpacity>,
-  );
+    </TouchableOpacity>
+  ));
   buttons = profileButtons.reverse().concat(defaultButtons);
-  startText =
+  startText = (
     <View>
       <Text style={questionStyles.text}> {start} </Text>
-    </View>;
-  backButton =
-    <TouchableOpacity style={[questionStyles.backButton]} onPress={() => {
-      navigation.navigate('Questions');
-    }}>
+    </View>
+  );
+  backButton = (
+    <TouchableOpacity
+      style={[questionStyles.backButton]}
+      onPress={() => {
+        navigation.navigate('Questions');
+      }}>
       <View>
-        <Text style={[questionStyles.smallButtonText, {lineHeight: dp(40)}]}> ⤺ </Text>
-      </View>
-    </TouchableOpacity>;
-
-  const addButton =
-        <TouchableOpacity style={[questionStyles.addButton]} onPress={() => {
-          (profile === '{}') ? navigation.navigate("profile") :  setModalAdd(!modalAdd);
-        }}>
-          <View>
-            <Text style={[questionStyles.smallButtonText, {fontSize: dp(20), textAlign: 'justify'}]}>{(profile === '{}') ? 'Inicia sesión para añadir' : '+'}</Text>
-          </View>
-        </TouchableOpacity>;
-
-
- endText =
-  <View>
-    <Text style={questionStyles.text}> {end} </Text>
-  </View>;
-
-const finalQuestion = start + ((start !== '¿') ? ' ' : '') + ((end.length > 0) ? end : '...');
-
-const result =
-  <View style={{marginBottom: dp(10), alignItems: 'center', justifyContent: 'center'}}>
-    <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>Pulsa para escuchar</Text>
-    <TouchableOpacity style={[questionStyles.defButton]} onPress={() => {
-      speak(finalQuestion);
-    }}>
-      <View>
-        <Text style={questionStyles.buttonText}>{finalQuestion}</Text>
+        <Icon name="arrow-undo-outline" size={dp(40)} color={palette.gray} />
       </View>
     </TouchableOpacity>
-  </View>;
+  );
 
+  const getQuestionIcon = () => {
+    switch (start) {
+      case '¿Cuándo':
+        return require('../../../assets/questIcons/cuandoIcon.png');
+      case '¿Dónde':
+        return require('../../../assets/questIcons/dondeIcon.png');
+      case '¿Qué':
+        return require('../../../assets/questIcons/queIcon.png');
+      case '¿Cómo':
+        return require('../../../assets/questIcons/comoIcon.png');
+      case '¿Quién':
+        return require('../../../assets/questIcons/quienIcon.png');
+      case '¿':
+        return require('../../../assets/questIcons/anyIcon.png');
+      default:
+        return '';
+    }
+  };
 
-const alreadyExist = async () => {
-  const newEnd = getValues().add + '?';
-  const response = await searchQuestion(profile.name, start, newEnd);
-  return response;
-}
+  const addButton = (
+    <TouchableOpacity
+      style={[questionStyles.addButton]}
+      onPress={() => {
+        profile === '{}'
+          ? navigation.navigate('profile')
+          : setModalAdd(!modalAdd);
+      }}>
+      <View>
+        <Text
+          style={[
+            questionStyles.smallButtonText,
+            {fontSize: dp(20), textAlign: 'justify'},
+          ]}>
+          {profile === '{}' ? 'Inicia sesión para añadir' : '+'}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
 
-const add = async (value) => {
-  const addedEnd = getValues().add;
-  const question = start + ' ' + addedEnd + '?';
-  const newEnd = addedEnd + '?';
+  endText = (
+    <View>
+      <Text style={questionStyles.text}> {end} </Text>
+    </View>
+  );
+
+  const finalQuestion =
+    start + (start !== '¿' ? ' ' : '') + (end.length > 0 ? end : '...');
+
+  const result = (
+    <View
+      style={{
+        marginBottom: dp(10),
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Text style={[styles.basic_font, {fontStyle: 'italic'}]}>
+        Pulsa para escuchar
+      </Text>
+      <TouchableOpacity
+        style={[questionStyles.defButton]}
+        onPress={() => {
+          speak(finalQuestion);
+        }}>
+        <View>
+          <Text style={questionStyles.buttonText}>{finalQuestion}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const alreadyExist = async () => {
+    const newEnd = getValues().add + '?';
+    const response = await searchQuestion(profile.name, start, newEnd);
+    return response;
+  };
+
+  const add = async value => {
+    const addedEnd = getValues().add;
+    const question = start + ' ' + addedEnd + '?';
+    const newEnd = addedEnd + '?';
     addQuestion(profile.name, start, newEnd).then(() => {
       setEnd(newEnd);
-      AsyncStorage.getItem(profile.name).then((modified) => setProfile(modified));
+      AsyncStorage.getItem(profile.name).then(modified => setProfile(modified));
     });
     setModalAdd(!modalAdd);
-setNewQuest('');
-resetField('add');
-};
+    setNewQuest('');
+    resetField('add');
+  };
 
-const deleteQuest = async (start, questEnd) => {
-  await deleteQuestion(profile.name, start, questEnd);
-  const modified = await AsyncStorage.getItem(profile.name);
-  setProfile(modified);
-  (end == questEnd) ? setEnd('') : null;
-  console.log('Se ha eliminado la pregunta: ', start + ' ' + questEnd);
-};
+  const deleteQuest = async (start, questEnd) => {
+    await deleteQuestion(profile.name, start, questEnd);
+    const modified = await AsyncStorage.getItem(profile.name);
+    setProfile(modified);
+    end == questEnd ? setEnd('') : null;
+    console.log('Se ha eliminado la pregunta: ', start + ' ' + questEnd);
+  };
 
-return (
-  <View style={{backgroundColor: 'white', flex: 1, justifyContent: 'center', padding: dp(20), alignItems: 'center'}}>
-    <Modal
-    animationType="fade"
-    visible={modalAdd}
-    onRequestClose={() => {
-      Alert.alert('Modal has been closed.');
-      setModalAdd(!modalAdd);
-    }}>
-    <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', flex: 1}}>
-      <View style={{flexDirection: 'row', maxWidth: dp(200), alignItems: 'center', justifyContent: 'center'}}>
-        <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: '#fff', backgroundColor: palette.violet, padding: dp(10), margin: dp(10)}]}>{start} </Text>
-        <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: palette.violet, backgroundColor: '#fff', padding: dp(10), margin: dp(10), borderColor: palette.violet, borderWidth: dp(2), flexWrap: 'wrap', textAlign: 'center'}]}>{newQuest}</Text>
-        <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(40), color: '#fff', backgroundColor: palette.violet, padding: dp(10), margin: dp(10)}]}>?</Text>
-      </View>
-      <Text style={[styles.title, {marginBottom: dp(20), marginTop: dp(20), color: palette.violet, fontSize: dp(25)}]}>Completa la pregunta</Text>
-      <Controller
-        name="add"
-        defaultValue=""
-        control={control}
-        rules={{
-          required: {value: true, message: 'Escribe el resto de la pregunta'},
-        }}
-        render={({field: {onChange, value}}) => (
-          <Input
-            multiline
-            textAlign={'center'}
-            maxLength={30}
-            error={errors.name}
-            errorText={errors?.name?.message}
-            onChangeText={(text) => {
-              setNewQuest(text);
-              onChange(text);
-            }}
-            value={value}
-            placeholder={'...'}
-            autoCapitalize="none"
-          />
-        )}
-      />
-      <View style={{flexDirection: 'row'}}>
-        <Pressable
-          style={[creatorStyles.button, creatorStyles.grayBackground]}
-          onPress={() => {
-            resetField('add');
-            setModalAdd(!modalAdd);
-          }}
-        >
-          <Text style={creatorStyles.textStyle}>Cancelar</Text>
-        </Pressable>
-        <Pressable
-          style={[creatorStyles.button, creatorStyles.violetBackground]}
-          onPress={() => {
-            if ((getValues().add !== '') && (getValues().add !== undefined)) {
-            alreadyExist().then((isDuplicate) => 
-            {
-              if(!isDuplicate) {
-                add();
-              } else {
-                Alert.alert('¡Ups!', 'Ya tienes esta pregunta.', [
-                  {text: 'OK'},
-                ],
+  return (
+    <View
+      style={{
+        backgroundColor: 'white',
+        flex: 1,
+        justifyContent: 'center',
+        padding: dp(10),
+        alignItems: 'center',
+      }}>
+      <Modal
+        animationType="fade"
+        visible={modalAdd}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalAdd(!modalAdd);
+        }}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            flex: 1,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              maxWidth: dp(200),
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={[
+                styles.title,
                 {
-                  cancelable: true,
-                });
-              }
-            });
-          } else {
-            Alert.alert('¡Ups!', 'Aún no has escrito ninguna pregunta.', [
-              {text: 'OK'},
-            ],
-            {
-              cancelable: true,
-            }); ;
-          }
-          }}
-        >
-          <Text style={creatorStyles.textStyle}>Aplicar</Text>
-        </Pressable>
-      </View>
-    </View>
-  </Modal>
-  <View style={styles.blank_background}>
-      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginTop: 30, justifyContent: 'center'}}>
-        <>
-          {backButton}
-        </>
-        <>
-          {result}
-        </>
-      </View>
-      <View style={{flex: 5}}>
-        <View style={{width: 300, marginTop: 30}}>
-          <>
-            {addButton}
-          </>
+                  marginBottom: dp(20),
+                  marginTop: dp(40),
+                  color: '#fff',
+                  backgroundColor: palette.violet,
+                  padding: dp(10),
+                  margin: dp(10),
+                },
+              ]}>
+              {start}{' '}
+            </Text>
+            <Text
+              style={[
+                styles.title,
+                {
+                  marginBottom: dp(20),
+                  marginTop: dp(40),
+                  color: palette.violet,
+                  backgroundColor: '#fff',
+                  padding: dp(10),
+                  margin: dp(10),
+                  borderColor: palette.violet,
+                  borderWidth: dp(2),
+                  flexWrap: 'wrap',
+                  textAlign: 'center',
+                },
+              ]}>
+              {newQuest}
+            </Text>
+            <Text
+              style={[
+                styles.title,
+                {
+                  marginBottom: dp(20),
+                  marginTop: dp(40),
+                  color: '#fff',
+                  backgroundColor: palette.violet,
+                  padding: dp(10),
+                  margin: dp(10),
+                },
+              ]}>
+              ?
+            </Text>
+          </View>
+          <Text
+            style={[
+              styles.title,
+              {
+                marginBottom: dp(20),
+                marginTop: dp(20),
+                color: palette.violet,
+                fontSize: dp(25),
+              },
+            ]}>
+            Completa la pregunta
+          </Text>
+          <Controller
+            name="add"
+            defaultValue=""
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Escribe el resto de la pregunta',
+              },
+            }}
+            render={({field: {onChange, value}}) => (
+              <Input
+                multiline
+                textAlign={'center'}
+                maxLength={30}
+                error={errors.name}
+                errorText={errors?.name?.message}
+                onChangeText={text => {
+                  setNewQuest(text);
+                  onChange(text);
+                }}
+                value={value}
+                placeholder={'...'}
+                autoCapitalize="none"
+              />
+            )}
+          />
+          <View style={{flexDirection: 'row'}}>
+            <Pressable
+              style={[creatorStyles.button, creatorStyles.grayBackground]}
+              onPress={() => {
+                resetField('add');
+                setModalAdd(!modalAdd);
+              }}>
+              <Text style={creatorStyles.textStyle}>Cancelar</Text>
+            </Pressable>
+            <Pressable
+              style={[creatorStyles.button, creatorStyles.violetBackground]}
+              onPress={() => {
+                if (getValues().add !== '' && getValues().add !== undefined) {
+                  alreadyExist().then(isDuplicate => {
+                    if (!isDuplicate) {
+                      add();
+                    } else {
+                      Alert.alert(
+                        '¡Ups!',
+                        'Ya tienes esta pregunta.',
+                        [{text: 'OK'}],
+                        {
+                          cancelable: true,
+                        },
+                      );
+                    }
+                  });
+                } else {
+                  Alert.alert(
+                    '¡Ups!',
+                    'Aún no has escrito ninguna pregunta.',
+                    [{text: 'OK'}],
+                    {
+                      cancelable: true,
+                    },
+                  );
+                }
+              }}>
+              <Text style={creatorStyles.textStyle}>Aplicar</Text>
+            </Pressable>
+          </View>
         </View>
-        <ScrollView persistentScrollbar={false} showsVerticalScrollIndicator={true} style={{flex: 3}}>
-          {buttons}
-        </ScrollView>
+      </Modal>
+      <View style={[styles.blank_background, {width: '100%'}]}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 30,
+            justifyContent: 'center',
+          }}>
+          {result}
+        </View>
+        <View style={{flex: 5}}>
+          <View style={{width: 300, marginTop: 30}}>
+            <>{addButton}</>
+          </View>
+          <ScrollView
+            persistentScrollbar={false}
+            showsVerticalScrollIndicator={false}
+            style={{flex: 3}}>
+            {buttons}
+          </ScrollView>
+        </View>
       </View>
     </View>
-</View>
-);
+  );
 }
 
 export const questionStyles = StyleSheet.create({
   buttonText: {
     alignSelf: 'center',
     color: '#fff',
-    fontWeight: 'bold',
     fontSize: dp(20),
   },
   smallButtonText: {
@@ -274,10 +440,12 @@ export const questionStyles = StyleSheet.create({
   button: {
     backgroundColor: palette.violet,
     margin: dp(5),
-    height: dp(80),
+    minHeight: dp(80),
+    maxHeight: dp(120),
     width: dp(300),
     justifyContent: 'center',
     padding: dp(15),
+    borderRadius: dp(5),
   },
   addButton: {
     backgroundColor: palette.gray,
@@ -288,29 +456,21 @@ export const questionStyles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     borderRadius: dp(5),
-    elevation: dp(10),
   },
   defButton: {
-    backgroundColor: palette.red,
+    backgroundColor: palette.darkViolet,
     margin: dp(5),
-    padding: dp(15),
-    width: dp(250),
-    height: dp(80),
+    minHeight: dp(80),
+    maxHeight: dp(120),
+    width: dp(300),
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: dp(0),
-      height: dp(2),
-    },
-    shadowOpacity: dp(0.9),
-    shadowRadius: dp(4),
-    elevation: dp(10),
+    padding: dp(15),
+    borderRadius: dp(5),
   },
   backButton: {
-    backgroundColor: palette.gray,
-    height: dp(60),
-    width: dp(60),
     justifyContent: 'center',
+    marginTop: dp(20),
+    marginLeft: dp(20),
   },
   text: {
     fontSize: dp(30),
@@ -327,7 +487,6 @@ const creatorStyles = StyleSheet.create({
     borderRadius: dp(10),
     width: dp(150),
     height: dp(80),
-    elevation: dp(10),
     margin: dp(15),
   },
   violetBackground: {

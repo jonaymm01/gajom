@@ -1,37 +1,66 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, ScrollView, StyleSheet, SafeAreaView, Pressable, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import {palette, styles, dp} from '../../styles/styles';
 
 /**
  * Método para renderizar página de menú de Dictado.
  * @return {JSX.Element}
  */
-export function DictaMenu({navigation}) {  
+export function DictaMenu({navigation}) {
   const onPressNumbers = () => navigation.navigate('DictaNumbers');
   const onPressLetters = () => navigation.navigate('DictaLetters');
   const onPressText = () => navigation.navigate('DictaText');
 
+  const dictaMenuButton = ({title, subtitle, onPress, side}) => (
+    <TouchableOpacity
+      style={[
+        {
+          backgroundColor: palette.violet,
+          margin: dp(2),
+          borderRadius: dp(6),
+          flex: 1,
+        },
+      ]}
+      onPress={onPress}>
+      <View
+        style={[
+          styles.button_container,
+          {
+            alignItems: 'flex-start',
+            padding: dp(25),
+          },
+        ]}>
+        <Text style={talkerStyles.button_text}>{title.toUpperCase()}</Text>
+        <Text style={talkerStyles.button_text_small}>{subtitle}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressNumbers}>
-          <View style={styles.button_container}>
-            <Text style={talkerStyles.button_text}> NÚMEROS </Text>
-            <Text style={talkerStyles.button_text_small}> 0-1-2-3-4-5-6-7-8-9 </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressLetters}>
-          <View style={styles.button_container}>
-            <Text style={talkerStyles.button_text}> LETRAS </Text>
-            <Text style={talkerStyles.button_text_small}> Deletrea cualquier palabra </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, {backgroundColor: palette.violet}]} onPress={onPressText}>
-          <View style={styles.button_container}>
-            <Text style={talkerStyles.button_text}> PALABRAS </Text>
-            <Text style={talkerStyles.button_text_small}> Dicta frases completas </Text>
-          </View>
-        </TouchableOpacity>
+      {dictaMenuButton({
+        title: 'Números',
+        subtitle: '0-1-2-3-4-5-6-7-8-9',
+        onPress: onPressNumbers,
+      })}
+      {dictaMenuButton({
+        title: 'Letras',
+        subtitle: 'Deletrea una palabra',
+        onPress: onPressLetters,
+      })}
+      {dictaMenuButton({
+        title: 'Texto',
+        subtitle: 'Lee un texto completo',
+        onPress: onPressText,
+      })}
     </SafeAreaView>
   );
 }
@@ -39,20 +68,23 @@ export function DictaMenu({navigation}) {
 const talkerStyles = StyleSheet.create({
   box: {
     alignItems: 'center',
-    height: 100,
+    height: dp(100),
     backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: {width: -2, height: -2},
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   button_text: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: dp(60),
-    textShadowColor: 'black',
-    textShadowOffset: {width: 5, height: 5},
-    textShadowRadius: 10,
+    fontSize: dp(30),
+    marginTop: dp(10),
   },
   button_text_small: {
     color: '#fff',
-    fontWeight: 'bold',
-    fontSize: dp(25),
+    fontSize: dp(16),
+    marginTop: dp(1),
+    paddingBottom: dp(20),
   },
 });

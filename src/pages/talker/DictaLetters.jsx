@@ -1,34 +1,42 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Pressable, Image} from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  Pressable,
+  Image,
+} from 'react-native';
 import {palette, styles, dp} from '../../styles/styles';
-import * as Speech from 'expo-speech';
+import Tts from 'react-native-tts';
 
 /**
  * Método para reproducir el número
  * @param {string} text
  */
-const speak = (letter) => {
+const speak = letter => {
   let l = letter;
-  switch(letter) {
-    case 'Ñ': 
+  switch (letter) {
+    case 'Ñ':
       l = 'eñe';
       break;
-    case 'Y': 
+    case 'Y':
       l = 'ye';
-      break; 
-    case 'CARAMBOLA': 
+      break;
+    case 'CARAMBOLA':
       l = '¡Deliciosa fruta estrella!';
       break;
   }
-  Speech.speak(l);
+  Tts.speak(l);
 };
 
 /**
  * Método para renderizar página de dictar números.
  * @return {JSX.Element}
  */
-export function DictaLetters() {  
-
+export function DictaLetters() {
   const [word, setWord] = useState('');
 
   const letters1 = ['A', 'B', 'C', 'D'];
@@ -38,65 +46,107 @@ export function DictaLetters() {
   const letters5 = ['P', 'Q', 'R', 'S'];
   const letters6 = ['T', 'U', 'V', 'W'];
   const letters7 = ['X', 'Y', 'Z'];
-  const letters = [letters1, letters2, letters3, letters4, letters5, letters6, letters7];
+  const letters = [
+    letters1,
+    letters2,
+    letters3,
+    letters4,
+    letters5,
+    letters6,
+    letters7,
+  ];
 
-  const letterRow = (list) => list.map( (letter, index) =>
-    <TouchableOpacity key={'row:'+index} style={talkerStyles.button} onPress={() => {setWord(word+letter); speak(letter)}}>
-          <View key={'row:'+index} style={styles.button_container}>
-            <Text key={'row:'+index} style={talkerStyles.button_text}> {letter} </Text>
-          </View>
+  const letterRow = list =>
+    list.map((letter, index) => (
+      <TouchableOpacity
+        key={'row:' + index}
+        style={talkerStyles.button}
+        onPress={() => {
+          setWord(word + letter);
+          speak(letter);
+        }}>
+        <View key={'row:' + index} style={styles.button_container}>
+          <Text key={'row:' + index} style={talkerStyles.button_text}>
+            {' '}
+            {letter}{' '}
+          </Text>
+        </View>
       </TouchableOpacity>
-  )
+    ));
 
-  const lettersRows = letters.map((list, index) => 
-    <View key={'rows:'+index} style= {{flex: 1,backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center'}}>
+  const lettersRows = letters.map((list, index) => (
+    <View
+      key={'rows:' + index}
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        justifyContent: 'center',
+      }}>
       {letterRow(list)}
     </View>
-  )
+  ));
 
-  const deleteButton = 
+  const deleteButton = (
     <TouchableOpacity
-        style={[talkerStyles.button, {backgroundColor: palette.gray}]}
-        onPress={() => {
-          setWord('');
-        }}
-      >
+      style={[talkerStyles.button, {backgroundColor: palette.gray}]}
+      onPress={() => {
+        setWord('');
+      }}>
       <View style={{alignItems: 'center', marginTop: dp(10), flex: 1}}>
-        <Image source={require('../../../assets/trash_icon.png')} tintColor={'#fff'} resizeMode='contain' style={{maxWidth: dp(40), maxHeight: dp(40)}} />
+        <Image
+          source={require('../../../assets/trash_icon.png')}
+          tintColor={'#fff'}
+          resizeMode="contain"
+          style={{maxWidth: dp(40), maxHeight: dp(40)}}
+        />
       </View>
     </TouchableOpacity>
+  );
 
-const deleteLastButton = 
-<TouchableOpacity
-    style={[talkerStyles.button, {backgroundColor: palette.gray}]}
-    onPress={() => {
-      setWord(word.slice(0, -1));
-    }}
-  >
-  <View style={{justifyContent: 'center', alignItems: 'center'}}>
-    <Text style={{fontSize: dp(40), color: '#fff', fontWeight: '500'}}>⌫</Text>
-  </View>
-</TouchableOpacity>
+  const deleteLastButton = (
+    <TouchableOpacity
+      style={[talkerStyles.button, {backgroundColor: palette.gray}]}
+      onPress={() => {
+        setWord(word.slice(0, -1));
+      }}>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={{fontSize: dp(40), color: '#fff', fontWeight: '500'}}>
+          ⌫
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
 
-const sayWordButton = 
-<TouchableOpacity
-    style={[talkerStyles.button, {backgroundColor: palette.darkViolet}]}
-    onPress={() => {
-      speak(word);
-    }}
-  >
-  <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-    <Text style={{fontSize: dp(25), color: '#fff', fontWeight: '500'}}>LEER</Text>
-  </View>
-</TouchableOpacity>
+  const sayWordButton = (
+    <TouchableOpacity
+      style={[talkerStyles.button, {backgroundColor: palette.darkViolet}]}
+      onPress={() => {
+        speak(word);
+      }}>
+      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+        <Text style={{fontSize: dp(25), color: '#fff', fontWeight: '500'}}>
+          LEER
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin: dp(15)}}>
-        <Text adjustsFontSizeToFit style={talkerStyles.word}>{(word == '') ? '¡Deletrea tu palabra!' : word}</Text>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          margin: dp(15),
+        }}>
+        <Text adjustsFontSizeToFit style={talkerStyles.word}>
+          {word == '' ? '¡Deletrea tu palabra!' : word}
+        </Text>
       </View>
       {lettersRows}
-      <View style={{flex:1, flexDirection: 'row'}}>
+      <View style={{flex: 1, flexDirection: 'row'}}>
         {deleteButton}
         {sayWordButton}
         {deleteLastButton}
@@ -124,5 +174,5 @@ const talkerStyles = StyleSheet.create({
     color: palette.violet,
     fontSize: dp(30),
     fontWeight: 'bold',
-  }
+  },
 });
